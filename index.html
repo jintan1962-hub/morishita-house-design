@@ -1,0 +1,1027 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中古住宅×リノベーション RENOEL｜佐久・軽井沢の中古物件とリノベーション</title>
+<meta name="description" content="佐久市・小諸市・御代田町・軽井沢町の中古戸建て・中古マンションをリノベーション前提でご紹介。物件価格＋リノベ費用の月々支払いがその場でわかります。無料会員登録で会員限定物件を公開。大井建設工業株式会社／リノベーションスタジオRENOEL。">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body id="indexPage">
+
+<!-- ===================== ヘッダー ===================== -->
+<header class="header">
+  <div class="header__inner">
+    <p class="header__logo">
+      <a href="index.html">
+        <img class="logo-w" src="assets/img/top-logoW.png" alt="中古住宅×リノベーション RENOEL">
+        <img class="logo-b" src="assets/img/top-logoB.svg" alt="中古住宅×リノベーション RENOEL">
+      </a>
+    </p>
+
+    <nav class="header__gnav" aria-label="メインメニュー">
+      <ul class="gnav">
+        <li><a href="property-list.html">物件を探す</a></li>
+        <li><a href="#area">エリアマップ</a></li>
+        <li><a href="#renovation">リノベーション事例</a></li>
+        <li><a href="#showroom">モデルハウス・店舗</a></li>
+        <li><a href="#simulation">資金計画</a></li>
+        <li><a href="#voice">お客様の声</a></li>
+        <li><a href="#column">お役立ちコラム</a></li>
+        <li><a href="#company">会社案内</a></li>
+      </ul>
+    </nav>
+
+    <div class="header__util">
+      <a class="utilBtn utilBtn--member" href="member.html">無料会員登録</a>
+      <a class="utilBtn utilBtn--login" href="#login">ログイン</a>
+      <a class="utilBtn utilBtn--reserve" href="#reserve">来店予約</a>
+    </div>
+
+    <button class="drawerBtn" type="button" aria-expanded="false" aria-controls="drawer" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer">
+  <nav aria-label="全メニュー">
+    <ul class="drawer__list">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="property-list.html">物件を探す</a></li>
+      <li><a href="#area">エリアマップから探す</a></li>
+      <li><a href="#renovation">リノベーション事例</a></li>
+      <li><a href="#showroom">リノベーションモデルハウス・店舗案内</a></li>
+      <li><a href="#simulation">資金計画シミュレーション</a></li>
+      <li><a href="#voice">お客様の声</a></li>
+      <li><a href="#column">お役立ちコラム</a></li>
+      <li><a href="#news">お知らせ＆ブログ</a></li>
+      <li><a href="#sell">売りたい方へ（査定・買取）</a></li>
+      <li><a href="#akiya">空き家管理サポート</a></li>
+      <li><a href="#faq">よくあるご質問</a></li>
+      <li><a href="#company">会社案内</a></li>
+    </ul>
+    <div class="drawer__cta">
+      <a class="btn btn--pink" href="member.html">無料会員登録</a>
+      <a class="btn btn--white" href="#reserve">来店予約</a>
+    </div>
+    <div class="drawer__info">
+      <a class="tel" href="tel:0120556119">0120-556-119</a>
+      8:00〜17:00（お盆・年末年始を除く）
+    </div>
+  </nav>
+</div>
+
+<main>
+
+<!-- ===================== ヒーロー ===================== -->
+<section class="hero">
+  <div class="hero__bg">
+    <img src="assets/img/hero-living.jpg" alt="リノベーションした住まいのリビング" fetchpriority="high">
+  </div>
+  <div class="hero__inner">
+    <p class="hero__sub">佐久・小諸・御代田・軽井沢の中古住宅</p>
+    <h1 class="hero__ttl">中古を買って、<br><span class="accent">好きなように</span>つくり直す。</h1>
+    <p class="hero__lead">
+      古い家の性能とデザインは、リノベーションで変えられます。<br>
+      注文住宅と別荘を手がけてきた大井建設工業が、物件探しから設計・工事・資金計画までワンストップでお手伝いします。
+    </p>
+    <ul class="hero__badges">
+      <li class="hero__badge">物件＋リノベを一括ローンに</li>
+      <li class="hero__badge">耐震・断熱の性能診断つき</li>
+      <li class="hero__badge">自社施工だから工事費が明快</li>
+    </ul>
+  </div>
+  <span class="hero__scroll" aria-hidden="true">SCROLL</span>
+</section>
+
+<!-- ===================== 物件検索 ===================== -->
+<section class="container container--wide" aria-labelledby="searchTtl">
+  <h2 id="searchTtl" class="visually-hidden">物件を検索する</h2>
+  <div class="searchBox">
+    <div class="searchBox__head" role="tablist" aria-label="物件種別">
+      <button class="searchTab" role="tab" id="tab-kodate" aria-controls="panel-kodate" aria-selected="true" type="button">中古戸建て</button>
+      <button class="searchTab" role="tab" id="tab-mansion" aria-controls="panel-mansion" aria-selected="false" type="button">中古マンション</button>
+      <button class="searchTab" role="tab" id="tab-tochi" aria-controls="panel-tochi" aria-selected="false" type="button">土地</button>
+      <button class="searchTab" role="tab" id="tab-shinchiku" aria-controls="panel-shinchiku" aria-selected="false" type="button">新築</button>
+      <button class="searchTab" role="tab" id="tab-jigyo" aria-controls="panel-jigyo" aria-selected="false" type="button">事業用</button>
+    </div>
+
+    <div class="searchBox__body">
+      <!-- 中古戸建て -->
+      <div class="searchBox__panel" role="tabpanel" id="panel-kodate" aria-labelledby="tab-kodate">
+        <div class="searchRow">
+          <div class="searchRow__ttl">エリア<span class="req">必須</span></div>
+          <div class="areaList">
+            <label class="chk"><input type="checkbox" checked><span>佐久市</span><span class="cnt">(42)</span></label>
+            <label class="chk"><input type="checkbox"><span>小諸市</span><span class="cnt">(28)</span></label>
+            <label class="chk"><input type="checkbox"><span>御代田町</span><span class="cnt">(11)</span></label>
+            <label class="chk"><input type="checkbox"><span>軽井沢町</span><span class="cnt">(19)</span></label>
+            <label class="chk"><input type="checkbox"><span>上田市</span><span class="cnt">(35)</span></label>
+            <label class="chk"><input type="checkbox"><span>東御市</span><span class="cnt">(9)</span></label>
+            <label class="chk"><input type="checkbox"><span>立科町</span><span class="cnt">(4)</span></label>
+            <label class="chk"><input type="checkbox"><span>佐久穂町</span><span class="cnt">(7)</span></label>
+          </div>
+        </div>
+        <div class="searchRow">
+          <div class="searchRow__ttl">価格</div>
+          <div class="selectWrap">
+            <select aria-label="価格下限"><option>下限なし</option><option>500万円</option><option>1,000万円</option><option>1,500万円</option><option>2,000万円</option></select>
+            <span>〜</span>
+            <select aria-label="価格上限"><option>上限なし</option><option>1,000万円</option><option>1,500万円</option><option>2,000万円</option><option>3,000万円</option></select>
+          </div>
+        </div>
+        <div class="searchRow">
+          <div class="searchRow__ttl">間取り</div>
+          <div class="areaList">
+            <label class="chk"><input type="checkbox"><span>2LDK以上</span></label>
+            <label class="chk"><input type="checkbox" checked><span>3LDK以上</span></label>
+            <label class="chk"><input type="checkbox"><span>4LDK以上</span></label>
+            <label class="chk"><input type="checkbox"><span>5LDK以上</span></label>
+          </div>
+        </div>
+        <div class="searchRow">
+          <div class="searchRow__ttl">学区で探す</div>
+          <div class="selectWrap">
+            <select aria-label="小学校区"><option>小学校区を選ぶ</option><option>佐久市立中込小学校</option><option>佐久市立岩村田小学校</option><option>軽井沢町立軽井沢中部小学校</option></select>
+            <select aria-label="中学校区"><option>中学校区を選ぶ</option><option>佐久市立浅間中学校</option><option>佐久市立野沢中学校</option></select>
+          </div>
+        </div>
+        <div class="searchRow">
+          <div class="searchRow__ttl">こだわり条件</div>
+          <div class="areaList">
+            <label class="chk"><input type="checkbox"><span>リノベーションプラン付き</span></label>
+            <label class="chk"><input type="checkbox"><span>耐震診断済み</span></label>
+            <label class="chk"><input type="checkbox"><span>駐車2台以上</span></label>
+            <label class="chk"><input type="checkbox"><span>南向き</span></label>
+            <label class="chk"><input type="checkbox"><span>土地50坪以上</span></label>
+            <label class="chk"><input type="checkbox"><span>ペット可</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 他タブ（モックのため簡略） -->
+      <div class="searchBox__panel" role="tabpanel" id="panel-mansion" aria-labelledby="tab-mansion" hidden>
+        <div class="searchRow">
+          <div class="searchRow__ttl">エリア<span class="req">必須</span></div>
+          <div class="areaList">
+            <label class="chk"><input type="checkbox"><span>佐久市</span><span class="cnt">(12)</span></label>
+            <label class="chk"><input type="checkbox"><span>小諸市</span><span class="cnt">(6)</span></label>
+            <label class="chk"><input type="checkbox"><span>軽井沢町</span><span class="cnt">(23)</span></label>
+            <label class="chk"><input type="checkbox"><span>上田市</span><span class="cnt">(18)</span></label>
+          </div>
+        </div>
+        <div class="searchRow">
+          <div class="searchRow__ttl">価格</div>
+          <div class="selectWrap">
+            <select aria-label="価格下限"><option>下限なし</option></select><span>〜</span>
+            <select aria-label="価格上限"><option>上限なし</option></select>
+          </div>
+        </div>
+        <div class="searchRow">
+          <div class="searchRow__ttl">築年数</div>
+          <div class="selectWrap"><select aria-label="築年数"><option>指定なし</option><option>10年以内</option><option>20年以内</option><option>30年以内</option></select></div>
+        </div>
+      </div>
+      <div class="searchBox__panel" role="tabpanel" id="panel-tochi" aria-labelledby="tab-tochi" hidden>
+        <div class="searchRow">
+          <div class="searchRow__ttl">エリア<span class="req">必須</span></div>
+          <div class="areaList">
+            <label class="chk"><input type="checkbox"><span>佐久市</span><span class="cnt">(31)</span></label>
+            <label class="chk"><input type="checkbox"><span>御代田町</span><span class="cnt">(14)</span></label>
+            <label class="chk"><input type="checkbox"><span>軽井沢町</span><span class="cnt">(48)</span></label>
+          </div>
+        </div>
+        <div class="searchRow">
+          <div class="searchRow__ttl">土地面積</div>
+          <div class="selectWrap"><select aria-label="土地面積"><option>指定なし</option><option>50坪以上</option><option>80坪以上</option><option>100坪以上</option></select></div>
+        </div>
+      </div>
+      <div class="searchBox__panel" role="tabpanel" id="panel-shinchiku" aria-labelledby="tab-shinchiku" hidden>
+        <div class="searchRow">
+          <div class="searchRow__ttl">エリア<span class="req">必須</span></div>
+          <div class="areaList">
+            <label class="chk"><input type="checkbox"><span>佐久市</span><span class="cnt">(8)</span></label>
+            <label class="chk"><input type="checkbox"><span>小諸市</span><span class="cnt">(3)</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="searchBox__panel" role="tabpanel" id="panel-jigyo" aria-labelledby="tab-jigyo" hidden>
+        <div class="searchRow">
+          <div class="searchRow__ttl">エリア<span class="req">必須</span></div>
+          <div class="areaList">
+            <label class="chk"><input type="checkbox"><span>佐久平駅周辺</span><span class="cnt">(5)</span></label>
+            <label class="chk"><input type="checkbox"><span>軽井沢駅周辺</span><span class="cnt">(7)</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="searchBox__foot">
+      <p class="hit">現在の条件で <strong>42</strong> 件</p>
+      <a class="btn btn--fill" href="property-list.html">この条件で物件を見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== エリアから探す ===================== -->
+<section class="sec sec--gray" id="area">
+  <div class="container container--wide">
+    <h2 class="secTtl"><span class="en">AREA</span><span class="ja">エリア・物件分布から探す</span></h2>
+    <p class="leadTxt">
+      佐久市・小諸市・軽井沢町を中心に、東信エリアの中古住宅をお預かりしています。<br>
+      市町ごとの件数で見るか、地図上の物件分布で見るかを切り替えられます。
+    </p>
+
+    <div class="planTabs" role="tablist" aria-label="地図の表示切り替え" style="justify-content:center">
+      <button class="planTab" role="tab" id="tab-areaView" aria-controls="panel-areaView" aria-selected="true" type="button">エリアから探す</button>
+      <button class="planTab" role="tab" id="tab-distView" aria-controls="panel-distView" aria-selected="false" type="button">物件分布から探す</button>
+    </div>
+
+    <div class="areaMap" role="tabpanel" id="panel-areaView" aria-labelledby="tab-areaView">
+      <svg viewBox="0 0 800 540" role="img" aria-labelledby="areaMapTtl areaMapDesc">
+        <title id="areaMapTtl">東信エリアの物件所在地マップ</title>
+        <desc id="areaMapDesc">佐久市・小諸市・軽井沢町・御代田町・上田市・東御市・立科町・佐久穂町の位置関係を示した模式図です。各エリアの物件件数は下のリンク一覧でも確認できます。</desc>
+
+        <!-- 上田市 -->
+        <a href="property-list.html" aria-label="上田市の物件 55件">
+          <polygon class="areaMap__region" points="40,152 122,88 196,104 202,190 150,252 58,226"/>
+          <text class="areaMap__name" x="120" y="158">上田市</text>
+          <text class="areaMap__cnt" x="120" y="180">55件</text>
+        </a>
+
+        <!-- 東御市 -->
+        <a href="property-list.html" aria-label="東御市の物件 15件">
+          <polygon class="areaMap__region" points="196,104 300,94 316,176 256,236 202,190"/>
+          <text class="areaMap__name" x="253" y="158">東御市</text>
+          <text class="areaMap__cnt" x="253" y="180">15件</text>
+        </a>
+
+        <!-- 小諸市（主要エリア） -->
+        <a href="property-list.html" aria-label="小諸市の物件 44件">
+          <polygon class="areaMap__region areaMap__region--primary" points="300,94 400,80 436,148 422,214 330,226 316,176"/>
+          <text class="areaMap__name" x="371" y="150">小諸市</text>
+          <text class="areaMap__cnt" x="371" y="172">44件</text>
+        </a>
+
+        <!-- 御代田町 -->
+        <a href="property-list.html" aria-label="御代田町の物件 20件">
+          <polygon class="areaMap__region" points="400,80 505,72 528,130 500,196 428,208 436,148"/>
+          <text class="areaMap__name" x="466" y="132">御代田町</text>
+          <text class="areaMap__cnt" x="466" y="154">20件</text>
+        </a>
+
+        <!-- 軽井沢町（主要エリア） -->
+        <a href="property-list.html" aria-label="軽井沢町の物件 68件">
+          <polygon class="areaMap__region areaMap__region--primary" points="505,72 642,58 732,120 746,242 660,322 562,292 512,210 500,196 528,130"/>
+          <text class="areaMap__name" x="624" y="192">軽井沢町</text>
+          <text class="areaMap__cnt" x="624" y="214">68件</text>
+        </a>
+
+        <!-- 立科町 -->
+        <a href="property-list.html" aria-label="立科町の物件 8件">
+          <polygon class="areaMap__region" points="150,252 256,236 270,322 200,366 120,332"/>
+          <text class="areaMap__name" x="197" y="298">立科町</text>
+          <text class="areaMap__cnt" x="197" y="320">8件</text>
+        </a>
+
+        <!-- 佐久市（主要エリア） -->
+        <a href="property-list.html" aria-label="佐久市の物件 82件">
+          <polygon class="areaMap__region areaMap__region--primary" points="256,236 330,226 422,214 500,196 512,210 562,292 522,382 402,412 302,392 270,322"/>
+          <text class="areaMap__name" x="398" y="308">佐久市</text>
+          <text class="areaMap__cnt" x="398" y="330">82件</text>
+        </a>
+
+        <!-- 佐久穂町 -->
+        <a href="property-list.html" aria-label="佐久穂町の物件 5件">
+          <polygon class="areaMap__region" points="302,392 402,412 462,472 380,502 280,472 256,416"/>
+          <text class="areaMap__name" x="360" y="450">佐久穂町</text>
+          <text class="areaMap__cnt" x="360" y="472">5件</text>
+        </a>
+
+        <!-- 北陸新幹線と主要駅 -->
+        <polyline class="areaMap__rail" points="650,126 540,182 404,252 300,218 190,190 96,158"/>
+        <circle class="areaMap__station" cx="650" cy="126" r="7"/>
+        <text class="areaMap__stationName" x="664" y="120">軽井沢駅</text>
+        <circle class="areaMap__station" cx="404" cy="252" r="7"/>
+        <text class="areaMap__stationName" x="416" y="246">佐久平駅</text>
+      </svg>
+
+      <ul class="areaMap__legend">
+        <li><span class="sw sw--primary"></span>主要エリア</li>
+        <li><span class="sw sw--sub"></span>その他の対応エリア</li>
+        <li><span class="sw sw--rail"></span>北陸新幹線</li>
+        <li><span class="sw sw--station"></span>新幹線駅</li>
+      </ul>
+      <p class="areaMap__note">※ 位置関係を示す模式図です。実際の行政区域の形状・面積とは異なります。件数は一般公開＋会員限定の合計です。</p>
+    </div>
+
+    <!-- 物件分布ビュー -->
+    <div class="distMap" role="tabpanel" id="panel-distView" aria-labelledby="tab-distView" hidden>
+      <svg viewBox="0 0 800 540" role="img" aria-labelledby="distMapTtl distMapDesc">
+        <title id="distMapTtl">東信エリアの物件分布地図</title>
+        <desc id="distMapDesc">東信エリア8市町に立つ物件のおおよその位置と価格を示した模式図です。会員限定物件は正確な位置を表示せず、破線の円でおおよその範囲を示しています。物件の一覧はこの下のリンクおよび物件一覧ページでご確認いただけます。</desc>
+
+        <!-- エリア（分布ビューでは操作対象にせず背景として表示） -->
+        <g aria-hidden="true">
+          <polygon class="distMap__region" points="40,152 122,88 196,104 202,190 150,252 58,226"/>
+          <polygon class="distMap__region" points="196,104 300,94 316,176 256,236 202,190"/>
+          <polygon class="distMap__region" points="300,94 400,80 436,148 422,214 330,226 316,176"/>
+          <polygon class="distMap__region" points="400,80 505,72 528,130 500,196 428,208 436,148"/>
+          <polygon class="distMap__region" points="505,72 642,58 732,120 746,242 660,322 562,292 512,210 500,196 528,130"/>
+          <polygon class="distMap__region" points="150,252 256,236 270,322 200,366 120,332"/>
+          <polygon class="distMap__region" points="256,236 330,226 422,214 500,196 512,210 562,292 522,382 402,412 302,392 270,322"/>
+          <polygon class="distMap__region" points="302,392 402,412 462,472 380,502 280,472 256,416"/>
+          <polyline class="distMap__rail" points="650,126 540,182 404,252 300,218 190,190 96,158"/>
+          <text class="distMap__regionName" x="112" y="124">上田市</text>
+          <text class="distMap__regionName" x="252" y="122">東御市</text>
+          <text class="distMap__regionName" x="368" y="112">小諸市</text>
+          <text class="distMap__regionName" x="464" y="104">御代田町</text>
+          <text class="distMap__regionName" x="624" y="102">軽井沢町</text>
+          <text class="distMap__regionName" x="196" y="266">立科町</text>
+          <text class="distMap__regionName" x="398" y="236">佐久市</text>
+          <text class="distMap__regionName" x="360" y="418">佐久穂町</text>
+        </g>
+
+        <!-- 会員限定物件：正確な位置は出さず、おおよその範囲を破線の円で示す -->
+        <g class="pin pin--member" role="link" tabindex="-1" aria-hidden="true">
+          <circle class="pin__halo" cx="392" cy="196" r="26"/>
+        </g>
+        <g class="pin pin--member" role="link" tabindex="-1" aria-hidden="true">
+          <circle class="pin__halo" cx="150" cy="216" r="26"/>
+        </g>
+        <g class="pin pin--member" role="link" tabindex="-1" aria-hidden="true">
+          <circle class="pin__halo" cx="582" cy="258" r="26"/>
+        </g>
+        <g class="pin pin--member" role="link" tabindex="-1" aria-hidden="true">
+          <circle class="pin__halo" cx="302" cy="330" r="26"/>
+        </g>
+
+        <!-- 一般公開物件：価格ピン -->
+        <a class="pin" href="property-detail.html" transform="translate(318,282)" aria-label="佐久市中込 4LDK 1,380万円">
+          <path class="pin__tail" d="M0,0 -7,-11 7,-11Z"/>
+          <rect class="pin__bubble" x="-40" y="-35" width="80" height="24" rx="12"/>
+          <text class="pin__txt" y="-18">1,380万</text>
+        </a>
+        <a class="pin" href="property-detail.html" transform="translate(452,300)" aria-label="佐久市野沢 5LDK 1,980万円">
+          <path class="pin__tail" d="M0,0 -7,-11 7,-11Z"/>
+          <rect class="pin__bubble" x="-40" y="-35" width="80" height="24" rx="12"/>
+          <text class="pin__txt" y="-18">1,980万</text>
+        </a>
+        <a class="pin" href="property-detail.html" transform="translate(370,354)" aria-label="佐久市臼田 4LDK 880万円">
+          <path class="pin__tail" d="M0,0 -7,-11 7,-11Z"/>
+          <rect class="pin__bubble" x="-34" y="-35" width="68" height="24" rx="12"/>
+          <text class="pin__txt" y="-18">880万</text>
+        </a>
+        <a class="pin" href="property-detail.html" transform="translate(352,168)" aria-label="小諸市御幸町 3LDK 980万円">
+          <path class="pin__tail" d="M0,0 -7,-11 7,-11Z"/>
+          <rect class="pin__bubble" x="-34" y="-35" width="68" height="24" rx="12"/>
+          <text class="pin__txt" y="-18">980万</text>
+        </a>
+        <a class="pin" href="property-detail.html" transform="translate(462,166)" aria-label="御代田町馬瀬口 5LDK 1,780万円">
+          <path class="pin__tail" d="M0,0 -7,-11 7,-11Z"/>
+          <rect class="pin__bubble" x="-40" y="-35" width="80" height="24" rx="12"/>
+          <text class="pin__txt" y="-18">1,780万</text>
+        </a>
+        <a class="pin" href="property-detail.html" transform="translate(600,170)" aria-label="軽井沢町 4LDK 2,480万円">
+          <path class="pin__tail" d="M0,0 -7,-11 7,-11Z"/>
+          <rect class="pin__bubble" x="-40" y="-35" width="80" height="24" rx="12"/>
+          <text class="pin__txt" y="-18">2,480万</text>
+        </a>
+        <a class="pin" href="property-detail.html" transform="translate(672,214)" aria-label="軽井沢町 別荘 3,280万円">
+          <path class="pin__tail" d="M0,0 -7,-11 7,-11Z"/>
+          <rect class="pin__bubble" x="-40" y="-35" width="80" height="24" rx="12"/>
+          <text class="pin__txt" y="-18">3,280万</text>
+        </a>
+        <a class="pin" href="property-detail.html" transform="translate(250,184)" aria-label="東御市 4LDK 1,480万円">
+          <path class="pin__tail" d="M0,0 -7,-11 7,-11Z"/>
+          <rect class="pin__bubble" x="-40" y="-35" width="80" height="24" rx="12"/>
+          <text class="pin__txt" y="-18">1,480万</text>
+        </a>
+        <a class="pin" href="property-detail.html" transform="translate(108,180)" aria-label="上田市 3LDK 1,180万円">
+          <path class="pin__tail" d="M0,0 -7,-11 7,-11Z"/>
+          <rect class="pin__bubble" x="-40" y="-35" width="80" height="24" rx="12"/>
+          <text class="pin__txt" y="-18">1,180万</text>
+        </a>
+        <a class="pin" href="property-detail.html" transform="translate(192,312)" aria-label="立科町 4LDK 680万円">
+          <path class="pin__tail" d="M0,0 -7,-11 7,-11Z"/>
+          <rect class="pin__bubble" x="-34" y="-35" width="68" height="24" rx="12"/>
+          <text class="pin__txt" y="-18">680万</text>
+        </a>
+        <a class="pin" href="property-detail.html" transform="translate(356,462)" aria-label="佐久穂町 5LDK 580万円">
+          <path class="pin__tail" d="M0,0 -7,-11 7,-11Z"/>
+          <rect class="pin__bubble" x="-34" y="-35" width="68" height="24" rx="12"/>
+          <text class="pin__txt" y="-18">580万</text>
+        </a>
+      </svg>
+
+      <ul class="areaMap__legend">
+        <li><span class="sw sw--pin"></span>一般公開物件（価格を表示）</li>
+        <li><span class="sw sw--approx"></span>会員限定物件（おおよその範囲）</li>
+        <li><span class="sw sw--rail"></span>北陸新幹線</li>
+      </ul>
+      <p class="areaMap__note">
+        ※ 位置関係を示す模式図です。ピンの位置は実際の所在地とは異なります。<br>
+        会員限定物件は正確な所在地を表示していません。<a href="member.html">無料会員登録</a>後に地図上でご確認いただけます。
+      </p>
+    </div>
+
+    <ul class="areaLinks">
+      <li><a class="is-primary" href="property-list.html">佐久市<span class="cnt">82件</span></a></li>
+      <li><a class="is-primary" href="property-list.html">小諸市<span class="cnt">44件</span></a></li>
+      <li><a class="is-primary" href="property-list.html">軽井沢町<span class="cnt">68件</span></a></li>
+      <li><a href="property-list.html">御代田町<span class="cnt">20件</span></a></li>
+      <li><a href="property-list.html">上田市<span class="cnt">55件</span></a></li>
+      <li><a href="property-list.html">東御市<span class="cnt">15件</span></a></li>
+      <li><a href="property-list.html">立科町<span class="cnt">8件</span></a></li>
+      <li><a href="property-list.html">佐久穂町<span class="cnt">5件</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 新着物件 ===================== -->
+<section class="sec" id="newarrival">
+  <div class="container container--wide">
+    <h2 class="secTtl"><span class="en">NEW ARRIVAL</span><span class="ja">新着物件</span></h2>
+    <p class="leadTxt">
+      毎日更新しています。物件価格の下に出ている金額は、<strong>リノベーション費用まで含めた月々のお支払い目安</strong>です。
+    </p>
+
+    <div class="cardGrid">
+      <!-- 一般公開 -->
+      <a class="propCard" href="property-detail.html">
+        <div class="propCard__thumb">
+          <img src="assets/img/saku-lqh-thm.jpg" alt="佐久市の中古戸建て">
+          <div class="propCard__labels">
+            <span class="label label--new">NEW</span>
+          </div>
+        </div>
+        <div class="propCard__body">
+          <p class="propCard__cat">中古戸建て／佐久市</p>
+          <h3 class="propCard__ttl">佐久市中込　4LDK　南面採光の平屋</h3>
+          <p class="propCard__price"><span class="val num">1,380</span><span class="unit">万円</span></p>
+          <p class="propCard__loan">
+            リノベ込み月々 <strong>78,473</strong> 円<br>
+            <span>（物件1,380万円＋リノベ1,518万円／金利0.75%・35年）</span>
+          </p>
+          <dl class="propCard__spec">
+            <div><dt>間取り</dt><dd>4LDK</dd></div>
+            <div><dt>土地/建物</dt><dd>198.4㎡ / 105.6㎡</dd></div>
+            <div><dt>築年月</dt><dd>1996年5月</dd></div>
+            <div><dt>最寄り</dt><dd>JR中込駅 徒歩12分</dd></div>
+          </dl>
+        </div>
+      </a>
+
+      <!-- 一般公開 -->
+      <a class="propCard" href="property-detail.html">
+        <div class="propCard__thumb">
+          <img src="assets/img/miyota-lqh-thm.jpg" alt="御代田町の中古戸建て">
+          <div class="propCard__labels">
+            <span class="label label--new">NEW</span>
+            <span class="label label--price-down">価格変更</span>
+          </div>
+        </div>
+        <div class="propCard__body">
+          <p class="propCard__cat">中古戸建て／御代田町</p>
+          <h3 class="propCard__ttl">御代田町馬瀬口　5LDK　浅間山を望む高台</h3>
+          <p class="propCard__price"><span class="val num">1,780</span><span class="unit">万円</span><span class="before num">1,980万円</span></p>
+          <p class="propCard__loan">
+            リノベ込み月々 <strong>89,650</strong> 円<br>
+            <span>（物件1,780万円＋リノベ1,480万円／金利0.75%・35年）</span>
+          </p>
+          <dl class="propCard__spec">
+            <div><dt>間取り</dt><dd>5LDK</dd></div>
+            <div><dt>土地/建物</dt><dd>264.0㎡ / 128.2㎡</dd></div>
+            <div><dt>築年月</dt><dd>1989年11月</dd></div>
+            <div><dt>最寄り</dt><dd>しなの鉄道 御代田駅 車6分</dd></div>
+          </dl>
+        </div>
+      </a>
+
+      <!-- 会員限定 -->
+      <a class="propCard propCard--locked" href="member.html">
+        <div class="propCard__thumb">
+          <img src="assets/img/t_thm.jpg" alt="会員限定公開の物件">
+          <div class="propCard__labels">
+            <span class="label label--member">会員限定</span>
+          </div>
+        </div>
+        <div class="propCard__body">
+          <p class="propCard__cat">中古戸建て／軽井沢町</p>
+          <h3 class="propCard__ttl">軽井沢町　4LDK　林間の平屋（詳細は会員限定）</h3>
+          <p class="propCard__price"><span class="val num">2,480</span><span class="unit">万円</span></p>
+          <dl class="propCard__spec">
+            <div><dt>所在地</dt><dd class="masked">–</dd></div>
+            <div><dt>間取り</dt><dd>4LDK</dd></div>
+            <div><dt>土地/建物</dt><dd class="masked">–</dd></div>
+            <div><dt>築年月</dt><dd>1998年（推定）</dd></div>
+          </dl>
+          <p class="lockNote">この物件は<strong>無料会員限定</strong>で公開しています。所在地・写真・図面は会員登録後にご覧いただけます。</p>
+        </div>
+      </a>
+
+      <!-- 一般公開 -->
+      <a class="propCard" href="property-detail.html">
+        <div class="propCard__thumb">
+          <img src="assets/img/h_thm.jpg" alt="小諸市の中古戸建て">
+          <div class="propCard__labels"><span class="label label--new">NEW</span></div>
+        </div>
+        <div class="propCard__body">
+          <p class="propCard__cat">中古戸建て／小諸市</p>
+          <h3 class="propCard__ttl">小諸市御幸町　3LDK　駅近・車2台</h3>
+          <p class="propCard__price"><span class="val num">980</span><span class="unit">万円</span></p>
+          <p class="propCard__loan">
+            リノベ込み月々 <strong>62,140</strong> 円<br>
+            <span>（物件980万円＋リノベ1,320万円／金利0.75%・35年）</span>
+          </p>
+          <dl class="propCard__spec">
+            <div><dt>間取り</dt><dd>3LDK</dd></div>
+            <div><dt>土地/建物</dt><dd>152.7㎡ / 92.4㎡</dd></div>
+            <div><dt>築年月</dt><dd>1992年3月</dd></div>
+            <div><dt>最寄り</dt><dd>しなの鉄道 小諸駅 徒歩9分</dd></div>
+          </dl>
+        </div>
+      </a>
+
+      <!-- 店舗公開 -->
+      <a class="propCard propCard--shop" href="#reserve">
+        <div class="propCard__thumb">
+          <img src="assets/img/f_thm.jpg" alt="店舗にてご案内する物件">
+          <div class="propCard__labels"><span class="label label--shop">店舗公開</span></div>
+        </div>
+        <div class="propCard__body">
+          <p class="propCard__cat">中古戸建て／上田市</p>
+          <h3 class="propCard__ttl">上田市　4LDK　（Web非公開・店舗にてご案内）</h3>
+          <p class="propCard__price"><span class="val num">–</span><span class="unit">万円</span></p>
+          <dl class="propCard__spec">
+            <div><dt>所在地</dt><dd class="masked">–</dd></div>
+            <div><dt>間取り</dt><dd>4LDK</dd></div>
+            <div><dt>土地/建物</dt><dd class="masked">–</dd></div>
+            <div><dt>築年月</dt><dd class="masked">–</dd></div>
+          </dl>
+          <p class="lockNote">売主さまのご事情によりWebに掲載できない物件です。<strong>ご来店時にのみ</strong>ご案内しています。</p>
+        </div>
+      </a>
+
+      <!-- 会員限定 -->
+      <a class="propCard propCard--locked" href="member.html">
+        <div class="propCard__thumb">
+          <img src="assets/img/k_thm02.jpg" alt="会員限定公開の物件">
+          <div class="propCard__labels"><span class="label label--member">会員限定</span></div>
+        </div>
+        <div class="propCard__body">
+          <p class="propCard__cat">中古マンション／佐久市</p>
+          <h3 class="propCard__ttl">佐久平駅南　3LDK　角部屋（詳細は会員限定）</h3>
+          <p class="propCard__price"><span class="val num">1,290</span><span class="unit">万円</span></p>
+          <dl class="propCard__spec">
+            <div><dt>所在地</dt><dd class="masked">–</dd></div>
+            <div><dt>間取り</dt><dd>3LDK</dd></div>
+            <div><dt>専有面積</dt><dd class="masked">–</dd></div>
+            <div><dt>築年月</dt><dd>2003年（推定）</dd></div>
+          </dl>
+          <p class="lockNote">この物件は<strong>無料会員限定</strong>で公開しています。所在地・写真・図面は会員登録後にご覧いただけます。</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="btnWrap"><a class="btn" href="property-list.html">新着物件をもっと見る</a></div>
+  </div>
+</section>
+
+<!-- ===================== 3段階公開レベル ===================== -->
+<section class="sec sec--gray" id="membership">
+  <div class="container container--wide">
+    <h2 class="secTtl"><span class="en">MEMBERSHIP</span><span class="ja">物件情報の3つの公開レベル</span></h2>
+    <p class="leadTxt">
+      流通している中古住宅のうち、Webで一般公開できるのはごく一部です。<br>
+      当社では公開レベルを3段階に分けて、無料会員のお客様・ご来店のお客様に順にお見せしています。
+    </p>
+
+    <div class="tierWrap">
+      <div class="tier tier--1">
+        <p class="tier__step">LEVEL 01</p>
+        <h3 class="tier__ttl">一般公開</h3>
+        <p class="tier__cnt"><strong class="num">84</strong> 件</p>
+        <p class="tier__txt">どなたでもご覧いただける物件です。所在地・写真・間取り図・リノベ込みの月々支払いまで公開しています。</p>
+      </div>
+      <div class="tier tier--2">
+        <p class="tier__step">LEVEL 02</p>
+        <h3 class="tier__ttl">会員限定公開</h3>
+        <p class="tier__cnt"><strong class="num">213</strong> 件</p>
+        <p class="tier__txt">無料会員登録をされた方だけにお見せする物件です。ご希望条件を登録いただくと、合致する新着物件をメールでお知らせします。</p>
+      </div>
+      <div class="tier tier--3">
+        <p class="tier__step">LEVEL 03</p>
+        <h3 class="tier__ttl">店舗公開</h3>
+        <p class="tier__cnt"><strong class="num">1,240</strong> 件</p>
+        <p class="tier__txt">売主さまのご事情でWeb掲載ができない物件です。RENOELの店舗にお越しいただいた方にのみ、直接ご案内しています。</p>
+      </div>
+    </div>
+
+    <div class="btnWrap">
+      <a class="btn btn--pink btn--lg" href="member.html">無料会員登録で会員限定物件を見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 資金計画シミュレーション ===================== -->
+<section class="sec" id="simulation">
+  <div class="container container--wide">
+    <h2 class="secTtl"><span class="en">SIMULATION</span><span class="ja">資金計画シミュレーション</span></h2>
+    <p class="leadTxt">
+      中古住宅は「物件価格」だけでは判断できません。<strong>物件＋リノベーション費用を1本のローンにまとめた</strong>月々のお支払いで比べてください。
+    </p>
+
+    <div class="simWrap" data-sim>
+      <div class="simForm">
+        <div class="simForm__row">
+          <label for="simPrice">物件価格</label>
+          <span class="val"><span data-out-price>1380</span> 万円</span>
+          <input type="range" id="simPrice" data-sim-price min="300" max="6000" step="10" value="1380">
+        </div>
+        <div class="simForm__row">
+          <label for="simReno">リノベーション費用</label>
+          <span class="val"><span data-out-reno>1518</span> 万円</span>
+          <!-- step=1：スタンダードプラン1,518万円をそのまま初期値にするため（10刻みだと1,520万に丸まる） -->
+          <input type="range" id="simReno" data-sim-reno min="0" max="3000" step="1" value="1518">
+        </div>
+        <div class="simForm__row">
+          <label for="simDown">自己資金（頭金）</label>
+          <span class="val"><span data-out-down>0</span> 万円</span>
+          <input type="range" id="simDown" data-sim-down min="0" max="2000" step="10" value="0">
+        </div>
+        <div class="simForm__row">
+          <label for="simRate">金利（年）</label>
+          <span class="val"><span data-out-rate>0.75</span> ％</span>
+          <input type="range" id="simRate" data-sim-rate min="0.3" max="3" step="0.05" value="0.75">
+        </div>
+        <div class="simForm__row">
+          <label for="simYears">返済期間</label>
+          <span class="val"><span data-out-years>35</span> 年</span>
+          <input type="range" id="simYears" data-sim-years min="10" max="40" step="1" value="35">
+        </div>
+      </div>
+
+      <div class="simResult">
+        <p class="simResult__label">月々のお支払い（元利均等・ボーナス払いなし）</p>
+        <p class="simResult__val"><span data-out-monthly>78,473</span><span class="unit"> 円</span></p>
+        <p class="simResult__note">
+          金利は当社提携金融機関の変動金利を想定した参考値です。<br>
+          実際の借入可能額・適用金利はご年収や審査結果により異なります。
+        </p>
+        <div class="simResult__break">
+          <div><span>借入総額</span><span><span data-out-total>2,898</span> 万円</span></div>
+          <div><span>返済期間</span><span><span data-out-years>35</span> 年</span></div>
+          <div><span>適用金利</span><span><span data-out-rate>0.75</span> ％</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btnWrap"><a class="btn" href="#financing">資金計画の考え方を詳しく見る</a></div>
+  </div>
+</section>
+
+<!-- ===================== リノベーション事例 ===================== -->
+<section class="sec sec--gray" id="renovation">
+  <div class="container container--wide">
+    <h2 class="secTtl"><span class="en">RENOVATION</span><span class="ja">リノベーション事例</span></h2>
+    <p class="leadTxt">実際に中古住宅をご購入いただき、当社で設計・施工した事例です。物件価格・工事費・月々のお支払いまで公開しています。</p>
+
+    <div class="cardGrid">
+      <a class="mediaCard" href="#case1">
+        <div class="mediaCard__thumb">
+          <div class="caseBA">
+            <figure><img src="assets/img/saku-lqh-thm.jpg" alt="佐久市の長期優良住宅化リフォーム事例 施工前"><figcaption>BEFORE</figcaption></figure>
+            <figure><img src="assets/img/living.jpg" alt="佐久市の長期優良住宅化リフォーム事例 施工後"><figcaption>AFTER</figcaption></figure>
+          </div>
+          <span class="mediaCard__cat">佐久市／戸建て</span>
+        </div>
+        <h3 class="mediaCard__ttl">築28年をフルリノベーション、耐震等級3と断熱等級6へ</h3>
+        <dl class="mediaCard__data">
+          <div><dt>物件価格</dt><dd>1,380万円</dd></div>
+          <div><dt>工事費</dt><dd>1,518万円</dd></div>
+          <div><dt>月々の支払い</dt><dd><strong class="num">78,473</strong>円</dd></div>
+        </dl>
+      </a>
+
+      <a class="mediaCard" href="#case2">
+        <div class="mediaCard__thumb">
+          <div class="caseBA">
+            <figure><img src="assets/img/miyota-lqh-thm.jpg" alt="御代田町のリノベーション事例 施工前"><figcaption>BEFORE</figcaption></figure>
+            <figure><img src="assets/img/kitchen.jpg" alt="御代田町のリノベーション事例 施工後"><figcaption>AFTER</figcaption></figure>
+          </div>
+          <span class="mediaCard__cat">御代田町／戸建て</span>
+        </div>
+        <h3 class="mediaCard__ttl">間仕切りを取り払い、浅間山を眺める大きな一室に</h3>
+        <dl class="mediaCard__data">
+          <div><dt>物件価格</dt><dd>1,780万円</dd></div>
+          <div><dt>工事費</dt><dd>1,480万円</dd></div>
+          <div><dt>月々の支払い</dt><dd><strong class="num">89,650</strong>円</dd></div>
+        </dl>
+      </a>
+
+      <a class="mediaCard" href="#case3">
+        <div class="mediaCard__thumb">
+          <div class="caseBA">
+            <figure><img src="assets/img/t_thm.jpg" alt="軽井沢町のリノベーション事例 施工前"><figcaption>BEFORE</figcaption></figure>
+            <figure><img src="assets/img/gallery.jpg" alt="軽井沢町のリノベーション事例 施工後"><figcaption>AFTER</figcaption></figure>
+          </div>
+          <span class="mediaCard__cat">軽井沢町／別荘</span>
+        </div>
+        <h3 class="mediaCard__ttl">古い別荘を、通年で暮らせる家に</h3>
+        <dl class="mediaCard__data">
+          <div><dt>物件価格</dt><dd>2,480万円</dd></div>
+          <div><dt>工事費</dt><dd>1,960万円</dd></div>
+          <div><dt>月々の支払い</dt><dd><strong class="num">120,380</strong>円</dd></div>
+        </dl>
+      </a>
+    </div>
+
+    <div class="btnWrap"><a class="btn" href="#renovation-list">リノベーション事例をもっと見る</a></div>
+  </div>
+</section>
+
+<!-- ===================== モデルハウス・店舗 ===================== -->
+<section class="sec" id="showroom">
+  <div class="container container--wide">
+    <h2 class="secTtl"><span class="en">SHOWROOM</span><span class="ja">リノベーションモデルハウス・店舗案内</span></h2>
+    <p class="leadTxt">図面や写真ではわからない「中古のリノベーション」を、実際に建った家で体感してください。長野県最大級のリノベーション専門店です。</p>
+
+    <div class="shopList">
+      <a class="shop" href="#modelhouse">
+        <div class="shop__thumb"><img src="assets/img/modelhouse_bnr.png" alt="佐久市のリノベーションモデルハウス"></div>
+        <div class="shop__body">
+          <h3 class="shop__ttl">リノベーションモデルハウス<span class="sub">MODEL HOUSE ／ 佐久市</span></h3>
+          <p class="shop__addr">築30年の住宅をフルリノベーションした常設モデルハウス。断熱・耐震の改修部分も見学いただけます。<br>見学は予約制（当日可）</p>
+        </div>
+      </a>
+
+      <a class="shop" href="#renoel">
+        <div class="shop__thumb"><img src="assets/img/waiting_room.jpg" alt="リノベーションスタジオRENOEL 店内"></div>
+        <div class="shop__body">
+          <h3 class="shop__ttl">リノベーションスタジオ RENOEL<span class="sub">STUDIO ／ 佐久平駅南</span></h3>
+          <p class="shop__addr">〒385-0029 長野県佐久市佐久平駅南9-1<br>8:00〜17:00（お盆・年末年始を除く）</p>
+          <p class="shop__tel">0120-556-119</p>
+        </div>
+      </a>
+
+      <a class="shop" href="#company">
+        <div class="shop__thumb"><img src="assets/img/Entrance_approach.jpg" alt="大井建設工業株式会社 本社"></div>
+        <div class="shop__body">
+          <h3 class="shop__ttl">大井建設工業株式会社 本社<span class="sub">HEAD OFFICE ／ 御代田町</span></h3>
+          <p class="shop__addr">〒389-0207 長野県北佐久郡御代田町馬瀬口1670-74<br>FAX 0267-77-7461</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="btnWrap"><a class="btn btn--fill" href="#reserve">来店・見学のご予約</a></div>
+  </div>
+</section>
+
+<!-- ===================== お客様の声 ===================== -->
+<section class="sec sec--gray" id="voice">
+  <div class="container container--wide">
+    <h2 class="secTtl"><span class="en">VOICE</span><span class="ja">お客様の声</span></h2>
+
+    <div class="cardGrid">
+      <div class="voiceCard">
+        <div class="voiceCard__head">
+          <div class="voiceCard__ph"><img src="assets/img/living_2.jpg" alt=""></div>
+          <p class="voiceCard__who">佐久市 A様ご家族<br>30代・4人家族</p>
+        </div>
+        <h3 class="voiceCard__ttl">「新築だと届かなかった立地に住めました」</h3>
+        <p class="voiceCard__txt">学区を変えたくなくて、この地区にこだわっていました。新築の土地は出てこないと言われていたところ、会員限定の物件を紹介してもらえて。中身は全部つくり直したので、住み心地は新築と変わりません。</p>
+      </div>
+
+      <div class="voiceCard">
+        <div class="voiceCard__head">
+          <div class="voiceCard__ph"><img src="assets/img/kitchen.jpg" alt=""></div>
+          <p class="voiceCard__who">御代田町 B様ご夫婦<br>40代・2人暮らし</p>
+        </div>
+        <h3 class="voiceCard__ttl">「物件と工事の窓口が1つで助かった」</h3>
+        <p class="voiceCard__txt">不動産屋さんと工務店を別々に回っていた頃は、話が噛み合わなくて疲れました。最初から「この物件ならこの工事でいくら」と出てきたので、迷わずに決められました。</p>
+      </div>
+
+      <div class="voiceCard">
+        <div class="voiceCard__head">
+          <div class="voiceCard__ph"><img src="assets/img/gallery_2.jpg" alt=""></div>
+          <p class="voiceCard__who">軽井沢町 C様<br>50代・別荘から定住へ</p>
+        </div>
+        <h3 class="voiceCard__ttl">「寒くて使えなかった別荘が、冬も暖かい家に」</h3>
+        <p class="voiceCard__txt">夏だけの家でしたが、断熱と窓を全部やり直してもらって、今は冬もこちらで過ごしています。改修前の性能を数値で見せてもらえたのが決め手でした。</p>
+      </div>
+    </div>
+
+    <div class="btnWrap"><a class="btn" href="#voice-list">お客様の声をもっと見る</a></div>
+  </div>
+</section>
+
+<!-- ===================== お役立ちコラム ===================== -->
+<section class="sec" id="column">
+  <div class="container container--wide">
+    <h2 class="secTtl"><span class="en">COLUMN</span><span class="ja">お役立ちコラム</span></h2>
+    <p class="leadTxt">中古住宅の購入とリノベーションで、知っておくと得をするお金と制度の話です。</p>
+
+    <div class="cardGrid--4 cardGrid">
+      <a class="mediaCard" href="#column1">
+        <div class="mediaCard__thumb">
+          <img src="assets/img/wide_green.jpg" alt="住宅ローン控除の解説記事">
+          <span class="mediaCard__cat">税金・制度</span>
+        </div>
+        <h3 class="mediaCard__ttl">中古住宅でも住宅ローン控除は使える？条件を整理しました</h3>
+        <p class="mediaCard__meta">2026.07.20</p>
+      </a>
+      <a class="mediaCard" href="#column2">
+        <div class="mediaCard__thumb">
+          <img src="assets/img/gallery.jpg" alt="リノベーション一体型ローンの解説記事">
+          <span class="mediaCard__cat">住宅ローン</span>
+        </div>
+        <h3 class="mediaCard__ttl">物件費用とリノベ費用を1本にまとめる「一体型ローン」の使い方</h3>
+        <p class="mediaCard__meta">2026.07.08</p>
+      </a>
+      <a class="mediaCard" href="#column3">
+        <div class="mediaCard__thumb">
+          <img src="assets/img/living.jpg" alt="内見時のチェックポイント記事">
+          <span class="mediaCard__cat">物件探し</span>
+        </div>
+        <h3 class="mediaCard__ttl">内見で必ず見るべき7か所。リノベできる家・できない家の境目</h3>
+        <p class="mediaCard__meta">2026.06.28</p>
+      </a>
+      <a class="mediaCard" href="#column4">
+        <div class="mediaCard__thumb">
+          <img src="assets/img/Entrance_approach.jpg" alt="長期優良住宅化リフォーム補助金の記事">
+          <span class="mediaCard__cat">補助金</span>
+        </div>
+        <h3 class="mediaCard__ttl">長期優良住宅化リフォーム推進事業を使うと、いくら戻るのか</h3>
+        <p class="mediaCard__meta">2026.06.15</p>
+      </a>
+    </div>
+
+    <div class="btnWrap"><a class="btn" href="#column-list">お役立ちコラムをもっと見る</a></div>
+  </div>
+</section>
+
+<!-- ===================== お知らせ／ブログ ===================== -->
+<section class="sec sec--tight" id="news">
+  <div class="container container--wide">
+    <div class="newsCols">
+      <div class="newsCol">
+        <h2 class="newsCol__ttl"><span class="en">NEWS</span><span class="ja">お知らせ</span></h2>
+        <ul class="postList">
+          <li><a href="#news1"><time datetime="2026-06-17">2026.06.17</time><span class="ttl">おかげさまで20年！大井のリフォーム「大感謝祭」開催決定！<span class="cat">イベント</span></span></a></li>
+          <li><a href="#news2"><time datetime="2026-05-10">2026.05.10</time><span class="ttl">【5/16（土）開催】第25回にこにこフェスティバル！<span class="cat">イベント</span></span></a></li>
+          <li><a href="#news3"><time datetime="2026-04-08">2026.04.08</time><span class="ttl">4/26（日）空き家対策セミナー開催のお知らせ<span class="cat">セミナー</span></span></a></li>
+          <li><a href="#news4"><time datetime="2026-03-02">2026.03.02</time><span class="ttl">会員限定物件のお知らせメール配信をはじめました<span class="cat">サービス</span></span></a></li>
+        </ul>
+        <a class="moreLink" href="#news-list">新着情報一覧</a>
+      </div>
+
+      <div class="newsCol">
+        <h2 class="newsCol__ttl"><span class="en">BLOG</span><span class="ja">スタッフブログ</span></h2>
+        <ul class="postList">
+          <li><a href="#blog1"><time datetime="2026-03-23">2026.03.23</time><span class="ttl">4/26（日）「実家・空き家問題対策セミナー＆相談会」開催予定です。</span></a></li>
+          <li><a href="#blog2"><time datetime="2024-08-04">2024.08.04</time><span class="ttl">空き家管理サービスをはじめました</span></a></li>
+          <li><a href="#blog3"><time datetime="2024-03-10">2024.03.10</time><span class="ttl">フルリノベモデルハウスの見学会が無事に終わりました</span></a></li>
+          <li><a href="#blog4"><time datetime="2024-02-19">2024.02.19</time><span class="ttl">佐久平の中古マンション、内見の前に見ておくこと</span></a></li>
+        </ul>
+        <a class="moreLink" href="#blog-list">新着記事一覧</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 会員登録CTA ===================== -->
+<section class="memberCta" id="member-cta">
+  <div class="memberCta__bg"><img src="assets/img/gallery_2.jpg" alt=""></div>
+  <div class="container container--wide memberCta__inner">
+    <h2 class="memberCta__ttl">Web上の物件は、<span class="accent">全体の1割</span>ほどです。</h2>
+    <p class="memberCta__lead">
+      無料会員登録をしていただくと、会員限定の213件が見られるようになります。<br>
+      ご希望の条件を登録しておけば、条件に合う新着物件を届いた順にメールでお知らせします。
+    </p>
+    <ul class="memberCta__merit">
+      <li>会員限定<br>213件を公開</li>
+      <li>合致物件の<br>お知らせメール</li>
+      <li>間取り図・<br>資料のダウンロード</li>
+      <li>リノベ費用込みの<br>見積り依頼</li>
+    </ul>
+    <div class="memberCta__btns">
+      <a class="btn btn--pink btn--lg" href="member.html">無料会員登録はこちら</a>
+      <a class="btn btn--white" href="#login">会員ログイン</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== フッター ===================== -->
+<div class="footerBnr">
+  <a href="#buy-form" id="buy">
+    <img src="assets/img/living.jpg" alt="">
+    <span class="footerBnr__txt">
+      <span class="footerBnr__en">FOR BUYER</span>
+      <span class="footerBnr__ja">買いたい方へ</span>
+      <span class="footerBnr__note">購入専用お問い合わせフォーム</span>
+    </span>
+  </a>
+  <a href="#sell-form" id="sell">
+    <img src="assets/img/wide_green.jpg" alt="">
+    <span class="footerBnr__txt">
+      <span class="footerBnr__en">FOR SELLER</span>
+      <span class="footerBnr__ja">売りたい方へ</span>
+      <span class="footerBnr__note">無料査定・買取のご相談</span>
+    </span>
+  </a>
+</div>
+
+<footer class="footer" id="company">
+  <div class="container container--wide">
+    <div class="footer__top">
+      <div>
+        <p class="footer__logo"><img src="assets/img/top-logoB.svg" alt="中古住宅×リノベーション RENOEL"></p>
+        <p class="footer__addr">
+          リノベーションスタジオ RENOEL（リノエル）<br>
+          〒385-0029 長野県佐久市佐久平駅南9-1<br>
+          <a class="footer__tel" href="tel:0120556119">0120-556-119</a>
+          <span class="footer__hours">FAX 0267-77-7461 ／ 8:00〜17:00（お盆・年末年始を除く）</span>
+        </p>
+        <div class="footer__sns">
+          <a href="#instagram" aria-label="Instagram"><img src="assets/img/icon-instagramW.svg" alt=""></a>
+          <a href="#facebook" aria-label="Facebook"><img src="assets/img/icon-facebookW.svg" alt=""></a>
+          <a href="#youtube" aria-label="YouTube"><img src="assets/img/icon-youtubeW.svg" alt=""></a>
+        </div>
+        <p class="footer__license">
+          大井建設工業株式会社<br>
+          宅地建物取引業免許：長野県知事（●）第●●●●号<br>
+          建設業許可：長野県知事許可（般-●）第●●●●●号
+        </p>
+      </div>
+
+      <div class="footer__navs">
+        <div>
+          <h3 class="footer__navTtl">物件を探す</h3>
+          <ul>
+            <li><a href="property-list.html">中古戸建て</a></li>
+            <li><a href="property-list.html">中古マンション</a></li>
+            <li><a href="property-list.html">土地</a></li>
+            <li><a href="property-list.html">新築</a></li>
+            <li><a href="property-list.html">事業用</a></li>
+            <li><a href="#area">エリアマップから探す</a></li>
+            <li><a href="property-list.html">学区で探す</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer__navTtl">会員サービス</h3>
+          <ul>
+            <li><a href="member.html">無料会員登録</a></li>
+            <li><a href="#login">会員ログイン</a></li>
+            <li><a href="#conditions">希望条件の登録</a></li>
+            <li><a href="#favorites">お気に入り物件</a></li>
+            <li><a href="#reserve">来店予約</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer__navTtl">リノベーション</h3>
+          <ul>
+            <li><a href="#renovation">リノベーション事例</a></li>
+            <li><a href="#modelhouse">モデルハウス</a></li>
+            <li><a href="#renoel">スタジオRENOEL</a></li>
+            <li><a href="#simulation">資金計画</a></li>
+            <li><a href="#voice">お客様の声</a></li>
+            <li><a href="#column">お役立ちコラム</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer__navTtl">会社・その他</h3>
+          <ul>
+            <li><a href="#company-profile">会社案内</a></li>
+            <li><a href="#sell">売却・買取</a></li>
+            <li><a href="#akiya">空き家管理サポート</a></li>
+            <li><a href="#faq">よくあるご質問</a></li>
+            <li><a href="#recruit">採用情報</a></li>
+            <li><a href="#privacy">プライバシーポリシー</a></li>
+            <li><a href="#sitemap">サイトマップ</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© OOI KENSETSU KOGYO CO., LTD.</p>
+      <p>掲載物件は情報更新予定日を過ぎたものを自動的に非公開としています。</p>
+    </div>
+  </div>
+</footer>
+
+<!-- SP追従CTA -->
+<nav class="spCta" aria-label="お問い合わせ">
+  <a href="tel:0120556119">電話する</a>
+  <a href="#reserve">来店予約</a>
+  <a class="is-member" href="member.html">無料会員登録</a>
+</nav>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
