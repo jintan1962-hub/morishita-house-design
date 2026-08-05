@@ -1,441 +1,529 @@
-<title>モリシタハウス｜姫路買取専門LP ワイヤーフレーム</title>
-<style>
-  :root{
-    --paper:#F1EEE6;
-    --paper-2:#E7E2D3;
-    --card:#FBF9F3;
-    --ink:#22262B;
-    --ink-soft:#5B5F57;
-    --indigo:#2B3B57;
-    --indigo-soft:#3F527A;
-    --amber:#B8712B;
-    --amber-deep:#95591D;
-    --moss:#6E7A57;
-    --line:rgba(34,38,43,0.14);
-    --line-strong:rgba(34,38,43,0.28);
-    --shadow:0 8px 24px rgba(34,30,20,0.08);
-  }
-  @media (prefers-color-scheme: dark){
+<!-- モリシタハウス｜姫路買取専門LP（トップページとデザイン統一版） -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>姫路の家・土地を最短10日で買取｜株式会社モリシタハウス</title>
+  <style>
     :root{
-      --paper:#1C1E1B;
-      --paper-2:#24261F;
-      --card:#26281F;
-      --ink:#EDE9DC;
-      --ink-soft:#B7B29E;
-      --indigo:#8CA0C9;
-      --indigo-soft:#6E85B4;
-      --amber:#E0A155;
-      --amber-deep:#F0B876;
-      --moss:#A2AD87;
-      --line:rgba(237,233,220,0.14);
-      --line-strong:rgba(237,233,220,0.26);
-      --shadow:0 8px 24px rgba(0,0,0,0.4);
+      --paper:#FFFFFF;
+      --paper-alt:#F3F7F6;
+      --paper-deep:#E7F1EE;
+      --ink:#202B33;
+      --ink-soft:#57626B;
+      --ink-faint:#8A9198;
+      --indigo:#00A98F;
+      --indigo-deep:#00775F;
+      --indigo-tint:#E1F5F0;
+      --gold:#B98A2E;
+      --gold-bright:#C99A3B;
+      --gold-tint:#F3E9D2;
+      --sage:#5F7A5C;
+      --sage-tint:#E7EEE3;
+      --line:#E3E8E7;
+      --line-strong:#CBD6D3;
+      --shadow: 0 18px 40px -22px rgba(32,43,51,0.35);
+      --radius: 3px;
+      --serif:"游明朝体","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+      --sans:"游ゴシック体","Yu Gothic Medium","Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
     }
-  }
-  :root[data-theme="dark"]{
-    --paper:#1C1E1B; --paper-2:#24261F; --card:#26281F;
-    --ink:#EDE9DC; --ink-soft:#B7B29E; --indigo:#8CA0C9; --indigo-soft:#6E85B4;
-    --amber:#E0A155; --amber-deep:#F0B876; --moss:#A2AD87;
-    --line:rgba(237,233,220,0.14); --line-strong:rgba(237,233,220,0.26);
-    --shadow:0 8px 24px rgba(0,0,0,0.4);
-  }
-  :root[data-theme="light"]{
-    --paper:#F1EEE6; --paper-2:#E7E2D3; --card:#FBF9F3;
-    --ink:#22262B; --ink-soft:#5B5F57; --indigo:#2B3B57; --indigo-soft:#3F527A;
-    --amber:#B8712B; --amber-deep:#95591D; --moss:#6E7A57;
-    --line:rgba(34,38,43,0.14); --line-strong:rgba(34,38,43,0.28);
-    --shadow:0 8px 24px rgba(34,30,20,0.08);
-  }
 
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:"Hiragino Sans","Yu Gothic Medium","YuGothic","Noto Sans JP",sans-serif;
-    line-height:1.8;
-    font-size:16px;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  h1,h2,h3,h4{
-    font-family:"YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;
-    color:var(--ink);
-    margin:0;
-    text-wrap:balance;
-    font-weight:600;
-  }
-  a{color:inherit;}
-  img,svg{display:block;max-width:100%;}
-  button, .btn{font-family:inherit;}
-  :focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:var(--sans);
+      line-height:1.85;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+    img,svg{max-width:100%;display:block;}
+    a{color:inherit;text-decoration:none;}
+    ul{margin:0;padding:0;list-style:none;}
+    button{font-family:inherit;cursor:pointer;}
+    :focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
 
-  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
-  .wrap--wide{max-width:1140px;}
+    .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+    .wrap--narrow{max-width:920px;}
+    .band{padding:96px 0;}
+    .band-alt{background:var(--paper-alt);}
 
-  .eyebrow{
-    display:inline-flex;align-items:center;gap:8px;
-    font-size:12.5px;letter-spacing:.14em;color:var(--indigo-soft);
-    font-weight:700;margin-bottom:14px;
-  }
-  .eyebrow::before{content:"";width:16px;height:1px;background:var(--amber);display:inline-block;}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:10px;
+      font-size:12.5px;letter-spacing:.22em;font-weight:600;
+      color:var(--indigo);text-transform:uppercase;
+      font-variant-numeric:tabular-nums;
+    }
+    .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold-bright);}
 
-  .section{padding:76px 0;}
-  .section--alt{background:var(--paper-2);}
-  .section-head{max-width:640px;margin:0 auto 44px;text-align:center;}
-  .section-head h2{font-size:clamp(22px,3vw,30px);}
-  .section-head p{color:var(--ink-soft);margin-top:12px;font-size:15px;}
+    h1,h2,h3,h4{
+      font-family:var(--serif);
+      font-weight:700;
+      color:var(--ink);
+      text-wrap:balance;
+      margin:0;
+    }
+    .lead{max-width:60ch;color:var(--ink-soft);font-size:16px;}
 
-  .roofline{width:100%;height:20px;color:var(--line-strong);display:block;}
+    .head-row{
+      display:flex;justify-content:space-between;align-items:flex-end;
+      gap:24px;margin-bottom:40px;flex-wrap:wrap;
+    }
+    .head-row h2{font-size:clamp(24px,3vw,32px);margin-top:10px;}
+    .head-center{max-width:660px;margin:0 auto 44px;text-align:center;}
+    .head-center h2{font-size:clamp(24px,3vw,32px);margin-top:10px;}
+    .head-center p{color:var(--ink-soft);margin-top:14px;font-size:15px;}
+    .head-center .eyebrow{justify-content:center;}
 
-  /* ---------- Header ---------- */
-  .site-header{
-    position:sticky;top:0;z-index:50;
-    background:color-mix(in srgb, var(--paper) 92%, transparent);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--line);
-  }
-  .site-header .wrap{
-    display:flex;align-items:center;justify-content:space-between;
-    height:72px;
-  }
-  .logo{display:flex;flex-direction:column;line-height:1.1;}
-  .logo .ja{font-family:"YuMincho","Hiragino Mincho ProN",serif;font-size:19px;font-weight:700;letter-spacing:.02em;}
-  .logo .en{font-size:10px;letter-spacing:.18em;color:var(--ink-soft);margin-top:2px;}
-  nav.primary-nav{display:flex;gap:28px;font-size:14px;}
-  nav.primary-nav a{text-decoration:none;border-bottom:1px solid transparent;padding-bottom:4px;}
-  nav.primary-nav a:hover{border-color:var(--amber);}
-  .header-actions{display:flex;align-items:center;gap:16px;}
-  .header-tel{font-size:13px;color:var(--ink-soft);text-align:right;}
-  .header-tel strong{display:block;font-size:17px;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.02em;}
+    /* ---------- ヘッダー ---------- */
+    header.site{
+      position:sticky;top:0;z-index:60;
+      background:rgba(255,255,255,0.94);
+      backdrop-filter:blur(6px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:24px;padding:14px 28px 12px;max-width:1180px;margin:0 auto;
+    }
+    .nav-row{max-width:1180px;margin:0 auto;padding:0 28px 14px;}
+    .brand{display:flex;align-items:center;gap:12px;}
+    .brand-logo{width:42px;height:42px;flex:none;}
+    .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+    .brand-badge{
+      background:var(--indigo);color:#fff;font-size:10.5px;font-weight:700;
+      letter-spacing:.08em;padding:2px 8px;border-radius:2px;
+      display:inline-block;align-self:flex-start;margin-bottom:2px;
+    }
+    .brand .mark{font-size:20px;font-weight:700;letter-spacing:.03em;color:var(--ink);}
+    .brand .mark-en{font-size:9.5px;font-weight:700;letter-spacing:.18em;color:var(--indigo);margin-top:2px;}
+    .brand .tagline{
+      font-size:11px;color:var(--ink-faint);letter-spacing:.1em;
+      border-left:1px solid var(--line-strong);padding-left:14px;margin-left:4px;white-space:nowrap;
+    }
+    nav.primary{display:flex;gap:6px;flex-wrap:wrap;}
+    nav.primary a{
+      font-size:13.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;
+      padding:9px 14px;border:1px solid var(--line);border-radius:4px;background:#fff;
+      transition:border-color .18s ease,color .18s ease,background .18s ease;
+    }
+    nav.primary a:hover{color:var(--indigo);border-color:var(--indigo);background:var(--indigo-tint);}
+    nav.primary a[aria-current="page"]{color:var(--indigo-deep);border-color:var(--indigo);background:var(--indigo-tint);}
+    .utility{display:flex;align-items:center;gap:16px;}
+    .header-tel{font-size:11.5px;color:var(--ink-faint);text-align:right;line-height:1.5;letter-spacing:.04em;}
+    .header-tel strong{
+      display:block;font-family:var(--serif);font-size:19px;color:var(--ink);
+      font-variant-numeric:tabular-nums;letter-spacing:.02em;
+    }
 
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    padding:14px 28px;border-radius:3px;font-weight:700;font-size:15px;
-    text-decoration:none;cursor:pointer;border:1px solid transparent;
-    transition:transform .15s ease, box-shadow .15s ease;
-  }
-  .btn:hover{transform:translateY(-1px);}
-  .btn--primary{background:var(--amber);color:#fff;box-shadow:0 6px 16px rgba(184,113,43,0.32);}
-  .btn--primary:hover{background:var(--amber-deep);}
-  .btn--ghost{background:transparent;border-color:var(--line-strong);color:var(--ink);}
-  .btn--ghost:hover{border-color:var(--indigo);}
-  .btn--sm{padding:9px 16px;font-size:13px;}
-  .btn--block{width:100%;}
+    /* ---------- ボタン ---------- */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:10px 20px;font-size:13.5px;font-weight:600;border-radius:var(--radius);
+      border:1px solid transparent;white-space:nowrap;letter-spacing:.02em;
+      transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+    }
+    .btn-ghost{border-color:var(--line-strong);color:var(--ink);}
+    .btn-ghost:hover{border-color:var(--indigo);color:var(--indigo);}
+    .btn-line{border-color:var(--indigo);color:var(--indigo);}
+    .btn-line:hover{background:var(--indigo);color:#fff;}
+    .btn-solid{background:var(--indigo);color:#fff;}
+    .btn-solid:hover{background:var(--indigo-deep);transform:translateY(-1px);}
+    .btn-gold{background:var(--gold-bright);color:#2b2108;}
+    .btn-gold:hover{background:var(--gold);transform:translateY(-1px);}
+    .btn-block{width:100%;}
+    .btn-lg{padding:15px 34px;font-size:15px;}
 
-  /* ---------- Hero ---------- */
-  .hero{
-    padding:64px 0 56px;
-    background:linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
-    border-bottom:1px solid var(--line);
-    position:relative;
-  }
-  .hero .wrap{
-    display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;
-  }
-  .hero h1{font-size:clamp(28px,4.2vw,44px);line-height:1.45;}
-  .hero h1 .accent{color:var(--amber);}
-  .hero-sub{margin-top:18px;color:var(--ink-soft);font-size:15.5px;}
-  .hero-types{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
-  .type-chip{
-    display:flex;align-items:center;gap:6px;
-    padding:8px 14px;border:1px solid var(--line-strong);border-radius:999px;
-    font-size:13px;background:var(--card);
-  }
-  .type-chip svg{width:16px;height:16px;color:var(--indigo);}
-  .hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
-  .hero-badges{display:flex;gap:22px;margin-top:30px;flex-wrap:wrap;}
-  .hero-badges .badge{font-size:12.5px;color:var(--ink-soft);}
-  .hero-badges .badge strong{display:block;font-size:15px;color:var(--ink);font-family:"YuMincho",serif;}
+    /* ---------- ヒーロー ---------- */
+    .hero{
+      background:
+        repeating-linear-gradient(0deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+        repeating-linear-gradient(90deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+        linear-gradient(180deg, var(--indigo-tint) 0%, var(--paper) 62%);
+      padding:64px 0 80px;
+      border-bottom:1px solid var(--line);
+    }
+    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;}
+    .hero-kicker{
+      display:inline-flex;align-items:center;gap:10px;
+      font-size:12.5px;letter-spacing:.24em;color:var(--indigo-deep);
+      margin-bottom:22px;font-weight:700;
+    }
+    .hero-kicker::before{content:"";width:26px;height:1px;background:var(--indigo);}
+    .hero h1{font-size:clamp(30px,4.4vw,50px);line-height:1.4;letter-spacing:.02em;}
+    .hero h1 em{
+      font-style:normal;color:var(--ink);
+      border-bottom:4px solid var(--gold-bright);padding-bottom:2px;
+    }
+    .hero-sub{margin-top:22px;max-width:52ch;color:var(--ink-soft);font-size:15.5px;}
+    .hero-types{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px;}
+    .type-chip{
+      display:inline-flex;align-items:center;gap:7px;
+      padding:8px 14px;border:1px solid var(--line-strong);border-radius:16px;
+      font-size:13px;background:#fff;color:var(--ink-soft);
+    }
+    .type-chip svg{width:16px;height:16px;color:var(--indigo);flex:none;}
+    .hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+    .hero-art{
+      aspect-ratio:1/1;background:#fff;border:1px solid var(--line);
+      border-radius:6px;display:flex;align-items:center;justify-content:center;
+      box-shadow:var(--shadow);
+    }
+    .hero-art svg{width:70%;height:70%;color:var(--indigo);opacity:.7;}
 
-  .hero-art{
-    aspect-ratio:1/1;background:var(--card);border:1px solid var(--line);
-    border-radius:4px;display:flex;align-items:center;justify-content:center;
-    box-shadow:var(--shadow);
-  }
-  .hero-art svg{width:70%;height:70%;color:var(--indigo);}
+    .hero-stats{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      max-width:1124px;margin:40px auto 0;
+      background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+    }
+    .hero-stats li{padding:22px 16px;text-align:center;border-left:1px solid var(--line);}
+    .hero-stats li:first-child{border-left:none;}
+    .hero-stats .num{
+      display:block;font-family:var(--serif);font-size:22px;color:var(--indigo-deep);
+      font-variant-numeric:tabular-nums;
+    }
+    .hero-stats .cap{display:block;font-size:12px;color:var(--ink-faint);margin-top:4px;letter-spacing:.04em;}
 
-  /* ---------- Pains ---------- */
-  .pains-grid{
-    display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
-    background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden;
-  }
-  .pain-item{
-    background:var(--card);padding:22px 24px;display:flex;gap:14px;align-items:flex-start;
-    font-size:14.5px;
-  }
-  .pain-item svg{width:20px;height:20px;flex:none;color:var(--amber);margin-top:2px;}
+    /* ---------- お悩み ---------- */
+    .pains-grid{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+      background:var(--line);border:1px solid var(--line);
+    }
+    .pain-item{
+      background:#fff;padding:22px 24px;display:flex;gap:14px;align-items:flex-start;
+      font-size:14.5px;color:var(--ink-soft);
+    }
+    .pain-item svg{width:19px;height:19px;flex:none;color:var(--indigo);margin-top:5px;}
 
-  /* ---------- Reasons ---------- */
-  .reasons-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
-  .reason-card{
-    background:var(--card);border:1px solid var(--line);border-radius:4px;
-    padding:28px 26px;box-shadow:var(--shadow);
-  }
-  .reason-icon{
-    width:44px;height:44px;border-radius:50%;background:color-mix(in srgb, var(--indigo) 12%, transparent);
-    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
-  }
-  .reason-icon svg{width:22px;height:22px;color:var(--indigo);}
-  .reason-card h3{font-size:17px;margin-bottom:8px;}
-  .reason-card p{font-size:14px;color:var(--ink-soft);margin:0;}
+    /* ---------- 選ばれる理由 ---------- */
+    .reasons-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;}
+    .reason-card .ico{width:40px;height:40px;color:var(--indigo);margin-bottom:16px;}
+    .reason-card h3{font-size:15.5px;}
+    .reason-card p{font-size:13px;color:var(--ink-soft);margin:8px 0 0;}
 
-  /* ---------- Placeholder sections ---------- */
-  .placeholder-tag{
-    display:inline-flex;align-items:center;gap:6px;
-    font-size:11.5px;letter-spacing:.06em;color:var(--amber-deep);
-    border:1px solid var(--amber);border-radius:999px;padding:4px 10px;
-    margin-bottom:10px;background:color-mix(in srgb, var(--amber) 10%, transparent);
-  }
-  .is-placeholder{border:1.5px dashed var(--line-strong)!important;box-shadow:none!important;}
-  .is-placeholder .fill-note{color:var(--ink-soft);font-size:13px;margin-top:10px;}
+    /* ---------- 準備中プレースホルダ ---------- */
+    .placeholder-tag{
+      display:inline-flex;align-items:center;gap:6px;
+      font-size:11.5px;letter-spacing:.06em;color:var(--gold);
+      border:1px solid var(--gold-bright);border-radius:999px;padding:3px 12px;
+      margin-bottom:12px;background:var(--gold-tint);
+    }
+    .is-placeholder{border-style:dashed !important;border-color:var(--line-strong) !important;box-shadow:none !important;}
 
-  /* price examples */
-  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-  .price-card{background:var(--card);border-radius:4px;padding:22px 20px;}
-  .price-card dl{margin:0;font-size:13.5px;}
-  .price-card dt{color:var(--ink-soft);float:left;width:78px;}
-  .price-card dd{margin:0 0 6px 78px;font-variant-numeric:tabular-nums;}
-  .price-card .price-figure{
-    font-family:"YuMincho",serif;font-size:22px;color:var(--ink-soft);
-    margin-top:10px;letter-spacing:.02em;
-  }
+    /* ---------- 査定例 ---------- */
+    .price-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+      background:var(--line);border:1px solid var(--line);
+    }
+    .price-card{background:#fff;padding:24px 22px;}
+    .price-card dl{margin:0;font-size:13px;}
+    .price-card dt{color:var(--ink-faint);float:left;width:78px;}
+    .price-card dd{margin:0 0 6px 78px;font-variant-numeric:tabular-nums;color:var(--ink-soft);}
+    .price-figure{
+      font-family:var(--serif);font-size:21px;color:var(--gold);
+      margin:14px 0 0;letter-spacing:.02em;font-variant-numeric:tabular-nums;
+      border-top:1px dashed var(--line);padding-top:12px;
+    }
 
-  /* compare table */
-  .table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:4px;}
-  table.compare{width:100%;border-collapse:collapse;font-size:14px;min-width:560px;}
-  table.compare th,table.compare td{padding:14px 18px;border-bottom:1px solid var(--line);text-align:left;}
-  table.compare thead th{background:var(--paper-2);font-family:"YuMincho",serif;font-weight:600;}
-  table.compare th.col-buy{color:var(--amber-deep);}
-  table.compare tbody tr:last-child td{border-bottom:none;}
-  .ok{color:var(--moss);font-weight:700;}
-  .ng{color:var(--ink-soft);}
+    /* ---------- 比較表 ---------- */
+    .table-scroll{overflow-x:auto;border:1px solid var(--line);}
+    table.compare{width:100%;border-collapse:collapse;font-size:13.5px;min-width:620px;background:#fff;}
+    table.compare th,table.compare td{padding:15px 18px;border-bottom:1px solid var(--line);text-align:left;}
+    table.compare thead th{
+      background:var(--paper-alt);font-family:var(--sans);font-weight:700;font-size:12.5px;
+      letter-spacing:.04em;color:var(--ink-faint);
+    }
+    table.compare thead th.col-buy{color:var(--indigo-deep);background:var(--indigo-tint);}
+    table.compare tbody th{font-weight:600;color:var(--ink);width:190px;}
+    table.compare tbody tr:last-child th,table.compare tbody tr:last-child td{border-bottom:none;}
+    td.ok{color:var(--indigo-deep);font-weight:700;background:rgba(0,169,143,0.04);}
+    td.ng{color:var(--ink-faint);}
 
-  /* flow steps */
-  .flow-list{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;}
-  .flow-list::before{
-    content:"";position:absolute;top:22px;left:6%;right:6%;height:1px;background:var(--line-strong);
-  }
-  .flow-step{position:relative;text-align:center;padding:0 10px;}
-  .flow-num{
-    width:44px;height:44px;border-radius:50%;background:var(--indigo);color:var(--paper);
-    display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
-    font-family:"YuMincho",serif;font-size:15px;position:relative;z-index:1;
-  }
-  .flow-step h3{font-size:14.5px;margin-bottom:6px;}
-  .flow-step p{font-size:12.5px;color:var(--ink-soft);margin:0;}
+    /* ---------- 買取の流れ ---------- */
+    .flow-list{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;}
+    .flow-list::before{
+      content:"";position:absolute;top:22px;left:10%;right:10%;height:1px;background:var(--line-strong);
+    }
+    .flow-step{position:relative;text-align:center;padding:0 12px;}
+    .flow-num{
+      width:44px;height:44px;border-radius:50%;background:var(--indigo);color:#fff;
+      display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
+      font-family:var(--serif);font-size:15px;position:relative;z-index:1;
+      font-variant-numeric:tabular-nums;
+    }
+    .flow-step h3{font-size:14.5px;}
+    .flow-step p{font-size:12.5px;color:var(--ink-soft);margin:6px 0 0;line-height:1.6;}
 
-  /* voice / cases placeholders */
-  .voice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-  .voice-card{background:var(--card);border-radius:4px;padding:24px 22px;}
-  .voice-card .stars{color:var(--amber);font-size:13px;margin-bottom:10px;letter-spacing:.1em;}
-  .voice-card blockquote{margin:0 0 14px;font-size:13.5px;color:var(--ink-soft);font-style:italic;}
-  .voice-card cite{font-size:12.5px;color:var(--ink-soft);font-style:normal;}
+    /* ---------- お客様の声 ---------- */
+    .voice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+    .voice-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--gold-bright);padding:24px 22px;}
+    .voice-card .stars{color:var(--gold-bright);font-size:13px;margin-bottom:10px;letter-spacing:.14em;}
+    .voice-card blockquote{margin:0 0 14px;font-size:13.5px;color:var(--ink-soft);}
+    .voice-card cite{font-size:12px;color:var(--ink-faint);font-style:normal;}
 
-  .cases-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
-  .case-pair{display:flex;gap:2px;}
-  .case-photo{
-    flex:1;aspect-ratio:4/3;background:var(--paper-2);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-    font-size:12px;color:var(--ink-soft);
-  }
-  .case-photo svg{width:26px;height:26px;color:var(--ink-soft);opacity:.7;}
-  .case-label{font-size:12px;color:var(--ink-soft);margin-top:10px;}
+    /* ---------- 実績 Before/After ---------- */
+    .cases-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;}
+    .case-card{background:#fff;border:1px solid var(--line);padding:14px;}
+    .case-pair{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);}
+    .case-photo{
+      aspect-ratio:4/3;background:linear-gradient(135deg,var(--indigo-tint),var(--paper-deep));
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+      font-size:11.5px;color:var(--ink-soft);letter-spacing:.08em;font-weight:700;
+    }
+    .case-photo svg{width:26px;height:26px;color:var(--indigo);opacity:.5;}
+    .case-label{font-size:12.5px;color:var(--ink-soft);margin:12px 0 0;}
 
-  /* area */
-  .area-block{margin-top:6px;}
-  .area-block h3{font-size:14px;color:var(--ink-soft);letter-spacing:.06em;margin-bottom:14px;}
-  .chip-cloud{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px;}
-  .chip-cloud .chip{
-    padding:8px 16px;border-radius:999px;font-size:13.5px;border:1px solid var(--line-strong);
-    background:var(--card);
-  }
-  .chip-cloud .chip--main{
-    background:var(--indigo);color:var(--paper);border-color:var(--indigo);font-weight:700;
-  }
-  .area-note{font-size:12.5px;color:var(--ink-soft);margin-top:8px;}
+    /* ---------- 対応エリア ---------- */
+    .area-block h3{
+      font-size:12.5px;color:var(--ink-faint);letter-spacing:.1em;
+      font-family:var(--sans);margin-bottom:14px;
+    }
+    .chip-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px;}
+    .chip-cloud .chip{
+      padding:8px 16px;border-radius:16px;font-size:13px;
+      border:1px solid var(--line-strong);background:#fff;color:var(--ink-soft);
+    }
+    .chip-cloud .chip--main{
+      background:var(--indigo);color:#fff;border-color:var(--indigo);font-weight:700;
+    }
+    .area-note{font-size:12px;color:var(--ink-faint);margin:0;}
 
-  /* faq */
-  details.faq-item{
-    border-bottom:1px solid var(--line);padding:18px 4px;
-  }
-  details.faq-item summary{
-    cursor:pointer;font-weight:600;font-size:15px;list-style:none;
-    display:flex;justify-content:space-between;gap:16px;align-items:center;
-  }
-  details.faq-item summary::-webkit-details-marker{display:none;}
-  details.faq-item summary::after{
-    content:"+";font-size:20px;color:var(--amber);flex:none;transition:transform .2s ease;font-family:serif;
-  }
-  details.faq-item[open] summary::after{transform:rotate(45deg);}
-  details.faq-item p{margin:12px 0 0;font-size:14px;color:var(--ink-soft);}
+    /* ---------- FAQ ---------- */
+    .faq-list{background:#fff;border:1px solid var(--line);}
+    details.faq-item{border-bottom:1px solid var(--line);padding:18px 24px;}
+    details.faq-item:last-child{border-bottom:none;}
+    details.faq-item summary{
+      cursor:pointer;font-weight:700;font-size:14.5px;list-style:none;
+      display:flex;justify-content:space-between;gap:16px;align-items:center;
+    }
+    details.faq-item summary::-webkit-details-marker{display:none;}
+    details.faq-item summary::after{
+      content:"+";font-family:var(--serif);font-size:20px;color:var(--indigo);
+      flex:none;transition:transform .2s ease;
+    }
+    details.faq-item[open] summary::after{transform:rotate(45deg);}
+    details.faq-item p{margin:12px 0 0;font-size:13.5px;color:var(--ink-soft);}
 
-  /* company */
-  .company-table{width:100%;border-collapse:collapse;font-size:14px;}
-  .company-table th,.company-table td{
-    text-align:left;padding:14px 0;border-bottom:1px solid var(--line);vertical-align:top;
-  }
-  .company-table th{width:150px;color:var(--ink-soft);font-weight:500;}
-  .company-note{font-size:12px;color:var(--ink-soft);margin-top:16px;border-left:2px solid var(--amber);padding-left:12px;}
+    /* ---------- 会社概要 ---------- */
+    .company-table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;}
+    .company-table th,.company-table td{
+      text-align:left;padding:15px 18px;border-bottom:1px solid var(--line);vertical-align:top;
+    }
+    .company-table th{
+      width:170px;color:var(--ink-faint);font-weight:600;font-family:var(--sans);
+      font-size:12.5px;letter-spacing:.04em;background:var(--paper-alt);
+    }
+    .company-table tr:last-child th,.company-table tr:last-child td{border-bottom:none;}
+    .company-note{
+      font-size:12px;color:var(--ink-soft);margin:16px 0 0;
+      border-left:2px solid var(--gold-bright);padding-left:12px;
+    }
 
-  /* final cta */
-  .final-cta{
-    background:var(--indigo);color:#F1EEE6;text-align:center;padding:72px 0;
-  }
-  .final-cta h2{color:#F5F2E9;font-size:clamp(22px,3.4vw,30px);}
-  .final-cta p{color:#C9D0DE;margin-top:14px;font-size:14.5px;}
-  .final-cta .hero-cta{justify-content:center;margin-top:30px;}
-  .final-cta .btn--ghost{border-color:rgba(241,238,230,0.4);color:#F1EEE6;}
+    /* ---------- 最終CTA（トップページのダーク帯と同じ質感） ---------- */
+    .final-cta{
+      background:linear-gradient(180deg,#20282C,#38312A 60%);
+      color:#fff;padding:96px 0;text-align:center;
+    }
+    .final-cta .eyebrow{color:var(--gold-bright);justify-content:center;}
+    .final-cta .eyebrow::before{background:#fff;}
+    .final-cta h2{color:#fff;font-size:clamp(24px,3vw,32px);margin-top:10px;}
+    .final-cta p{color:rgba(255,255,255,0.78);margin:14px auto 0;font-size:14.5px;max-width:56ch;}
+    .final-cta .hero-cta{justify-content:center;margin-top:32px;}
+    .final-cta .btn-line{border-color:rgba(255,255,255,0.5);color:#fff;}
+    .final-cta .btn-line:hover{background:rgba(255,255,255,0.12);}
 
-  /* footer */
-  .site-footer{background:var(--paper-2);border-top:1px solid var(--line);padding:48px 0 28px;font-size:13px;color:var(--ink-soft);}
-  .footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:28px;}
-  .footer-nav{display:flex;gap:20px;flex-wrap:wrap;}
-  .footer-nav a{text-decoration:none;}
-  .footer-bottom{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+    /* ---------- フッター ---------- */
+    footer.site{background:var(--ink);color:rgba(255,255,255,0.78);padding:64px 0 26px;}
+    .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;}
+    .foot-brand__head{display:flex;align-items:center;gap:10px;}
+    .foot-brand .mark{font-family:var(--sans);color:#fff;font-size:19px;font-weight:700;}
+    .foot-brand p{font-size:12.5px;margin:14px 0 0;color:rgba(255,255,255,0.55);}
+    .foot-col h5{
+      font-size:12.5px;color:#fff;letter-spacing:.1em;margin:0 0 16px;
+      font-family:var(--sans);font-weight:700;
+    }
+    .foot-col li{margin-bottom:10px;}
+    .foot-col a{font-size:13px;color:rgba(255,255,255,0.65);}
+    .foot-col a:hover{color:var(--gold-bright);}
+    .foot-bottom{
+      display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+      margin-top:50px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.12);
+      font-size:11.5px;color:rgba(255,255,255,0.45);
+    }
 
-  /* mobile fixed cta */
-  .mobile-cta{
-    display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;
-    background:var(--card);border-top:1px solid var(--line-strong);
-    padding:10px 14px;gap:10px;box-shadow:0 -6px 16px rgba(0,0,0,0.12);
-  }
+    /* ---------- 注記バナー ---------- */
+    .draft-banner{
+      background:var(--gold-tint);border-bottom:1px solid var(--line-strong);
+      font-size:12.5px;color:#5a4419;text-align:center;padding:9px 12px;
+    }
 
-  @media (max-width: 880px){
-    .hero .wrap{grid-template-columns:1fr;}
-    .hero-art{max-width:320px;margin:0 auto;}
-    .pains-grid{grid-template-columns:1fr;}
-    .reasons-grid{grid-template-columns:1fr;}
-    .price-grid{grid-template-columns:1fr;}
-    .voice-grid{grid-template-columns:1fr;}
-    .cases-grid{grid-template-columns:1fr;}
-    .flow-list{grid-template-columns:1fr;gap:22px;}
-    .flow-list::before{display:none;}
-    nav.primary-nav{display:none;}
-    .header-tel{display:none;}
-    .section{padding:56px 0;}
-    .mobile-cta{display:flex;}
-    body{padding-bottom:64px;}
-  }
-</style>
+    /* ---------- モバイル固定CTA ---------- */
+    .mobile-cta{
+      display:none;position:fixed;left:0;right:0;bottom:0;z-index:70;
+      background:#fff;border-top:1px solid var(--line-strong);
+      padding:10px 14px;gap:10px;box-shadow:0 -6px 16px rgba(32,43,51,0.12);
+    }
 
-<!-- ============ HEADER ============ -->
-<header class="site-header">
-  <div class="wrap wrap--wide">
-    <a class="logo" href="index.html" style="text-decoration:none;">
-      <span class="ja">モリシタハウス</span>
-      <span class="en">MORISHITA HOUSE</span>
+    @media (max-width:960px){
+      .topbar{flex-wrap:wrap;}
+      .brand .tagline{display:none;}
+      .header-tel{display:none;}
+      nav.primary a{padding:8px 12px;font-size:13px;}
+      .hero-grid{grid-template-columns:1fr;}
+      .hero-art{max-width:320px;margin:0 auto;}
+      .reasons-grid{grid-template-columns:repeat(2,1fr);}
+      .pains-grid{grid-template-columns:1fr;}
+      .price-grid{grid-template-columns:1fr;}
+      .voice-grid{grid-template-columns:1fr;}
+      .cases-grid{grid-template-columns:1fr;}
+      .flow-list{grid-template-columns:1fr;gap:24px;}
+      .flow-list::before{display:none;}
+      .foot-grid{grid-template-columns:1fr 1fr;}
+      .band{padding:64px 0;}
+      .mobile-cta{display:flex;}
+      body{padding-bottom:68px;}
+    }
+    @media (max-width:600px){
+      .reasons-grid{grid-template-columns:1fr;}
+      .hero-stats{grid-template-columns:1fr;}
+      .hero-stats li{border-left:none;border-top:1px solid var(--line);}
+      .hero-stats li:first-child{border-top:none;}
+      .foot-grid{grid-template-columns:1fr;}
+      .company-table th{width:120px;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="draft-banner">これはデザイン案（モックアップ）です。買取価格例・お客様の声・実績写真は準備中の仮データです。公開前に実データへ差し替えてください。</div>
+
+<!-- ============ ヘッダー ============ -->
+<header class="site">
+  <div class="topbar">
+    <a class="brand" href="index.html" aria-label="モリシタハウス トップへ">
+      <svg class="brand-logo" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="50" fill="var(--indigo)"/>
+        <circle cx="50" cy="22.5" r="6.5" fill="none" stroke="#fff" stroke-width="5"/>
+        <path d="M30,77 L30,45.5 L50,29 L70,45.5 L70,77" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="30" y1="60" x2="70" y2="60" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-badge">中古住宅専門店</span>
+        <span class="mark">モリシタハウス</span>
+        <span class="mark-en">MORISHITA HOUSE</span>
+      </span>
+      <span class="tagline">姫路・播磨エリア</span>
     </a>
-    <nav class="primary-nav">
+    <div class="utility">
+      <div class="header-tel">
+        お電話でのご相談
+        <strong>079-260-8878</strong>
+      </div>
+      <a class="btn btn-solid" href="#form">無料査定フォーム</a>
+    </div>
+  </div>
+  <div class="nav-row">
+    <nav class="primary" aria-label="メインメニュー">
+      <a href="index.html">物件を探す</a>
+      <a href="kaitori.html" aria-current="page">売却をお考えの方</a>
       <a href="#reasons">選ばれる理由</a>
       <a href="#flow">買取の流れ</a>
       <a href="#area">対応エリア</a>
       <a href="#faq">よくある質問</a>
       <a href="#company">会社概要</a>
     </nav>
-    <div class="header-actions">
-      <div class="header-tel">
-        お電話でのご相談<br><strong>079-284-0123</strong>
-      </div>
-      <a href="#form" class="btn btn--primary btn--sm">無料査定フォーム</a>
-    </div>
   </div>
 </header>
 
-<!-- ============ HERO ============ -->
+<!-- ============ ヒーロー ============ -->
 <section class="hero">
-  <div class="wrap wrap--wide">
-    <div>
-      <p class="eyebrow">姫路・播磨エリア密着の買取専門店</p>
-      <h1>姫路の家・土地、<br><span class="accent">最短10日</span>で買取・現金化。</h1>
-      <p class="hero-sub">仲介手数料0円。そのままの状態でご相談いただけます。空き家・相続・住み替え・傾いた家まで、姫路で長く住まいと向き合ってきた私たちがお話をうかがいます。</p>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-kicker">姫路・播磨エリア　買取専門</div>
+        <h1>姫路の家・土地を、<br><em>最短10日</em>で買取・現金化。</h1>
+        <p class="hero-sub">仲介手数料は0円。そのままの状態でご相談いただけます。空き家・相続・住み替え・傾いた家まで、姫路で長く住まいと向き合ってきた私たちがお話をうかがいます。</p>
 
-      <div class="hero-types">
-        <span class="type-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11 12 4l8 7" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="11" width="12" height="9" rx="0.5"/></svg>戸建て</span>
-        <span class="type-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="3" width="14" height="18" rx="0.5"/><line x1="8" y1="7" x2="10" y2="7"/><line x1="14" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="10" y2="11"/><line x1="14" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="10" y2="15"/><line x1="14" y1="15" x2="16" y2="15"/></svg>マンション</span>
-        <span class="type-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="0.5" stroke-dasharray="2 2"/><circle cx="4" cy="4" r="1.2" fill="currentColor" stroke="none"/><circle cx="20" cy="4" r="1.2" fill="currentColor" stroke="none"/><circle cx="4" cy="20" r="1.2" fill="currentColor" stroke="none"/><circle cx="20" cy="20" r="1.2" fill="currentColor" stroke="none"/></svg>土地</span>
-        <span class="type-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.5 2"><path d="M4 11 12 4l8 7" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="11" width="12" height="9" rx="0.5"/></svg>空き家</span>
+        <div class="hero-types">
+          <span class="type-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11 12 4l8 7" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="11" width="12" height="9" rx="0.5"/></svg>戸建て</span>
+          <span class="type-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="3" width="14" height="18" rx="0.5"/><line x1="8" y1="7" x2="10" y2="7"/><line x1="14" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="10" y2="11"/><line x1="14" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="10" y2="15"/><line x1="14" y1="15" x2="16" y2="15"/></svg>マンション</span>
+          <span class="type-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="0.5" stroke-dasharray="2 2"/><circle cx="4" cy="4" r="1.2" fill="currentColor" stroke="none"/><circle cx="20" cy="4" r="1.2" fill="currentColor" stroke="none"/><circle cx="4" cy="20" r="1.2" fill="currentColor" stroke="none"/><circle cx="20" cy="20" r="1.2" fill="currentColor" stroke="none"/></svg>土地</span>
+          <span class="type-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.5 2"><path d="M4 11 12 4l8 7" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="11" width="12" height="9" rx="0.5"/></svg>空き家</span>
+        </div>
+
+        <div class="hero-cta">
+          <a href="#form" class="btn btn-solid btn-lg">無料査定フォームへ</a>
+          <a href="tel:0792608878" class="btn btn-line btn-lg">079-260-8878（電話で相談）</a>
+        </div>
       </div>
 
-      <div class="hero-cta">
-        <a href="#form" class="btn btn--primary">無料査定フォームへ</a>
-        <a href="tel:0792840123" class="btn btn--ghost">079-284-0123（電話で相談）</a>
-      </div>
-
-      <div class="hero-badges">
-        <div class="badge">対応エリア<strong>姫路市・播磨地域</strong></div>
-        <div class="badge">創業<strong>40年</strong></div>
-        <div class="badge">宅建業許可<strong>兵庫県知事(1)第12345号</strong></div>
+      <div class="hero-art">
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M10 55 30 30 50 55" stroke-linejoin="round"/>
+          <rect x="16" y="55" width="28" height="26"/>
+          <path d="M42 55 62 20 82 55" stroke-linejoin="round"/>
+          <rect x="48" y="55" width="34" height="26"/>
+          <line x1="6" y1="81" x2="90" y2="81"/>
+          <rect x="26" y="65" width="6" height="10"/>
+          <rect x="58" y="63" width="8" height="12"/>
+          <rect x="70" y="63" width="6" height="8"/>
+        </svg>
       </div>
     </div>
 
-    <div class="hero-art">
-      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.4">
-        <path d="M10 55 30 30 50 55" stroke-linejoin="round"/>
-        <rect x="16" y="55" width="28" height="26"/>
-        <path d="M42 55 62 20 82 55" stroke-linejoin="round"/>
-        <rect x="48" y="55" width="34" height="26"/>
-        <line x1="6" y1="81" x2="90" y2="81"/>
-        <rect x="26" y="65" width="6" height="10"/>
-        <rect x="58" y="63" width="8" height="12"/>
-        <rect x="70" y="63" width="6" height="8"/>
-      </svg>
-    </div>
+    <ul class="hero-stats">
+      <li><span class="num">最短10日</span><span class="cap">お問い合わせから現金化まで</span></li>
+      <li><span class="num">0円</span><span class="cap">仲介手数料・中間マージン</span></li>
+      <li><span class="num">姫路市・播磨地域</span><span class="cap">対応エリア</span></li>
+    </ul>
   </div>
 </section>
 
-<svg class="roofline" viewBox="0 0 120 20" preserveAspectRatio="none" aria-hidden="true">
-  <defs>
-    <pattern id="roofA" width="20" height="20" patternUnits="userSpaceOnUse">
-      <polyline points="0,20 10,4 20,20" fill="none" stroke="currentColor" stroke-width="1.2"/>
-    </pattern>
-  </defs>
-  <rect width="120" height="20" fill="url(#roofA)"/>
-</svg>
-
-<!-- ============ PAINS ============ -->
-<section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow" style="justify-content:center">こんなお悩みありませんか</p>
+<!-- ============ お悩み ============ -->
+<section class="band">
+  <div class="wrap wrap--narrow">
+    <div class="head-center">
+      <span class="eyebrow">Your Concerns</span>
       <h2>一人で抱え込む前に、まずお話だけでも。</h2>
     </div>
     <div class="pains-grid">
-      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>空き家を放置していて、固定資産税や管理の負担が続いている</div>
-      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>実家を相続したが、遠方に住んでいて手が回らない</div>
-      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>住み替えを控えていて、売却に時間をかけたくない</div>
-      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>近所に知られずに、静かに手放したい</div>
-      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>ローンが残っているが、売却できるか分からない</div>
-      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>家が傾いていたり、老朽化していて仲介では難しいと言われた</div>
+      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>空き家を放置していて、固定資産税や管理の負担が続いている</div>
+      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>実家を相続したが、遠方に住んでいて手が回らない</div>
+      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>住み替えを控えていて、売却に時間をかけたくない</div>
+      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>近所に知られずに、静かに手放したい</div>
+      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>ローンが残っているが、売却できるか分からない</div>
+      <div class="pain-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>家が傾いていたり、老朽化していて仲介では難しいと言われた</div>
     </div>
   </div>
 </section>
 
-<!-- ============ REASONS ============ -->
-<section class="section section--alt" id="reasons">
+<!-- ============ 選ばれる理由 ============ -->
+<section class="band band-alt" id="reasons">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow" style="justify-content:center">モリシタハウスが選ばれる理由</p>
-      <h2>姫路で家と向き合ってきたからできること。</h2>
+    <div class="head-row">
+      <div><span class="eyebrow">Why Morishita House</span><h2>姫路で家と向き合ってきたからできること</h2></div>
     </div>
     <div class="reasons-grid">
       <div class="reason-card">
-        <div class="reason-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9 8h4a2 2 0 010 4H9m0 0h5m-5 0v4m0-8v-2" stroke-linecap="round"/></svg></div>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M9 8h4a2 2 0 010 4H9m0 0h5m-5 0v4m0-8v-2" stroke-linecap="round"/></svg>
         <h3>仲介手数料無料</h3>
         <p>買主として直接お取引するため、仲介手数料や中間マージンが発生しません。</p>
       </div>
       <div class="reason-card">
-        <div class="reason-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11 12 4l8 7" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="11" width="12" height="9"/><path d="M14 8a3 3 0 100 6" stroke-linecap="round"/></svg></div>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 11 12 4l8 7" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="11" width="12" height="9"/><path d="M14 8a3 3 0 100 6" stroke-linecap="round"/></svg>
         <h3>自社リフォーム・再販ノウハウ</h3>
         <p>買取後の再生を自社で行うため、状態を見極めた適正な価格をご提示できます。</p>
       </div>
       <div class="reason-card">
-        <div class="reason-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="13" r="7"/><path d="M12 9v4l3 2M9 3h6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="13" r="7"/><path d="M12 9v4l3 2M9 3h6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <h3>スピード対応</h3>
         <p>最短10日〜数週間で現金化。ご事情に合わせたスケジュールにも対応します。</p>
       </div>
       <div class="reason-card">
-        <div class="reason-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-5.2-7-11a7 7 0 0114 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></div>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s-7-5.2-7-11a7 7 0 0114 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
         <h3>姫路・播磨エリア密着</h3>
         <p>地域の相場や土地柄を知る私たちだからこそ、地元価格に見合った提案ができます。</p>
       </div>
@@ -443,13 +531,13 @@
   </div>
 </section>
 
-<!-- ============ PRICE EXAMPLES (placeholder) ============ -->
-<section class="section">
+<!-- ============ 買取価格の目安（準備中） ============ -->
+<section class="band">
   <div class="wrap">
-    <div class="section-head">
-      <span class="placeholder-tag">● データ準備中</span>
+    <div class="head-center">
+      <span class="placeholder-tag">データ準備中</span>
       <h2>買取価格の目安・査定例</h2>
-      <p>物件タイプ・エリア・築年数別の目安を掲載予定です。掲載データはモリシタハウス様よりご提供いただき次第、差し替えます。</p>
+      <p>物件タイプ・エリア・築年数別の目安を掲載予定です。実データをご提供いただき次第、差し替えます。</p>
     </div>
     <div class="price-grid is-placeholder">
       <div class="price-card">
@@ -480,12 +568,12 @@
   </div>
 </section>
 
-<!-- ============ COMPARE ============ -->
-<section class="section section--alt">
+<!-- ============ 仲介と買取の違い ============ -->
+<section class="band band-alt">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow" style="justify-content:center">仲介 と 買取のちがい</p>
-      <h2>お急ぎ・確実に手放したい方には買取が向いています。</h2>
+    <div class="head-center">
+      <span class="eyebrow">Agency vs Direct Purchase</span>
+      <h2>お急ぎ・確実に手放したい方には買取が向いています</h2>
     </div>
     <div class="table-scroll">
       <table class="compare">
@@ -493,27 +581,23 @@
           <tr><th>比較項目</th><th>仲介での売却</th><th class="col-buy">モリシタハウスの買取</th></tr>
         </thead>
         <tbody>
-          <tr><td>売却までの期間</td><td class="ng">平均3〜6ヶ月</td><td class="ok">最短10日</td></tr>
-          <tr><td>仲介手数料</td><td class="ng">売却価格の3%+6万円程度</td><td class="ok">0円</td></tr>
-          <tr><td>内覧対応</td><td class="ng">複数回、都度対応が必要</td><td class="ok">最小限（調査のみ）</td></tr>
-          <tr><td>近隣に知られるリスク</td><td class="ng">広告掲載で知られやすい</td><td class="ok">非公開で進行可能</td></tr>
-          <tr><td>契約不適合責任</td><td class="ng">売主が負うケースが多い</td><td class="ok">原則免責</td></tr>
+          <tr><th>売却までの期間</th><td class="ng">平均3〜6ヶ月</td><td class="ok">最短10日</td></tr>
+          <tr><th>仲介手数料</th><td class="ng">売却価格の3%＋6万円程度</td><td class="ok">0円</td></tr>
+          <tr><th>内覧対応</th><td class="ng">複数回、都度対応が必要</td><td class="ok">最小限（調査のみ）</td></tr>
+          <tr><th>近隣に知られるリスク</th><td class="ng">広告掲載で知られやすい</td><td class="ok">非公開で進行可能</td></tr>
+          <tr><th>契約不適合責任</th><td class="ng">売主が負うケースが多い</td><td class="ok">原則免責</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 </section>
 
-<svg class="roofline" viewBox="0 0 120 20" preserveAspectRatio="none" aria-hidden="true">
-  <rect width="120" height="20" fill="url(#roofA)"/>
-</svg>
-
-<!-- ============ FLOW ============ -->
-<section class="section" id="flow">
-  <div class="wrap wrap--wide">
-    <div class="section-head">
-      <p class="eyebrow" style="justify-content:center">買取の流れ</p>
-      <h2>お問い合わせから引渡しまで、最短10日。</h2>
+<!-- ============ 買取の流れ ============ -->
+<section class="band" id="flow">
+  <div class="wrap">
+    <div class="head-center">
+      <span class="eyebrow">Flow</span>
+      <h2>お問い合わせから引渡しまで、最短10日</h2>
     </div>
     <div class="flow-list">
       <div class="flow-step"><div class="flow-num">01</div><h3>お問合せ・査定依頼</h3><p>フォームまたはお電話でご相談ください</p></div>
@@ -525,42 +609,42 @@
   </div>
 </section>
 
-<!-- ============ VOICE (placeholder) ============ -->
-<section class="section section--alt">
+<!-- ============ お客様の声（準備中） ============ -->
+<section class="band band-alt">
   <div class="wrap">
-    <div class="section-head">
-      <span class="placeholder-tag">● データ準備中</span>
+    <div class="head-center">
+      <span class="placeholder-tag">データ準備中</span>
       <h2>お客様の声</h2>
       <p>姫路・播磨エリアでご利用いただいたお客様の声を掲載予定です。</p>
     </div>
-    <div class="voice-grid is-placeholder">
-      <div class="voice-card"><div class="stars">★★★★★</div><blockquote>（お客様の声はデータ提供後に掲載します）</blockquote><cite>○○様・姫路市・戸建て</cite></div>
-      <div class="voice-card"><div class="stars">★★★★★</div><blockquote>（お客様の声はデータ提供後に掲載します）</blockquote><cite>○○様・高砂市・空き家</cite></div>
-      <div class="voice-card"><div class="stars">★★★★★</div><blockquote>（お客様の声はデータ提供後に掲載します）</blockquote><cite>○○様・加古川市・マンション</cite></div>
+    <div class="voice-grid">
+      <div class="voice-card is-placeholder"><div class="stars">★★★★★</div><blockquote>（お客様の声はデータ提供後に掲載します）</blockquote><cite>○○様・姫路市・戸建て</cite></div>
+      <div class="voice-card is-placeholder"><div class="stars">★★★★★</div><blockquote>（お客様の声はデータ提供後に掲載します）</blockquote><cite>○○様・高砂市・空き家</cite></div>
+      <div class="voice-card is-placeholder"><div class="stars">★★★★★</div><blockquote>（お客様の声はデータ提供後に掲載します）</blockquote><cite>○○様・加古川市・マンション</cite></div>
     </div>
   </div>
 </section>
 
-<!-- ============ CASES / BEFORE AFTER (placeholder) ============ -->
-<section class="section">
+<!-- ============ 買取実績（準備中） ============ -->
+<section class="band">
   <div class="wrap">
-    <div class="section-head">
-      <span class="placeholder-tag">● データ準備中</span>
+    <div class="head-center">
+      <span class="placeholder-tag">データ準備中</span>
       <h2>買取実績（Before / After）</h2>
       <p>買取後にリフォーム・再販した事例写真を掲載予定です。</p>
     </div>
-    <div class="cases-grid is-placeholder">
-      <div>
+    <div class="cases-grid">
+      <div class="case-card is-placeholder">
         <div class="case-pair">
-          <div class="case-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="13" rx="1"/><circle cx="12" cy="12.5" r="3.4"/><path d="M8 6l1.5-2h5L16 6"/></svg>Before</div>
-          <div class="case-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="13" rx="1"/><circle cx="12" cy="12.5" r="3.4"/><path d="M8 6l1.5-2h5L16 6"/></svg>After</div>
+          <div class="case-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="13" rx="1"/><circle cx="12" cy="12.5" r="3.4"/><path d="M8 6l1.5-2h5L16 6"/></svg>BEFORE</div>
+          <div class="case-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="13" rx="1"/><circle cx="12" cy="12.5" r="3.4"/><path d="M8 6l1.5-2h5L16 6"/></svg>AFTER</div>
         </div>
         <p class="case-label">姫路市 ○○町・戸建てリノベーション事例</p>
       </div>
-      <div>
+      <div class="case-card is-placeholder">
         <div class="case-pair">
-          <div class="case-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="13" rx="1"/><circle cx="12" cy="12.5" r="3.4"/><path d="M8 6l1.5-2h5L16 6"/></svg>Before</div>
-          <div class="case-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="13" rx="1"/><circle cx="12" cy="12.5" r="3.4"/><path d="M8 6l1.5-2h5L16 6"/></svg>After</div>
+          <div class="case-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="13" rx="1"/><circle cx="12" cy="12.5" r="3.4"/><path d="M8 6l1.5-2h5L16 6"/></svg>BEFORE</div>
+          <div class="case-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="13" rx="1"/><circle cx="12" cy="12.5" r="3.4"/><path d="M8 6l1.5-2h5L16 6"/></svg>AFTER</div>
         </div>
         <p class="case-label">たつの市 ○○・空き家再生事例</p>
       </div>
@@ -568,12 +652,11 @@
   </div>
 </section>
 
-<!-- ============ AREA ============ -->
-<section class="section section--alt" id="area">
+<!-- ============ 対応エリア ============ -->
+<section class="band band-alt" id="area">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow" style="justify-content:center">対応エリア</p>
-      <h2>姫路市を中心に、播磨地域全域で対応。</h2>
+    <div class="head-row">
+      <div><span class="eyebrow">Area</span><h2>姫路市を中心に、播磨地域全域で対応</h2></div>
     </div>
     <div class="area-block">
       <h3>メイン対応エリア</h3>
@@ -582,28 +665,32 @@
       </div>
       <h3>対応エリア（近隣市町）</h3>
       <div class="chip-cloud">
-        <span class="chip">高砂市</span>
+        <span class="chip">明石市</span>
         <span class="chip">加古川市</span>
+        <span class="chip">高砂市</span>
         <span class="chip">たつの市</span>
+        <span class="chip">相生市</span>
+        <span class="chip">赤穂市</span>
+        <span class="chip">加西市</span>
+        <span class="chip">小野市</span>
+        <span class="chip">三木市</span>
+        <span class="chip">宍粟市</span>
         <span class="chip">太子町</span>
         <span class="chip">福崎町</span>
-        <span class="chip">市川町</span>
-        <span class="chip">神河町</span>
-        <span class="chip">相生市</span>
       </div>
-      <p class="area-note">※対応エリアは目安です。掲載エリアの範囲は最終決定前にモリシタハウス様にご確認ください。上記以外のエリアもお気軽にご相談ください。</p>
+      <p class="area-note">※上記以外のエリアもお気軽にご相談ください。エリアによっては交通費を加算してご相談する場合があります。</p>
     </div>
   </div>
 </section>
 
 <!-- ============ FAQ ============ -->
-<section class="section" id="faq">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow" style="justify-content:center">よくある質問</p>
+<section class="band" id="faq">
+  <div class="wrap wrap--narrow">
+    <div class="head-center">
+      <span class="eyebrow">FAQ</span>
       <h2>ご相談前に気になること</h2>
     </div>
-    <div>
+    <div class="faq-list">
       <details class="faq-item" open>
         <summary>査定・相談は本当に無料ですか？</summary>
         <p>はい、査定・ご相談は無料です。お見積り後の契約義務もございません。</p>
@@ -614,7 +701,7 @@
       </details>
       <details class="faq-item">
         <summary>傾いた家や再建築不可物件でも対応できますか？</summary>
-        <p>老朽化・傾き・再建築不可・事故物件など、仲介での売却が難しい物件も買取対応が可能です。まずはご相談ください。</p>
+        <p>老朽化・傾き・再建築不可など、仲介での売却が難しい物件も買取対応が可能です。まずはご相談ください。</p>
       </details>
       <details class="faq-item">
         <summary>近所に知られずに売却できますか？</summary>
@@ -628,64 +715,88 @@
   </div>
 </section>
 
-<!-- ============ COMPANY ============ -->
-<section class="section section--alt" id="company">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow" style="justify-content:center">会社概要</p>
+<!-- ============ 会社概要 ============ -->
+<section class="band band-alt" id="company">
+  <div class="wrap wrap--narrow">
+    <div class="head-center">
+      <span class="eyebrow">Company</span>
       <h2>モリシタハウスについて</h2>
     </div>
     <table class="company-table">
-      <tr><th>会社名</th><td>株式会社モリシタハウス</td></tr>
-      <tr><th>所在地</th><td>兵庫県姫路市南町1-2-3</td></tr>
-      <tr><th>電話番号</th><td>079-284-0123</td></tr>
-      <tr><th>FAX</th><td>079-284-0124</td></tr>
-      <tr><th>宅建業許可</th><td>兵庫県知事(1)第12345号</td></tr>
-      <tr><th>代表者</th><td>代表取締役　森下 太郎</td></tr>
-      <tr><th>アクセス</th><td>JR姫路駅・山陽姫路駅より車で○分</td></tr>
+      <tr><th>社名</th><td>株式会社モリシタハウス</td></tr>
+      <tr><th>本社所在地</th><td>〒670-0085　兵庫県姫路市山吹2丁目12番30号</td></tr>
+      <tr><th>電話番号</th><td>079-260-8878（フリーダイヤル 0120-736-066）</td></tr>
+      <tr><th>受付時間</th><td>平日 9:00〜18:00（水曜定休）</td></tr>
+      <tr><th>代表取締役</th><td>森下 誉樹（一級建築士／一級建築施工管理技士／省エネ建築診断士）</td></tr>
+      <tr><th>グループ会社</th><td>株式会社モリシタ・アット・ホーム／株式会社モリシタ・アット・リフォーム</td></tr>
+      <tr><th>許可など</th><td>宅地建物取引業者免許 兵庫県知事（13）第450028号<br>建設業許可 兵庫県知事（特-2）第450225号<br>一級建築士事務所登録 第01A00961号</td></tr>
     </table>
-    <p class="company-note">※上記の電話番号・所在地・免許番号・代表者名は構成確認用の仮データです。公開前に実際の情報へ差し替えてください。</p>
+    <p class="company-note">※会社情報は m-house.co.jp の公開情報に基づいています。公開前に最新の内容をご確認ください。</p>
   </div>
 </section>
 
-<!-- ============ FINAL CTA ============ -->
+<!-- ============ 最終CTA ============ -->
 <section class="final-cta" id="form">
   <div class="wrap">
-    <p class="eyebrow" style="justify-content:center;color:#C9D0DE;">まずは無料査定・ご相談から</p>
+    <span class="eyebrow">Free Assessment</span>
     <h2>その家のこと、姫路のモリシタハウスにご相談ください。</h2>
-    <p>フォームは1分程度で送信完了。営業時間内で順次ご連絡いたします。</p>
+    <p>フォームは1分程度で送信完了。営業時間内で順次ご連絡いたします。「まだ売ると決めていない」段階のご相談も歓迎しています。</p>
     <div class="hero-cta">
-      <a href="#" class="btn btn--primary">無料査定フォームへ進む</a>
-      <a href="tel:0792840123" class="btn btn--ghost">079-284-0123（電話で相談）</a>
+      <a href="#" class="btn btn-gold btn-lg">無料査定フォームへ進む</a>
+      <a href="tel:0792608878" class="btn btn-line btn-lg">079-260-8878（電話で相談）</a>
     </div>
   </div>
 </section>
 
-<!-- ============ FOOTER ============ -->
-<footer class="site-footer">
-  <div class="wrap wrap--wide">
-    <div class="footer-top">
-      <a class="logo" href="index.html" style="text-decoration:none;">
-        <span class="ja" style="color:var(--ink)">モリシタハウス</span>
-        <span class="en">MORISHITA HOUSE</span>
-      </a>
-      <nav class="footer-nav">
-        <a href="#reasons">選ばれる理由</a>
-        <a href="#flow">買取の流れ</a>
-        <a href="#area">対応エリア</a>
-        <a href="#faq">よくある質問</a>
-        <a href="#company">会社概要</a>
-      </nav>
+<!-- ============ フッター ============ -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="foot-brand__head" href="index.html">
+          <svg class="brand-logo" viewBox="0 0 100 100" aria-hidden="true" style="width:34px;height:34px;">
+            <circle cx="50" cy="50" r="50" fill="var(--indigo)"/>
+            <circle cx="50" cy="22.5" r="6.5" fill="none" stroke="#fff" stroke-width="5"/>
+            <path d="M30,77 L30,45.5 L50,29 L70,45.5 L70,77" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="30" y1="60" x2="70" y2="60" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+          </svg>
+          <span class="mark">モリシタハウス</span>
+        </a>
+        <p>株式会社モリシタハウス<br>〒670-0085 兵庫県姫路市山吹2丁目12番30号<br>TEL 079-260-8878（フリーダイヤル 0120-736-066）<br>受付時間　平日9:00〜18:00（水曜定休）</p>
+      </div>
+      <div class="foot-col">
+        <h5>買取について</h5>
+        <ul>
+          <li><a href="#reasons">選ばれる理由</a></li>
+          <li><a href="#flow">買取の流れ</a></li>
+          <li><a href="#area">対応エリア</a></li>
+          <li><a href="#faq">よくある質問</a></li>
+          <li><a href="#form">無料査定フォーム</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>サイト内リンク</h5>
+        <ul>
+          <li><a href="index.html">中古住宅を探す（トップ）</a></li>
+          <li><a href="index.html#areamap">エリア別 物件数</a></li>
+          <li><a href="index.html#member">会員登録・ログイン</a></li>
+          <li><a href="index.html#jikka">実家・空き家の相談</a></li>
+          <li><a href="#company">会社概要</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="footer-bottom">
-      <span>兵庫県姫路市南町1-2-3　TEL 079-284-0123（仮データ）</span>
-      <span>&copy; モリシタハウス</span>
+    <div class="foot-bottom">
+      <span>© 株式会社モリシタハウス</span>
+      <span>宅地建物取引業者免許 兵庫県知事（13）第450028号</span>
     </div>
   </div>
 </footer>
 
-<!-- ============ MOBILE FIXED CTA ============ -->
+<!-- ============ モバイル固定CTA ============ -->
 <div class="mobile-cta">
-  <a href="#form" class="btn btn--primary btn--block">無料査定フォームへ</a>
-  <a href="tel:0792840123" class="btn btn--ghost btn--sm" style="flex:none;padding:14px 16px;">電話</a>
+  <a href="#form" class="btn btn-solid btn-block">無料査定フォームへ</a>
+  <a href="tel:0792608878" class="btn btn-line" style="flex:none;padding:10px 16px;">電話</a>
 </div>
+
+</body>
+</html>
