@@ -1,408 +1,644 @@
-<!-- モリシタハウス 新サイト デザイン案 -->
-<title>中古住宅専門店 姫路No.1｜株式会社モリシタハウス（サイトデザイン案）</title>
-<style>
-  :root{
-    --paper:#FFFFFF;
-    --paper-alt:#F3F7F6;
-    --paper-deep:#E7F1EE;
-    --ink:#202B33;
-    --ink-soft:#57626B;
-    --ink-faint:#8A9198;
-    --indigo:#00A98F;
-    --indigo-deep:#00775F;
-    --indigo-tint:#E1F5F0;
-    --gold:#B98A2E;
-    --gold-bright:#C99A3B;
-    --gold-tint:#F3E9D2;
-    --sage:#5F7A5C;
-    --sage-tint:#E7EEE3;
-    --line:#E3E8E7;
-    --line-strong:#CBD6D3;
-    --shadow: 0 18px 40px -22px rgba(32,43,51,0.35);
-    --radius: 3px;
-    --serif:"游明朝体","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
-    --sans:"游ゴシック体","Yu Gothic Medium","Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
-  }
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:var(--sans);
-    line-height:1.85;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  img,svg{max-width:100%;display:block;}
-  a{color:inherit;text-decoration:none;}
-  ul{margin:0;padding:0;list-style:none;}
-  button{font-family:inherit;cursor:pointer;}
-  :focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
+<!-- モリシタハウス 新サイト デザイン案 v2 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>中古住宅専門店 姫路No.1｜株式会社モリシタハウス（サイトデザイン案）</title>
+  <style>
+    :root{
+      --paper:#FFFFFF;
+      --paper-alt:#F3F7F6;
+      --paper-deep:#E7F1EE;
+      --ink:#202B33;
+      --ink-soft:#57626B;
+      --ink-faint:#8A9198;
+      --indigo:#00A98F;
+      --indigo-deep:#00775F;
+      --indigo-tint:#E1F5F0;
+      --gold:#B98A2E;
+      --gold-bright:#C99A3B;
+      --gold-tint:#F3E9D2;
+      --sage:#5F7A5C;
+      --sage-tint:#E7EEE3;
+      --line:#E3E8E7;
+      --line-strong:#CBD6D3;
+      --shadow: 0 18px 40px -22px rgba(32,43,51,0.35);
+      --radius: 3px;
+      --serif:"游明朝体","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+      --sans:"游ゴシック体","Yu Gothic Medium","Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    }
 
-  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
-  .band{padding:96px 0;}
-  .band-alt{background:var(--paper-alt);}
-  .band-tight{padding:64px 0;}
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:var(--sans);
+      line-height:1.85;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+    img,svg{max-width:100%;display:block;}
+    a{color:inherit;text-decoration:none;}
+    ul{margin:0;padding:0;list-style:none;}
+    button{font-family:inherit;cursor:pointer;}
+    :focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
 
-  .eyebrow{
-    display:inline-flex;align-items:center;gap:10px;
-    font-size:12.5px;letter-spacing:.22em;font-weight:600;
-    color:var(--indigo);text-transform:uppercase;
-    font-variant-numeric:tabular-nums;
-  }
-  .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold-bright);}
+    .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+    .band{padding:96px 0;}
+    .band-alt{background:var(--paper-alt);}
+    .band-tight{padding:64px 0;}
 
-  h1,h2,h3,h4{
-    font-family:var(--serif);
-    font-weight:700;
-    color:var(--ink);
-    text-wrap:balance;
-    margin:0;
-  }
-  .lead{max-width:60ch;color:var(--ink-soft);font-size:16px;}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:10px;
+      font-size:12.5px;letter-spacing:.22em;font-weight:600;
+      color:var(--indigo);text-transform:uppercase;
+      font-variant-numeric:tabular-nums;
+    }
+    .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold-bright);}
 
-  /* ---------- ヘッダー ---------- */
-  header.site{
-    position:sticky;top:0;z-index:60;
-    background:rgba(255,255,255,0.94);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--line);
-  }
-  .topbar{
-    display:flex;align-items:center;justify-content:space-between;
-    gap:24px;padding:14px 28px 12px;max-width:1180px;margin:0 auto;
-  }
-  .nav-row{
-    max-width:1180px;margin:0 auto;padding:0 28px 14px;
-  }
-  .brand{display:flex;align-items:center;gap:12px;}
-  .brand-logo{width:42px;height:42px;flex:none;}
-  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
-  .brand .mark{
-    font-family:var(--sans);font-size:20px;font-weight:700;letter-spacing:.03em;color:var(--ink);
-  }
-  .brand .mark-en{
-    font-size:9.5px;font-weight:700;letter-spacing:.18em;color:var(--indigo);margin-top:2px;
-  }
-  .brand .tagline{
-    font-size:11px;color:var(--ink-faint);letter-spacing:.1em;border-left:1px solid var(--line-strong);padding-left:14px;margin-left:4px;white-space:nowrap;
-  }
-  nav.primary{display:flex;gap:6px;flex-wrap:wrap;}
-  nav.primary a{
-    font-size:13.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;
-    padding:9px 14px;border:1px solid var(--line);border-radius:4px;background:#fff;
-    transition:border-color .18s ease,color .18s ease,background .18s ease;
-  }
-  nav.primary a:hover{color:var(--indigo);border-color:var(--indigo);background:var(--indigo-tint);}
-  .utility{display:flex;align-items:center;gap:10px;}
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    padding:10px 20px;font-size:13.5px;font-weight:600;border-radius:var(--radius);
-    border:1px solid transparent;white-space:nowrap;letter-spacing:.02em;
-    transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
-  }
-  .btn-ghost{border-color:var(--line-strong);color:var(--ink);}
-  .btn-ghost:hover{border-color:var(--indigo);color:var(--indigo);}
-  .btn-line{border-color:var(--indigo);color:var(--indigo);}
-  .btn-line:hover{background:var(--indigo);color:#fff;}
-  .btn-solid{background:var(--indigo);color:#fff;}
-  .btn-solid:hover{background:var(--indigo-deep);transform:translateY(-1px);}
-  .btn-gold{background:var(--gold-bright);color:#2b2108;}
-  .btn-gold:hover{background:var(--gold);transform:translateY(-1px);}
-  .btn-block{width:100%;}
-  .btn-sm{padding:8px 14px;font-size:12.5px;}
+    h1,h2,h3,h4{
+      font-family:var(--serif);
+      font-weight:700;
+      color:var(--ink);
+      text-wrap:balance;
+      margin:0;
+    }
+    .lead{max-width:60ch;color:var(--ink-soft);font-size:16px;}
+
+    /* ---------- ヘッダー ---------- */
+    header.site{
+      position:sticky;top:0;z-index:60;
+      background:rgba(255,255,255,0.94);
+      backdrop-filter:blur(6px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:24px;padding:14px 28px 12px;max-width:1180px;margin:0 auto;
+    }
+    .nav-row{
+      max-width:1180px;margin:0 auto;padding:0 28px 14px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;}
+    .brand-logo{width:42px;height:42px;flex:none;}
+    .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+    .brand .mark{
+      font-family:var(--sans);font-size:20px;font-weight:700;letter-spacing:.03em;color:var(--ink);
+    }
+    .brand .mark-en{
+      font-size:9.5px;font-weight:700;letter-spacing:.18em;color:var(--indigo);margin-top:2px;
+    }
+    .brand .tagline{
+      font-size:11px;color:var(--ink-faint);letter-spacing:.1em;border-left:1px solid var(--line-strong);padding-left:14px;margin-left:4px;white-space:nowrap;
+    }
+    nav.primary{display:flex;gap:6px;flex-wrap:wrap;}
+    nav.primary a{
+      font-size:13.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;
+      padding:9px 14px;border:1px solid var(--line);border-radius:4px;background:#fff;
+      transition:border-color .18s ease,color .18s ease,background .18s ease;
+    }
+    nav.primary a:hover{color:var(--indigo);border-color:var(--indigo);background:var(--indigo-tint);}
+    .utility{display:flex;align-items:center;gap:10px;}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:10px 20px;font-size:13.5px;font-weight:600;border-radius:var(--radius);
+      border:1px solid transparent;white-space:nowrap;letter-spacing:.02em;
+      transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+    }
+    .btn-ghost{border-color:var(--line-strong);color:var(--ink);}
+    .btn-ghost:hover{border-color:var(--indigo);color:var(--indigo);}
+    .btn-line{border-color:var(--indigo);color:var(--indigo);}
+    .btn-line:hover{background:var(--indigo);color:#fff;}
+    .btn-solid{background:var(--indigo);color:#fff;}
+    .btn-solid:hover{background:var(--indigo-deep);transform:translateY(-1px);}
+    .btn-gold{background:var(--gold-bright);color:#2b2108;}
+    .btn-gold:hover{background:var(--gold);transform:translateY(-1px);}
+    .btn-block{width:100%;}
+    .btn-sm{padding:8px 14px;font-size:12.5px;}
 
 
-  /* ---------- ヒーロー ---------- */
-  .hero{
-    position:relative;
-    background:
-      repeating-linear-gradient(0deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
-      repeating-linear-gradient(90deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
-      linear-gradient(180deg, var(--indigo-tint) 0%, var(--paper) 62%);
-    color:var(--ink);
-    padding:64px 0 116px;
-  }
-  .hero-inner{max-width:1180px;margin:0 auto;padding:0 28px;position:relative;}
-  .hero-kicker{
-    display:inline-flex;align-items:center;gap:10px;
-    font-size:12.5px;letter-spacing:.24em;color:var(--indigo-deep);
-    text-transform:uppercase;margin-bottom:22px;font-weight:700;
-  }
-  .hero-kicker::before{content:"";width:26px;height:1px;background:var(--indigo);}
-  .hero h1{
-    color:var(--ink);font-size:clamp(32px,4.6vw,54px);line-height:1.38;letter-spacing:.02em;
-  }
-  .hero h1 em{
-    font-style:normal;color:var(--ink);
-    border-bottom:4px solid var(--gold-bright);padding-bottom:2px;
-  }
-  .hero .sub{
-    margin-top:22px;max-width:52ch;color:var(--ink-soft);font-size:15.5px;
-  }
-  .hero-actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+    /* ---------- ヒーロー ---------- */
+    .hero{
+      position:relative;
+      background:
+        repeating-linear-gradient(0deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+        repeating-linear-gradient(90deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+        linear-gradient(180deg, var(--indigo-tint) 0%, var(--paper) 62%);
+      color:var(--ink);
+      padding:64px 0 116px;
+    }
+    .hero-inner{max-width:1180px;margin:0 auto;padding:0 28px;position:relative;}
+    .hero-kicker{
+      display:inline-flex;align-items:center;gap:10px;
+      font-size:12.5px;letter-spacing:.24em;color:var(--indigo-deep);
+      text-transform:uppercase;margin-bottom:22px;font-weight:700;
+    }
+    .hero-kicker::before{content:"";width:26px;height:1px;background:var(--indigo);}
+    .hero h1{
+      color:var(--ink);font-size:clamp(32px,4.6vw,54px);line-height:1.38;letter-spacing:.02em;
+    }
+    .hero h1 em{
+      font-style:normal;color:var(--ink);
+      border-bottom:4px solid var(--gold-bright);padding-bottom:2px;
+    }
+    .hero .sub{
+      margin-top:22px;max-width:52ch;color:var(--ink-soft);font-size:15.5px;
+    }
+    .hero-actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
 
-  /* クイック検索カード（ヒーローに重ねる） */
-  .quicksearch{
-    position:relative;
-    margin:56px auto 0;
-    max-width:1000px;
-    background:#fff;color:var(--ink);
-    border-radius:6px;
-    box-shadow:var(--shadow);
-    padding:26px 30px 28px;
-  }
-  .qs-tabs{display:flex;gap:4px;margin-bottom:18px;flex-wrap:wrap;}
-  .qs-tab{
-    padding:9px 18px;font-size:13.5px;font-weight:600;color:var(--ink-soft);
-    background:var(--paper-alt);border-radius:4px 4px 0 0;border:1px solid var(--line);border-bottom:none;
-  }
-  .qs-tab[aria-selected="true"]{background:var(--indigo);color:#fff;border-color:var(--indigo);}
-  .qs-grid{
-    display:grid;grid-template-columns:repeat(3,1fr) auto;gap:14px;align-items:end;
-  }
-  .field label{display:block;font-size:11.5px;letter-spacing:.08em;color:var(--ink-faint);margin-bottom:6px;text-transform:uppercase;}
-  .field select{
-    width:100%;padding:11px 12px;border:1px solid var(--line-strong);border-radius:4px;
-    background:var(--paper) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0l5 6 5-6z" fill="%2357626B"/></svg>') no-repeat right 12px center;
-    appearance:none;font-size:14px;color:var(--ink);
-  }
-  .qs-grid .btn{height:44px;padding:0 26px;}
+    /* クイック検索カード（ヒーローに重ねる） */
+    .quicksearch{
+      position:relative;
+      margin:56px auto 0;
+      max-width:1000px;
+      background:#fff;color:var(--ink);
+      border-radius:6px;
+      box-shadow:var(--shadow);
+      padding:26px 30px 28px;
+    }
+    .qs-tabs{display:flex;gap:4px;margin-bottom:18px;flex-wrap:wrap;}
+    .qs-tab{
+      padding:9px 18px;font-size:13.5px;font-weight:600;color:var(--ink-soft);
+      background:var(--paper-alt);border-radius:4px 4px 0 0;border:1px solid var(--line);border-bottom:none;
+    }
+    .qs-tab[aria-selected="true"]{background:var(--indigo);color:#fff;border-color:var(--indigo);}
+    .qs-grid{
+      display:grid;grid-template-columns:repeat(3,1fr) auto;gap:14px;align-items:end;
+    }
+    .field label{display:block;font-size:11.5px;letter-spacing:.08em;color:var(--ink-faint);margin-bottom:6px;text-transform:uppercase;}
+    .field select{
+      width:100%;padding:11px 12px;border:1px solid var(--line-strong);border-radius:4px;
+      background:var(--paper) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0l5 6 5-6z" fill="%2357626B"/></svg>') no-repeat right 12px center;
+      appearance:none;font-size:14px;color:var(--ink);
+    }
+    .qs-grid .btn{height:44px;padding:0 26px;}
 
-  .hero-stats{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    max-width:1000px;margin:36px auto 0;
-    background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;
-  }
-  .hero-stats li{padding:22px 10px;text-align:center;color:var(--ink);border-left:1px solid var(--line);}
-  .hero-stats li:first-child{border-left:none;}
-  .hero-stats .num{
-    font-family:var(--serif);font-size:28px;color:var(--indigo-deep);font-variant-numeric:tabular-nums;
-  }
-  .hero-stats .cap{display:block;font-size:12px;color:var(--ink-faint);margin-top:4px;letter-spacing:.04em;}
+    .hero-stats{
+      display:grid;grid-template-columns:repeat(4,1fr);
+      max-width:1000px;margin:36px auto 0;
+      background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+    }
+    .hero-stats li{padding:22px 10px;text-align:center;color:var(--ink);border-left:1px solid var(--line);}
+    .hero-stats li:first-child{border-left:none;}
+    .hero-stats .num{
+      font-family:var(--serif);font-size:28px;color:var(--indigo-deep);font-variant-numeric:tabular-nums;
+    }
+    .hero-stats .cap{display:block;font-size:12px;color:var(--ink-faint);margin-top:4px;letter-spacing:.04em;}
 
-  /* ---------- 種別タイル ---------- */
-  .type-tiles{
-    display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
-    background:var(--line);border:1px solid var(--line);
-    margin-top:-60px;position:relative;z-index:2;border-radius:6px;overflow:hidden;
-    box-shadow:var(--shadow);
-  }
-  .type-tile{
-    background:#fff;padding:26px 10px;text-align:center;font-size:13.5px;font-weight:600;color:var(--ink);
-    display:flex;flex-direction:column;align-items:center;gap:10px;
-  }
-  .type-tile:hover{background:var(--indigo-tint);color:var(--indigo);}
-  .type-tile .ico{width:30px;height:30px;color:var(--indigo);}
-  .type-tile:hover .ico{color:var(--indigo-deep);}
+    /* ---------- 種別タイル ---------- */
+    .type-tiles{
+      display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+      background:var(--line);border:1px solid var(--line);
+      margin-top:-60px;position:relative;z-index:2;border-radius:6px;overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+    .type-tile{
+      background:#fff;padding:26px 10px;text-align:center;font-size:13.5px;font-weight:600;color:var(--ink);
+      display:flex;flex-direction:column;align-items:center;gap:10px;
+    }
+    .type-tile:hover{background:var(--indigo-tint);color:var(--indigo);}
+    .type-tile .ico{width:30px;height:30px;color:var(--indigo);}
+    .type-tile:hover .ico{color:var(--indigo-deep);}
 
-  /* ---------- エリア別物件数マップ ---------- */
-  .areamap-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:start;}
-  .areamap-visual{background:#fff;border:1px solid var(--line);border-radius:6px;padding:20px;}
-  .areamap-region{fill:var(--paper-alt);stroke:#fff;stroke-width:3;cursor:pointer;transition:fill .15s ease;}
-  .areamap-region:hover,.areamap-region.is-active{fill:var(--indigo-tint);}
-  .areamap-label{font-size:15px;fill:var(--ink);font-weight:700;pointer-events:none;font-family:var(--sans);}
-  .areamap-sub{font-size:11px;fill:var(--ink-faint);pointer-events:none;font-family:var(--sans);}
-  .areamap-count{font-size:12px;fill:var(--indigo-deep);font-weight:700;pointer-events:none;font-family:var(--sans);font-variant-numeric:tabular-nums;}
-  .areamap-river{fill:none;stroke:#AFCBD6;stroke-width:3;opacity:.8;}
-  .areamap-caption{font-size:11.5px;color:var(--ink-faint);margin-top:12px;text-align:center;}
-  .areamap-legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px;font-size:12.5px;color:var(--ink-soft);}
-  .areamap-legend span{display:inline-flex;align-items:center;gap:7px;}
-  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
-  .dot-public{background:var(--indigo);}
-  .dot-member{background:var(--gold-bright);}
-  .dot-shop{background:var(--ink);}
-  table.areamap-table{width:100%;border-collapse:collapse;font-size:13.5px;}
-  table.areamap-table th{
-    text-align:right;font-weight:600;color:var(--ink-faint);font-size:11.5px;letter-spacing:.03em;
-    padding:0 0 10px;border-bottom:1px solid var(--line-strong);
-  }
-  table.areamap-table th:first-child{text-align:left;}
-  table.areamap-table td{padding:12px 0;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-soft);cursor:pointer;transition:background .15s ease;}
-  table.areamap-table td:first-child{text-align:left;color:var(--ink);font-weight:600;}
-  table.areamap-table tr:hover td,table.areamap-table tr.is-active td{background:var(--indigo-tint);}
-  table.areamap-table tfoot td{border-bottom:none;border-top:2px solid var(--ink);font-weight:700;color:var(--ink);padding-top:14px;cursor:default;}
-  table.areamap-table tfoot tr:hover td{background:transparent;}
-  .areamap-note{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink-soft);}
-  .areamap-note b{color:var(--indigo-deep);}
+    /* ---------- エリア別物件数マップ ---------- */
+    .areamap-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:start;}
+    .areamap-visual{background:#fff;border:1px solid var(--line);border-radius:6px;padding:20px;}
+    .areamap-region{fill:var(--paper-alt);stroke:#fff;stroke-width:3;cursor:pointer;transition:fill .15s ease;}
+    .areamap-region:hover,.areamap-region.is-active{fill:var(--indigo-tint);}
+    .areamap-label{font-size:15px;fill:var(--ink);font-weight:700;pointer-events:none;font-family:var(--sans);}
+    .areamap-sub{font-size:11px;fill:var(--ink-faint);pointer-events:none;font-family:var(--sans);}
+    .areamap-count{font-size:12px;fill:var(--indigo-deep);font-weight:700;pointer-events:none;font-family:var(--sans);font-variant-numeric:tabular-nums;}
+    .areamap-river{fill:none;stroke:#AFCBD6;stroke-width:3;opacity:.8;}
+    .areamap-caption{font-size:11.5px;color:var(--ink-faint);margin-top:12px;text-align:center;}
+    .areamap-legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px;font-size:12.5px;color:var(--ink-soft);}
+    .areamap-legend span{display:inline-flex;align-items:center;gap:7px;}
+    .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+    .dot-public{background:var(--indigo);}
+    .dot-member{background:var(--gold-bright);}
+    .dot-shop{background:var(--ink);}
+    table.areamap-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+    table.areamap-table th{
+      text-align:right;font-weight:600;color:var(--ink-faint);font-size:11.5px;letter-spacing:.03em;
+      padding:0 0 10px;border-bottom:1px solid var(--line-strong);
+    }
+    table.areamap-table th:first-child{text-align:left;}
+    table.areamap-table td{padding:12px 0;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-soft);cursor:pointer;transition:background .15s ease;}
+    table.areamap-table td:first-child{text-align:left;color:var(--ink);font-weight:600;}
+    table.areamap-table tr:hover td,table.areamap-table tr.is-active td{background:var(--indigo-tint);}
+    table.areamap-table tfoot td{border-bottom:none;border-top:2px solid var(--ink);font-weight:700;color:var(--ink);padding-top:14px;cursor:default;}
+    table.areamap-table tfoot tr:hover td{background:transparent;}
+    .areamap-note{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink-soft);}
+    .areamap-note b{color:var(--indigo-deep);}
 
-  /* ---------- セクション見出し ---------- */
-  .head-row{
-    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:40px;flex-wrap:wrap;
-  }
-  .head-row h2{font-size:clamp(24px,3vw,32px);margin-top:10px;}
-  .head-row .more{font-size:13.5px;color:var(--indigo);border-bottom:1px solid var(--indigo);padding-bottom:2px;white-space:nowrap;}
+    /* ---------- セクション見出し ---------- */
+    .head-row{
+      display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:40px;flex-wrap:wrap;
+    }
+    .head-row h2{font-size:clamp(24px,3vw,32px);margin-top:10px;}
+    .head-row .more{font-size:13.5px;color:var(--indigo);border-bottom:1px solid var(--indigo);padding-bottom:2px;white-space:nowrap;}
 
-  /* ---------- 物件カード ---------- */
-  .prop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
-  .prop-card{background:#fff;border:1px solid var(--line);transition:box-shadow .2s ease, transform .2s ease;}
-  .prop-card:hover{box-shadow:var(--shadow);transform:translateY(-3px);}
-  .prop-photo{
-    position:relative;aspect-ratio:4/3;
-    background:linear-gradient(135deg,var(--indigo-tint),var(--paper-deep));
-    display:flex;align-items:center;justify-content:center;
-  }
-  .prop-photo svg{width:42px;height:42px;color:var(--indigo);opacity:.45;}
-  .badge-row{position:absolute;top:8px;left:8px;display:flex;gap:5px;flex-wrap:wrap;}
-  .badge{
-    font-size:10px;font-weight:700;padding:3px 7px;border-radius:2px;letter-spacing:.03em;
-  }
-  .badge-new{background:var(--indigo);color:#fff;}
-  .badge-member{background:var(--gold-bright);color:#2b2108;}
-  .badge-private{background:var(--ink);color:#fff;}
-  .badge-down{background:var(--sage);color:#fff;}
-  .prop-body{padding:13px 14px 15px;}
-  .prop-price{font-family:var(--serif);font-size:19px;color:var(--gold);font-variant-numeric:tabular-nums;}
-  .prop-price span{font-size:11.5px;color:var(--ink-soft);font-family:var(--sans);margin-left:3px;}
-  .prop-spec{margin-top:6px;font-size:11.5px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:4px 8px;line-height:1.5;}
-  .prop-spec b{color:var(--ink);font-weight:600;}
-  .prop-loc{margin-top:8px;font-size:11px;color:var(--ink-faint);border-top:1px dashed var(--line);padding-top:8px;}
+    /* ---------- 物件カード ---------- */
+    .prop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+    .prop-card{background:#fff;border:1px solid var(--line);transition:box-shadow .2s ease, transform .2s ease;}
+    .prop-card:hover{box-shadow:var(--shadow);transform:translateY(-3px);}
+    .prop-photo{
+      position:relative;aspect-ratio:4/3;
+      background:linear-gradient(135deg,var(--indigo-tint),var(--paper-deep));
+      display:flex;align-items:center;justify-content:center;
+    }
+    .prop-photo svg{width:42px;height:42px;color:var(--indigo);opacity:.45;}
+    .badge-row{position:absolute;top:8px;left:8px;display:flex;gap:5px;flex-wrap:wrap;}
+    .badge{
+      font-size:10px;font-weight:700;padding:3px 7px;border-radius:2px;letter-spacing:.03em;
+    }
+    .badge-new{background:var(--indigo);color:#fff;}
+    .badge-member{background:var(--gold-bright);color:#2b2108;}
+    .badge-private{background:var(--ink);color:#fff;}
+    .badge-down{background:var(--sage);color:#fff;}
+    .prop-body{padding:13px 14px 15px;}
+    .prop-price{font-family:var(--serif);font-size:19px;color:var(--gold);font-variant-numeric:tabular-nums;}
+    .prop-price span{font-size:11.5px;color:var(--ink-soft);font-family:var(--sans);margin-left:3px;}
+    .prop-spec{margin-top:6px;font-size:11.5px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:4px 8px;line-height:1.5;}
+    .prop-spec b{color:var(--ink);font-weight:600;}
+    .prop-loc{margin-top:8px;font-size:11px;color:var(--ink-faint);border-top:1px dashed var(--line);padding-top:8px;}
 
-  /* おすすめ（コンパクト） */
-  .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-  .feature-card{background:#fff;border:1px solid var(--line);}
-  .feature-photo{aspect-ratio:16/9;background:linear-gradient(135deg,var(--paper-deep),var(--indigo-tint));position:relative;display:flex;align-items:flex-end;padding:10px;}
-  .feature-photo svg{position:absolute;inset:0;margin:auto;width:38px;height:38px;color:var(--indigo);opacity:.4;}
-  .feature-tag{position:relative;z-index:1;background:var(--gold-bright);color:#2b2108;font-size:10.5px;font-weight:700;padding:3px 9px;}
-  .feature-body{padding:14px 16px 16px;}
-  .feature-comment{font-size:12px;color:var(--ink-soft);border-left:2px solid var(--gold-bright);padding-left:10px;margin-top:10px;line-height:1.6;}
+    /* おすすめ（コンパクト） */
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+    .feature-card{background:#fff;border:1px solid var(--line);}
+    .feature-photo{aspect-ratio:16/9;background:linear-gradient(135deg,var(--paper-deep),var(--indigo-tint));position:relative;display:flex;align-items:flex-end;padding:10px;}
+    .feature-photo svg{position:absolute;inset:0;margin:auto;width:38px;height:38px;color:var(--indigo);opacity:.4;}
+    .feature-tag{position:relative;z-index:1;background:var(--gold-bright);color:#2b2108;font-size:10.5px;font-weight:700;padding:3px 9px;}
+    .feature-body{padding:14px 16px 16px;}
+    .feature-comment{font-size:12px;color:var(--ink-soft);border-left:2px solid var(--gold-bright);padding-left:10px;margin-top:10px;line-height:1.6;}
 
-  /* ---------- 詳細検索 ---------- */
-  .search-panel{background:#fff;border:1px solid var(--line);padding:38px;}
-  .sp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:34px 40px;}
-  .sp-field{border-bottom:1px solid var(--line);padding-bottom:22px;}
-  .sp-field h4{font-size:14.5px;display:flex;align-items:center;gap:8px;margin-bottom:14px;}
-  .sp-field h4 .idx{
-    width:22px;height:22px;border-radius:50%;background:var(--indigo);color:#fff;font-size:11px;
-    display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:700;
-  }
-  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
-  .chip{
-    font-size:13px;padding:8px 14px;border:1px solid var(--line-strong);border-radius:16px;color:var(--ink-soft);
-  }
-  .chip.is-on{background:var(--indigo);border-color:var(--indigo);color:#fff;}
-  .range-row{display:flex;align-items:center;gap:10px;}
-  .range-row select{flex:1;padding:9px 10px;border:1px solid var(--line-strong);border-radius:4px;background:var(--paper);font-size:13.5px;}
-  .range-row .to{color:var(--ink-faint);font-size:13px;}
-  .check-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 16px;}
-  .check-item{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-soft);}
-  .check-item input{width:16px;height:16px;accent-color:var(--indigo);}
-  .note-line{font-size:12px;color:var(--ink-faint);margin-top:10px;}
-  .search-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:34px;padding-top:26px;border-top:1px solid var(--line);flex-wrap:wrap;}
-  .search-cta .btn{padding:15px 46px;font-size:15px;}
+    /* ---------- 詳細検索 ---------- */
+    .search-panel{background:#fff;border:1px solid var(--line);padding:38px;}
+    .sp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:34px 40px;}
+    .sp-field{border-bottom:1px solid var(--line);padding-bottom:22px;}
+    .sp-field h4{font-size:14.5px;display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+    .sp-field h4 .idx{
+      width:22px;height:22px;border-radius:50%;background:var(--indigo);color:#fff;font-size:11px;
+      display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:700;
+    }
+    .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+    .chip{
+      font-size:13px;padding:8px 14px;border:1px solid var(--line-strong);border-radius:16px;color:var(--ink-soft);
+    }
+    .chip.is-on{background:var(--indigo);border-color:var(--indigo);color:#fff;}
+    .range-row{display:flex;align-items:center;gap:10px;}
+    .range-row select{flex:1;padding:9px 10px;border:1px solid var(--line-strong);border-radius:4px;background:var(--paper);font-size:13.5px;}
+    .range-row .to{color:var(--ink-faint);font-size:13px;}
+    .check-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 16px;}
+    .check-item{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-soft);}
+    .check-item input{width:16px;height:16px;accent-color:var(--indigo);}
+    .note-line{font-size:12px;color:var(--ink-faint);margin-top:10px;}
+    .search-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:34px;padding-top:26px;border-top:1px solid var(--line);flex-wrap:wrap;}
+    .search-cta .btn{padding:15px 46px;font-size:15px;}
 
-  /* ---------- 会員メリット / 選ばれる理由 ---------- */
-  .merit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
-  .merit-card{background:#fff;padding:34px 28px;}
-  .merit-card .kicker{font-family:var(--serif);font-size:34px;color:var(--gold-bright);line-height:1;}
-  .merit-card h3{font-size:17px;margin-top:14px;}
-  .merit-card p{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+    /* ---------- 会員メリット / 選ばれる理由 ---------- */
+    .merit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+    .merit-card{background:#fff;padding:34px 28px;}
+    .merit-card .kicker{font-family:var(--serif);font-size:34px;color:var(--gold-bright);line-height:1;}
+    .merit-card h3{font-size:17px;margin-top:14px;}
+    .merit-card p{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
 
-  .reason-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;}
-  .reason-card{text-align:left;}
-  .reason-card .ico{width:40px;height:40px;color:var(--indigo);margin-bottom:16px;}
-  .reason-card h3{font-size:15.5px;}
-  .reason-card p{font-size:13px;color:var(--ink-soft);margin-top:8px;}
+    .reason-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;}
+    .reason-card{text-align:left;}
+    .reason-card .ico{width:40px;height:40px;color:var(--indigo);margin-bottom:16px;}
+    .reason-card h3{font-size:15.5px;}
+    .reason-card p{font-size:13px;color:var(--ink-soft);margin-top:8px;}
 
-  /* ---------- 実家・空き家クロスリンク ---------- */
-  .cross-section{
-    background:linear-gradient(180deg,#20282C,#38312A 60%);
-    color:#fff;padding:96px 0;
-  }
-  .cross-head{max-width:640px;}
-  .cross-head .eyebrow{color:var(--gold-bright);}
-  .cross-head .eyebrow::before{background:#fff;}
-  .cross-head h2{color:#fff;font-size:clamp(24px,3vw,32px);margin-top:10px;}
-  .cross-head p{color:rgba(255,255,255,0.78);margin-top:14px;font-size:14.5px;max-width:56ch;}
-  .cross-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:40px;}
-  .cross-card{
-    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);
-    padding:22px 16px;text-align:center;
-  }
-  .cross-card .ico{width:30px;height:30px;color:var(--gold-bright);margin:0 auto 12px;}
-  .cross-card h4{color:#fff;font-size:13.5px;font-family:var(--sans);font-weight:700;}
-  .cross-card p{color:rgba(255,255,255,0.62);font-size:11.5px;margin-top:6px;}
-  .cross-cta{margin-top:38px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
-  .cross-cta .note{font-size:12.5px;color:rgba(255,255,255,0.6);}
+    /* ---------- 実家・空き家クロスリンク ---------- */
+    .cross-section{
+      background:linear-gradient(180deg,#20282C,#38312A 60%);
+      color:#fff;padding:96px 0;
+    }
+    .cross-head{max-width:640px;}
+    .cross-head .eyebrow{color:var(--gold-bright);}
+    .cross-head .eyebrow::before{background:#fff;}
+    .cross-head h2{color:#fff;font-size:clamp(24px,3vw,32px);margin-top:10px;}
+    .cross-head p{color:rgba(255,255,255,0.78);margin-top:14px;font-size:14.5px;max-width:56ch;}
+    .cross-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:40px;}
+    .cross-card{
+      background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);
+      padding:22px 16px;text-align:center;
+    }
+    .cross-card .ico{width:30px;height:30px;color:var(--gold-bright);margin:0 auto 12px;}
+    .cross-card h4{color:#fff;font-size:13.5px;font-family:var(--sans);font-weight:700;}
+    .cross-card p{color:rgba(255,255,255,0.62);font-size:11.5px;margin-top:6px;}
+    .cross-cta{margin-top:38px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+    .cross-cta .note{font-size:12.5px;color:rgba(255,255,255,0.6);}
 
-  /* ---------- 来店予約 / Web相談 / 資料請求 ---------- */
-  .action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
-  .action-card{background:#fff;padding:38px 30px;text-align:center;}
-  .action-card .ico{width:38px;height:38px;color:var(--indigo);margin:0 auto 16px;}
-  .action-card h3{font-size:17px;}
-  .action-card p{font-size:13px;color:var(--ink-soft);margin-top:8px;min-height:40px;}
-  .action-card .btn{margin-top:18px;}
+    /* ---------- 来店予約 / Web相談 / 資料請求 ---------- */
+    .action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+    .action-card{background:#fff;padding:38px 30px;text-align:center;}
+    .action-card .ico{width:38px;height:38px;color:var(--indigo);margin:0 auto 16px;}
+    .action-card h3{font-size:17px;}
+    .action-card p{font-size:13px;color:var(--ink-soft);margin-top:8px;min-height:40px;}
+    .action-card .btn{margin-top:18px;}
 
-  /* ---------- 声・スタッフ ---------- */
-  .voice-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
-  .voice-card{background:var(--paper-alt);padding:24px 22px;border-top:3px solid var(--gold-bright);}
-  .voice-card .who{font-size:12.5px;color:var(--ink-faint);letter-spacing:.04em;margin-bottom:10px;}
-  .voice-card p{font-size:13.5px;color:var(--ink-soft);}
+    /* ---------- 声・スタッフ ---------- */
+    .voice-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+    .voice-card{background:var(--paper-alt);padding:24px 22px;border-top:3px solid var(--gold-bright);}
+    .voice-card .who{font-size:12.5px;color:var(--ink-faint);letter-spacing:.04em;margin-bottom:10px;}
+    .voice-card p{font-size:13.5px;color:var(--ink-soft);}
 
-  .staff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
-  .staff-card{text-align:center;}
-  .staff-photo{
-    width:120px;height:120px;border-radius:50%;margin:0 auto 18px;
-    background:linear-gradient(135deg,var(--indigo-tint),var(--gold-tint));
-    display:flex;align-items:center;justify-content:center;
-  }
-  .staff-photo svg{width:44px;height:44px;color:var(--indigo);}
-  .staff-role{font-size:12px;color:var(--gold);letter-spacing:.08em;}
-  .staff-name{font-family:var(--serif);font-size:19px;margin-top:6px;}
-  .staff-cert{font-size:12px;color:var(--ink-faint);margin-top:6px;}
-  .staff-msg{font-size:13px;color:var(--ink-soft);margin-top:12px;}
+    .staff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+    .staff-card{text-align:center;}
+    .staff-photo{
+      width:120px;height:120px;border-radius:50%;margin:0 auto 18px;
+      background:linear-gradient(135deg,var(--indigo-tint),var(--gold-tint));
+      display:flex;align-items:center;justify-content:center;
+    }
+    .staff-photo svg{width:44px;height:44px;color:var(--indigo);}
+    .staff-role{font-size:12px;color:var(--gold);letter-spacing:.08em;}
+    .staff-name{font-family:var(--serif);font-size:19px;margin-top:6px;}
+    .staff-cert{font-size:12px;color:var(--ink-faint);margin-top:6px;}
+    .staff-msg{font-size:13px;color:var(--ink-soft);margin-top:12px;}
 
-  /* ---------- フッター ---------- */
-  footer.site{background:var(--ink);color:rgba(255,255,255,0.78);padding:64px 0 26px;}
-  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;}
-  .foot-brand__head{display:flex;align-items:center;gap:10px;}
-  .foot-brand .mark{font-family:var(--sans);color:#fff;font-size:19px;font-weight:700;}
-  .foot-brand p{font-size:12.5px;margin-top:14px;color:rgba(255,255,255,0.55);}
-  .foot-col h5{font-size:12.5px;color:#fff;letter-spacing:.1em;margin-bottom:16px;}
-  .foot-col li{margin-bottom:10px;}
-  .foot-col a{font-size:13px;color:rgba(255,255,255,0.65);}
-  .foot-col a:hover{color:var(--gold-bright);}
-  .foot-bottom{
-    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
-    margin-top:50px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.12);
-    font-size:11.5px;color:rgba(255,255,255,0.45);
-  }
+    /* ---------- フッター ---------- */
+    footer.site{background:var(--ink);color:rgba(255,255,255,0.78);padding:64px 0 26px;}
+    .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;}
+    .foot-brand__head{display:flex;align-items:center;gap:10px;}
+    .foot-brand .mark{font-family:var(--sans);color:#fff;font-size:19px;font-weight:700;}
+    .foot-brand p{font-size:12.5px;margin-top:14px;color:rgba(255,255,255,0.55);}
+    .foot-col h5{font-size:12.5px;color:#fff;letter-spacing:.1em;margin-bottom:16px;}
+    .foot-col li{margin-bottom:10px;}
+    .foot-col a{font-size:13px;color:rgba(255,255,255,0.65);}
+    .foot-col a:hover{color:var(--gold-bright);}
+    .foot-bottom{
+      display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+      margin-top:50px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.12);
+      font-size:11.5px;color:rgba(255,255,255,0.45);
+    }
 
-  /* ---------- 注記バナー ---------- */
-  .draft-banner{
-    background:var(--gold-tint);border-bottom:1px solid var(--line-strong);
-    font-size:12.5px;color:#5a4419;text-align:center;padding:9px 12px;
-  }
+    /* ---------- 注記バナー ---------- */
+    .draft-banner{
+      background:var(--gold-tint);border-bottom:1px solid var(--line-strong);
+      font-size:12.5px;color:#5a4419;text-align:center;padding:9px 12px;
+    }
 
-  @media (max-width:960px){
-    .topbar{flex-wrap:wrap;}
-    .tagline{display:none;}
-    .utility .btn-ghost{display:none;}
-    nav.primary a{padding:8px 12px;font-size:13px;}
-    .qs-grid{grid-template-columns:1fr 1fr;}
-    .qs-grid .btn{grid-column:1/-1;}
-    .type-tiles{grid-template-columns:repeat(3,1fr);}
-    .prop-grid{grid-template-columns:repeat(3,1fr);}
-    .feature-grid{grid-template-columns:repeat(2,1fr);}
-    .sp-grid{grid-template-columns:1fr;}
-    .check-grid{grid-template-columns:1fr;}
-    .areamap-layout{grid-template-columns:1fr;}
-    .merit-grid,.reason-grid,.action-grid,.voice-grid,.staff-grid{grid-template-columns:repeat(2,1fr);}
-    .cross-grid{grid-template-columns:repeat(2,1fr);}
-    .foot-grid{grid-template-columns:1fr 1fr;}
-    .hero-stats{grid-template-columns:repeat(2,1fr);row-gap:18px;}
-  }
-  @media (max-width:600px){
-    .prop-grid{grid-template-columns:repeat(2,1fr);}
-    .feature-grid,.merit-grid,.reason-grid,.action-grid,.voice-grid,.staff-grid,.cross-grid,.foot-grid{grid-template-columns:1fr;}
-    .type-tiles{grid-template-columns:repeat(2,1fr);}
-    .qs-grid{grid-template-columns:1fr;}
-    .search-cta{flex-direction:column;align-items:stretch;}
-    .search-cta .btn{width:100%;}
-  }
-</style>
+    /* ---------- 追加CSS ---------- */
+    .brand-badge {
+      background: var(--indigo);
+      color: #fff;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      padding: 2px 8px;
+      border-radius: 2px;
+      display: inline-block;
+      align-self: flex-start;
+      margin-bottom: 2px;
+    }
+    .dummy-note {
+      font-size: 12px;
+      color: var(--ink-faint);
+      display: block;
+      margin-top: 8px;
+    }
+    .count-bar {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 22px 26px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .count-bar strong {
+      font-family: var(--serif);
+      font-size: 38px;
+      color: var(--indigo-deep);
+      font-variant-numeric: tabular-nums;
+    }
+    .school-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .school-block {
+      background: #fff;
+      padding: 22px 20px;
+    }
+    .school-block h4 {
+      font-size: 15px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .school-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .school-list .chip b {
+      font-size: 11px;
+      color: var(--indigo-deep);
+      margin-left: 4px;
+      font-weight: 700;
+    }
+    .madori-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .madori-tile {
+      background: #fff;
+      padding: 30px 12px;
+      text-align: center;
+      transition: background .18s ease;
+      display: block;
+    }
+    .madori-tile:hover {
+      background: var(--indigo-tint);
+    }
+    .madori-name {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .madori-num {
+      font-family: var(--serif);
+      font-size: 26px;
+      color: var(--indigo-deep);
+      font-variant-numeric: tabular-nums;
+    }
+    .member-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      margin-top: 34px;
+    }
+    .member-login {
+      background: #fff;
+      padding: 34px 32px;
+    }
+    .member-register {
+      background: var(--paper-alt);
+      padding: 34px 32px;
+    }
+    .field input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      background: var(--paper);
+      appearance: none;
+      font-size: 14px;
+      color: var(--ink);
+    }
+    .pro-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .pro-photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, var(--indigo-tint), var(--gold-tint));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+    }
+    .yt-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--gold-bright);
+      padding: 24px 26px;
+      margin-top: 24px;
+    }
+    .yt-card h4 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .yt-num {
+      font-family: var(--serif);
+      font-size: 34px;
+      color: var(--indigo-deep);
+    }
+    .pro-points {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 24px;
+    }
+    .pro-point h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .pro-point p {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* hidden属性を確実に効かせる（.areamap-layout の display:grid が [hidden] に勝ってしまうため） */
+    [data-searchpanel][hidden]{display:none !important;}
+    .areamap-caption a{color:var(--indigo);text-decoration:underline;}
+
+/* ===== 地図の配色（tizu.html のカラースキームに準拠） ===== */
+.areamap-visual{
+  background:#f6f3ee;
+  --am-himejinishi:#1d395a;
+  --am-takaoka:#906b27;
+  --am-ekikita:#457c52;
+  --am-ekiminami:#ab5c35;
+  --am-shikama:#66508a;
+  --am-shirahama:#3f7db1;
+}
+.areamap-sea{fill:#d3e1ec;}
+.areamap-outside{fill:#e5e2de;}
+
+.areamap-region{
+  stroke:#fff;stroke-width:4;stroke-linejoin:round;
+  fill-opacity:.82;cursor:pointer;
+  transition:fill-opacity .15s ease;
+}
+.areamap-region[data-area="himejinishi"]{fill:var(--am-himejinishi);}
+.areamap-region[data-area="takaoka"]    {fill:var(--am-takaoka);}
+.areamap-region[data-area="ekikita"]    {fill:var(--am-ekikita);}
+.areamap-region[data-area="ekiminami"]  {fill:var(--am-ekiminami);}
+.areamap-region[data-area="shikama"]    {fill:var(--am-shikama);}
+.areamap-region[data-area="shirahama"]  {fill:var(--am-shirahama);}
+/* ホバー／連動ハイライトは色を変えず、濃さで表現する */
+.areamap-region[data-area]:hover,
+.areamap-region[data-area].is-active{fill-opacity:1;}
+
+/* ラベル（ピル） */
+.areamap-pin{pointer-events:none;}
+.am-pin-name{font-size:20px;font-weight:700;fill:#fff;font-family:var(--sans);}
+.am-pin-sub{font-size:15px;fill:#fff;opacity:.85;}
+.am-pin-num{font-size:20px;font-weight:700;fill:#fff;font-family:var(--sans);font-variant-numeric:tabular-nums;}
+
+/* ヒーロー：サブキャッチと本文ブロック */
+.hero-lead{
+  margin:18px 0 0;
+  font-family:var(--serif);
+  font-size:clamp(17px,2vw,21px);
+  font-weight:700;
+  color:var(--indigo-deep);
+  line-height:1.7;
+}
+.hero .sub p{margin:0 0 12px;}
+.hero .sub p:last-child{margin-bottom:0;}
+
+    @media (max-width:960px){
+      .topbar{flex-wrap:wrap;}
+      .tagline{display:none;}
+      .utility .btn-ghost{display:none;}
+      nav.primary a{padding:8px 12px;font-size:13px;}
+      .qs-grid{grid-template-columns:1fr 1fr;}
+      .qs-grid .btn{grid-column:1/-1;}
+      .type-tiles{grid-template-columns:repeat(3,1fr);}
+      .prop-grid{grid-template-columns:repeat(3,1fr);}
+      .feature-grid{grid-template-columns:repeat(2,1fr);}
+      .sp-grid{grid-template-columns:1fr;}
+      .check-grid{grid-template-columns:1fr;}
+      .areamap-layout{grid-template-columns:1fr;}
+      .merit-grid,.reason-grid,.action-grid,.voice-grid,.staff-grid{grid-template-columns:repeat(2,1fr);}
+      .cross-grid{grid-template-columns:repeat(2,1fr);}
+      .foot-grid{grid-template-columns:1fr 1fr;}
+      .hero-stats{grid-template-columns:repeat(2,1fr);row-gap:18px;}
+      /* 追加レスポンシブ */
+      .school-grid{grid-template-columns: repeat(2, 1fr);}
+      .madori-grid{grid-template-columns: repeat(3, 1fr);}
+      .pro-layout{grid-template-columns: 1fr;}
+      .pro-points{grid-template-columns: 1fr;}
+    }
+    @media (max-width:600px){
+      .prop-grid{grid-template-columns:repeat(2,1fr);}
+      .feature-grid,.merit-grid,.reason-grid,.action-grid,.voice-grid,.staff-grid,.cross-grid,.foot-grid{grid-template-columns:1fr;}
+      .type-tiles{grid-template-columns:repeat(2,1fr);}
+      .qs-grid{grid-template-columns:1fr;}
+      .search-cta{flex-direction:column;align-items:stretch;}
+      .search-cta .btn{width:100%;}
+      /* 追加レスポンシブ */
+      .school-grid{grid-template-columns: 1fr;}
+      .madori-grid{grid-template-columns: repeat(2, 1fr);}
+      .member-panel{grid-template-columns: 1fr;}
+    }
+  </style>
+</head>
+<body>
 
 <div class="draft-banner">これはデザイン案（モックアップ）です。物件件数・成約実績などの数値、写真、路線・エリア名は構成イメージのための仮データです。公開前に実データへ差し替えてください。</div>
 
@@ -416,10 +652,11 @@
         <line x1="30" y1="60" x2="70" y2="60" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
       </svg>
       <span class="brand-text">
+        <span class="brand-badge">中古住宅専門店</span>
         <span class="mark">モリシタハウス</span>
         <span class="mark-en">MORISHITA HOUSE</span>
       </span>
-      <span class="tagline">中古住宅専門店<br>姫路 No.1</span>
+      <span class="tagline">姫路・播磨エリア</span>
     </a>
     <div class="utility">
       <a class="btn btn-ghost" href="#member">会員登録・ログイン</a>
@@ -428,9 +665,9 @@
   </div>
   <div class="nav-row">
     <nav class="primary" aria-label="メインメニュー">
-      <a href="#search">物件を探す</a>
+      <a href="#areamap">物件を探す</a>
       <a href="#uru">売却をお考えの方</a>
-      <a href="#jikka">実家・空き家の相談</a>
+      <a href="#jikka">実家・空き家相談</a>
       <a href="#service">サービス一覧</a>
       <a href="#event">イベント情報</a>
       <a href="#company">会社概要</a>
@@ -441,12 +678,18 @@
 <!-- ================= ヒーロー ================= -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-kicker">姫路・播磨エリア　中古住宅専門</div>
-    <h1>中古住宅専門店<br><em>物件数No.1</em>。<br>これならいいと思える家が見つかる！</h1>
-    <p class="sub">一級建築士が代表を務める地元工務店グループだから、物件探しから建替え・リノベーション、実家じまいまでワンストップ。掲載していない「非公開・会員限定物件」も多数ご用意しています。</p>
+    <div class="hero-kicker">姫路・播磨エリア　中古住宅専門店</div>
+    <h1>ネットに出ている物件は、<br>姫路の中古住宅情報の<em>全部ではありません</em>。</h1>
+    <p class="hero-lead">あなたにちょうどいい家は、まだネットに出ていないかもしれません。</p>
+    <div class="sub">
+      <p>家探しは、ホームページに掲載されている物件だけでは終わりません。販売準備中の物件や、公開前の新着物件、売主様のご希望により一般公開していない物件など、インターネットには掲載されない住まいもあります。</p>
+      <p>さらに私たちは、「実家をどうしよう」「空き家をどう活かそう」といった住まいの終活相談を数多くお受けしています。そのため、売却が正式に決まる前の段階から住まいに関するご相談をいただくことも少なくありません。</p>
+      <p>だからこそ、公開されている物件だけで「希望に合う家がない」と判断してしまうのは、少し早いかもしれません。</p>
+      <p>ご希望をお聞かせいただければ、公開・未公開を問わず、その時点でご紹介できる住まいの中から、できる限り条件に合うものをご提案します。</p>
+    </div>
     <div class="hero-actions">
       <a class="btn btn-solid" href="#search">物件を検索する</a>
-      <a class="btn btn-line" href="#member">会員登録して非公開物件を見る</a>
+      <a class="btn btn-line" href="#member">希望条件を登録する</a>
     </div>
 
     <div class="quicksearch">
@@ -481,8 +724,8 @@
     </div>
 
     <ul class="hero-stats">
-      <li><span class="num" data-total-count>1,663</span><span class="cap">姫路市内 総掲載物件数</span></li>
-      <li><span class="num" data-nonpublic-count>606</span><span class="cap">会員限定・店頭限定物件</span></li>
+      <li><span class="num" data-total-count>1,817</span><span class="cap">姫路市内 総掲載物件数</span></li>
+      <li><span class="num" data-nonpublic-count>1,256</span><span class="cap">会員限定・店頭限定物件</span></li>
       <li><span class="num">18</span><span class="cap">対応市区町村数</span></li>
       <li><span class="num">50<small style="font-size:16px;">年</small></span><span class="cap">姫路エリアでの地域実績</span></li>
     </ul>
@@ -518,49 +761,105 @@
 <section class="band" id="areamap">
   <div class="wrap">
     <div class="head-row">
-      <div><span class="eyebrow">Area Map</span><h2>姫路市 エリア別 物件数</h2></div>
-      <p class="lead" style="margin:0;">気になるエリアを選ぶと、そのエリアの物件相場がひと目でわかります。</p>
+      <div><span class="eyebrow">Property Count</span><h2>いま、姫路に何件あるか</h2></div>
+      <p class="lead" style="margin:0;">エリア・小学校区・間取りの3つの切り口から、いま姫路にある物件を探せます。</p>
     </div>
 
-    <div class="areamap-layout">
+    <div class="count-bar">
+      <span style="font-size:13px; color:var(--ink-soft);">現在の掲載物件数</span>
+      <strong data-total-count>1,817</strong>
+      <span style="font-size:18px; margin-left:-8px;">件</span>
+      <span style="font-size:12.5px; color:var(--ink-faint); margin-left:auto;">うち会員限定・店頭限定 <span data-nonpublic-count>1,256</span> 件</span>
+    </div>
+
+    <div class="qs-tabs" role="tablist" style="margin-bottom:28px;">
+      <button class="qs-tab" role="tab" data-searchtab="area" aria-selected="true">エリア別</button>
+      <button class="qs-tab" role="tab" data-searchtab="school" aria-selected="false">小学校区別</button>
+      <button class="qs-tab" role="tab" data-searchtab="madori" aria-selected="false">間取り別</button>
+    </div>
+
+    <!-- パネル1：エリア別 -->
+    <div class="areamap-layout" data-searchpanel="area">
       <div class="areamap-visual">
-        <svg viewBox="0 0 600 480" role="img" aria-label="姫路市エリア区分図">
-          <!-- 市域の外形は Wikimedia Commons「兵庫県区画図」(CC BY-SA / 姫路市, id=28201) の
-               実際の行政境界パスを座標変換して使用。内部の6エリア分割は説明用の独自区分です。 -->
-          <path class="areamap-river" d="M300,68 C312,140 278,205 300,255 C322,300 288,345 312,405"/>
-
-          <path class="areamap-region" data-area="ekimae" d="M294,253 L340,60 L292,60 L252,108 L148,108 L108,164 L108,196 Z"/>
-          <path class="areamap-region" data-area="otsu" d="M294,253 L476,228 L420,228 L388,172 L388,108 L340,100 L340,60 Z"/>
-          <path class="areamap-region" data-area="shirahama" d="M294,253 L396,340 L396,316 L428,340 L468,340 L516,260 L476,228 Z"/>
-          <path class="areamap-region" data-area="shikama" d="M294,253 L252,388 L292,380 L356,380 L324,420 L356,420 L396,340 Z"/>
-          <path class="areamap-region" data-area="hirohata" d="M294,253 L220,260 L252,300 L252,340 L228,348 L252,348 L252,388 Z"/>
-          <path class="areamap-region" data-area="aboshi" d="M294,253 L108,196 L132,196 L84,204 L172,204 L180,260 L220,260 Z"/>
-
-          <circle cx="294" cy="253" r="5" fill="var(--gold-bright)"/>
-          <path d="M286,241 h16 v-8 l-8,-7 l-8,7 Z" fill="var(--ink)" opacity=".55"/>
-
-          <text class="areamap-label" x="184" y="128">姫路駅周辺</text>
-          <text class="areamap-sub" x="184" y="143">エリア</text>
-          <text class="areamap-count" data-area-count="ekimae" x="184" y="161">224 / 96 / 38</text>
-
-          <text class="areamap-label" x="372" y="150">大津エリア</text>
-          <text class="areamap-count" data-area-count="otsu" x="372" y="168">163 / 69 / 25</text>
-
-          <text class="areamap-label" x="418" y="283">白浜エリア</text>
-          <text class="areamap-count" data-area-count="shirahama" x="418" y="301">139 / 58 / 21</text>
-
-          <text class="areamap-label" x="318" y="365">飾磨エリア</text>
-          <text class="areamap-count" data-area-count="shikama" x="318" y="383">201 / 84 / 30</text>
-
-          <text class="areamap-label" x="244" y="315">広畑エリア</text>
-          <text class="areamap-count" data-area-count="hirohata" x="244" y="333">178 / 71 / 27</text>
-
-          <text class="areamap-label" x="164" y="222">網干エリア</text>
-          <text class="areamap-count" data-area-count="aboshi" x="164" y="240">152 / 63 / 24</text>
+        <svg viewBox="0 0 1000 855.8" role="img" aria-label="姫路市南部 エリア別物件数マップ">
+<defs>
+  <filter id="amShadow" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity=".28"/>
+  </filter>
+</defs>
+          <path class="areamap-sea" d="M 383.9,633.9 L 443.9,633.6 L 452.5,636.3 L 454.4,640.7 L 451.7,652.5 L 408.3,657.2 L 394.8,669.6 L 393.4,698.5 L 399.9,707.4 L 399.8,731.8 L 386.1,749.9 L 403.9,737.0 L 465.0,738.0 L 469.4,662.5 L 488.3,659.4 L 511.7,639.4 L 505.2,658.5 L 485.8,691.8 L 486.5,714.1 L 499.4,716.0 L 541.7,637.4 L 557.2,634.0 L 567.2,637.9 L 586.5,656.3 L 570.6,674.2 L 558.3,670.1 L 541.6,671.8 L 543.0,678.5 L 538.3,687.9 L 529.2,694.1 L 543.9,699.9 L 545.3,705.2 L 522.8,747.1 L 504.2,757.4 L 503.9,760.7 L 522.8,751.4 L 551.7,754.1 L 608.3,681.3 L 619.5,687.4 L 626.1,699.1 L 658.3,705.9 L 668.6,672.9 L 672.8,669.6 L 687.1,675.2 L 681.3,711.8 L 706.1,718.8 L 734.3,715.2 L 704.7,729.6 L 693.8,769.6 L 695.0,781.0 L 733.9,780.6 L 754.2,714.1 L 750.6,711.3 L 738.7,712.9 L 767.2,702.5 L 782.8,676.9 L 806.1,680.7 L 872.8,712.2 L 900.6,719.8 L 912.8,735.8 L 923.9,726.8 L 955.0,733.6 L 963.9,724.1 L 979.4,727.2 L 993.9,733.4 L 999.2,739.6 L 999.0,853.0 L 2.8,854.7 L 2.8,713.4 L 20.6,723.3 L 19.4,733.2 L 9.7,743.0 L 16.3,744.1 L 19.1,757.4 L 75.0,794.1 L 91.7,795.3 L 161.7,769.9 L 155.3,729.6 L 149.4,716.4 L 162.8,720.5 L 180.6,718.6 L 247.2,691.7 L 250.6,683.3 L 257.4,685.2 L 252.8,667.4 L 255.0,663.2 L 265.0,673.3 L 277.2,667.2 L 292.8,672.9 L 274.8,687.4 L 289.0,731.8 L 336.1,710.5 L 348.3,711.1 L 349.8,720.7 L 353.5,721.8 L 357.2,701.2 L 378.3,697.4 L 378.8,668.5 L 365.0,653.9 L 350.6,655.0 L 352.6,646.3 L 348.3,637.0 L 383.9,633.9 Z"/>
+          <path class="areamap-sea" d="M 247.2,704.9 L 194.6,721.8 L 213.9,785.2 L 241.7,783.3 L 240.6,778.9 L 217.2,781.1 L 212.5,771.8 L 235.6,763.0 L 237.2,749.4 L 263.7,739.6 L 255.4,707.4 L 247.2,704.9 Z"/>
+          <path class="areamap-sea" d="M 619.4,774.9 L 621.6,780.7 L 648.3,802.1 L 652.5,801.9 L 619.4,774.9 Z"/>
+          <path class="areamap-outside" d="M 220.6,1.2 L 998.0,1.7 L 999.3,5.0 L 999.3,542.9 L 998.3,546.3 L 995.0,547.4 L 988.3,543.4 L 983.9,537.3 L 984.8,525.1 L 991.6,514.0 L 989.2,507.3 L 991.0,499.6 L 982.8,494.5 L 980.3,496.2 L 972.0,517.3 L 966.9,524.0 L 962.3,540.7 L 963.9,545.2 L 975.2,554.0 L 991.8,588.5 L 989.8,597.4 L 976.6,608.5 L 979.4,615.1 L 979.5,622.9 L 989.7,631.8 L 991.6,645.2 L 997.5,650.7 L 999.1,655.2 L 998.3,734.1 L 996.1,734.7 L 982.8,728.4 L 966.1,724.0 L 960.6,726.0 L 956.1,733.6 L 938.3,728.4 L 923.9,726.8 L 920.6,728.0 L 916.6,735.2 L 912.8,735.8 L 907.4,731.8 L 904.0,722.9 L 900.6,719.8 L 872.8,712.2 L 819.7,685.2 L 826.9,631.8 L 829.4,625.1 L 931.9,545.1 L 933.7,541.8 L 927.2,538.3 L 769.4,495.5 L 765.0,492.9 L 765.4,486.2 L 792.6,438.4 L 859.4,393.0 L 861.8,387.3 L 818.4,317.3 L 823.2,265.1 L 821.7,260.3 L 792.2,247.3 L 781.7,240.2 L 704.6,240.6 L 679.5,205.0 L 666.5,193.9 L 654.6,112.8 L 655.0,73.8 L 650.6,74.5 L 520.6,159.6 L 507.2,163.6 L 462.8,196.7 L 458.3,195.4 L 355.0,123.7 L 348.3,121.0 L 312.8,195.8 L 297.2,207.2 L 281.7,205.8 L 273.7,216.2 L 263.9,220.6 L 260.4,218.4 L 256.1,210.8 L 246.1,211.3 L 229.8,202.8 L 230.9,185.0 L 214.2,167.3 L 211.7,160.2 L 208.3,159.6 L 204.5,161.7 L 200.7,169.5 L 196.1,173.7 L 180.6,174.5 L 175.0,176.9 L 169.9,161.7 L 154.7,153.9 L 155.3,147.3 L 151.9,131.7 L 165.4,108.4 L 170.8,102.8 L 167.4,90.6 L 178.3,78.2 L 188.8,71.7 L 189.9,65.0 L 187.4,57.2 L 188.7,53.9 L 201.7,44.0 L 209.4,41.7 L 214.1,33.9 L 222.3,27.2 L 222.2,23.9 L 216.1,18.1 L 213.9,11.7 L 215.8,6.1 L 220.6,1.2 Z"/>
+          <path class="areamap-region" data-area="himejinishi" d="M 442.8,289.4 L 451.7,291.5 L 486.1,313.8 L 489.9,319.5 L 479.2,417.3 L 420.6,440.5 L 415.8,445.1 L 457.3,608.5 L 456.1,635.2 L 455.0,636.6 L 441.7,633.5 L 349.8,635.2 L 348.3,638.5 L 352.6,646.3 L 349.2,651.8 L 350.6,655.0 L 356.1,656.7 L 365.0,653.9 L 378.1,665.2 L 378.3,697.4 L 375.0,700.0 L 357.2,701.2 L 355.4,718.5 L 352.8,722.2 L 349.8,720.7 L 348.3,711.1 L 336.1,710.5 L 291.7,732.3 L 288.3,731.4 L 286.1,727.4 L 274.8,687.4 L 276.4,684.1 L 292.8,672.9 L 285.0,671.6 L 277.2,667.2 L 268.3,673.1 L 265.0,673.3 L 258.3,663.7 L 255.0,663.2 L 252.8,667.4 L 257.4,685.2 L 250.6,683.3 L 249.5,689.6 L 247.2,691.7 L 219.4,702.5 L 199.4,712.9 L 180.6,718.6 L 170.6,718.3 L 162.8,720.5 L 151.7,715.7 L 149.4,716.4 L 148.4,719.6 L 155.3,729.6 L 162.4,766.3 L 160.9,770.7 L 92.0,795.2 L 78.3,795.0 L 76.7,790.7 L 83.9,746.3 L 80.2,701.8 L 90.9,680.7 L 96.6,658.5 L 91.8,595.1 L 81.5,572.9 L 76.2,555.1 L 59.9,534.0 L 26.0,500.7 L 14.7,477.3 L 15.0,472.9 L 19.4,471.9 L 32.8,480.4 L 41.7,481.7 L 53.9,488.1 L 61.7,487.9 L 67.2,481.9 L 98.3,481.0 L 108.3,476.9 L 116.1,478.1 L 117.3,466.2 L 114.1,457.3 L 116.3,450.7 L 133.4,446.2 L 139.4,423.6 L 153.0,417.3 L 156.9,411.8 L 169.4,407.6 L 171.3,405.1 L 167.2,402.3 L 138.3,403.8 L 134.9,399.5 L 135.4,394.0 L 149.4,386.0 L 166.1,384.7 L 172.8,379.8 L 180.6,380.5 L 208.3,359.5 L 231.7,365.5 L 245.0,365.9 L 252.4,368.4 L 255.1,376.2 L 261.7,381.3 L 262.6,388.4 L 260.6,391.8 L 252.1,394.0 L 247.7,402.9 L 249.4,406.2 L 268.3,408.2 L 277.2,412.0 L 296.1,414.8 L 305.0,421.7 L 329.4,419.6 L 349.4,398.7 L 355.8,398.4 L 360.6,403.4 L 363.9,404.2 L 369.3,401.8 L 371.7,398.4 L 373.9,383.5 L 382.9,370.6 L 385.4,362.9 L 382.9,347.3 L 373.5,335.1 L 374.6,317.3 L 376.8,312.9 L 390.7,302.8 L 391.2,297.3 L 393.3,295.1 L 442.8,289.4 Z M 451.7,652.7 L 455.0,654.0 L 455.6,657.4 L 452.5,715.2 L 457.9,735.2 L 453.9,736.8 L 402.8,737.2 L 386.1,749.9 L 398.3,736.3 L 399.8,731.8 L 399.9,707.4 L 393.4,698.5 L 394.8,669.6 L 408.3,657.2 L 451.7,652.7 Z M 247.2,704.9 L 251.7,704.2 L 255.4,707.4 L 263.7,739.6 L 260.6,742.5 L 237.2,749.4 L 235.5,751.8 L 236.9,759.6 L 235.6,763.0 L 212.5,771.8 L 213.2,777.4 L 217.2,781.1 L 229.4,782.1 L 240.6,778.9 L 242.4,780.7 L 241.7,783.3 L 213.9,785.2 L 210.6,781.5 L 206.8,769.6 L 194.6,721.8 L 200.6,718.2 L 247.2,704.9 Z"/>
+          <path class="areamap-region" data-area="takaoka" d="M 651.7,73.8 L 655.0,73.8 L 655.6,76.1 L 654.6,112.8 L 665.0,192.8 L 660.9,197.3 L 606.1,233.9 L 598.6,292.8 L 576.1,318.9 L 510.6,314.6 L 489.4,315.4 L 446.1,289.2 L 376.1,296.2 L 355.0,287.5 L 350.4,284.0 L 349.2,278.4 L 351.7,272.2 L 356.6,268.4 L 355.4,265.1 L 341.7,260.9 L 332.8,248.6 L 313.9,243.2 L 308.5,239.5 L 311.7,229.8 L 321.7,229.6 L 327.2,225.1 L 327.2,213.7 L 313.9,195.0 L 348.3,121.0 L 355.0,123.7 L 458.3,195.4 L 462.8,196.7 L 507.2,163.6 L 520.6,159.6 L 651.7,73.8 Z"/>
+          <path class="areamap-region" data-area="ekikita" d="M 662.8,196.1 L 668.3,196.2 L 678.5,203.9 L 704.6,240.6 L 781.7,240.2 L 792.2,247.3 L 821.7,260.3 L 823.2,265.1 L 818.4,317.3 L 860.7,385.1 L 862.1,388.4 L 860.9,391.8 L 798.3,434.2 L 792.8,436.1 L 747.5,351.7 L 741.7,346.1 L 729.4,343.8 L 691.7,363.8 L 679.4,374.0 L 611.7,353.1 L 591.7,345.1 L 577.6,319.5 L 598.6,292.8 L 605.3,235.1 L 662.8,196.1 Z"/>
+          <path class="areamap-region" data-area="ekiminami" d="M 498.3,315.0 L 572.8,319.4 L 577.2,322.0 L 590.0,342.9 L 595.0,347.4 L 678.3,374.0 L 681.7,373.3 L 691.7,363.8 L 729.4,343.8 L 741.7,346.1 L 746.1,349.5 L 755.3,366.2 L 789.7,432.9 L 790.8,440.7 L 767.4,482.9 L 761.7,488.6 L 684.7,456.2 L 630.6,470.9 L 593.9,463.3 L 579.4,457.2 L 513.2,447.3 L 483.9,422.2 L 480.2,416.2 L 490.0,320.6 L 491.7,316.8 L 498.3,315.0 Z"/>
+          <path class="areamap-region" data-area="shikama" d="M 477.2,419.5 L 481.9,420.7 L 508.1,444.0 L 516.1,448.3 L 579.4,457.2 L 593.9,463.3 L 630.6,470.9 L 685.0,456.3 L 759.4,488.2 L 764.3,494.0 L 759.6,519.6 L 755.9,529.6 L 642.1,604.0 L 572.9,725.2 L 553.9,752.0 L 549.4,754.9 L 522.8,751.4 L 505.0,760.6 L 502.5,759.6 L 522.8,747.1 L 545.3,705.2 L 545.7,701.8 L 543.9,699.9 L 529.2,694.1 L 535.0,691.8 L 538.3,687.9 L 543.0,678.5 L 541.6,671.8 L 558.3,670.1 L 570.6,674.2 L 586.5,656.3 L 585.0,652.5 L 567.2,637.9 L 559.4,634.2 L 541.7,637.4 L 505.3,708.5 L 498.3,716.4 L 490.6,716.7 L 486.5,714.1 L 485.8,691.8 L 505.2,658.5 L 511.8,639.6 L 488.3,659.4 L 470.6,661.1 L 468.9,665.2 L 468.8,699.6 L 466.7,708.5 L 466.1,736.3 L 463.9,738.3 L 459.7,735.2 L 452.7,716.3 L 457.5,609.6 L 415.8,445.1 L 420.6,440.5 L 477.2,419.5 Z M 517.2,608.3 L 513.9,634.7 L 524.8,612.9 L 521.7,608.2 L 517.2,608.3 Z"/>
+          <path class="areamap-region" data-area="shirahama" d="M 766.1,495.8 L 927.2,538.3 L 932.8,540.5 L 933.5,542.9 L 829.4,625.1 L 818.3,683.3 L 815.0,684.1 L 801.7,679.5 L 781.7,677.2 L 779.4,679.2 L 774.5,694.1 L 767.2,702.5 L 757.2,704.6 L 738.7,712.9 L 750.6,711.3 L 754.2,714.1 L 750.4,720.7 L 733.9,780.6 L 728.3,782.4 L 695.0,781.0 L 692.9,778.5 L 693.8,769.6 L 704.7,729.6 L 723.9,718.2 L 734.3,715.2 L 723.9,716.7 L 717.2,715.3 L 706.1,718.8 L 681.3,711.8 L 679.6,707.4 L 687.1,677.4 L 685.7,672.9 L 673.9,669.7 L 669.4,671.1 L 660.8,702.9 L 657.2,706.3 L 626.1,699.1 L 623.1,696.3 L 620.6,688.4 L 609.4,681.2 L 605.0,683.7 L 590.6,700.2 L 588.3,700.9 L 588.5,699.6 L 642.8,603.2 L 755.9,529.6 L 766.1,495.8 Z M 619.4,774.9 L 625.0,777.3 L 647.3,795.2 L 652.5,801.9 L 648.3,802.1 L 621.6,780.7 L 618.6,777.4 L 619.4,774.9 Z"/>
+      <g class="areamap-pin" data-area="himejinishi" pointer-events="none">
+        <rect x="118" y="502" width="229" height="72" rx="9" fill="var(--am-himejinishi)" stroke="#fff" stroke-width="2.5" filter="url(#amShadow)"/>
+        <text x="232" y="530" text-anchor="middle" class="am-pin-name">姫路西<tspan class="am-pin-sub">エリア</tspan></text>
+        <path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H10v6H4a1 1 0 0 1-1-1z" transform="translate(131.6,544.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="153.6" y="559" class="am-pin-num">263</text>
+        <path d="M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V8a3 3 0 0 0-6 0z" transform="translate(204.2,544.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="226.2" y="559" class="am-pin-num">340</text>
+        <path d="M4 4h16l1 5a3 3 0 0 1-3 3 3 3 0 0 1-3-2 3 3 0 0 1-3 2 3 3 0 0 1-3-2 3 3 0 0 1-3-3zm1 10h14v6a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z" transform="translate(276.8,544.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="298.8" y="559" class="am-pin-num">107</text>
+      </g>
+      <g class="areamap-pin" data-area="takaoka" pointer-events="none">
+        <rect x="388" y="179" width="233" height="72" rx="9" fill="var(--am-takaoka)" stroke="#fff" stroke-width="2.5" filter="url(#amShadow)"/>
+        <text x="505" y="207" text-anchor="middle" class="am-pin-name">高岡・安室・青山<tspan class="am-pin-sub">エリア</tspan></text>
+        <path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H10v6H4a1 1 0 0 1-1-1z" transform="translate(410.2,221.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="432.2" y="236" class="am-pin-num">105</text>
+        <path d="M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V8a3 3 0 0 0-6 0z" transform="translate(482.8,221.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="504.8" y="236" class="am-pin-num">170</text>
+        <path d="M4 4h16l1 5a3 3 0 0 1-3 3 3 3 0 0 1-3-2 3 3 0 0 1-3 2 3 3 0 0 1-3-2 3 3 0 0 1-3-3zm1 10h14v6a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z" transform="translate(555.4,221.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="577.4" y="236" class="am-pin-num">64</text>
+      </g>
+      <g class="areamap-pin" data-area="ekikita" pointer-events="none">
+        <rect x="597" y="279" width="206" height="72" rx="9" fill="var(--am-ekikita)" stroke="#fff" stroke-width="2.5" filter="url(#amShadow)"/>
+        <text x="700" y="307" text-anchor="middle" class="am-pin-name">駅北<tspan class="am-pin-sub">エリア</tspan></text>
+        <path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H10v6H4a1 1 0 0 1-1-1z" transform="translate(610.8,321.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="632.8" y="336" class="am-pin-num">61</text>
+        <path d="M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V8a3 3 0 0 0-6 0z" transform="translate(672.2,321.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="694.2" y="336" class="am-pin-num">159</text>
+        <path d="M4 4h16l1 5a3 3 0 0 1-3 3 3 3 0 0 1-3-2 3 3 0 0 1-3 2 3 3 0 0 1-3-2 3 3 0 0 1-3-3zm1 10h14v6a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z" transform="translate(744.8,321.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="766.8" y="336" class="am-pin-num">50</text>
+      </g>
+      <g class="areamap-pin" data-area="ekiminami" pointer-events="none">
+        <rect x="451" y="353" width="195" height="72" rx="9" fill="var(--am-ekiminami)" stroke="#fff" stroke-width="2.5" filter="url(#amShadow)"/>
+        <text x="549" y="381" text-anchor="middle" class="am-pin-name">駅南<tspan class="am-pin-sub">エリア</tspan></text>
+        <path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H10v6H4a1 1 0 0 1-1-1z" transform="translate(465.4,395.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="487.4" y="410" class="am-pin-num">50</text>
+        <path d="M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V8a3 3 0 0 0-6 0z" transform="translate(526.8,395.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="548.8" y="410" class="am-pin-num">93</text>
+        <path d="M4 4h16l1 5a3 3 0 0 1-3 3 3 3 0 0 1-3-2 3 3 0 0 1-3 2 3 3 0 0 1-3-2 3 3 0 0 1-3-3zm1 10h14v6a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z" transform="translate(588.2,395.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="610.2" y="410" class="am-pin-num">32</text>
+      </g>
+      <g class="areamap-pin" data-area="shikama" pointer-events="none">
+        <rect x="442" y="511" width="195" height="72" rx="9" fill="var(--am-shikama)" stroke="#fff" stroke-width="2.5" filter="url(#amShadow)"/>
+        <text x="540" y="539" text-anchor="middle" class="am-pin-name">飾磨<tspan class="am-pin-sub">エリア</tspan></text>
+        <path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H10v6H4a1 1 0 0 1-1-1z" transform="translate(456.4,553.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="478.4" y="568" class="am-pin-num">53</text>
+        <path d="M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V8a3 3 0 0 0-6 0z" transform="translate(517.8,553.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="539.8" y="568" class="am-pin-num">98</text>
+        <path d="M4 4h16l1 5a3 3 0 0 1-3 3 3 3 0 0 1-3-2 3 3 0 0 1-3 2 3 3 0 0 1-3-2 3 3 0 0 1-3-3zm1 10h14v6a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z" transform="translate(579.2,553.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="601.2" y="568" class="am-pin-num">36</text>
+      </g>
+      <g class="areamap-pin" data-area="shirahama" pointer-events="none">
+        <rect x="660" y="576" width="195" height="72" rx="9" fill="var(--am-shirahama)" stroke="#fff" stroke-width="2.5" filter="url(#amShadow)"/>
+        <text x="758" y="604" text-anchor="middle" class="am-pin-name">白浜<tspan class="am-pin-sub">エリア</tspan></text>
+        <path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H10v6H4a1 1 0 0 1-1-1z" transform="translate(674.4,618.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="696.4" y="633" class="am-pin-num">29</text>
+        <path d="M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V8a3 3 0 0 0-6 0z" transform="translate(735.8,618.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="757.8" y="633" class="am-pin-num">78</text>
+        <path d="M4 4h16l1 5a3 3 0 0 1-3 3 3 3 0 0 1-3-2 3 3 0 0 1-3 2 3 3 0 0 1-3-2 3 3 0 0 1-3-3zm1 10h14v6a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z" transform="translate(797.2,618.0) scale(0.750)" fill="#fff" opacity=".92"/>
+        <text x="819.2" y="633" class="am-pin-num">29</text>
+      </g>
         </svg>
-        <p class="areamap-caption">※市域の外形は公開地図データに基づく実際の行政境界です。内部の6エリア区分は説明用の簡略区分で、実際の地域自治区の境界とは一致しません。</p>
+        <p class="areamap-caption">※対象は姫路市南部エリアです。市域境界・海岸線は実データ、エリア区分は小学校33校の位置による最近傍分割で作成しており、姫路市が定める通学区域とは一致しません。件数は仮データです。　地図データ: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>（ODbL）</p>
       </div>
-
       <div>
         <div class="areamap-legend">
           <span><i class="dot dot-public"></i>一般公開</span>
@@ -572,26 +871,185 @@
             <tr><th>エリア</th><th>一般公開</th><th>会員限定</th><th>店頭限定</th></tr>
           </thead>
           <tbody>
-            <tr data-area="ekimae"><td>姫路駅周辺エリア</td><td class="c-public">224</td><td class="c-member">96</td><td class="c-shop">38</td></tr>
-            <tr data-area="shikama"><td>飾磨エリア</td><td class="c-public">201</td><td class="c-member">84</td><td class="c-shop">30</td></tr>
-            <tr data-area="hirohata"><td>広畑エリア</td><td class="c-public">178</td><td class="c-member">71</td><td class="c-shop">27</td></tr>
-            <tr data-area="aboshi"><td>網干エリア</td><td class="c-public">152</td><td class="c-member">63</td><td class="c-shop">24</td></tr>
-            <tr data-area="shirahama"><td>白浜エリア</td><td class="c-public">139</td><td class="c-member">58</td><td class="c-shop">21</td></tr>
-            <tr data-area="otsu"><td>大津エリア</td><td class="c-public">163</td><td class="c-member">69</td><td class="c-shop">25</td></tr>
+            <tr data-area="himejinishi"><td>姫路西エリア</td><td class="c-public">263</td><td class="c-member">340</td><td class="c-shop">107</td></tr>
+            <tr data-area="takaoka"><td>高岡・安室・青山エリア</td><td class="c-public">105</td><td class="c-member">170</td><td class="c-shop">64</td></tr>
+            <tr data-area="ekikita"><td>駅北エリア</td><td class="c-public">61</td><td class="c-member">159</td><td class="c-shop">50</td></tr>
+            <tr data-area="ekiminami"><td>駅南エリア</td><td class="c-public">50</td><td class="c-member">93</td><td class="c-shop">32</td></tr>
+            <tr data-area="shikama"><td>飾磨エリア</td><td class="c-public">53</td><td class="c-member">98</td><td class="c-shop">36</td></tr>
+            <tr data-area="shirahama"><td>白浜エリア</td><td class="c-public">29</td><td class="c-member">78</td><td class="c-shop">29</td></tr>
           </tbody>
           <tfoot>
-            <tr><td>合計</td><td class="c-public">1,057</td><td class="c-member">441</td><td class="c-shop">165</td></tr>
+            <tr><td>合計</td><td class="c-public">561</td><td class="c-member">938</td><td class="c-shop">318</td></tr>
           </tfoot>
         </table>
-        <p class="areamap-note">会員登録すると<b>会員限定物件<span data-member-note-count>441</span>件</b>も検索対象になります。店頭限定物件は個別相談でご案内します。</p>
+        <p class="areamap-note">会員登録すると<b>会員限定物件<span data-member-note-count>938</span>件</b>も検索対象になります。店頭限定物件は個別相談でご案内します。</p>
         <a class="btn btn-solid" style="margin-top:18px;" href="#search">エリアから物件を探す</a>
+      </div>
+    </div>
+
+    <!-- パネル2：小学校区別 -->
+    <div data-searchpanel="school" hidden>
+      <div class="school-grid">
+        <div class="school-block">
+          <h4>姫路西エリア <span>合計 710件</span></h4>
+          <div class="school-list">
+            <a class="chip" href="#">八幡小学校<b>(118)</b></a><a class="chip" href="#">広畑小学校<b>(38)</b></a><a class="chip" href="#">広畑第二小学校<b>(68)</b></a><a class="chip" href="#">大津小学校<b>(81)</b></a><a class="chip" href="#">南大津小学校<b>(16)</b></a><a class="chip" href="#">大津茂小学校<b>(35)</b></a><a class="chip" href="#">網干小学校<b>(86)</b></a><a class="chip" href="#">網干西小学校<b>(61)</b></a><a class="chip" href="#">勝原小学校<b>(105)</b></a><a class="chip" href="#">旭陽小学校<b>(68)</b></a><a class="chip" href="#">余部小学校<b>(34)</b></a>
+          </div>
+        </div>
+        <div class="school-block">
+          <h4>高岡・安室・青山エリア <span>合計 339件</span></h4>
+          <div class="school-list">
+            <a class="chip" href="#">高岡西小学校<b>(37)</b></a><a class="chip" href="#">高岡小学校<b>(63)</b></a><a class="chip" href="#">安室小学校<b>(83)</b></a><a class="chip" href="#">安室東小学校<b>(111)</b></a><a class="chip" href="#">青山小学校<b>(45)</b></a>
+          </div>
+        </div>
+        <div class="school-block">
+          <h4>駅北エリア <span>合計 270件</span></h4>
+          <div class="school-list">
+            <a class="chip" href="#">白鷺小学校<b>(45)</b></a><a class="chip" href="#">城西小学校<b>(59)</b></a><a class="chip" href="#">船場小学校<b>(34)</b></a><a class="chip" href="#">城東小学校<b>(23)</b></a><a class="chip" href="#">東小学校<b>(15)</b></a><a class="chip" href="#">城乾小学校<b>(66)</b></a><a class="chip" href="#">野里小学校<b>(28)</b></a>
+          </div>
+        </div>
+        <div class="school-block">
+          <h4>駅南エリア <span>合計 175件</span></h4>
+          <div class="school-list">
+            <a class="chip" href="#">手柄小学校<b>(36)</b></a><a class="chip" href="#">城陽小学校<b>(37)</b></a><a class="chip" href="#">荒川小学校<b>(102)</b></a>
+          </div>
+        </div>
+        <div class="school-block">
+          <h4>飾磨エリア <span>合計 187件</span></h4>
+          <div class="school-list">
+            <a class="chip" href="#">飾磨小学校<b>(64)</b></a><a class="chip" href="#">英賀保小学校<b>(42)</b></a><a class="chip" href="#">津田小学校<b>(50)</b></a><a class="chip" href="#">高浜小学校<b>(31)</b></a>
+          </div>
+        </div>
+        <div class="school-block">
+          <h4>白浜エリア <span>合計 136件</span></h4>
+          <div class="school-list">
+            <a class="chip" href="#">糸引小学校<b>(70)</b></a><a class="chip" href="#">白浜小学校<b>(53)</b></a><a class="chip" href="#">妻鹿小学校<b>(13)</b></a>
+          </div>
+        </div>
+      </div>
+      <p class="areamap-caption" style="margin-top:18px;">※対象は姫路市南部エリアです。市域境界・海岸線は実データ、エリア区分は小学校33校の位置による最近傍分割で作成しており、姫路市が定める通学区域とは一致しません。件数は仮データです。　地図データ: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>（ODbL）</p>
+    </div>
+
+    <!-- パネル3：間取り別 -->
+    <div data-searchpanel="madori" hidden>
+      <div class="madori-grid">
+        <a class="madori-tile" href="#search"><span class="madori-name">1LDK以下</span><span class="madori-num">95</span>件</a>
+        <a class="madori-tile" href="#search"><span class="madori-name">2K〜2LDK</span><span class="madori-num">236</span>件</a>
+        <a class="madori-tile" href="#search"><span class="madori-name">3K〜3LDK</span><span class="madori-num">675</span>件</a>
+        <a class="madori-tile" href="#search"><span class="madori-name">4K〜4LDK</span><span class="madori-num">646</span>件</a>
+        <a class="madori-tile" href="#search"><span class="madori-name">5K以上</span><span class="madori-num">165</span>件</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= 会員登録・ログイン ================= -->
+<section class="band band-alt" id="member">
+  <div class="wrap">
+    <div class="head-row">
+      <div><span class="eyebrow">Member Benefit</span><h2>あなたに合う住まいが見つかったら、いち早くお知らせします。</h2></div>
+    </div>
+    <p class="lead" style="margin:0 0 34px;">会員登録では、ご希望のエリアやご予算、間取りなどを登録していただけます。新しくご紹介できる住まいがあれば、ご希望に近いお客様へ優先的にご案内いたします。あなたの希望条件を登録していただければ、新しくご紹介できる住まいが見つかった際に、いち早くお知らせします。</p>
+    <div class="merit-grid">
+      <div class="merit-card">
+        <div class="kicker">01</div>
+        <h3>会員限定・非公開物件（コア情報）を閲覧</h3>
+        <p>一般公開前の物件や、事情により非公開としている物件情報にアクセスできます。</p>
+      </div>
+      <div class="merit-card">
+        <div class="kicker">02</div>
+        <h3>希望条件のマッチング通知</h3>
+        <p>エリア・価格・間取りなどのご希望条件を登録すると、該当する新着物件をメールでお知らせします。</p>
+      </div>
+      <div class="merit-card">
+        <div class="kicker">03</div>
+        <h3>お気に入り保存・比較</h3>
+        <p>気になる物件を保存して、あとからじっくり比較検討できます。来店時にそのままご相談も可能です。</p>
+      </div>
+    </div>
+
+    <div class="member-panel">
+      <div class="member-login">
+        <h3>会員ログイン</h3>
+        <form action="#" style="margin-top:20px;">
+          <div class="field" style="margin-bottom:14px;">
+            <label for="login-email">ID（メールアドレス）</label>
+            <input type="email" id="login-email" placeholder="example@mail.com">
+          </div>
+          <div class="field" style="margin-bottom:20px;">
+            <label for="login-pass">パスワード</label>
+            <input type="password" id="login-pass">
+          </div>
+          <button type="submit" class="btn btn-solid btn-block">ログイン</button>
+          <div style="text-align:center; margin-top:12px;">
+            <a href="#" style="font-size:12px; color:var(--ink-faint);">パスワードをお忘れの方</a>
+          </div>
+        </form>
+      </div>
+      <div class="member-register">
+        <h3>はじめての方へ（無料会員登録）</h3>
+        <p style="font-size:14px; color:var(--ink-soft); margin-top:14px; margin-bottom:24px;">家探しを続けるなら、待つだけではもったいない。理想の住まいとの出会いを広げるために、まずは無料会員登録をご利用ください。</p>
+        <a class="btn btn-gold btn-block" href="#">無料で希望条件を登録する</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 物件知識No.1 ================= -->
+<section class="band" id="chishiki">
+  <div class="wrap">
+    <div class="head-row">
+      <div><span class="eyebrow">Knowledge No.1</span><h2>物件情報だけでは、わからない。</h2></div>
+    </div>
+    <p class="lead">私たちの強みは、姫路の物件知識No.1であること。図面や資料に書かれていることだけでなく、この街で家をつくってきたプロの目線で、その家が本当に「買っていい家」かどうかを診断できます。</p>
+
+    <div class="pro-layout" style="margin-top:48px;">
+      <div class="pro-col-left">
+        <div class="pro-photo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="width:64px;height:64px;color:var(--indigo);"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+        </div>
+        <div style="text-align:center; margin-top:16px;">
+          <div class="staff-role">代表取締役</div>
+          <div class="staff-name" style="font-size:22px; margin-top:4px;">森下 誉樹</div>
+          <div class="staff-cert" style="margin-top:6px;">一級建築士／一級建築施工管理技士／省エネ建築診断士</div>
+          <span class="dummy-note">※代表の顔写真を差し込む位置です。</span>
+        </div>
+      </div>
+      <div class="pro-col-right">
+        <p style="font-size:15.5px; color:var(--ink-soft);">私はこれまで姫路・播磨エリアで長年、建築と不動産の両面から数多くの住まいづくりに携わってきました。中古住宅は一軒一軒、状態が異なります。表面の綺麗さだけでなく、土台や構造の状態、そしてリノベーションした際にどれほどのコストと可能性があるのか。それを正確に見極めることが、中古住宅選びで最も重要なステップです。</p>
+
+        <div class="yt-card">
+          <h4>建築系YouTuberとしての発信</h4>
+          <div style="display:flex; align-items:baseline; gap:10px;">
+            <strong class="yt-num">6万2,000</strong>
+            <span style="font-size:16px; font-weight:700;">人</span>
+            <span style="font-size:12px; color:var(--ink-faint);">チャンネル登録者数（2026年時点）</span>
+          </div>
+          <p style="font-size:13px; color:var(--ink-soft); margin-top:10px;">家づくりや中古住宅の見極め方をYouTubeで発信。専門的な知識を分かりやすく伝える姿勢が支持され、全国の視聴者から住まいのご相談をいただいています。</p>
+        </div>
+
+        <div class="pro-points">
+          <div class="pro-point">
+            <h4>建物の状態を診断</h4>
+            <p>図面と現地の両方から、傷み・構造・改修コストを見立てます。</p>
+          </div>
+          <div class="pro-point">
+            <h4>リフォーム費用まで含めて試算</h4>
+            <p>物件価格だけでなく、住めるようにするまでの総額で考えます。</p>
+          </div>
+          <div class="pro-point">
+            <h4>「買わない方がいい」も言う</h4>
+            <p>条件に合わなければ、正直にお伝えします。</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ================= 新着物件 ================= -->
-<section class="band">
+<section class="band band-alt">
   <div class="wrap">
     <div class="head-row">
       <div><span class="eyebrow">New Arrival</span><h2>新着物件</h2></div>
@@ -676,7 +1134,7 @@
 </section>
 
 <!-- ================= おすすめ物件 ================= -->
-<section class="band band-alt">
+<section class="band">
   <div class="wrap">
     <div class="head-row">
       <div><span class="eyebrow">Recommend</span><h2>スタッフおすすめ物件</h2></div>
@@ -721,12 +1179,12 @@
 </section>
 
 <!-- ================= 詳細検索 ================= -->
-<section class="band" id="search">
+<section class="band band-alt" id="search">
   <div class="wrap">
     <div class="head-row">
       <div><span class="eyebrow">Property Search</span><h2>こだわり条件から物件を探す</h2></div>
     </div>
-    <p class="lead" style="margin-bottom:34px;">エリア・沿線・価格・築年数・こだわり条件までかけ合わせて検索できます。会員登録すると、一般公開されていない「会員限定物件」も検索結果に含まれます。</p>
+    <p class="lead" style="margin-bottom:34px;">エリア・沿線・価格・築年数・面積までかけ合わせて検索できます。会員登録すると、一般公開されていない「会員限定物件」も検索結果に含まれます。</p>
 
     <div class="search-panel">
       <div class="sp-grid">
@@ -805,37 +1263,8 @@
   </div>
 </section>
 
-<!-- ================= 会員メリット ================= -->
-<section class="band" id="member">
-  <div class="wrap">
-    <div class="head-row">
-      <div><span class="eyebrow">Member Benefit</span><h2>会員登録でできること</h2></div>
-    </div>
-    <div class="merit-grid">
-      <div class="merit-card">
-        <div class="kicker">01</div>
-        <h3>会員限定・非公開物件（コア情報）を閲覧</h3>
-        <p>一般公開前の物件や、事情により非公開としている物件情報にアクセスできます。</p>
-      </div>
-      <div class="merit-card">
-        <div class="kicker">02</div>
-        <h3>希望条件のマッチング通知</h3>
-        <p>エリア・価格・間取りなどのご希望条件を登録すると、該当する新着物件をメールでお知らせします。</p>
-      </div>
-      <div class="merit-card">
-        <div class="kicker">03</div>
-        <h3>お気に入り保存・比較</h3>
-        <p>気になる物件を保存して、あとからじっくり比較検討できます。来店時にそのままご相談も可能です。</p>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:34px;">
-      <a class="btn btn-gold" href="#">無料会員登録はこちら</a>
-    </div>
-  </div>
-</section>
-
 <!-- ================= 選ばれる理由 ================= -->
-<section class="band band-alt" id="service">
+<section class="band" id="service">
   <div class="wrap">
     <div class="head-row">
       <div><span class="eyebrow">Why Morishita House</span><h2>モリシタハウスが選ばれる理由</h2></div>
@@ -902,35 +1331,6 @@
   </div>
 </section>
 
-<!-- ================= 来店予約・Web相談・資料請求 ================= -->
-<section class="band" id="action">
-  <div class="wrap">
-    <div class="head-row">
-      <div><span class="eyebrow">Contact</span><h2>まずは気軽にご相談ください</h2></div>
-    </div>
-    <div class="action-grid">
-      <div class="action-card">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
-        <h3>来店予約</h3>
-        <p>店舗でじっくり物件をご案内。オンラインで日時を選ぶだけ。</p>
-        <a class="btn btn-line btn-block" href="#">予約する</a>
-      </div>
-      <div class="action-card">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        <h3>Web相談</h3>
-        <p>ビデオ通話やチャットでご自宅から相談可能です。</p>
-        <a class="btn btn-line btn-block" href="#">Web相談を予約</a>
-      </div>
-      <div class="action-card">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4h16v16H4z"/><path d="M4 8l8 6 8-6"/></svg>
-        <h3>資料請求</h3>
-        <p>物件資料・会社案内をまとめて郵送またはメールでお届け。</p>
-        <a class="btn btn-line btn-block" href="#">資料請求する</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ================= お客様の声 ================= -->
 <section class="band band-alt">
   <div class="wrap">
@@ -969,6 +1369,36 @@
         <div class="staff-name">松下 登志美</div>
         <div class="staff-cert">宅地建物取引士／損害保険募集人</div>
         <p class="staff-msg">売買契約や登記まわりも、法的な面からしっかりサポートします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 来店予約・Web相談・資料請求 ================= -->
+<section class="band band-alt" id="action">
+  <div class="wrap">
+    <div class="head-row">
+      <div><span class="eyebrow">Contact</span><h2>まずは気軽にご相談ください</h2></div>
+    </div>
+    <p class="lead" style="margin-bottom:34px;">どれも無料です。「まだ買うと決めていない」段階のご相談も歓迎しています。</p>
+    <div class="action-grid">
+      <div class="action-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+        <h3>来店予約</h3>
+        <p>店舗でじっくり物件をご案内。オンラインで日時を選ぶだけ。</p>
+        <a class="btn btn-line btn-block" href="#">予約する</a>
+      </div>
+      <div class="action-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <h3>Web相談</h3>
+        <p>ビデオ通話やチャットでご自宅から相談可能です。</p>
+        <a class="btn btn-line btn-block" href="#">Web相談を予約</a>
+      </div>
+      <div class="action-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4h16v16H4z"/><path d="M4 8l8 6 8-6"/></svg>
+        <h3>資料請求</h3>
+        <p>物件資料・会社案内をまとめて郵送またはメールでお届け。</p>
+        <a class="btn btn-line btn-block" href="#">資料請求する</a>
       </div>
     </div>
   </div>
@@ -1027,12 +1457,25 @@
 
 <script>
   // タブ切替（クイック検索）
-  document.querySelectorAll('.qs-tab').forEach(tab=>{
+  document.querySelectorAll('.quicksearch .qs-tab').forEach(tab=>{
     tab.addEventListener('click', ()=>{
-      document.querySelectorAll('.qs-tab').forEach(t=>t.setAttribute('aria-selected','false'));
+      document.querySelectorAll('.quicksearch .qs-tab').forEach(t=>t.setAttribute('aria-selected','false'));
       tab.setAttribute('aria-selected','true');
     });
   });
+
+  // 追加タブ切替（エリア/小学校/間取り）
+  document.querySelectorAll('[data-searchtab]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.searchtab;
+      document.querySelectorAll('[data-searchtab]').forEach(t => t.setAttribute('aria-selected', 'false'));
+      tab.setAttribute('aria-selected', 'true');
+      document.querySelectorAll('[data-searchpanel]').forEach(panel => {
+        panel.hidden = panel.dataset.searchpanel !== target;
+      });
+    });
+  });
+
   // チップ選択トグル（詳細検索）
   document.querySelectorAll('.chip').forEach(chip=>{
     chip.addEventListener('click', ()=> chip.classList.toggle('is-on'));
@@ -1049,15 +1492,14 @@
     });
   })();
 
-  // エリア別物件数：ダミーデータ（将来、物件管理システムのAPIから取得した値に置き換える想定）
-  // 例：fetch('/api/area-counts').then(res => res.json()).then(renderAreaCounts);
+  // エリア別物件数：ダミーデータ
   const AREA_COUNT_DATA = {
-    ekimae:    { name:'姫路駅周辺エリア', public:224, member:96, shop:38 },
-    shikama:   { name:'飾磨エリア',       public:201, member:84, shop:30 },
-    hirohata:  { name:'広畑エリア',       public:178, member:71, shop:27 },
-    aboshi:    { name:'網干エリア',       public:152, member:63, shop:24 },
-    shirahama: { name:'白浜エリア',       public:139, member:58, shop:21 },
-    otsu:      { name:'大津エリア',       public:163, member:69, shop:25 },
+    himejinishi: { name:'姫路西エリア',            public:263, member:340, shop:107 },
+    takaoka:     { name:'高岡・安室・青山エリア',  public:105, member:170, shop:64  },
+    ekikita:     { name:'駅北エリア',              public:61,  member:159, shop:50  },
+    ekiminami:   { name:'駅南エリア',              public:50,  member:93,  shop:32  },
+    shikama:     { name:'飾磨エリア',              public:53,  member:98,  shop:36  },
+    shirahama:   { name:'白浜エリア',              public:29,  member:78,  shop:29  },
   };
 
   function renderAreaCounts(data){
@@ -1081,12 +1523,19 @@
       footRow.querySelector('.c-member').textContent = totals.member.toLocaleString();
       footRow.querySelector('.c-shop').textContent = totals.shop.toLocaleString();
     }
-    const totalEl = document.querySelector('[data-total-count]');
-    if(totalEl){ totalEl.textContent = (totals.public + totals.member + totals.shop).toLocaleString(); }
-    const nonPublicEl = document.querySelector('[data-nonpublic-count]');
-    if(nonPublicEl){ nonPublicEl.textContent = (totals.member + totals.shop).toLocaleString(); }
-    const noteCount = document.querySelector('[data-member-note-count]');
-    if(noteCount){ noteCount.textContent = totals.member.toLocaleString(); }
+    
+    // querySelectorAll で全ての箇所を更新
+    document.querySelectorAll('[data-total-count]').forEach(el => {
+      el.textContent = (totals.public + totals.member + totals.shop).toLocaleString();
+    });
+    document.querySelectorAll('[data-nonpublic-count]').forEach(el => {
+      el.textContent = (totals.member + totals.shop).toLocaleString();
+    });
+    document.querySelectorAll('[data-member-note-count]').forEach(el => {
+      el.textContent = totals.member.toLocaleString();
+    });
   }
   renderAreaCounts(AREA_COUNT_DATA);
 </script>
+</body>
+</html>
