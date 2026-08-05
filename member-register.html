@@ -162,14 +162,22 @@
     .check-item input{width:17px;height:17px;accent-color:var(--indigo);margin-top:4px;flex:none;}
     .check-list{display:flex;flex-direction:column;gap:10px;}
     .radio-row{display:flex;gap:10px;flex-wrap:wrap;}
-    .radio-pill{position:relative;}
-    .radio-pill input{position:absolute;opacity:0;pointer-events:none;}
-    .radio-pill span{
+    .radio-pill,.chip-check{position:relative;cursor:pointer;}
+    .radio-pill input,.chip-check input{position:absolute;opacity:0;pointer-events:none;}
+    .radio-pill span,.chip-check span{
       display:inline-block;font-size:13px;padding:8px 16px;border:1px solid var(--line-strong);
       border-radius:16px;color:var(--ink-soft);transition:all .15s ease;
     }
-    .radio-pill input:checked + span{background:var(--indigo);border-color:var(--indigo);color:#fff;}
-    .radio-pill input:focus-visible + span{outline:2px solid var(--gold-bright);outline-offset:2px;}
+    .radio-pill input:checked + span,.chip-check input:checked + span{background:var(--indigo);border-color:var(--indigo);color:#fff;}
+    .radio-pill input:focus-visible + span,.chip-check input:focus-visible + span{outline:2px solid var(--gold-bright);outline-offset:2px;}
+    .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+    .multi-note{font-size:12px;color:var(--ink-faint);margin:0 0 12px;}
+    .chip-tools{margin-top:12px;}
+    .chip-tools button{border:none;background:none;font-size:12px;color:var(--indigo);text-decoration:underline;padding:0;}
+    textarea{min-height:110px;resize:vertical;line-height:1.7;}
+    .unit-row{display:flex;align-items:center;gap:10px;}
+    .unit-row select{flex:1;}
+    .unit-row .unit{font-size:13px;color:var(--ink-soft);flex:none;min-width:34px;}
 
     .agree-box{
       background:var(--paper-alt);border:1px solid var(--line);border-radius:4px;
@@ -571,9 +579,70 @@
             </div>
           </div>
 
-          <div class="next-note">
-            <b>※ この先の詳細条件（間取り・専有面積・土地面積・築年数・駅からの距離・こだわり条件 など）は、いただく画面イメージに合わせて次案で追加します。</b>
-            現時点では参考サイトの最初のブロック（希望エリア／希望校区／希望価格）までを再現しています。
+          <!-- 希望間取り -->
+          <div class="cond-block" data-block="madori">
+            <div class="cond-block__head">
+              <h4>希望間取り</h4>
+              <span class="tag tag-opt">任意</span>
+            </div>
+            <div class="cond-block__body">
+              <p class="multi-note">※　複数選択可能です。</p>
+              <div class="chip-row" id="madoriRow"><!-- JSで生成 --></div>
+              <p class="chip-tools"><button type="button" id="madoriClear">選択をクリア</button></p>
+            </div>
+          </div>
+
+          <!-- 希望土地面積 -->
+          <div class="cond-block" data-block="land">
+            <div class="cond-block__head">
+              <h4>希望土地面積</h4>
+              <span class="tag tag-opt">任意</span>
+            </div>
+            <div class="cond-block__body">
+              <div class="stack">
+                <div class="unit-row">
+                  <select id="landMin"><option value="">▼選択してください</option></select>
+                  <span class="unit">m²〜</span>
+                </div>
+                <div class="unit-row">
+                  <select id="landMax"><option value="">▼選択してください</option></select>
+                  <span class="unit">m²</span>
+                </div>
+              </div>
+              <p class="inline-note">1坪＝約3.3m²です。おおよそのご希望で構いません。</p>
+            </div>
+          </div>
+
+          <!-- 希望建物面積 -->
+          <div class="cond-block" data-block="bldg">
+            <div class="cond-block__head">
+              <h4 id="bldgTitle">希望建物面積</h4>
+              <span class="tag tag-opt">任意</span>
+            </div>
+            <div class="cond-block__body">
+              <div class="stack">
+                <div class="unit-row">
+                  <select id="bldgMin"><option value="">▼選択してください</option></select>
+                  <span class="unit">m²〜</span>
+                </div>
+                <div class="unit-row">
+                  <select id="bldgMax"><option value="">▼選択してください</option></select>
+                  <span class="unit">m²</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- その他希望条件 -->
+          <div class="cond-block" data-block="other">
+            <div class="cond-block__head">
+              <h4>その他希望条件</h4>
+              <span class="tag tag-opt">任意</span>
+            </div>
+            <div class="cond-block__body">
+              <textarea id="otherCond" placeholder="例：駐車場2台以上、平屋希望、リフォーム済みが希望、実家の近くで探しています　など"></textarea>
+              <p class="inline-note">条件にあてはまらなくても、ご事情やご希望をお書きいただければ担当者が個別にご提案します。</p>
+            </div>
           </div>
 
           <div class="form-foot">
@@ -773,12 +842,19 @@ const JHS_SCHOOLS = [
 /* 価格の選択肢（万円） */
 const PRICES = [300,500,700,800,900,1000,1200,1400,1500,1600,1800,2000,2200,2400,2500,2600,2800,3000,3200,3500,4000,4500,5000,6000];
 
-/* 物件種別 */
+/* 希望間取り */
+const MADORI = ['ワンルーム','1K','1DK','1LDK','2K','2DK','2LDK','3K','3DK','3LDK','4K','4DK','4LDK','5K','5DK','5LDK','6室以上'];
+
+/* 面積の選択肢（m²） */
+const LAND_AREAS = [50,60,70,80,90,100,110,120,130,140,150,165,180,200,230,250,300,330,400,500,660,1000];
+const BLDG_AREAS = [40,50,60,70,80,90,100,110,120,130,140,150,165,180,200,250,300];
+
+/* 物件種別と、種別ごとに表示する条件ブロック */
 const TYPES = [
-  { key:'house', label:'一戸建て' },
-  { key:'mansion', label:'マンション' },
-  { key:'land', label:'土地' },
-  { key:'other', label:'その他(事業用)' }
+  { key:'house',   label:'一戸建て',       blocks:['madori','land','bldg','other'], bldgTitle:'希望建物面積' },
+  { key:'mansion', label:'マンション',     blocks:['madori','bldg','other'],        bldgTitle:'希望専有面積' },
+  { key:'land',    label:'土地',           blocks:['land','other'],                 bldgTitle:'希望建物面積' },
+  { key:'other',   label:'その他(事業用)', blocks:['land','bldg','other'],          bldgTitle:'希望建物面積' }
 ];
 
 /* =========================================================
@@ -786,7 +862,10 @@ const TYPES = [
    ========================================================= */
 let currentType = 'house';
 const state = {};
-TYPES.forEach(t => state[t.key] = { pref:'兵庫県', city:'姫路市', towns:[], elem:'', jhs:'', priceMin:'', priceMax:'' });
+TYPES.forEach(t => state[t.key] = {
+  pref:'兵庫県', city:'姫路市', towns:[], elem:'', jhs:'',
+  priceMin:'', priceMax:'', madori:[], landMin:'', landMax:'', bldgMin:'', bldgMax:'', other:''
+});
 
 /* =========================================================
    セレクトの初期化
@@ -816,6 +895,38 @@ function fillPriceSelect(sel){
 fillPriceSelect(document.getElementById('priceMin'));
 fillPriceSelect(document.getElementById('priceMax'));
 
+function fillAreaSelect(sel, list){
+  list.forEach(v => {
+    const o = document.createElement('option');
+    o.value = String(v);
+    o.textContent = v.toLocaleString() + ' m²（約' + Math.round(v / 3.305785) + '坪）';
+    sel.appendChild(o);
+  });
+}
+fillAreaSelect(document.getElementById('landMin'), LAND_AREAS);
+fillAreaSelect(document.getElementById('landMax'), LAND_AREAS);
+fillAreaSelect(document.getElementById('bldgMin'), BLDG_AREAS);
+fillAreaSelect(document.getElementById('bldgMax'), BLDG_AREAS);
+
+/* 希望間取りのチップを生成 */
+const madoriRow = document.getElementById('madoriRow');
+MADORI.forEach((name, i) => {
+  const label = document.createElement('label');
+  label.className = 'chip-check';
+  const input = document.createElement('input');
+  input.type = 'checkbox';
+  input.value = name;
+  input.id = 'madori-' + i;
+  const span = document.createElement('span');
+  span.textContent = name;
+  label.appendChild(input);
+  label.appendChild(span);
+  madoriRow.appendChild(label);
+});
+document.getElementById('madoriClear').addEventListener('click', () => {
+  madoriRow.querySelectorAll('input').forEach(i => i.checked = false);
+});
+
 /* =========================================================
    種別切替
    ========================================================= */
@@ -825,6 +936,12 @@ function readPanelIntoState(){
   s.jhs = document.getElementById('jhsSchool').value;
   s.priceMin = document.getElementById('priceMin').value;
   s.priceMax = document.getElementById('priceMax').value;
+  s.madori = Array.from(madoriRow.querySelectorAll('input:checked')).map(i => i.value);
+  s.landMin = document.getElementById('landMin').value;
+  s.landMax = document.getElementById('landMax').value;
+  s.bldgMin = document.getElementById('bldgMin').value;
+  s.bldgMax = document.getElementById('bldgMax').value;
+  s.other = document.getElementById('otherCond').value;
 }
 function writeStateIntoPanel(){
   const s = state[currentType];
@@ -832,9 +949,27 @@ function writeStateIntoPanel(){
   document.getElementById('jhsSchool').value = s.jhs;
   document.getElementById('priceMin').value = s.priceMin;
   document.getElementById('priceMax').value = s.priceMax;
+  madoriRow.querySelectorAll('input').forEach(i => i.checked = s.madori.indexOf(i.value) !== -1);
+  document.getElementById('landMin').value = s.landMin;
+  document.getElementById('landMax').value = s.landMax;
+  document.getElementById('bldgMin').value = s.bldgMin;
+  document.getElementById('bldgMax').value = s.bldgMax;
+  document.getElementById('otherCond').value = s.other;
+  applyTypeBlocks();
   renderPills();
 }
 function typeLabel(key){ return (TYPES.find(t => t.key === key) || {}).label || ''; }
+function typeConf(key){ return TYPES.find(t => t.key === key); }
+
+/* 種別ごとに表示する条件ブロックを切り替える */
+function applyTypeBlocks(){
+  const conf = typeConf(currentType);
+  document.querySelectorAll('[data-block]').forEach(el => {
+    el.hidden = conf.blocks.indexOf(el.dataset.block) === -1;
+  });
+  document.getElementById('bldgTitle').textContent = conf.bldgTitle;
+}
+applyTypeBlocks();
 
 function renderTypeSwitch(){
   const box = document.getElementById('typeSwitch');
@@ -1040,6 +1175,15 @@ function priceText(s){
   const max = s.priceMax ? Number(s.priceMax).toLocaleString() + '万円' : '上限なし';
   return min + ' 〜 ' + max;
 }
+function areaText(min, max){
+  if (!min && !max) return '';
+  const a = min ? Number(min).toLocaleString() + 'm²' : '下限なし';
+  const b = max ? Number(max).toLocaleString() + 'm²' : '上限なし';
+  return a + ' 〜 ' + b;
+}
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 function row(label, value){
   const v = value ? value : '<span class="empty">未入力</span>';
   return '<tr><th>' + label + '</th><td>' + v + '</td></tr>';
@@ -1065,13 +1209,22 @@ function buildConfirm(){
     const area = [s.pref, s.city, (s.towns.length ? s.towns.join('、') : '')].filter(Boolean).join(' ');
     const school = [s.elem, s.jhs].filter(Boolean).join(' ／ ');
     const price = priceText(s);
-    const filled = (s.towns.length || s.elem || s.jhs || price);
+    const madori = s.madori.join('、');
+    const land = areaText(s.landMin, s.landMax);
+    const bldg = areaText(s.bldgMin, s.bldgMax);
+    const filled = (s.towns.length || s.elem || s.jhs || price || madori || land || bldg || s.other.trim());
     if (!filled && t.key !== 'house') return;
-    ch += '<tr><th>' + t.label + '</th><td>'
-       + '<div>エリア：' + (area || '<span class="empty">指定なし</span>') + '</div>'
-       + '<div>校区：' + (school || '<span class="empty">指定なし</span>') + '</div>'
-       + '<div>価格：' + (price || '<span class="empty">指定なし</span>') + '</div>'
-       + '</td></tr>';
+    const none = '<span class="empty">指定なし</span>';
+    const blocks = t.blocks;
+    let body = '';
+    body += '<div>エリア：' + (area || none) + '</div>';
+    body += '<div>校区：' + (school || none) + '</div>';
+    body += '<div>価格：' + (price || none) + '</div>';
+    if (blocks.indexOf('madori') !== -1) body += '<div>間取り：' + (madori || none) + '</div>';
+    if (blocks.indexOf('land') !== -1) body += '<div>土地面積：' + (land || none) + '</div>';
+    if (blocks.indexOf('bldg') !== -1) body += '<div>' + t.bldgTitle.replace('希望','') + '：' + (bldg || none) + '</div>';
+    if (s.other.trim()) body += '<div>その他：' + escapeHtml(s.other.trim()).replace(/\n/g, '<br>') + '</div>';
+    ch += '<tr><th>' + t.label + '</th><td>' + body + '</td></tr>';
   });
   document.getElementById('confirmCond').innerHTML = ch;
 }
