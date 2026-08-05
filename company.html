@@ -1,0 +1,423 @@
+<!-- モリシタハウス 会社概要ページ デザイン案 v1 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>会社概要｜株式会社モリシタハウス（サイトデザイン案）</title>
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --paper-alt:#F3F7F6;
+    --paper-deep:#E7F1EE;
+    --ink:#202B33;
+    --ink-soft:#57626B;
+    --ink-faint:#8A9198;
+    --indigo:#00A98F;
+    --indigo-deep:#00775F;
+    --indigo-tint:#E1F5F0;
+    --gold:#B98A2E;
+    --gold-bright:#C99A3B;
+    --gold-tint:#F3E9D2;
+    --line:#E3E8E7;
+    --line-strong:#CBD6D3;
+    --shadow: 0 18px 40px -22px rgba(32,43,51,0.35);
+    --radius: 3px;
+    --serif:"游明朝体","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+    --sans:"游ゴシック体","Yu Gothic Medium","Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  img,svg{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{margin:0;padding:0;list-style:none;}
+  button{font-family:inherit;cursor:pointer;}
+  :focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+  .wrap-narrow{max-width:880px;margin:0 auto;padding:0 28px;}
+  .band{padding:72px 0;}
+  .band-alt{background:var(--paper-alt);}
+
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:700;color:var(--ink);text-wrap:balance;margin:0;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:12.5px;letter-spacing:.22em;font-weight:600;color:var(--indigo);text-transform:uppercase;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold-bright);}
+  .lead{max-width:60ch;color:var(--ink-soft);font-size:15.5px;}
+
+  .head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:36px;flex-wrap:wrap;}
+  .head-row h2{font-size:clamp(22px,3vw,28px);margin-top:10px;}
+
+  /* ---------- ヘッダー ---------- */
+  header.site{
+    position:sticky;top:0;z-index:60;background:rgba(255,255,255,0.94);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--line);
+  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 28px 12px;max-width:1180px;margin:0 auto;}
+  .nav-row{max-width:1180px;margin:0 auto;padding:0 28px 14px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-logo{width:42px;height:42px;flex:none;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand .mark{font-family:var(--sans);font-size:20px;font-weight:700;letter-spacing:.03em;color:var(--ink);}
+  .brand .mark-en{font-size:9.5px;font-weight:700;letter-spacing:.18em;color:var(--indigo);margin-top:2px;}
+  .brand .tagline{font-size:11px;color:var(--ink-faint);letter-spacing:.1em;border-left:1px solid var(--line-strong);padding-left:14px;margin-left:4px;white-space:nowrap;}
+  .brand-badge{background:var(--indigo);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:2px;display:inline-block;align-self:flex-start;margin-bottom:2px;}
+  nav.primary{display:flex;gap:6px;flex-wrap:wrap;}
+  nav.primary a{
+    font-size:13.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;
+    padding:9px 14px;border:1px solid var(--line);border-radius:4px;background:#fff;
+    transition:border-color .18s ease,color .18s ease,background .18s ease;
+  }
+  nav.primary a:hover{color:var(--indigo);border-color:var(--indigo);background:var(--indigo-tint);}
+  nav.primary a[aria-current="page"]{color:var(--indigo-deep);border-color:var(--indigo);background:var(--indigo-tint);}
+  .utility{display:flex;align-items:center;gap:10px;}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:10px 20px;font-size:13.5px;font-weight:600;border-radius:var(--radius);
+    border:1px solid transparent;white-space:nowrap;letter-spacing:.02em;background:none;
+    transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+  }
+  .btn-ghost{border-color:var(--line-strong);color:var(--ink);background:#fff;}
+  .btn-ghost:hover{border-color:var(--indigo);color:var(--indigo);}
+  .btn-solid{background:var(--indigo);color:#fff;}
+  .btn-solid:hover{background:var(--indigo-deep);transform:translateY(-1px);}
+  .btn-lg{padding:15px 42px;font-size:15px;}
+
+  .draft-banner{background:var(--gold-tint);border-bottom:1px solid var(--line-strong);font-size:12.5px;color:#5a4419;text-align:center;padding:9px 12px;}
+
+  /* ---------- ページヘッド ---------- */
+  .page-head{
+    background:
+      repeating-linear-gradient(0deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+      repeating-linear-gradient(90deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+      linear-gradient(180deg, var(--indigo-tint) 0%, var(--paper) 78%);
+    padding:44px 0 40px;border-bottom:1px solid var(--line);
+  }
+  .crumbs{font-size:11.5px;color:var(--ink-faint);margin-bottom:14px;}
+  .crumbs a:hover{color:var(--indigo);}
+  .page-head h1{font-size:clamp(25px,3.6vw,36px);line-height:1.4;}
+  .page-head p{margin:12px 0 0;color:var(--ink-soft);font-size:14.5px;max-width:62ch;}
+
+  /* ---------- 会社情報テーブル ---------- */
+  .company-table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;}
+  .company-table th,.company-table td{
+    text-align:left;padding:16px 20px;border-bottom:1px solid var(--line);vertical-align:top;
+  }
+  .company-table th{
+    width:190px;color:var(--ink-faint);font-weight:600;font-family:var(--sans);
+    font-size:12.5px;letter-spacing:.04em;background:var(--paper-alt);
+  }
+  .company-table tr:last-child th,.company-table tr:last-child td{border-bottom:none;}
+  .company-card{border:1px solid var(--line);border-radius:6px;overflow:hidden;box-shadow:var(--shadow);}
+  .company-note{font-size:12px;color:var(--ink-soft);margin:16px 0 0;border-left:2px solid var(--gold-bright);padding-left:12px;}
+
+  .area-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+  .area-tags .chip{font-size:12.5px;padding:6px 13px;border-radius:14px;border:1px solid var(--line-strong);background:#fff;color:var(--ink-soft);}
+  .area-tags .chip--main{background:var(--indigo);border-color:var(--indigo);color:#fff;font-weight:700;}
+
+  /* ---------- 代表メッセージ ---------- */
+  .pro-layout{display:grid;grid-template-columns:200px 1fr;gap:36px;align-items:start;}
+  .pro-photo{
+    width:100%;aspect-ratio:3/4;background:linear-gradient(135deg,var(--indigo-tint),var(--gold-tint));
+    display:flex;align-items:center;justify-content:center;border:1px solid var(--line);
+  }
+  .pro-photo svg{width:56px;height:56px;color:var(--indigo);}
+  .dummy-note{font-size:11.5px;color:var(--ink-faint);display:block;margin-top:10px;text-align:center;}
+  .staff-role{font-size:12px;color:var(--gold);letter-spacing:.08em;}
+  .staff-name{font-family:var(--serif);font-size:19px;margin-top:6px;}
+  .staff-cert{font-size:12px;color:var(--ink-faint);margin-top:6px;}
+
+  /* ---------- スタッフ紹介 ---------- */
+  .staff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+  .staff-card{text-align:center;}
+  .staff-photo{
+    width:96px;height:96px;border-radius:50%;margin:0 auto 16px;
+    background:linear-gradient(135deg,var(--indigo-tint),var(--gold-tint));
+    display:flex;align-items:center;justify-content:center;
+  }
+  .staff-photo svg{width:38px;height:38px;color:var(--indigo);}
+  .staff-msg{font-size:13px;color:var(--ink-soft);margin-top:10px;}
+
+  /* ---------- アクセス ---------- */
+  .access-layout{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;}
+  .access-map{
+    aspect-ratio:4/3;background:var(--paper-deep);border:1px solid var(--line);border-radius:6px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+    color:var(--ink-faint);font-size:12.5px;text-align:center;padding:20px;
+  }
+  .access-map svg{width:34px;height:34px;color:var(--indigo);}
+  .access-info dt{font-size:11.5px;color:var(--ink-faint);letter-spacing:.06em;margin-top:16px;}
+  .access-info dt:first-child{margin-top:0;}
+  .access-info dd{margin:4px 0 0;font-size:14.5px;color:var(--ink);}
+
+  /* ---------- フッター ---------- */
+  footer.site{background:var(--ink);color:rgba(255,255,255,0.78);padding:64px 0 26px;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;}
+  .foot-brand__head{display:flex;align-items:center;gap:10px;}
+  .foot-brand .mark{font-family:var(--sans);color:#fff;font-size:19px;font-weight:700;}
+  .foot-brand p{font-size:12.5px;margin-top:14px;color:rgba(255,255,255,0.55);}
+  .foot-col h5{font-size:12.5px;color:#fff;letter-spacing:.1em;margin-bottom:16px;}
+  .foot-col li{margin-bottom:10px;}
+  .foot-col a{font-size:13px;color:rgba(255,255,255,0.65);}
+  .foot-col a:hover{color:var(--gold-bright);}
+  .foot-bottom{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+    margin-top:50px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.12);
+    font-size:11.5px;color:rgba(255,255,255,0.45);
+  }
+
+  @media (max-width:960px){
+    .topbar{flex-wrap:wrap;}
+    .brand .tagline{display:none;}
+    nav.primary a{padding:8px 12px;font-size:13px;}
+    .pro-layout{grid-template-columns:1fr;}
+    .pro-photo{max-width:200px;margin:0 auto;}
+    .staff-grid{grid-template-columns:1fr 1fr;}
+    .access-layout{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:600px){
+    .wrap,.wrap-narrow{padding:0 16px;}
+    .band{padding:44px 0;}
+    .company-table th{width:auto;display:block;border-bottom:none;padding-bottom:4px;}
+    .company-table td{display:block;padding-top:0;padding-bottom:18px;}
+    .staff-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="draft-banner">これはデザイン案（モックアップ）です。会社情報は m-house.co.jp の公開情報に基づいています。公開前に最新の内容をご確認ください。</div>
+
+<!-- ================= ヘッダー ================= -->
+<header class="site">
+  <div class="topbar">
+    <a class="brand" href="index.html" aria-label="モリシタハウス トップへ">
+      <svg class="brand-logo" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="50" fill="var(--indigo)"/>
+        <circle cx="50" cy="22.5" r="6.5" fill="none" stroke="#fff" stroke-width="5"/>
+        <path d="M30,77 L30,45.5 L50,29 L70,45.5 L70,77" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="30" y1="60" x2="70" y2="60" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-badge">中古住宅専門店</span>
+        <span class="mark">モリシタハウス</span>
+        <span class="mark-en">MORISHITA HOUSE</span>
+      </span>
+      <span class="tagline">姫路・播磨エリア</span>
+    </a>
+    <div class="utility">
+      <a class="btn btn-ghost" href="member-register.html">会員登録・ログイン</a>
+      <a class="btn btn-solid" href="index.html#action">来店予約</a>
+    </div>
+  </div>
+  <div class="nav-row">
+    <nav class="primary" aria-label="メインメニュー">
+      <a href="index.html#areamap">物件を探す</a>
+      <a href="kaitori.html">売却をお考えの方</a>
+      <a href="https://www.m-house.co.jp/" target="_blank" rel="noopener">実家・空き家相談</a>
+      <a href="index.html#service">サービス一覧</a>
+      <a href="index.html#event">イベント情報</a>
+      <a href="company.html" aria-current="page">会社概要</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= ページヘッド ================= -->
+<section class="page-head">
+  <div class="wrap-narrow">
+    <div class="crumbs"><a href="index.html">ホーム</a> ／ 会社概要</div>
+    <span class="eyebrow">Company</span>
+    <h1>会社概要</h1>
+    <p>姫路・播磨エリアで中古住宅の仲介と買取、そして実家・空き家のご相談まで対応する株式会社モリシタハウスの会社情報です。</p>
+  </div>
+</section>
+
+<main>
+
+  <!-- ============ 会社情報 ============ -->
+  <section class="band">
+    <div class="wrap-narrow">
+      <div class="company-card">
+        <table class="company-table">
+          <tr><th>社名</th><td>株式会社モリシタハウス</td></tr>
+          <tr><th>本社所在地</th><td>〒670-0085　兵庫県姫路市山吹2丁目12番30号</td></tr>
+          <tr><th>フリーダイヤル</th><td>0120-975-856</td></tr>
+          <tr><th>TEL</th><td>079-260-8878</td></tr>
+          <tr><th>受付時間</th><td>平日 9:00〜18:00（水曜定休）</td></tr>
+          <tr><th>代表取締役</th><td>森下 誉樹（一級建築士／一級建築施工管理技士／省エネ建築診断士）</td></tr>
+          <tr><th>グループ会社</th><td>株式会社モリシタ・アット・ホーム<br>株式会社モリシタ・アット・リフォーム</td></tr>
+          <tr><th>許可など</th><td>建設業許可　兵庫県知事（特-2）第450225号<br>一級建築士事務所登録　第01A00961号<br>宅地建物取引業者免許　兵庫県知事（13）第450028号</td></tr>
+          <tr>
+            <th>営業エリア</th>
+            <td>
+              <div class="area-tags">
+                <span class="chip chip--main">姫路市</span>
+                <span class="chip">神戸市（一部）</span><span class="chip">明石市</span><span class="chip">加古郡</span>
+                <span class="chip">加古川市</span><span class="chip">高砂市</span><span class="chip">たつの市</span>
+                <span class="chip">揖保郡</span><span class="chip">相生市</span><span class="chip">赤穂市</span>
+                <span class="chip">赤穂郡（一部）</span><span class="chip">佐用郡</span><span class="chip">宍粟市</span>
+                <span class="chip">神崎郡（一部）</span><span class="chip">加西市</span><span class="chip">小野市</span>
+                <span class="chip">三木市</span><span class="chip">西脇市（一部）</span>
+              </div>
+              <p class="company-note">※エリアによっては交通費加算についてご相談する場合があります。</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="company-note">会社情報は <a href="https://www.m-house.co.jp/company/" target="_blank" rel="noopener" style="color:var(--indigo);text-decoration:underline;">m-house.co.jp の会社案内ページ</a>の公開情報に基づいています。公開前に最新の内容をご確認ください。</p>
+    </div>
+  </section>
+
+  <!-- ============ 代表メッセージ ============ -->
+  <section class="band band-alt">
+    <div class="wrap-narrow">
+      <div class="head-row">
+        <div><span class="eyebrow">Message</span><h2>代表からのご挨拶</h2></div>
+      </div>
+      <div class="pro-layout">
+        <div>
+          <div class="pro-photo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+          </div>
+          <span class="dummy-note">※代表の顔写真を差し込む位置です。</span>
+        </div>
+        <div>
+          <div class="staff-role">代表取締役</div>
+          <div class="staff-name">森下 誉樹</div>
+          <div class="staff-cert">一級建築士／一級建築施工管理技士／省エネ建築診断士</div>
+          <p style="font-size:14.5px;color:var(--ink-soft);margin-top:16px;">
+            私はこれまで姫路・播磨エリアで長年、建築と不動産の両面から数多くの住まいづくりに携わってきました。中古住宅は一軒一軒、状態が異なります。表面の綺麗さだけでなく、土台や構造の状態、そしてリノベーションした際にどれほどのコストと可能性があるのか。それを正確に見極めることが、中古住宅選びで最も重要なステップです。
+          </p>
+          <p style="font-size:14.5px;color:var(--ink-soft);margin-top:14px;">
+            また、地元の工務店として「実家じまい・空き家対策」のご相談も数多くお受けしています。売る・残す・活かす、どの選択にも寄り添えるよう、グループ会社と連携しながらワンストップでサポートいたします。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ スタッフ紹介 ============ -->
+  <section class="band">
+    <div class="wrap-narrow">
+      <div class="head-row">
+        <div><span class="eyebrow">Staff</span><h2>ご案内するスタッフ</h2></div>
+      </div>
+      <div class="staff-grid">
+        <div class="staff-card">
+          <div class="staff-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+          <div class="staff-role">代表取締役</div>
+          <div class="staff-name" style="font-size:17px;">森下 誉樹</div>
+          <div class="staff-cert">一級建築士／一級建築施工管理技士／省エネ建築診断士</div>
+          <p class="staff-msg">皆さまの大切な住まい選びを、建築のプロの目線でお手伝いします。</p>
+        </div>
+        <div class="staff-card">
+          <div class="staff-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+          <div class="staff-role">サービススタッフ</div>
+          <div class="staff-name" style="font-size:17px;">山﨑 敏宏</div>
+          <div class="staff-cert">住宅メンテナンス診断士／住宅外壁診断士</div>
+          <p class="staff-msg">建替え・リノベーションのご提案から施工まで丁寧にサポートします。</p>
+        </div>
+        <div class="staff-card">
+          <div class="staff-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+          <div class="staff-role">不動産手続対応スタッフ</div>
+          <div class="staff-name" style="font-size:17px;">松下 登志美</div>
+          <div class="staff-cert">宅地建物取引士／損害保険募集人</div>
+          <p class="staff-msg">売買契約や登記まわりも、法的な面からしっかりサポートします。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ アクセス ============ -->
+  <section class="band band-alt" id="access">
+    <div class="wrap-narrow">
+      <div class="head-row">
+        <div><span class="eyebrow">Access</span><h2>アクセス</h2></div>
+      </div>
+      <div class="access-layout">
+        <div class="access-map">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21c4-4 7-7.6 7-11a7 7 0 10-14 0c0 3.4 3 7 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
+          地図を表示する位置です（本番サイトでは地図APIと連携予定）
+        </div>
+        <dl class="access-info">
+          <dt>所在地</dt>
+          <dd>〒670-0085　兵庫県姫路市山吹2丁目12番30号</dd>
+          <dt>電話番号</dt>
+          <dd>079-260-8878（フリーダイヤル 0120-975-856）</dd>
+          <dt>受付時間</dt>
+          <dd>平日 9:00〜18:00（水曜定休）</dd>
+          <dt>アクセス</dt>
+          <dd>JR姫路駅・山陽姫路駅よりお車で約10分</dd>
+        </dl>
+        <div style="grid-column:1 / -1;">
+          <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=%E5%85%B5%E5%BA%AB%E7%9C%8C%E5%A7%AB%E8%B7%AF%E5%B8%82%E5%B1%B1%E5%90%B9%EF%BC%92%E4%B8%81%E7%9B%AE%EF%BC%91%EF%BC%92%E7%95%AA%EF%BC%93%EF%BC%90%E5%8F%B7" target="_blank" rel="noopener">Google マップで見る</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= フッター ================= -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="foot-brand__head" href="index.html">
+          <svg class="brand-logo" viewBox="0 0 100 100" aria-hidden="true" style="width:34px;height:34px;">
+            <circle cx="50" cy="50" r="50" fill="var(--indigo)"/>
+            <circle cx="50" cy="22.5" r="6.5" fill="none" stroke="#fff" stroke-width="5"/>
+            <path d="M30,77 L30,45.5 L50,29 L70,45.5 L70,77" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="30" y1="60" x2="70" y2="60" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+          </svg>
+          <span class="mark">モリシタハウス</span>
+        </a>
+        <p>株式会社モリシタハウス<br>〒670-0085 兵庫県姫路市山吹2丁目12番30号<br>TEL 079-260-8878（フリーダイヤル 0120-975-856）<br>受付時間　平日9:00〜18:00（水曜定休）</p>
+      </div>
+      <div class="foot-col">
+        <h5>物件を探す</h5>
+        <ul>
+          <li><a href="index.html#search">中古一戸建て</a></li>
+          <li><a href="index.html#search">中古マンション</a></li>
+          <li><a href="index.html#search">土地</a></li>
+          <li><a href="member-register.html">会員登録・ログイン</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>サービス</h5>
+        <ul>
+          <li><a href="kaitori.html">売却査定</a></li>
+          <li><a href="https://www.m-house.co.jp/" target="_blank" rel="noopener">実家・空き家の相談</a></li>
+          <li><a href="index.html#event">イベント・セミナー</a></li>
+          <li><a href="index.html#action">来店予約・Web相談</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>会社情報</h5>
+        <ul>
+          <li><a href="company.html">会社概要</a></li>
+          <li><a href="company.html#access">アクセス</a></li>
+          <li><a href="#">プライバシーポリシー</a></li>
+          <li><a href="#">サイトマップ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 株式会社モリシタハウス</span>
+      <span>宅地建物取引業者免許 兵庫県知事（13）第450028号</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
