@@ -1,0 +1,731 @@
+<!-- モリシタハウス 無料査定フォーム（買取LP用） デザイン案 v1 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>無料査定フォーム｜株式会社モリシタハウス（サイトデザイン案）</title>
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --paper-alt:#F3F7F6;
+    --paper-deep:#E7F1EE;
+    --ink:#202B33;
+    --ink-soft:#57626B;
+    --ink-faint:#8A9198;
+    --indigo:#00A98F;
+    --indigo-deep:#00775F;
+    --indigo-tint:#E1F5F0;
+    --gold:#B98A2E;
+    --gold-bright:#C99A3B;
+    --gold-tint:#F3E9D2;
+    --alert:#C0483C;
+    --line:#E3E8E7;
+    --line-strong:#CBD6D3;
+    --shadow: 0 18px 40px -22px rgba(32,43,51,0.35);
+    --radius: 3px;
+    --serif:"游明朝体","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+    --sans:"游ゴシック体","Yu Gothic Medium","Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  img,svg{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{margin:0;padding:0;list-style:none;}
+  button{font-family:inherit;cursor:pointer;}
+  :focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+  .wrap-narrow{max-width:880px;margin:0 auto;padding:0 28px;}
+  .band{padding:72px 0;}
+  .band-alt{background:var(--paper-alt);}
+
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:700;color:var(--ink);text-wrap:balance;margin:0;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:12.5px;letter-spacing:.22em;font-weight:600;color:var(--indigo);text-transform:uppercase;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold-bright);}
+
+  /* ---------- ヘッダー ---------- */
+  header.site{
+    position:sticky;top:0;z-index:60;background:rgba(255,255,255,0.94);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--line);
+  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 28px 12px;max-width:1180px;margin:0 auto;}
+  .nav-row{max-width:1180px;margin:0 auto;padding:0 28px 14px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-logo{width:42px;height:42px;flex:none;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand .mark{font-family:var(--sans);font-size:20px;font-weight:700;letter-spacing:.03em;color:var(--ink);}
+  .brand .mark-en{font-size:9.5px;font-weight:700;letter-spacing:.18em;color:var(--indigo);margin-top:2px;}
+  .brand .tagline{font-size:11px;color:var(--ink-faint);letter-spacing:.1em;border-left:1px solid var(--line-strong);padding-left:14px;margin-left:4px;white-space:nowrap;}
+  .brand-badge{background:var(--indigo);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:2px;display:inline-block;align-self:flex-start;margin-bottom:2px;}
+  nav.primary{display:flex;gap:6px;flex-wrap:wrap;}
+  nav.primary a{
+    font-size:13.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;
+    padding:9px 14px;border:1px solid var(--line);border-radius:4px;background:#fff;
+    transition:border-color .18s ease,color .18s ease,background .18s ease;
+  }
+  nav.primary a:hover{color:var(--indigo);border-color:var(--indigo);background:var(--indigo-tint);}
+  nav.primary a[aria-current="page"]{color:var(--indigo-deep);border-color:var(--indigo);background:var(--indigo-tint);}
+  .utility{display:flex;align-items:center;gap:16px;}
+  .header-tel{font-size:11.5px;color:var(--ink-faint);text-align:right;line-height:1.5;letter-spacing:.04em;}
+  .header-tel strong{display:block;font-family:var(--serif);font-size:19px;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.02em;}
+
+  /* ---------- ボタン ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:10px 20px;font-size:13.5px;font-weight:600;border-radius:var(--radius);
+    border:1px solid transparent;white-space:nowrap;letter-spacing:.02em;background:none;
+    transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+  }
+  .btn-ghost{border-color:var(--line-strong);color:var(--ink);background:#fff;}
+  .btn-ghost:hover{border-color:var(--indigo);color:var(--indigo);}
+  .btn-line{border-color:var(--indigo);color:var(--indigo);}
+  .btn-line:hover{background:var(--indigo);color:#fff;}
+  .btn-solid{background:var(--indigo);color:#fff;}
+  .btn-solid:hover{background:var(--indigo-deep);transform:translateY(-1px);}
+  .btn-gold{background:var(--gold-bright);color:#2b2108;}
+  .btn-gold:hover{background:var(--gold);transform:translateY(-1px);}
+  .btn-block{width:100%;}
+  .btn-lg{padding:15px 42px;font-size:15px;}
+  .btn-sm{padding:8px 14px;font-size:12.5px;}
+
+  .draft-banner{background:var(--gold-tint);border-bottom:1px solid var(--line-strong);font-size:12.5px;color:#5a4419;text-align:center;padding:9px 12px;}
+
+  /* ---------- ページヘッド ---------- */
+  .page-head{
+    background:
+      repeating-linear-gradient(0deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+      repeating-linear-gradient(90deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+      linear-gradient(180deg, var(--indigo-tint) 0%, var(--paper) 78%);
+    padding:44px 0 34px;border-bottom:1px solid var(--line);
+  }
+  .crumbs{font-size:11.5px;color:var(--ink-faint);margin-bottom:14px;}
+  .crumbs a:hover{color:var(--indigo);}
+  .page-head h1{font-size:clamp(25px,3.6vw,36px);line-height:1.4;}
+  .page-head p{margin:12px 0 0;color:var(--ink-soft);font-size:14.5px;max-width:60ch;}
+
+  .trust-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
+  .trust-chip{
+    display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);
+    background:#fff;border:1px solid var(--line-strong);border-radius:16px;padding:7px 14px;
+  }
+  .trust-chip svg{width:15px;height:15px;color:var(--indigo);flex:none;}
+
+  /* ---------- ステップインジケータ ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:28px;}
+  .step-item{background:#fff;padding:14px 10px;text-align:center;color:var(--ink-faint);}
+  .step-item .no{
+    display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;
+    background:var(--paper-alt);color:var(--ink-faint);font-size:12px;font-weight:700;margin-right:8px;
+  }
+  .step-item .ttl{font-size:13px;font-weight:600;}
+  .step-item.is-current{background:var(--indigo-tint);color:var(--indigo-deep);}
+  .step-item.is-current .no{background:var(--indigo);color:#fff;}
+  .step-item.is-done{color:var(--ink-soft);}
+  .step-item.is-done .no{background:var(--indigo-deep);color:#fff;}
+
+  /* ---------- フォーム共通 ---------- */
+  .form-card{background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow);}
+  .form-card__head{padding:22px 30px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .form-card__head h2{font-size:20px;}
+  .form-card__head .note{font-size:12px;color:var(--ink-faint);}
+  .form-card__body{padding:12px 30px 30px;}
+
+  .frow{display:grid;grid-template-columns:220px 1fr;gap:18px 24px;padding:20px 0;border-bottom:1px solid var(--line);align-items:start;}
+  .frow:last-child{border-bottom:none;}
+  .frow__label{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-top:9px;}
+  .frow__label span.name{font-size:14px;font-weight:700;}
+  .frow__help{font-size:12px;color:var(--ink-faint);margin-top:8px;line-height:1.6;}
+  .tag{font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:2px;line-height:1.6;}
+  .tag-req{background:var(--alert);color:#fff;}
+  .tag-opt{background:#9AA3A8;color:#fff;}
+
+  input[type=text],input[type=email],input[type=tel],select,textarea{
+    width:100%;padding:11px 12px;border:1px solid var(--line-strong);border-radius:4px;
+    background:var(--paper);font-size:14px;color:var(--ink);font-family:inherit;appearance:none;
+  }
+  select{
+    background:var(--paper) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0l5 6 5-6z" fill="%2357626B"/></svg>') no-repeat right 12px center;
+    padding-right:32px;
+  }
+  input:focus,select:focus,textarea:focus{border-color:var(--indigo);outline:none;box-shadow:0 0 0 3px var(--indigo-tint);}
+  ::placeholder{color:#B4BBBE;}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .inline-note{font-size:11.5px;color:var(--ink-faint);margin-top:6px;}
+
+  .check-item{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:var(--ink-soft);}
+  .check-item input{width:17px;height:17px;accent-color:var(--indigo);margin-top:4px;flex:none;}
+  .check-list{display:flex;flex-direction:column;gap:10px;}
+  .check-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 16px;}
+  .radio-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .radio-pill{position:relative;cursor:pointer;}
+  .radio-pill input{position:absolute;opacity:0;pointer-events:none;}
+  .radio-pill span{
+    display:inline-block;font-size:13px;padding:8px 16px;border:1px solid var(--line-strong);
+    border-radius:16px;color:var(--ink-soft);transition:all .15s ease;
+  }
+  .radio-pill input:checked + span{background:var(--indigo);border-color:var(--indigo);color:#fff;}
+  .radio-pill input:focus-visible + span{outline:2px solid var(--gold-bright);outline-offset:2px;}
+  textarea{min-height:110px;resize:vertical;line-height:1.7;}
+  .unit-row{display:flex;align-items:center;gap:10px;max-width:320px;}
+  .unit-row select{flex:1;}
+  .unit-row .unit{font-size:13px;color:var(--ink-soft);flex:none;min-width:34px;}
+
+  .agree-box{background:var(--paper-alt);border:1px solid var(--line);border-radius:4px;padding:18px 20px;margin-top:8px;}
+  .agree-box a{color:var(--indigo);text-decoration:underline;}
+
+  .form-foot{display:flex;justify-content:center;gap:14px;margin-top:28px;flex-wrap:wrap;}
+  .form-foot .btn-lg{min-width:280px;}
+
+  [data-block]{transition:opacity .15s ease;}
+  [data-block][hidden]{display:none !important;}
+
+  /* ---------- 確認 ---------- */
+  .confirm-table{width:100%;border-collapse:collapse;font-size:14px;}
+  .confirm-table th{
+    text-align:left;width:200px;font-weight:600;color:var(--ink-soft);font-size:13px;
+    padding:14px 16px 14px 0;border-bottom:1px solid var(--line);vertical-align:top;
+  }
+  .confirm-table td{padding:14px 0;border-bottom:1px solid var(--line);vertical-align:top;}
+  .confirm-table td .empty{color:var(--ink-faint);font-size:13px;}
+
+  /* ---------- 完了 ---------- */
+  .done-card{text-align:center;padding:56px 30px;}
+  .done-mark{width:66px;height:66px;margin:0 auto 22px;border-radius:50%;background:var(--indigo-tint);display:flex;align-items:center;justify-content:center;}
+  .done-mark svg{width:32px;height:32px;color:var(--indigo-deep);}
+  .done-card h2{font-size:24px;}
+  .done-card p{color:var(--ink-soft);font-size:14px;margin:14px auto 0;max-width:52ch;}
+
+  /* ---------- フッター ---------- */
+  footer.site{background:var(--ink);color:rgba(255,255,255,0.78);padding:64px 0 26px;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;}
+  .foot-brand__head{display:flex;align-items:center;gap:10px;}
+  .foot-brand .mark{font-family:var(--sans);color:#fff;font-size:19px;font-weight:700;}
+  .foot-brand p{font-size:12.5px;margin-top:14px;color:rgba(255,255,255,0.55);}
+  .foot-col h5{font-size:12.5px;color:#fff;letter-spacing:.1em;margin-bottom:16px;}
+  .foot-col li{margin-bottom:10px;}
+  .foot-col a{font-size:13px;color:rgba(255,255,255,0.65);}
+  .foot-col a:hover{color:var(--gold-bright);}
+  .foot-bottom{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+    margin-top:50px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.12);
+    font-size:11.5px;color:rgba(255,255,255,0.45);
+  }
+
+  /* ---------- モバイル固定CTA ---------- */
+  .mobile-cta{
+    display:none;position:fixed;left:0;right:0;bottom:0;z-index:70;
+    background:#fff;border-top:1px solid var(--line-strong);
+    padding:10px 14px;gap:10px;box-shadow:0 -6px 16px rgba(32,43,51,0.12);
+  }
+
+  @media (max-width:960px){
+    .topbar{flex-wrap:wrap;}
+    .brand .tagline{display:none;}
+    .header-tel{display:none;}
+    nav.primary a{padding:8px 12px;font-size:13px;}
+    .frow{grid-template-columns:1fr;gap:10px;padding:18px 0;}
+    .frow__label{padding-top:0;}
+    .check-grid{grid-template-columns:1fr;}
+    .steps{grid-template-columns:repeat(2,1fr);}
+    .mobile-cta{display:flex;}
+    body{padding-bottom:66px;}
+  }
+  @media (max-width:600px){
+    .wrap,.wrap-narrow{padding:0 16px;}
+    .band{padding:44px 0;}
+    .form-card__head,.form-card__body{padding-left:18px;padding-right:18px;}
+    .split{grid-template-columns:1fr;}
+    .form-foot .btn-lg{min-width:0;width:100%;}
+    .confirm-table th{width:auto;display:block;border-bottom:none;padding-bottom:0;}
+    .confirm-table td{display:block;padding-top:4px;}
+    .step-item .no{margin-right:5px;}
+    .step-item .ttl{font-size:12px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="draft-banner">これはデザイン案（モックアップ）です。送信ボタンは実際には送信されず、入力内容の確認画面を表示するだけのプロトタイプです。公開前にサーバー側の送信処理を実装してください。</div>
+
+<!-- ================= ヘッダー ================= -->
+<header class="site">
+  <div class="topbar">
+    <a class="brand" href="index.html" aria-label="モリシタハウス トップへ">
+      <svg class="brand-logo" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="50" fill="var(--indigo)"/>
+        <circle cx="50" cy="22.5" r="6.5" fill="none" stroke="#fff" stroke-width="5"/>
+        <path d="M30,77 L30,45.5 L50,29 L70,45.5 L70,77" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="30" y1="60" x2="70" y2="60" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-badge">中古住宅専門店</span>
+        <span class="mark">モリシタハウス</span>
+        <span class="mark-en">MORISHITA HOUSE</span>
+      </span>
+      <span class="tagline">姫路・播磨エリア</span>
+    </a>
+    <div class="utility">
+      <div class="header-tel">お電話でのご相談<strong>079-260-8878</strong></div>
+      <a class="btn btn-ghost" href="kaitori.html">買取トップへ戻る</a>
+    </div>
+  </div>
+  <div class="nav-row">
+    <nav class="primary" aria-label="メインメニュー">
+      <a href="index.html#areamap">物件を探す</a>
+      <a href="kaitori.html" aria-current="page">売却をお考えの方</a>
+      <a href="https://www.m-house.co.jp/" target="_blank" rel="noopener">実家・空き家相談</a>
+      <a href="index.html#service">サービス一覧</a>
+      <a href="index.html#event">イベント情報</a>
+      <a href="index.html#company">会社概要</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= ページヘッド ================= -->
+<section class="page-head">
+  <div class="wrap-narrow">
+    <div class="crumbs"><a href="index.html">ホーム</a> ／ <a href="kaitori.html">売却をお考えの方</a> ／ 無料査定フォーム</div>
+    <span class="eyebrow">Free Assessment</span>
+    <h1>無料査定フォーム</h1>
+    <p>物件の状態や築年数を問わず、まずは概算の買取価格をお調べします。「まだ売ると決めていない」段階のご相談も歓迎しています。入力は3分ほどで完了します。</p>
+    <div class="trust-row">
+      <span class="trust-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>査定・ご相談は無料</span>
+      <span class="trust-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 2v4M16 2v4M4 10h16"/></svg>最短10日で現金化</span>
+      <span class="trust-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21c4-4 7-7.6 7-11a7 7 0 10-14 0c0 3.4 3 7 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>秘密厳守・非公開で対応</span>
+    </div>
+    <ol class="steps" id="stepbar">
+      <li class="step-item is-current" data-step="1"><span class="no">1</span><span class="ttl">物件情報</span></li>
+      <li class="step-item" data-step="2"><span class="no">2</span><span class="ttl">お客様情報</span></li>
+      <li class="step-item" data-step="3"><span class="no">3</span><span class="ttl">入力内容の確認</span></li>
+      <li class="step-item" data-step="4"><span class="no">4</span><span class="ttl">送信完了</span></li>
+    </ol>
+  </div>
+</section>
+
+<main class="band band-alt">
+  <div class="wrap-narrow">
+
+    <!-- ============ STEP1：物件情報 ============ -->
+    <section data-panel="1">
+      <div class="form-card">
+        <div class="form-card__head">
+          <h2>STEP1　物件情報の入力</h2>
+          <span class="note"><span class="tag tag-req">必須</span> は入力必須項目です</span>
+        </div>
+        <div class="form-card__body">
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">物件種別</span><span class="tag tag-req">必須</span></div>
+            <div class="radio-row" id="typeRow">
+              <label class="radio-pill"><input type="radio" name="propType" value="戸建て" checked><span>戸建て</span></label>
+              <label class="radio-pill"><input type="radio" name="propType" value="マンション"><span>マンション</span></label>
+              <label class="radio-pill"><input type="radio" name="propType" value="土地"><span>土地</span></label>
+              <label class="radio-pill"><input type="radio" name="propType" value="空き家"><span>空き家</span></label>
+              <label class="radio-pill"><input type="radio" name="propType" value="その他"><span>その他</span></label>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">物件の所在地</span><span class="tag tag-req">必須</span></div>
+            <div>
+              <div class="split" style="grid-template-columns:160px 1fr;">
+                <input type="text" id="zip" placeholder="郵便番号（任意）" autocomplete="postal-code">
+                <select id="city">
+                  <option value="">▼市区町村を選択してください</option>
+                  <option>姫路市</option><option>明石市</option><option>加古川市</option><option>高砂市</option>
+                  <option>たつの市</option><option>相生市</option><option>赤穂市</option><option>加西市</option>
+                  <option>小野市</option><option>三木市</option><option>宍粟市</option><option>太子町</option>
+                  <option>福崎町</option><option>市川町</option><option>神河町</option><option>その他</option>
+                </select>
+              </div>
+              <input type="text" id="town" placeholder="町名・番地（例：飾磨区中島1丁目）" style="margin-top:10px;" autocomplete="address-line1">
+              <p class="inline-note">正式な地番が分からない場合は、目印になる地名やお住まいの目安で構いません。</p>
+            </div>
+          </div>
+
+          <div class="frow" data-block="land">
+            <div class="frow__label"><span class="name" id="landTitle">土地面積</span><span class="tag tag-opt">任意</span></div>
+            <div>
+              <div class="unit-row">
+                <select id="landArea"><option value="">▼選択してください</option><option>65㎡未満</option><option>65〜100㎡</option><option>100〜150㎡</option><option>150〜200㎡</option><option>200〜300㎡</option><option>300㎡以上</option><option>不明</option></select>
+                <span class="unit">目安</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="frow" data-block="bldg">
+            <div class="frow__label"><span class="name">建物面積</span><span class="tag tag-opt">任意</span></div>
+            <div>
+              <div class="unit-row">
+                <select id="bldgArea"><option value="">▼選択してください</option><option>50㎡未満</option><option>50〜80㎡</option><option>80〜120㎡</option><option>120〜160㎡</option><option>160㎡以上</option><option>不明</option></select>
+                <span class="unit">目安</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="frow" data-block="madori">
+            <div class="frow__label"><span class="name">間取り</span><span class="tag tag-opt">任意</span></div>
+            <div>
+              <select id="madori" style="max-width:280px;">
+                <option value="">▼選択してください</option>
+                <option>1R〜1LDK</option><option>2K〜2LDK</option><option>3K〜3LDK</option><option>4K〜4LDK</option><option>5LDK以上</option><option>不明</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="frow" data-block="chikunensu">
+            <div class="frow__label"><span class="name">築年数</span><span class="tag tag-opt">任意</span></div>
+            <div>
+              <select id="chikunensu" style="max-width:280px;">
+                <option value="">▼選択してください</option>
+                <option>新築〜5年</option><option>6〜10年</option><option>11〜20年</option><option>21〜30年</option><option>31年以上</option><option>不明</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">現況</span><span class="tag tag-opt">任意</span></div>
+            <div class="radio-row">
+              <label class="radio-pill"><input type="radio" name="genkyo" value="居住中" checked><span>居住中</span></label>
+              <label class="radio-pill"><input type="radio" name="genkyo" value="空き家"><span>空き家</span></label>
+              <label class="radio-pill"><input type="radio" name="genkyo" value="賃貸中"><span>賃貸中</span></label>
+              <label class="radio-pill"><input type="radio" name="genkyo" value="その他"><span>その他</span></label>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">査定方法のご希望</span><span class="tag tag-req">必須</span></div>
+            <div class="radio-row">
+              <label class="radio-pill"><input type="radio" name="satei" value="訪問査定" checked><span>訪問査定（現地を見て査定）</span></label>
+              <label class="radio-pill"><input type="radio" name="satei" value="机上査定"><span>机上査定（概算のみ）</span></label>
+              <label class="radio-pill"><input type="radio" name="satei" value="まず相談したい"><span>まずは相談したい</span></label>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">ご相談のきっかけ</span><span class="tag tag-opt">任意</span></div>
+            <div>
+              <p class="inline-note" style="margin:0 0 10px;">複数選択できます。</p>
+              <div class="check-grid">
+                <label class="check-item"><input type="checkbox" value="空き家の管理負担">空き家の管理負担が続いている</label>
+                <label class="check-item"><input type="checkbox" value="実家を相続した">実家を相続した・相続予定</label>
+                <label class="check-item"><input type="checkbox" value="住み替えのため">住み替えを控えている</label>
+                <label class="check-item"><input type="checkbox" value="近所に知られたくない">近所に知られずに手放したい</label>
+                <label class="check-item"><input type="checkbox" value="ローンが残っている">ローンが残っている</label>
+                <label class="check-item"><input type="checkbox" value="老朽化・傾き">老朽化・傾きなどがある</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">物件の状況・ご要望</span><span class="tag tag-opt">任意</span></div>
+            <div>
+              <textarea id="freeText" placeholder="例：残置物が残っています／解体も含めて相談したい／早めに現金化したい　など、わかっている範囲でご記入ください"></textarea>
+            </div>
+          </div>
+
+          <div class="form-foot">
+            <button type="button" class="btn btn-gold btn-lg" data-goto="2">次へ：お客様情報を入力する</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STEP2：お客様情報 ============ -->
+    <section data-panel="2" hidden>
+      <div class="form-card">
+        <div class="form-card__head">
+          <h2>STEP2　お客様情報の入力</h2>
+          <span class="note"><span class="tag tag-req">必須</span> は入力必須項目です</span>
+        </div>
+        <div class="form-card__body">
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">お名前</span><span class="tag tag-req">必須</span></div>
+            <div>
+              <div class="split">
+                <input type="text" id="lastName" placeholder="姓（例：森下）" autocomplete="family-name">
+                <input type="text" id="firstName" placeholder="名（例：太郎）" autocomplete="given-name">
+              </div>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">フリガナ</span><span class="tag tag-opt">任意</span></div>
+            <div>
+              <div class="split">
+                <input type="text" id="lastKana" placeholder="セイ（例：モリシタ）">
+                <input type="text" id="firstKana" placeholder="メイ（例：タロウ）">
+              </div>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">お電話番号</span><span class="tag tag-req">必須</span></div>
+            <div>
+              <input type="tel" id="tel" placeholder="079-260-8878（ハイフンあり）" autocomplete="tel" style="max-width:320px;">
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">メールアドレス</span><span class="tag tag-req">必須</span></div>
+            <div>
+              <input type="email" id="email" placeholder="example@mail.com" autocomplete="email">
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">ご希望の連絡方法</span><span class="tag tag-opt">任意</span></div>
+            <div class="radio-row">
+              <label class="radio-pill"><input type="radio" name="contactWay" value="電話" checked><span>電話</span></label>
+              <label class="radio-pill"><input type="radio" name="contactWay" value="メール"><span>メール</span></label>
+              <label class="radio-pill"><input type="radio" name="contactWay" value="どちらでも"><span>どちらでも可</span></label>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">ご連絡可能な時間帯</span><span class="tag tag-opt">任意</span></div>
+            <div class="check-grid">
+              <label class="check-item"><input type="checkbox" value="午前">午前（9:00〜12:00）</label>
+              <label class="check-item"><input type="checkbox" value="午後">午後（12:00〜15:00）</label>
+              <label class="check-item"><input type="checkbox" value="夕方">夕方以降（15:00〜18:00）</label>
+              <label class="check-item"><input type="checkbox" value="いつでも">いつでも可</label>
+            </div>
+          </div>
+
+          <div class="frow">
+            <div class="frow__label"><span class="name">個人情報の取り扱いへの同意</span><span class="tag tag-req">必須</span></div>
+            <div>
+              <div class="agree-box">
+                <label class="check-item"><input type="checkbox" id="agree"><span><a href="#">プライバシーポリシー</a>に同意のうえ、送信します。</span></label>
+              </div>
+              <p class="inline-note">ご入力いただいた個人情報は、本査定・ご連絡以外の目的では使用いたしません。</p>
+            </div>
+          </div>
+
+          <div class="form-foot">
+            <button type="button" class="btn btn-ghost btn-lg" data-goto="1">戻る</button>
+            <button type="button" class="btn btn-gold btn-lg" data-goto="3">入力内容を確認する</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STEP3：確認 ============ -->
+    <section data-panel="3" hidden>
+      <div class="form-card">
+        <div class="form-card__head">
+          <h2>STEP3　入力内容の確認</h2>
+          <span class="note">内容をご確認のうえ、送信してください。</span>
+        </div>
+        <div class="form-card__body">
+          <h3 style="font-size:16px;margin:18px 0 4px;">物件情報</h3>
+          <table class="confirm-table" id="confirmProp"></table>
+
+          <h3 style="font-size:16px;margin:30px 0 4px;">お客様情報</h3>
+          <table class="confirm-table" id="confirmCustomer"></table>
+
+          <div class="form-foot">
+            <button type="button" class="btn btn-ghost btn-lg" data-goto="2">修正する</button>
+            <button type="button" class="btn btn-gold btn-lg" id="submitBtn">この内容で送信する</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STEP4：完了 ============ -->
+    <section data-panel="4" hidden>
+      <div class="form-card">
+        <div class="done-card">
+          <div class="done-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5"/>
+            </svg>
+          </div>
+          <h2>査定のお申し込みを受け付けました</h2>
+          <p>ご入力いただいた内容を確認のうえ、営業時間内で担当者よりご連絡いたします。お急ぎの場合はお電話でも承っております。</p>
+          <div class="form-foot">
+            <a class="btn btn-solid btn-lg" href="kaitori.html">買取トップへ戻る</a>
+            <a class="btn btn-ghost btn-lg" href="tel:0792608878">079-260-8878（電話で相談）</a>
+          </div>
+          <p style="font-size:12px;color:var(--ink-faint);margin-top:22px;">
+            このデザイン案では実際にメールは送信されません。公開時はフォーム送信をサーバー側の受付処理につないでください。
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- ================= フッター ================= -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="foot-brand__head" href="index.html">
+          <svg class="brand-logo" viewBox="0 0 100 100" aria-hidden="true" style="width:34px;height:34px;">
+            <circle cx="50" cy="50" r="50" fill="var(--indigo)"/>
+            <circle cx="50" cy="22.5" r="6.5" fill="none" stroke="#fff" stroke-width="5"/>
+            <path d="M30,77 L30,45.5 L50,29 L70,45.5 L70,77" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="30" y1="60" x2="70" y2="60" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+          </svg>
+          <span class="mark">モリシタハウス</span>
+        </a>
+        <p>株式会社モリシタハウス<br>〒670-0085 兵庫県姫路市山吹2丁目12番30号<br>TEL 079-260-8878（フリーダイヤル 0120-736-066）<br>受付時間　平日9:00〜18:00（水曜定休）</p>
+      </div>
+      <div class="foot-col">
+        <h5>買取について</h5>
+        <ul>
+          <li><a href="kaitori.html#reasons">選ばれる理由</a></li>
+          <li><a href="kaitori.html#flow">買取の流れ</a></li>
+          <li><a href="kaitori.html#area">対応エリア</a></li>
+          <li><a href="kaitori.html#faq">よくある質問</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>サイト内リンク</h5>
+        <ul>
+          <li><a href="index.html">中古住宅を探す（トップ）</a></li>
+          <li><a href="member-register.html">会員登録・ログイン</a></li>
+          <li><a href="https://www.m-house.co.jp/" target="_blank" rel="noopener">実家・空き家の相談</a></li>
+          <li><a href="kaitori.html#company">会社概要</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>会社情報</h5>
+        <ul>
+          <li><a href="index.html#company">アクセス</a></li>
+          <li><a href="#">プライバシーポリシー</a></li>
+          <li><a href="#">サイトマップ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 株式会社モリシタハウス</span>
+      <span>宅地建物取引業者免許 兵庫県知事（13）第450028号</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= モバイル固定CTA ================= -->
+<div class="mobile-cta">
+  <a href="tel:0792608878" class="btn btn-line btn-block">電話で相談する</a>
+</div>
+
+<script>
+/* ----- 種別に応じて項目の表示を切替 ----- */
+const BLOCKS_BY_TYPE = {
+  '戸建て':  ['land','bldg','madori','chikunensu'],
+  'マンション': ['bldg','madori','chikunensu'],
+  '土地':    ['land'],
+  '空き家':  ['land','bldg','madori','chikunensu'],
+  'その他':  ['land','bldg','madori','chikunensu'],
+};
+function applyTypeVisibility(){
+  const type = document.querySelector('input[name="propType"]:checked').value;
+  const show = BLOCKS_BY_TYPE[type] || [];
+  document.querySelectorAll('[data-block]').forEach(el=>{
+    el.hidden = !show.includes(el.dataset.block);
+  });
+  document.getElementById('landTitle').textContent = (type === '土地') ? '土地面積' : '土地面積（戸建ての場合）';
+}
+document.querySelectorAll('input[name="propType"]').forEach(r=>r.addEventListener('change', applyTypeVisibility));
+applyTypeVisibility();
+
+/* ----- ステップ切替 ----- */
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+const noneTxt = '<span class="empty">未回答</span>';
+
+function checkedLabel(name){
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : null;
+}
+function checkedValues(container){
+  return [...container.querySelectorAll('input[type=checkbox]:checked')].map(c => c.value || c.parentElement.textContent.trim());
+}
+
+function buildConfirm(){
+  const propRows = [];
+  propRows.push(['物件種別', esc(checkedLabel('propType')) || noneTxt]);
+  const addr = [document.getElementById('zip').value, document.getElementById('city').value, document.getElementById('town').value].filter(Boolean).join(' ');
+  propRows.push(['物件の所在地', addr ? esc(addr) : noneTxt]);
+  const land = document.getElementById('landArea').closest('[data-block]').hidden ? null : document.getElementById('landArea').value;
+  if (land !== null) propRows.push(['土地面積', land ? esc(land) : noneTxt]);
+  const bldg = document.getElementById('bldgArea').closest('[data-block]').hidden ? null : document.getElementById('bldgArea').value;
+  if (bldg !== null) propRows.push(['建物面積', bldg ? esc(bldg) : noneTxt]);
+  const madori = document.getElementById('madori').closest('[data-block]').hidden ? null : document.getElementById('madori').value;
+  if (madori !== null) propRows.push(['間取り', madori ? esc(madori) : noneTxt]);
+  const chikunensu = document.getElementById('chikunensu').closest('[data-block]').hidden ? null : document.getElementById('chikunensu').value;
+  if (chikunensu !== null) propRows.push(['築年数', chikunensu ? esc(chikunensu) : noneTxt]);
+  propRows.push(['現況', esc(checkedLabel('genkyo')) || noneTxt]);
+  propRows.push(['査定方法のご希望', esc(checkedLabel('satei')) || noneTxt]);
+  const kikkakeBox = document.querySelectorAll('.frow')[7] || null;
+  const kikkake = [...document.querySelectorAll('.check-grid input[type=checkbox]:checked')]
+    .filter(c => c.closest('[data-panel="1"]'))
+    .map(c => c.value);
+  propRows.push(['ご相談のきっかけ', kikkake.length ? esc(kikkake.join('、')) : noneTxt]);
+  const freeText = document.getElementById('freeText').value.trim();
+  propRows.push(['物件の状況・ご要望', freeText ? esc(freeText).replace(/\n/g,'<br>') : noneTxt]);
+  document.getElementById('confirmProp').innerHTML = propRows.map(([k,v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('');
+
+  const custRows = [];
+  const name = [document.getElementById('lastName').value, document.getElementById('firstName').value].filter(Boolean).join(' ');
+  custRows.push(['お名前', name ? esc(name) : noneTxt]);
+  const kana = [document.getElementById('lastKana').value, document.getElementById('firstKana').value].filter(Boolean).join(' ');
+  custRows.push(['フリガナ', kana ? esc(kana) : noneTxt]);
+  custRows.push(['お電話番号', esc(document.getElementById('tel').value) || noneTxt]);
+  custRows.push(['メールアドレス', esc(document.getElementById('email').value) || noneTxt]);
+  custRows.push(['ご希望の連絡方法', esc(checkedLabel('contactWay')) || noneTxt]);
+  const times = [...document.querySelectorAll('[data-panel="2"] .check-grid input[type=checkbox]:checked')].map(c => c.value);
+  custRows.push(['ご連絡可能な時間帯', times.length ? esc(times.join('、')) : noneTxt]);
+  document.getElementById('confirmCustomer').innerHTML = custRows.map(([k,v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('');
+}
+
+function validateStep(step){
+  const errs = [];
+  if (step === 2){
+    if (!document.getElementById('lastName').value.trim() || !document.getElementById('firstName').value.trim()) errs.push('お名前');
+    if (!document.getElementById('tel').value.trim()) errs.push('お電話番号');
+    if (!document.getElementById('email').value.trim()) errs.push('メールアドレス');
+  }
+  if (step === 3){
+    if (!document.getElementById('agree').checked) errs.push('個人情報の取り扱いへの同意');
+  }
+  return errs;
+}
+
+function goto(step){
+  if (step === 3){
+    const errs = validateStep(2);
+    if (errs.length){ alert('次の項目をご確認ください。\n\n・' + errs.join('\n・')); return; }
+    buildConfirm();
+  }
+  document.querySelectorAll('[data-panel]').forEach(p => { p.hidden = (p.dataset.panel !== String(step)); });
+  document.querySelectorAll('#stepbar .step-item').forEach(li => {
+    const n = Number(li.dataset.step);
+    li.classList.toggle('is-current', n === step);
+    li.classList.toggle('is-done', n < step);
+  });
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+document.querySelectorAll('[data-goto]').forEach(el => {
+  el.addEventListener('click', e => { e.preventDefault(); goto(Number(el.dataset.goto)); });
+});
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const errs = validateStep(3);
+  if (errs.length){ alert('次の項目をご確認ください。\n\n・' + errs.join('\n・')); return; }
+  goto(4);
+});
+</script>
+</body>
+</html>
