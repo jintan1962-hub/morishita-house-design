@@ -1,0 +1,444 @@
+<!-- モリシタハウス イベント情報ページ デザイン案 v1 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>イベント情報｜株式会社モリシタハウス（サイトデザイン案）</title>
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --paper-alt:#F3F7F6;
+    --paper-deep:#E7F1EE;
+    --ink:#202B33;
+    --ink-soft:#57626B;
+    --ink-faint:#8A9198;
+    --indigo:#00A98F;
+    --indigo-deep:#00775F;
+    --indigo-tint:#E1F5F0;
+    --gold:#B98A2E;
+    --gold-bright:#C99A3B;
+    --gold-tint:#F3E9D2;
+    --line:#E3E8E7;
+    --line-strong:#CBD6D3;
+    --shadow: 0 18px 40px -22px rgba(32,43,51,0.35);
+    --radius: 3px;
+    --serif:"游明朝体","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+    --sans:"游ゴシック体","Yu Gothic Medium","Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  img,svg{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{margin:0;padding:0;list-style:none;}
+  button{font-family:inherit;cursor:pointer;}
+  :focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+  .wrap-narrow{max-width:880px;margin:0 auto;padding:0 28px;}
+  .band{padding:72px 0;}
+  .band-alt{background:var(--paper-alt);}
+
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:700;color:var(--ink);text-wrap:balance;margin:0;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:12.5px;letter-spacing:.22em;font-weight:600;color:var(--indigo);text-transform:uppercase;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold-bright);}
+  .lead{max-width:60ch;color:var(--ink-soft);font-size:15.5px;}
+
+  .head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:36px;flex-wrap:wrap;}
+  .head-row h2{font-size:clamp(22px,3vw,28px);margin-top:10px;}
+
+  /* ---------- ヘッダー ---------- */
+  header.site{
+    position:sticky;top:0;z-index:60;background:rgba(255,255,255,0.94);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--line);
+  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 28px 12px;max-width:1180px;margin:0 auto;}
+  .nav-row{max-width:1180px;margin:0 auto;padding:0 28px 14px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-logo{width:42px;height:42px;flex:none;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand .mark{font-family:var(--sans);font-size:20px;font-weight:700;letter-spacing:.03em;color:var(--ink);}
+  .brand .mark-en{font-size:9.5px;font-weight:700;letter-spacing:.18em;color:var(--indigo);margin-top:2px;}
+  .brand .tagline{font-size:11px;color:var(--ink-faint);letter-spacing:.1em;border-left:1px solid var(--line-strong);padding-left:14px;margin-left:4px;white-space:nowrap;}
+  .brand-badge{background:var(--indigo);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:2px;display:inline-block;align-self:flex-start;margin-bottom:2px;}
+  nav.primary{display:flex;gap:6px;flex-wrap:wrap;}
+  nav.primary a{
+    font-size:13.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;
+    padding:9px 14px;border:1px solid var(--line);border-radius:4px;background:#fff;
+    transition:border-color .18s ease,color .18s ease,background .18s ease;
+  }
+  nav.primary a:hover{color:var(--indigo);border-color:var(--indigo);background:var(--indigo-tint);}
+  nav.primary a[aria-current="page"]{color:var(--indigo-deep);border-color:var(--indigo);background:var(--indigo-tint);}
+  .utility{display:flex;align-items:center;gap:10px;}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:10px 20px;font-size:13.5px;font-weight:600;border-radius:var(--radius);
+    border:1px solid transparent;white-space:nowrap;letter-spacing:.02em;background:none;
+    transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+  }
+  .btn-ghost{border-color:var(--line-strong);color:var(--ink);background:#fff;}
+  .btn-ghost:hover{border-color:var(--indigo);color:var(--indigo);}
+  .btn-solid{background:var(--indigo);color:#fff;}
+  .btn-solid:hover{background:var(--indigo-deep);transform:translateY(-1px);}
+  .btn-block{width:100%;}
+  .btn-sm{padding:8px 14px;font-size:12.5px;}
+
+  .draft-banner{background:var(--gold-tint);border-bottom:1px solid var(--line-strong);font-size:12.5px;color:#5a4419;text-align:center;padding:9px 12px;}
+
+  /* ---------- ページヘッド ---------- */
+  .page-head{
+    background:
+      repeating-linear-gradient(0deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+      repeating-linear-gradient(90deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+      linear-gradient(180deg, var(--indigo-tint) 0%, var(--paper) 78%);
+    padding:44px 0 34px;border-bottom:1px solid var(--line);
+  }
+  .crumbs{font-size:11.5px;color:var(--ink-faint);margin-bottom:14px;}
+  .crumbs a:hover{color:var(--indigo);}
+  .page-head h1{font-size:clamp(25px,3.6vw,36px);line-height:1.4;}
+  .page-head p{margin:12px 0 0;color:var(--ink-soft);font-size:14.5px;max-width:62ch;}
+
+  /* ---------- フィルタタブ ---------- */
+  .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px;}
+  .filter-chip{
+    font-size:13px;font-weight:600;padding:9px 18px;border-radius:16px;
+    border:1px solid var(--line-strong);color:var(--ink-soft);background:#fff;
+    transition:all .15s ease;
+  }
+  .filter-chip.is-active{background:var(--indigo);border-color:var(--indigo);color:#fff;}
+
+  /* ---------- イベントカード ---------- */
+  .event-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;}
+  .event-card{background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;transition:box-shadow .2s ease, transform .2s ease;}
+  .event-card:hover{box-shadow:var(--shadow);transform:translateY(-3px);}
+  .event-card[hidden]{display:none;}
+  .event-visual{
+    position:relative;aspect-ratio:16/9;
+    background:linear-gradient(135deg,var(--indigo-tint),var(--paper-deep));
+    display:flex;align-items:center;justify-content:center;
+  }
+  .event-visual svg{width:44px;height:44px;color:var(--indigo);opacity:.5;}
+  .event-badge{position:absolute;top:12px;left:12px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:2px;letter-spacing:.03em;}
+  .badge-open{background:var(--indigo);color:#fff;}
+  .badge-soon{background:var(--gold-bright);color:#2b2108;}
+  .badge-closed{background:var(--ink-faint);color:#fff;}
+  .badge-partner{position:absolute;top:12px;right:12px;font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:2px;background:#fff;color:var(--indigo-deep);border:1px solid var(--indigo);}
+  .event-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .event-meta{font-size:12px;color:var(--ink-faint);display:flex;flex-wrap:wrap;gap:4px 14px;}
+  .event-meta b{color:var(--ink-soft);font-weight:600;}
+  .event-body h3{font-size:17px;line-height:1.5;}
+  .event-body p{font-size:13.5px;color:var(--ink-soft);margin:0;flex:1;}
+  .event-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px;padding-top:14px;border-top:1px dashed var(--line);}
+  .event-foot .btn{white-space:nowrap;}
+
+  /* ---------- CTA ---------- */
+  .cta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:8px;}
+  .cta-cell{background:#fff;padding:26px 22px;text-align:center;}
+  .cta-cell .ico{width:32px;height:32px;color:var(--indigo);margin:0 auto 12px;}
+  .cta-cell h4{font-size:15px;}
+  .cta-cell p{font-size:12.5px;color:var(--ink-soft);margin:6px 0 14px;}
+
+  /* ---------- フッター ---------- */
+  footer.site{background:var(--ink);color:rgba(255,255,255,0.78);padding:64px 0 26px;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;}
+  .foot-brand__head{display:flex;align-items:center;gap:10px;}
+  .foot-brand .mark{font-family:var(--sans);color:#fff;font-size:19px;font-weight:700;}
+  .foot-brand p{font-size:12.5px;margin-top:14px;color:rgba(255,255,255,0.55);}
+  .foot-col h5{font-size:12.5px;color:#fff;letter-spacing:.1em;margin-bottom:16px;}
+  .foot-col li{margin-bottom:10px;}
+  .foot-col a{font-size:13px;color:rgba(255,255,255,0.65);}
+  .foot-col a:hover{color:var(--gold-bright);}
+  .foot-bottom{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+    margin-top:50px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.12);
+    font-size:11.5px;color:rgba(255,255,255,0.45);
+  }
+
+  @media (max-width:960px){
+    .topbar{flex-wrap:wrap;}
+    .brand .tagline{display:none;}
+    nav.primary a{padding:8px 12px;font-size:13px;}
+    .event-grid{grid-template-columns:1fr;}
+    .cta-row{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:600px){
+    .wrap,.wrap-narrow{padding:0 16px;}
+    .band{padding:44px 0;}
+    .event-foot{flex-direction:column;align-items:stretch;}
+    .event-foot .btn{width:100%;}
+    .foot-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="draft-banner">これはデザイン案（モックアップ）です。掲載しているイベントの日時・内容は構成イメージのための仮データです。公開前に実際の開催情報へ差し替えてください。</div>
+
+<!-- ================= ヘッダー ================= -->
+<header class="site">
+  <div class="topbar">
+    <a class="brand" href="index.html" aria-label="モリシタハウス トップへ">
+      <svg class="brand-logo" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="50" fill="var(--indigo)"/>
+        <circle cx="50" cy="22.5" r="6.5" fill="none" stroke="#fff" stroke-width="5"/>
+        <path d="M30,77 L30,45.5 L50,29 L70,45.5 L70,77" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="30" y1="60" x2="70" y2="60" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-badge">中古住宅専門店</span>
+        <span class="mark">モリシタハウス</span>
+        <span class="mark-en">MORISHITA HOUSE</span>
+      </span>
+      <span class="tagline">姫路・播磨エリア</span>
+    </a>
+    <div class="utility">
+      <a class="btn btn-ghost" href="member-register.html">会員登録・ログイン</a>
+      <a class="btn btn-solid" href="index.html#action">来店予約</a>
+    </div>
+  </div>
+  <div class="nav-row">
+    <nav class="primary" aria-label="メインメニュー">
+      <a href="index.html#areamap">物件を探す</a>
+      <a href="kaitori.html">売却をお考えの方</a>
+      <a href="https://www.m-house.co.jp/" target="_blank" rel="noopener">実家・空き家相談</a>
+      <a href="index.html#service">サービス一覧</a>
+      <a href="event.html" aria-current="page">イベント情報</a>
+      <a href="company.html">会社概要</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= ページヘッド ================= -->
+<section class="page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="index.html">ホーム</a> ／ イベント情報</div>
+    <span class="eyebrow">Event</span>
+    <h1>イベント情報</h1>
+    <p>オープンハウスや個別相談会、中古住宅の選び方セミナーなどを随時開催しています。姉妹サイト「住まいの終活相談カウンター兵庫」が主催するセミナーもこちらでご案内します。</p>
+    <div class="filter-row" id="filterRow">
+      <button type="button" class="filter-chip is-active" data-filter="all">すべて</button>
+      <button type="button" class="filter-chip" data-filter="open">受付中</button>
+      <button type="button" class="filter-chip" data-filter="soon">開催予定</button>
+      <button type="button" class="filter-chip" data-filter="closed">終了したイベント</button>
+    </div>
+  </div>
+</section>
+
+<main class="band">
+  <div class="wrap">
+
+    <div class="event-grid" id="eventGrid">
+
+      <article class="event-card" data-status="open">
+        <div class="event-visual">
+          <span class="event-badge badge-open">受付中</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+        </div>
+        <div class="event-body">
+          <div class="event-meta"><b>開催中</b>（いつでもご内覧可）　姫路市飾磨区中島</div>
+          <h3>オープンハウス開催中｜飾磨区中島の新着物件</h3>
+          <p>4LDK・築12年の中古一戸建てを公開中です。売却準備中のため事前予約制。担当スタッフがそのまま資金計画のご相談にも対応します。</p>
+          <div class="event-foot">
+            <span style="font-size:12px;color:var(--ink-faint);">予約制・入場無料</span>
+            <a class="btn btn-solid btn-sm" href="index.html#action">内覧予約をする</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="event-card" data-status="open">
+        <div class="event-visual">
+          <span class="event-badge badge-open">受付中</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="event-body">
+          <div class="event-meta"><b>2026年9月20日（日）</b> 10:00〜11:30　モリシタハウス本社</div>
+          <h3>中古住宅の選び方セミナー ～プロが教える失敗しない物件チェック～</h3>
+          <p>一級建築士の代表が、中古住宅選びで見落としがちな構造・劣化のチェックポイントと、リフォーム費用の考え方をわかりやすく解説します。</p>
+          <div class="event-foot">
+            <span style="font-size:12px;color:var(--ink-faint);">参加無料・定員20名</span>
+            <a class="btn btn-solid btn-sm" href="#">申し込む</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="event-card" data-status="open">
+        <div class="event-visual">
+          <span class="event-badge badge-open">受付中</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg>
+        </div>
+        <div class="event-body">
+          <div class="event-meta"><b>随時開催</b>（要予約）　来店 または オンライン</div>
+          <h3>会員限定｜非公開物件のご紹介 個別相談会</h3>
+          <p>会員登録済みの方限定で、一般公開していない物件（会員限定・店頭限定）をご希望条件に沿ってご紹介します。まずはご希望条件のヒアリングから。</p>
+          <div class="event-foot">
+            <span style="font-size:12px;color:var(--ink-faint);">会員限定・無料</span>
+            <a class="btn btn-ghost btn-sm" href="member-register.html">会員登録して申し込む</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="event-card" data-status="soon">
+        <div class="event-visual">
+          <span class="event-badge badge-soon">開催予定</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 21v-7a8 8 0 0116 0v7"/><path d="M4 21h16"/></svg>
+        </div>
+        <div class="event-body">
+          <div class="event-meta"><b>2026年10月中旬 予定</b>　グループ会社ショールーム</div>
+          <h3>リノベーション体験ショールーム見学会</h3>
+          <p>自社リフォームによるBefore/After事例を実際に見て・触れて体感できる見学会です。日程確定後、会員の皆さまへ優先案内いたします。</p>
+          <div class="event-foot">
+            <span style="font-size:12px;color:var(--ink-faint);">詳細は近日公開</span>
+            <a class="btn btn-ghost btn-sm" href="#">日程が決まったら知らせてほしい</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="event-card" data-status="open">
+        <div class="event-visual">
+          <span class="event-badge badge-open">受付中</span>
+          <span class="badge-partner">姉妹サイト開催</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 21v-7a8 8 0 0116 0v7"/><path d="M4 21h16"/></svg>
+        </div>
+        <div class="event-body">
+          <div class="event-meta"><b>開催日は随時更新</b>　アクリエひめじ ほか</div>
+          <h3>住まいの終活セミナー（住まいの終活相談カウンター兵庫 主催）</h3>
+          <p>実家・空き家をどうするか迷っている方向けのセミナーです。売る・残す・活かす、それぞれの選択肢と進め方を分かりやすく解説します。</p>
+          <div class="event-foot">
+            <span style="font-size:12px;color:var(--ink-faint);">m-house.co.jp で開催情報を見る</span>
+            <a class="btn btn-ghost btn-sm" href="https://www.m-house.co.jp/seminar/" target="_blank" rel="noopener">詳細・申込へ</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="event-card" data-status="closed" hidden>
+        <div class="event-visual">
+          <span class="event-badge badge-closed">終了</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg>
+        </div>
+        <div class="event-body">
+          <div class="event-meta"><b>2026年5月17日（日）</b> 開催済み　モリシタハウス本社</div>
+          <h3>中古住宅購入セミナー ～資金計画のキホン～</h3>
+          <p>たくさんのご参加ありがとうございました。次回開催が決まりましたら、こちらのページとメールでご案内いたします。</p>
+          <div class="event-foot">
+            <span style="font-size:12px;color:var(--ink-faint);">受付は終了しました</span>
+            <span class="btn btn-ghost btn-sm" style="opacity:.5;pointer-events:none;">終了しました</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <p id="emptyNote" class="lead" style="text-align:center;margin:40px auto 0;" hidden>該当するイベントは現在ありません。</p>
+
+  </div>
+</main>
+
+<!-- ================= CTA ================= -->
+<section class="band band-alt">
+  <div class="wrap-narrow">
+    <div class="head-row" style="margin-bottom:24px;">
+      <div><span class="eyebrow">Contact</span><h2>イベント以外でもご相談いただけます</h2></div>
+    </div>
+    <div class="cta-row">
+      <div class="cta-cell">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+        <h4>来店予約</h4>
+        <p>店舗でじっくり物件をご案内します。</p>
+        <a class="btn btn-ghost btn-block" href="index.html#action">予約する</a>
+      </div>
+      <div class="cta-cell">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <h4>Web相談</h4>
+        <p>ビデオ通話やチャットでも相談できます。</p>
+        <a class="btn btn-ghost btn-block" href="index.html#action">Web相談を予約</a>
+      </div>
+      <div class="cta-cell">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4h16v16H4z"/><path d="M4 8l8 6 8-6"/></svg>
+        <h4>資料請求</h4>
+        <p>会社案内・物件資料をお届けします。</p>
+        <a class="btn btn-ghost btn-block" href="index.html#action">資料請求する</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= フッター ================= -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="foot-brand__head" href="index.html">
+          <svg class="brand-logo" viewBox="0 0 100 100" aria-hidden="true" style="width:34px;height:34px;">
+            <circle cx="50" cy="50" r="50" fill="var(--indigo)"/>
+            <circle cx="50" cy="22.5" r="6.5" fill="none" stroke="#fff" stroke-width="5"/>
+            <path d="M30,77 L30,45.5 L50,29 L70,45.5 L70,77" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="30" y1="60" x2="70" y2="60" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+          </svg>
+          <span class="mark">モリシタハウス</span>
+        </a>
+        <p>株式会社モリシタハウス<br>〒670-0085 兵庫県姫路市山吹2丁目12番30号<br>TEL 079-260-8878（フリーダイヤル 0120-975-856）<br>受付時間　平日9:00〜18:00（水曜定休）</p>
+      </div>
+      <div class="foot-col">
+        <h5>物件を探す</h5>
+        <ul>
+          <li><a href="index.html#search">中古一戸建て</a></li>
+          <li><a href="index.html#search">中古マンション</a></li>
+          <li><a href="index.html#search">土地</a></li>
+          <li><a href="member-register.html">会員登録・ログイン</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>サービス</h5>
+        <ul>
+          <li><a href="kaitori.html">売却査定</a></li>
+          <li><a href="https://www.m-house.co.jp/" target="_blank" rel="noopener">実家・空き家の相談</a></li>
+          <li><a href="event.html">イベント・セミナー</a></li>
+          <li><a href="index.html#action">来店予約・Web相談</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>会社情報</h5>
+        <ul>
+          <li><a href="company.html">会社概要</a></li>
+          <li><a href="company.html#access">アクセス</a></li>
+          <li><a href="#">プライバシーポリシー</a></li>
+          <li><a href="#">サイトマップ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 株式会社モリシタハウス</span>
+      <span>宅地建物取引業者免許 兵庫県知事（13）第450028号</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('#filterRow .filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('#filterRow .filter-chip').forEach(c => c.classList.remove('is-active'));
+    chip.classList.add('is-active');
+    const filter = chip.dataset.filter;
+    const cards = document.querySelectorAll('#eventGrid .event-card');
+    let visibleCount = 0;
+    cards.forEach(card => {
+      const show = (filter === 'all') || (card.dataset.status === filter);
+      card.hidden = !show;
+      if (show) visibleCount++;
+    });
+    document.getElementById('emptyNote').hidden = visibleCount > 0;
+  });
+});
+</script>
+</body>
+</html>
