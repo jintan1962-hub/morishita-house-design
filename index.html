@@ -1,0 +1,1092 @@
+<!-- モリシタハウス 新サイト デザイン案 -->
+<title>中古住宅専門店 姫路No.1｜株式会社モリシタハウス（サイトデザイン案）</title>
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --paper-alt:#F3F7F6;
+    --paper-deep:#E7F1EE;
+    --ink:#202B33;
+    --ink-soft:#57626B;
+    --ink-faint:#8A9198;
+    --indigo:#00A98F;
+    --indigo-deep:#00775F;
+    --indigo-tint:#E1F5F0;
+    --gold:#B98A2E;
+    --gold-bright:#C99A3B;
+    --gold-tint:#F3E9D2;
+    --sage:#5F7A5C;
+    --sage-tint:#E7EEE3;
+    --line:#E3E8E7;
+    --line-strong:#CBD6D3;
+    --shadow: 0 18px 40px -22px rgba(32,43,51,0.35);
+    --radius: 3px;
+    --serif:"游明朝体","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+    --sans:"游ゴシック体","Yu Gothic Medium","Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img,svg{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{margin:0;padding:0;list-style:none;}
+  button{font-family:inherit;cursor:pointer;}
+  :focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+  .band{padding:96px 0;}
+  .band-alt{background:var(--paper-alt);}
+  .band-tight{padding:64px 0;}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:12.5px;letter-spacing:.22em;font-weight:600;
+    color:var(--indigo);text-transform:uppercase;
+    font-variant-numeric:tabular-nums;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold-bright);}
+
+  h1,h2,h3,h4{
+    font-family:var(--serif);
+    font-weight:700;
+    color:var(--ink);
+    text-wrap:balance;
+    margin:0;
+  }
+  .lead{max-width:60ch;color:var(--ink-soft);font-size:16px;}
+
+  /* ---------- ヘッダー ---------- */
+  header.site{
+    position:sticky;top:0;z-index:60;
+    background:rgba(255,255,255,0.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:24px;padding:14px 28px 12px;max-width:1180px;margin:0 auto;
+  }
+  .nav-row{
+    max-width:1180px;margin:0 auto;padding:0 28px 14px;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-logo{width:42px;height:42px;flex:none;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand .mark{
+    font-family:var(--sans);font-size:20px;font-weight:700;letter-spacing:.03em;color:var(--ink);
+  }
+  .brand .mark-en{
+    font-size:9.5px;font-weight:700;letter-spacing:.18em;color:var(--indigo);margin-top:2px;
+  }
+  .brand .tagline{
+    font-size:11px;color:var(--ink-faint);letter-spacing:.1em;border-left:1px solid var(--line-strong);padding-left:14px;margin-left:4px;white-space:nowrap;
+  }
+  nav.primary{display:flex;gap:6px;flex-wrap:wrap;}
+  nav.primary a{
+    font-size:13.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;
+    padding:9px 14px;border:1px solid var(--line);border-radius:4px;background:#fff;
+    transition:border-color .18s ease,color .18s ease,background .18s ease;
+  }
+  nav.primary a:hover{color:var(--indigo);border-color:var(--indigo);background:var(--indigo-tint);}
+  .utility{display:flex;align-items:center;gap:10px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:10px 20px;font-size:13.5px;font-weight:600;border-radius:var(--radius);
+    border:1px solid transparent;white-space:nowrap;letter-spacing:.02em;
+    transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+  }
+  .btn-ghost{border-color:var(--line-strong);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--indigo);color:var(--indigo);}
+  .btn-line{border-color:var(--indigo);color:var(--indigo);}
+  .btn-line:hover{background:var(--indigo);color:#fff;}
+  .btn-solid{background:var(--indigo);color:#fff;}
+  .btn-solid:hover{background:var(--indigo-deep);transform:translateY(-1px);}
+  .btn-gold{background:var(--gold-bright);color:#2b2108;}
+  .btn-gold:hover{background:var(--gold);transform:translateY(-1px);}
+  .btn-block{width:100%;}
+  .btn-sm{padding:8px 14px;font-size:12.5px;}
+
+
+  /* ---------- ヒーロー ---------- */
+  .hero{
+    position:relative;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+      repeating-linear-gradient(90deg, rgba(0,105,86,0.05) 0 1px, transparent 1px 56px),
+      linear-gradient(180deg, var(--indigo-tint) 0%, var(--paper) 62%);
+    color:var(--ink);
+    padding:64px 0 116px;
+  }
+  .hero-inner{max-width:1180px;margin:0 auto;padding:0 28px;position:relative;}
+  .hero-kicker{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:12.5px;letter-spacing:.24em;color:var(--indigo-deep);
+    text-transform:uppercase;margin-bottom:22px;font-weight:700;
+  }
+  .hero-kicker::before{content:"";width:26px;height:1px;background:var(--indigo);}
+  .hero h1{
+    color:var(--ink);font-size:clamp(32px,4.6vw,54px);line-height:1.38;letter-spacing:.02em;
+  }
+  .hero h1 em{
+    font-style:normal;color:var(--ink);
+    border-bottom:4px solid var(--gold-bright);padding-bottom:2px;
+  }
+  .hero .sub{
+    margin-top:22px;max-width:52ch;color:var(--ink-soft);font-size:15.5px;
+  }
+  .hero-actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+
+  /* クイック検索カード（ヒーローに重ねる） */
+  .quicksearch{
+    position:relative;
+    margin:56px auto 0;
+    max-width:1000px;
+    background:#fff;color:var(--ink);
+    border-radius:6px;
+    box-shadow:var(--shadow);
+    padding:26px 30px 28px;
+  }
+  .qs-tabs{display:flex;gap:4px;margin-bottom:18px;flex-wrap:wrap;}
+  .qs-tab{
+    padding:9px 18px;font-size:13.5px;font-weight:600;color:var(--ink-soft);
+    background:var(--paper-alt);border-radius:4px 4px 0 0;border:1px solid var(--line);border-bottom:none;
+  }
+  .qs-tab[aria-selected="true"]{background:var(--indigo);color:#fff;border-color:var(--indigo);}
+  .qs-grid{
+    display:grid;grid-template-columns:repeat(3,1fr) auto;gap:14px;align-items:end;
+  }
+  .field label{display:block;font-size:11.5px;letter-spacing:.08em;color:var(--ink-faint);margin-bottom:6px;text-transform:uppercase;}
+  .field select{
+    width:100%;padding:11px 12px;border:1px solid var(--line-strong);border-radius:4px;
+    background:var(--paper) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0l5 6 5-6z" fill="%2357626B"/></svg>') no-repeat right 12px center;
+    appearance:none;font-size:14px;color:var(--ink);
+  }
+  .qs-grid .btn{height:44px;padding:0 26px;}
+
+  .hero-stats{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    max-width:1000px;margin:36px auto 0;
+    background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+  }
+  .hero-stats li{padding:22px 10px;text-align:center;color:var(--ink);border-left:1px solid var(--line);}
+  .hero-stats li:first-child{border-left:none;}
+  .hero-stats .num{
+    font-family:var(--serif);font-size:28px;color:var(--indigo-deep);font-variant-numeric:tabular-nums;
+  }
+  .hero-stats .cap{display:block;font-size:12px;color:var(--ink-faint);margin-top:4px;letter-spacing:.04em;}
+
+  /* ---------- 種別タイル ---------- */
+  .type-tiles{
+    display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);
+    margin-top:-60px;position:relative;z-index:2;border-radius:6px;overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  .type-tile{
+    background:#fff;padding:26px 10px;text-align:center;font-size:13.5px;font-weight:600;color:var(--ink);
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+  }
+  .type-tile:hover{background:var(--indigo-tint);color:var(--indigo);}
+  .type-tile .ico{width:30px;height:30px;color:var(--indigo);}
+  .type-tile:hover .ico{color:var(--indigo-deep);}
+
+  /* ---------- エリア別物件数マップ ---------- */
+  .areamap-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:start;}
+  .areamap-visual{background:#fff;border:1px solid var(--line);border-radius:6px;padding:20px;}
+  .areamap-region{fill:var(--paper-alt);stroke:#fff;stroke-width:3;cursor:pointer;transition:fill .15s ease;}
+  .areamap-region:hover,.areamap-region.is-active{fill:var(--indigo-tint);}
+  .areamap-label{font-size:15px;fill:var(--ink);font-weight:700;pointer-events:none;font-family:var(--sans);}
+  .areamap-sub{font-size:11px;fill:var(--ink-faint);pointer-events:none;font-family:var(--sans);}
+  .areamap-count{font-size:12px;fill:var(--indigo-deep);font-weight:700;pointer-events:none;font-family:var(--sans);font-variant-numeric:tabular-nums;}
+  .areamap-river{fill:none;stroke:#AFCBD6;stroke-width:3;opacity:.8;}
+  .areamap-caption{font-size:11.5px;color:var(--ink-faint);margin-top:12px;text-align:center;}
+  .areamap-legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px;font-size:12.5px;color:var(--ink-soft);}
+  .areamap-legend span{display:inline-flex;align-items:center;gap:7px;}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .dot-public{background:var(--indigo);}
+  .dot-member{background:var(--gold-bright);}
+  .dot-shop{background:var(--ink);}
+  table.areamap-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  table.areamap-table th{
+    text-align:right;font-weight:600;color:var(--ink-faint);font-size:11.5px;letter-spacing:.03em;
+    padding:0 0 10px;border-bottom:1px solid var(--line-strong);
+  }
+  table.areamap-table th:first-child{text-align:left;}
+  table.areamap-table td{padding:12px 0;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-soft);cursor:pointer;transition:background .15s ease;}
+  table.areamap-table td:first-child{text-align:left;color:var(--ink);font-weight:600;}
+  table.areamap-table tr:hover td,table.areamap-table tr.is-active td{background:var(--indigo-tint);}
+  table.areamap-table tfoot td{border-bottom:none;border-top:2px solid var(--ink);font-weight:700;color:var(--ink);padding-top:14px;cursor:default;}
+  table.areamap-table tfoot tr:hover td{background:transparent;}
+  .areamap-note{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink-soft);}
+  .areamap-note b{color:var(--indigo-deep);}
+
+  /* ---------- セクション見出し ---------- */
+  .head-row{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:40px;flex-wrap:wrap;
+  }
+  .head-row h2{font-size:clamp(24px,3vw,32px);margin-top:10px;}
+  .head-row .more{font-size:13.5px;color:var(--indigo);border-bottom:1px solid var(--indigo);padding-bottom:2px;white-space:nowrap;}
+
+  /* ---------- 物件カード ---------- */
+  .prop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .prop-card{background:#fff;border:1px solid var(--line);transition:box-shadow .2s ease, transform .2s ease;}
+  .prop-card:hover{box-shadow:var(--shadow);transform:translateY(-3px);}
+  .prop-photo{
+    position:relative;aspect-ratio:4/3;
+    background:linear-gradient(135deg,var(--indigo-tint),var(--paper-deep));
+    display:flex;align-items:center;justify-content:center;
+  }
+  .prop-photo svg{width:42px;height:42px;color:var(--indigo);opacity:.45;}
+  .badge-row{position:absolute;top:8px;left:8px;display:flex;gap:5px;flex-wrap:wrap;}
+  .badge{
+    font-size:10px;font-weight:700;padding:3px 7px;border-radius:2px;letter-spacing:.03em;
+  }
+  .badge-new{background:var(--indigo);color:#fff;}
+  .badge-member{background:var(--gold-bright);color:#2b2108;}
+  .badge-private{background:var(--ink);color:#fff;}
+  .badge-down{background:var(--sage);color:#fff;}
+  .prop-body{padding:13px 14px 15px;}
+  .prop-price{font-family:var(--serif);font-size:19px;color:var(--gold);font-variant-numeric:tabular-nums;}
+  .prop-price span{font-size:11.5px;color:var(--ink-soft);font-family:var(--sans);margin-left:3px;}
+  .prop-spec{margin-top:6px;font-size:11.5px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:4px 8px;line-height:1.5;}
+  .prop-spec b{color:var(--ink);font-weight:600;}
+  .prop-loc{margin-top:8px;font-size:11px;color:var(--ink-faint);border-top:1px dashed var(--line);padding-top:8px;}
+
+  /* おすすめ（コンパクト） */
+  .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .feature-card{background:#fff;border:1px solid var(--line);}
+  .feature-photo{aspect-ratio:16/9;background:linear-gradient(135deg,var(--paper-deep),var(--indigo-tint));position:relative;display:flex;align-items:flex-end;padding:10px;}
+  .feature-photo svg{position:absolute;inset:0;margin:auto;width:38px;height:38px;color:var(--indigo);opacity:.4;}
+  .feature-tag{position:relative;z-index:1;background:var(--gold-bright);color:#2b2108;font-size:10.5px;font-weight:700;padding:3px 9px;}
+  .feature-body{padding:14px 16px 16px;}
+  .feature-comment{font-size:12px;color:var(--ink-soft);border-left:2px solid var(--gold-bright);padding-left:10px;margin-top:10px;line-height:1.6;}
+
+  /* ---------- 詳細検索 ---------- */
+  .search-panel{background:#fff;border:1px solid var(--line);padding:38px;}
+  .sp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:34px 40px;}
+  .sp-field{border-bottom:1px solid var(--line);padding-bottom:22px;}
+  .sp-field h4{font-size:14.5px;display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+  .sp-field h4 .idx{
+    width:22px;height:22px;border-radius:50%;background:var(--indigo);color:#fff;font-size:11px;
+    display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:700;
+  }
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-size:13px;padding:8px 14px;border:1px solid var(--line-strong);border-radius:16px;color:var(--ink-soft);
+  }
+  .chip.is-on{background:var(--indigo);border-color:var(--indigo);color:#fff;}
+  .range-row{display:flex;align-items:center;gap:10px;}
+  .range-row select{flex:1;padding:9px 10px;border:1px solid var(--line-strong);border-radius:4px;background:var(--paper);font-size:13.5px;}
+  .range-row .to{color:var(--ink-faint);font-size:13px;}
+  .check-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 16px;}
+  .check-item{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-soft);}
+  .check-item input{width:16px;height:16px;accent-color:var(--indigo);}
+  .note-line{font-size:12px;color:var(--ink-faint);margin-top:10px;}
+  .search-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:34px;padding-top:26px;border-top:1px solid var(--line);flex-wrap:wrap;}
+  .search-cta .btn{padding:15px 46px;font-size:15px;}
+
+  /* ---------- 会員メリット / 選ばれる理由 ---------- */
+  .merit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .merit-card{background:#fff;padding:34px 28px;}
+  .merit-card .kicker{font-family:var(--serif);font-size:34px;color:var(--gold-bright);line-height:1;}
+  .merit-card h3{font-size:17px;margin-top:14px;}
+  .merit-card p{font-size:13.5px;color:var(--ink-soft);margin-top:10px;}
+
+  .reason-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;}
+  .reason-card{text-align:left;}
+  .reason-card .ico{width:40px;height:40px;color:var(--indigo);margin-bottom:16px;}
+  .reason-card h3{font-size:15.5px;}
+  .reason-card p{font-size:13px;color:var(--ink-soft);margin-top:8px;}
+
+  /* ---------- 実家・空き家クロスリンク ---------- */
+  .cross-section{
+    background:linear-gradient(180deg,#20282C,#38312A 60%);
+    color:#fff;padding:96px 0;
+  }
+  .cross-head{max-width:640px;}
+  .cross-head .eyebrow{color:var(--gold-bright);}
+  .cross-head .eyebrow::before{background:#fff;}
+  .cross-head h2{color:#fff;font-size:clamp(24px,3vw,32px);margin-top:10px;}
+  .cross-head p{color:rgba(255,255,255,0.78);margin-top:14px;font-size:14.5px;max-width:56ch;}
+  .cross-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:40px;}
+  .cross-card{
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);
+    padding:22px 16px;text-align:center;
+  }
+  .cross-card .ico{width:30px;height:30px;color:var(--gold-bright);margin:0 auto 12px;}
+  .cross-card h4{color:#fff;font-size:13.5px;font-family:var(--sans);font-weight:700;}
+  .cross-card p{color:rgba(255,255,255,0.62);font-size:11.5px;margin-top:6px;}
+  .cross-cta{margin-top:38px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+  .cross-cta .note{font-size:12.5px;color:rgba(255,255,255,0.6);}
+
+  /* ---------- 来店予約 / Web相談 / 資料請求 ---------- */
+  .action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .action-card{background:#fff;padding:38px 30px;text-align:center;}
+  .action-card .ico{width:38px;height:38px;color:var(--indigo);margin:0 auto 16px;}
+  .action-card h3{font-size:17px;}
+  .action-card p{font-size:13px;color:var(--ink-soft);margin-top:8px;min-height:40px;}
+  .action-card .btn{margin-top:18px;}
+
+  /* ---------- 声・スタッフ ---------- */
+  .voice-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .voice-card{background:var(--paper-alt);padding:24px 22px;border-top:3px solid var(--gold-bright);}
+  .voice-card .who{font-size:12.5px;color:var(--ink-faint);letter-spacing:.04em;margin-bottom:10px;}
+  .voice-card p{font-size:13.5px;color:var(--ink-soft);}
+
+  .staff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+  .staff-card{text-align:center;}
+  .staff-photo{
+    width:120px;height:120px;border-radius:50%;margin:0 auto 18px;
+    background:linear-gradient(135deg,var(--indigo-tint),var(--gold-tint));
+    display:flex;align-items:center;justify-content:center;
+  }
+  .staff-photo svg{width:44px;height:44px;color:var(--indigo);}
+  .staff-role{font-size:12px;color:var(--gold);letter-spacing:.08em;}
+  .staff-name{font-family:var(--serif);font-size:19px;margin-top:6px;}
+  .staff-cert{font-size:12px;color:var(--ink-faint);margin-top:6px;}
+  .staff-msg{font-size:13px;color:var(--ink-soft);margin-top:12px;}
+
+  /* ---------- フッター ---------- */
+  footer.site{background:var(--ink);color:rgba(255,255,255,0.78);padding:64px 0 26px;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;}
+  .foot-brand__head{display:flex;align-items:center;gap:10px;}
+  .foot-brand .mark{font-family:var(--sans);color:#fff;font-size:19px;font-weight:700;}
+  .foot-brand p{font-size:12.5px;margin-top:14px;color:rgba(255,255,255,0.55);}
+  .foot-col h5{font-size:12.5px;color:#fff;letter-spacing:.1em;margin-bottom:16px;}
+  .foot-col li{margin-bottom:10px;}
+  .foot-col a{font-size:13px;color:rgba(255,255,255,0.65);}
+  .foot-col a:hover{color:var(--gold-bright);}
+  .foot-bottom{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+    margin-top:50px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.12);
+    font-size:11.5px;color:rgba(255,255,255,0.45);
+  }
+
+  /* ---------- 注記バナー ---------- */
+  .draft-banner{
+    background:var(--gold-tint);border-bottom:1px solid var(--line-strong);
+    font-size:12.5px;color:#5a4419;text-align:center;padding:9px 12px;
+  }
+
+  @media (max-width:960px){
+    .topbar{flex-wrap:wrap;}
+    .tagline{display:none;}
+    .utility .btn-ghost{display:none;}
+    nav.primary a{padding:8px 12px;font-size:13px;}
+    .qs-grid{grid-template-columns:1fr 1fr;}
+    .qs-grid .btn{grid-column:1/-1;}
+    .type-tiles{grid-template-columns:repeat(3,1fr);}
+    .prop-grid{grid-template-columns:repeat(3,1fr);}
+    .feature-grid{grid-template-columns:repeat(2,1fr);}
+    .sp-grid{grid-template-columns:1fr;}
+    .check-grid{grid-template-columns:1fr;}
+    .areamap-layout{grid-template-columns:1fr;}
+    .merit-grid,.reason-grid,.action-grid,.voice-grid,.staff-grid{grid-template-columns:repeat(2,1fr);}
+    .cross-grid{grid-template-columns:repeat(2,1fr);}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+    .hero-stats{grid-template-columns:repeat(2,1fr);row-gap:18px;}
+  }
+  @media (max-width:600px){
+    .prop-grid{grid-template-columns:repeat(2,1fr);}
+    .feature-grid,.merit-grid,.reason-grid,.action-grid,.voice-grid,.staff-grid,.cross-grid,.foot-grid{grid-template-columns:1fr;}
+    .type-tiles{grid-template-columns:repeat(2,1fr);}
+    .qs-grid{grid-template-columns:1fr;}
+    .search-cta{flex-direction:column;align-items:stretch;}
+    .search-cta .btn{width:100%;}
+  }
+</style>
+
+<div class="draft-banner">これはデザイン案（モックアップ）です。物件件数・成約実績などの数値、写真、路線・エリア名は構成イメージのための仮データです。公開前に実データへ差し替えてください。</div>
+
+<header class="site">
+  <div class="topbar">
+    <a class="brand" href="#" aria-label="モリシタハウス トップへ">
+      <svg class="brand-logo" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="50" fill="var(--indigo)"/>
+        <circle cx="50" cy="22.5" r="6.5" fill="none" stroke="#fff" stroke-width="5"/>
+        <path d="M30,77 L30,45.5 L50,29 L70,45.5 L70,77" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="30" y1="60" x2="70" y2="60" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">
+        <span class="mark">モリシタハウス</span>
+        <span class="mark-en">MORISHITA HOUSE</span>
+      </span>
+      <span class="tagline">中古住宅専門店<br>姫路 No.1</span>
+    </a>
+    <div class="utility">
+      <a class="btn btn-ghost" href="#member">会員登録・ログイン</a>
+      <a class="btn btn-solid" href="#action">来店予約</a>
+    </div>
+  </div>
+  <div class="nav-row">
+    <nav class="primary" aria-label="メインメニュー">
+      <a href="#search">物件を探す</a>
+      <a href="#uru">売却をお考えの方</a>
+      <a href="#jikka">実家・空き家の相談</a>
+      <a href="#service">サービス一覧</a>
+      <a href="#event">イベント情報</a>
+      <a href="#company">会社概要</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= ヒーロー ================= -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">姫路・播磨エリア　中古住宅専門</div>
+    <h1>中古住宅専門店<br><em>物件数No.1</em>。<br>これならいいと思える家が見つかる！</h1>
+    <p class="sub">一級建築士が代表を務める地元工務店グループだから、物件探しから建替え・リノベーション、実家じまいまでワンストップ。掲載していない「非公開・会員限定物件」も多数ご用意しています。</p>
+    <div class="hero-actions">
+      <a class="btn btn-solid" href="#search">物件を検索する</a>
+      <a class="btn btn-line" href="#member">会員登録して非公開物件を見る</a>
+    </div>
+
+    <div class="quicksearch">
+      <div class="qs-tabs" role="tablist" aria-label="物件種別">
+        <button class="qs-tab" role="tab" aria-selected="true">中古一戸建て</button>
+        <button class="qs-tab" role="tab" aria-selected="false">中古マンション</button>
+        <button class="qs-tab" role="tab" aria-selected="false">新築一戸建て</button>
+        <button class="qs-tab" role="tab" aria-selected="false">土地</button>
+        <button class="qs-tab" role="tab" aria-selected="false">事業用</button>
+      </div>
+      <div class="qs-grid">
+        <div class="field">
+          <label for="qArea">エリア</label>
+          <select id="qArea">
+            <option>姫路市</option><option>加古川市</option><option>高砂市</option><option>たつの市</option><option>明石市</option><option>その他エリアから選ぶ</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="qLine">沿線・駅</label>
+          <select id="qLine">
+            <option>指定なし</option><option>JR山陽本線</option><option>山陽電鉄本線</option><option>JR姫新線</option><option>神戸電鉄</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="qPrice">価格帯</label>
+          <select id="qPrice">
+            <option>指定なし</option><option>〜1,000万円</option><option>1,000〜1,500万円</option><option>1,500〜2,000万円</option><option>2,000〜2,500万円</option><option>2,500万円〜</option>
+          </select>
+        </div>
+        <a class="btn btn-solid" href="#search">この条件で検索</a>
+      </div>
+    </div>
+
+    <ul class="hero-stats">
+      <li><span class="num" data-total-count>1,663</span><span class="cap">姫路市内 総掲載物件数</span></li>
+      <li><span class="num" data-nonpublic-count>606</span><span class="cap">会員限定・店頭限定物件</span></li>
+      <li><span class="num">18</span><span class="cap">対応市区町村数</span></li>
+      <li><span class="num">50<small style="font-size:16px;">年</small></span><span class="cap">姫路エリアでの地域実績</span></li>
+    </ul>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="type-tiles">
+    <a class="type-tile" href="#search">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+      中古一戸建て
+    </a>
+    <a class="type-tile" href="#search">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="3" width="14" height="18"/><path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/></svg>
+      中古マンション
+    </a>
+    <a class="type-tile" href="#search">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M12 14v3"/></svg>
+      新築一戸建て
+    </a>
+    <a class="type-tile" href="#search">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/></svg>
+      土地
+    </a>
+    <a class="type-tile" href="#search">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="18" height="13"/><path d="M8 7V4h8v3"/></svg>
+      事業用
+    </a>
+  </div>
+</div>
+
+<!-- ================= エリア別物件数マップ ================= -->
+<section class="band" id="areamap">
+  <div class="wrap">
+    <div class="head-row">
+      <div><span class="eyebrow">Area Map</span><h2>姫路市 エリア別 物件数</h2></div>
+      <p class="lead" style="margin:0;">気になるエリアを選ぶと、そのエリアの物件相場がひと目でわかります。</p>
+    </div>
+
+    <div class="areamap-layout">
+      <div class="areamap-visual">
+        <svg viewBox="0 0 600 480" role="img" aria-label="姫路市エリア区分図">
+          <!-- 市域の外形は Wikimedia Commons「兵庫県区画図」(CC BY-SA / 姫路市, id=28201) の
+               実際の行政境界パスを座標変換して使用。内部の6エリア分割は説明用の独自区分です。 -->
+          <path class="areamap-river" d="M300,68 C312,140 278,205 300,255 C322,300 288,345 312,405"/>
+
+          <path class="areamap-region" data-area="ekimae" d="M294,253 L340,60 L292,60 L252,108 L148,108 L108,164 L108,196 Z"/>
+          <path class="areamap-region" data-area="otsu" d="M294,253 L476,228 L420,228 L388,172 L388,108 L340,100 L340,60 Z"/>
+          <path class="areamap-region" data-area="shirahama" d="M294,253 L396,340 L396,316 L428,340 L468,340 L516,260 L476,228 Z"/>
+          <path class="areamap-region" data-area="shikama" d="M294,253 L252,388 L292,380 L356,380 L324,420 L356,420 L396,340 Z"/>
+          <path class="areamap-region" data-area="hirohata" d="M294,253 L220,260 L252,300 L252,340 L228,348 L252,348 L252,388 Z"/>
+          <path class="areamap-region" data-area="aboshi" d="M294,253 L108,196 L132,196 L84,204 L172,204 L180,260 L220,260 Z"/>
+
+          <circle cx="294" cy="253" r="5" fill="var(--gold-bright)"/>
+          <path d="M286,241 h16 v-8 l-8,-7 l-8,7 Z" fill="var(--ink)" opacity=".55"/>
+
+          <text class="areamap-label" x="184" y="128">姫路駅周辺</text>
+          <text class="areamap-sub" x="184" y="143">エリア</text>
+          <text class="areamap-count" data-area-count="ekimae" x="184" y="161">224 / 96 / 38</text>
+
+          <text class="areamap-label" x="372" y="150">大津エリア</text>
+          <text class="areamap-count" data-area-count="otsu" x="372" y="168">163 / 69 / 25</text>
+
+          <text class="areamap-label" x="418" y="283">白浜エリア</text>
+          <text class="areamap-count" data-area-count="shirahama" x="418" y="301">139 / 58 / 21</text>
+
+          <text class="areamap-label" x="318" y="365">飾磨エリア</text>
+          <text class="areamap-count" data-area-count="shikama" x="318" y="383">201 / 84 / 30</text>
+
+          <text class="areamap-label" x="244" y="315">広畑エリア</text>
+          <text class="areamap-count" data-area-count="hirohata" x="244" y="333">178 / 71 / 27</text>
+
+          <text class="areamap-label" x="164" y="222">網干エリア</text>
+          <text class="areamap-count" data-area-count="aboshi" x="164" y="240">152 / 63 / 24</text>
+        </svg>
+        <p class="areamap-caption">※市域の外形は公開地図データに基づく実際の行政境界です。内部の6エリア区分は説明用の簡略区分で、実際の地域自治区の境界とは一致しません。</p>
+      </div>
+
+      <div>
+        <div class="areamap-legend">
+          <span><i class="dot dot-public"></i>一般公開</span>
+          <span><i class="dot dot-member"></i>会員限定</span>
+          <span><i class="dot dot-shop"></i>店頭限定（非公開）</span>
+        </div>
+        <table class="areamap-table">
+          <thead>
+            <tr><th>エリア</th><th>一般公開</th><th>会員限定</th><th>店頭限定</th></tr>
+          </thead>
+          <tbody>
+            <tr data-area="ekimae"><td>姫路駅周辺エリア</td><td class="c-public">224</td><td class="c-member">96</td><td class="c-shop">38</td></tr>
+            <tr data-area="shikama"><td>飾磨エリア</td><td class="c-public">201</td><td class="c-member">84</td><td class="c-shop">30</td></tr>
+            <tr data-area="hirohata"><td>広畑エリア</td><td class="c-public">178</td><td class="c-member">71</td><td class="c-shop">27</td></tr>
+            <tr data-area="aboshi"><td>網干エリア</td><td class="c-public">152</td><td class="c-member">63</td><td class="c-shop">24</td></tr>
+            <tr data-area="shirahama"><td>白浜エリア</td><td class="c-public">139</td><td class="c-member">58</td><td class="c-shop">21</td></tr>
+            <tr data-area="otsu"><td>大津エリア</td><td class="c-public">163</td><td class="c-member">69</td><td class="c-shop">25</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td>合計</td><td class="c-public">1,057</td><td class="c-member">441</td><td class="c-shop">165</td></tr>
+          </tfoot>
+        </table>
+        <p class="areamap-note">会員登録すると<b>会員限定物件<span data-member-note-count>441</span>件</b>も検索対象になります。店頭限定物件は個別相談でご案内します。</p>
+        <a class="btn btn-solid" style="margin-top:18px;" href="#search">エリアから物件を探す</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 新着物件 ================= -->
+<section class="band">
+  <div class="wrap">
+    <div class="head-row">
+      <div><span class="eyebrow">New Arrival</span><h2>新着物件</h2></div>
+      <a class="more" href="#search">新着物件をすべて見る</a>
+    </div>
+    <div class="prop-grid">
+
+      <article class="prop-card">
+        <div class="prop-photo">
+          <div class="badge-row"><span class="badge badge-new">NEW</span></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">1,980<span>万円</span></div>
+          <div class="prop-spec"><b>4LDK</b>・土地120.35㎡・建物98.20㎡・築12年</div>
+          <div class="prop-loc">姫路市飾磨区／山陽電鉄「飾磨」駅 徒歩9分</div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-photo">
+          <div class="badge-row"><span class="badge badge-new">NEW</span><span class="badge badge-down">値下げ</span></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="5" y="3" width="14" height="18"/><path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/></svg>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">1,380<span>万円</span></div>
+          <div class="prop-spec"><b>3LDK</b>・専有68.4㎡・6階／10階建・築18年</div>
+          <div class="prop-loc">姫路市南駅前町／JR「姫路」駅 徒歩7分</div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-photo">
+          <div class="badge-row"><span class="badge badge-member">会員限定</span></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">2,450<span>万円</span></div>
+          <div class="prop-spec"><b>5LDK</b>・土地160.10㎡・建物132.80㎡・築8年</div>
+          <div class="prop-loc">姫路市広畑区／JR「網干」駅 徒歩15分</div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-photo">
+          <div class="badge-row"><span class="badge badge-new">NEW</span></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/></svg>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">980<span>万円</span></div>
+          <div class="prop-spec">土地105.00㎡・建築条件なし</div>
+          <div class="prop-loc">加古川市加古川町／JR「加古川」駅 徒歩18分</div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-photo">
+          <div class="badge-row"><span class="badge badge-down">値下げ</span></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">1,650<span>万円</span></div>
+          <div class="prop-spec"><b>4LDK</b>・土地142.00㎡・建物105.60㎡・築22年（現況：空家）</div>
+          <div class="prop-loc">たつの市龍野町／JR「本竜野」駅 徒歩12分</div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-photo">
+          <div class="badge-row"><span class="badge badge-private">非公開・要相談</span></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="5" y="3" width="14" height="18"/><path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/></svg>
+        </div>
+        <div class="prop-body">
+          <div class="prop-price">価格<span>お問い合わせください</span></div>
+          <div class="prop-spec">通称「スーパーコア物件」・詳細は個別相談にてご案内</div>
+          <div class="prop-loc">姫路市内／エリア非公開</div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= おすすめ物件 ================= -->
+<section class="band band-alt">
+  <div class="wrap">
+    <div class="head-row">
+      <div><span class="eyebrow">Recommend</span><h2>スタッフおすすめ物件</h2></div>
+      <a class="more" href="#search">おすすめ物件をすべて見る</a>
+    </div>
+    <div class="feature-grid">
+      <article class="feature-card">
+        <div class="feature-photo">
+          <span class="feature-tag">駅近・陽当り良好</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>
+        </div>
+        <div class="feature-body">
+          <div class="prop-price">2,180<span>万円</span></div>
+          <div class="prop-spec"><b>4LDK</b>・南向き・二世帯対応</div>
+          <p class="feature-comment">「実家じまいで手放されたお住まいを丁寧にクリーニング。収納の多さが自慢の一軒です。」— 担当：山﨑</p>
+        </div>
+      </article>
+      <article class="feature-card">
+        <div class="feature-photo">
+          <span class="feature-tag">リフォーム済み</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="5" y="3" width="14" height="18"/></svg>
+        </div>
+        <div class="feature-body">
+          <div class="prop-price">1,590<span>万円</span></div>
+          <div class="prop-spec"><b>3LDK</b>・水回り全交換済み</div>
+          <p class="feature-comment">「自社リフォームで水回りを一新済み。すぐに新生活を始められます。」— 担当：森下</p>
+        </div>
+      </article>
+      <article class="feature-card">
+        <div class="feature-photo">
+          <span class="feature-tag">ペット相談可</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/></svg>
+        </div>
+        <div class="feature-body">
+          <div class="prop-price">1,120<span>万円</span></div>
+          <div class="prop-spec">土地98.50㎡・角地・ペット相談可</div>
+          <p class="feature-comment">「小型犬2頭までご相談可能な数少ない土地です。」— 担当：松下</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 詳細検索 ================= -->
+<section class="band" id="search">
+  <div class="wrap">
+    <div class="head-row">
+      <div><span class="eyebrow">Property Search</span><h2>こだわり条件から物件を探す</h2></div>
+    </div>
+    <p class="lead" style="margin-bottom:34px;">エリア・沿線・価格・築年数・こだわり条件までかけ合わせて検索できます。会員登録すると、一般公開されていない「会員限定物件」も検索結果に含まれます。</p>
+
+    <div class="search-panel">
+      <div class="sp-grid">
+
+        <div class="sp-field">
+          <h4><span class="idx">1</span>エリアで選ぶ（複数選択可）</h4>
+          <div class="chip-row">
+            <span class="chip is-on">姫路市</span><span class="chip">加古川市</span><span class="chip">高砂市</span>
+            <span class="chip">たつの市</span><span class="chip">明石市</span><span class="chip">相生市</span>
+            <span class="chip">赤穂市</span><span class="chip">加西市</span><span class="chip">小野市</span><span class="chip">三木市</span>
+          </div>
+        </div>
+
+        <div class="sp-field">
+          <h4><span class="idx">2</span>沿線・駅で選ぶ</h4>
+          <div class="range-row">
+            <select><option>JR山陽本線</option><option>山陽電鉄本線</option><option>JR姫新線</option><option>JR播但線</option><option>神戸電鉄</option></select>
+            <select><option>駅名を選択</option><option>姫路</option><option>飾磨</option><option>網干</option><option>加古川</option></select>
+          </div>
+          <p class="note-line">通学区（小学校区・中学校区）からの検索にも対応予定です。</p>
+        </div>
+
+        <div class="sp-field">
+          <h4><span class="idx">3</span>価格帯</h4>
+          <div class="range-row">
+            <select><option>下限なし</option><option>500万円</option><option>1,000万円</option><option>1,500万円</option><option>2,000万円</option></select>
+            <span class="to">〜</span>
+            <select><option>上限なし</option><option>1,500万円</option><option>2,000万円</option><option>2,500万円</option><option>3,000万円</option></select>
+          </div>
+        </div>
+
+        <div class="sp-field">
+          <h4><span class="idx">4</span>築年数・面積</h4>
+          <div class="range-row" style="margin-bottom:12px;">
+            <select><option>下限なし</option><option>5年</option><option>10年</option><option>15年</option><option>20年</option></select>
+            <span class="to">〜</span>
+            <select><option>上限なし</option><option>10年</option><option>20年</option><option>30年</option></select>
+          </div>
+          <div class="range-row">
+            <select><option>土地：下限なし</option><option>65㎡</option><option>100㎡</option><option>150㎡</option></select>
+            <span class="to">〜</span>
+            <select><option>建物：上限なし</option><option>80㎡</option><option>120㎡</option><option>160㎡</option></select>
+          </div>
+        </div>
+
+        <div class="sp-field">
+          <h4><span class="idx">5</span>間取り</h4>
+          <div class="chip-row">
+            <span class="chip">1LDK以下</span><span class="chip is-on">2K〜2LDK</span><span class="chip is-on">3K〜3LDK</span>
+            <span class="chip">4K〜4LDK</span><span class="chip">5K以上</span>
+          </div>
+        </div>
+
+        <div class="sp-field">
+          <h4><span class="idx">6</span>こだわり条件</h4>
+          <div class="check-grid">
+            <label class="check-item"><input type="checkbox">リフォーム済み物件のみ</label>
+            <label class="check-item"><input type="checkbox">値下がり物件のみ</label>
+            <label class="check-item"><input type="checkbox">現況：空家</label>
+            <label class="check-item"><input type="checkbox">現況：居住中</label>
+            <label class="check-item"><input type="checkbox">ペット相談可</label>
+            <label class="check-item"><input type="checkbox">駐車場2台以上</label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="search-cta">
+        <div>
+          <strong style="font-size:14px;">公開状況：</strong>
+          <span class="note-line" style="display:inline;">一般公開に加え、<b style="color:var(--ink);">会員限定物件（441件）</b>も同時に検索できます。</span>
+        </div>
+        <a class="btn btn-solid" href="#">この条件で検索する</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 会員メリット ================= -->
+<section class="band" id="member">
+  <div class="wrap">
+    <div class="head-row">
+      <div><span class="eyebrow">Member Benefit</span><h2>会員登録でできること</h2></div>
+    </div>
+    <div class="merit-grid">
+      <div class="merit-card">
+        <div class="kicker">01</div>
+        <h3>会員限定・非公開物件（コア情報）を閲覧</h3>
+        <p>一般公開前の物件や、事情により非公開としている物件情報にアクセスできます。</p>
+      </div>
+      <div class="merit-card">
+        <div class="kicker">02</div>
+        <h3>希望条件のマッチング通知</h3>
+        <p>エリア・価格・間取りなどのご希望条件を登録すると、該当する新着物件をメールでお知らせします。</p>
+      </div>
+      <div class="merit-card">
+        <div class="kicker">03</div>
+        <h3>お気に入り保存・比較</h3>
+        <p>気になる物件を保存して、あとからじっくり比較検討できます。来店時にそのままご相談も可能です。</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:34px;">
+      <a class="btn btn-gold" href="#">無料会員登録はこちら</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 選ばれる理由 ================= -->
+<section class="band band-alt" id="service">
+  <div class="wrap">
+    <div class="head-row">
+      <div><span class="eyebrow">Why Morishita House</span><h2>モリシタハウスが選ばれる理由</h2></div>
+    </div>
+    <div class="reason-grid">
+      <div class="reason-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/></svg>
+        <h3>姫路エリア中古住宅　掲載数No.1</h3>
+        <p>グループ会社のデータベースを統合し、播磨エリア最大級の物件情報量を実現しています。</p>
+      </div>
+      <div class="reason-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8z"/></svg>
+        <h3>一級建築士の代表が直接査定</h3>
+        <p>建物の状態や増改築の可能性まで踏まえた、住宅のプロならではの目線でご案内します。</p>
+      </div>
+      <div class="reason-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>
+        <h3>購入からリフォームまでワンストップ</h3>
+        <p>グループの工務店・リフォーム会社と連携し、物件探しから住み替え後の工事までまとめて対応します。</p>
+      </div>
+      <div class="reason-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 21v-7a8 8 0 0116 0v7"/><path d="M4 21h16"/></svg>
+        <h3>「住まいの終活相談カウンター」と連携</h3>
+        <p>実家・空き家の売却や整理でお悩みの方には、姉妹サービスの相談窓口もご案内できます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 実家・空き家クロスリンク ================= -->
+<section class="cross-section" id="jikka">
+  <div class="wrap">
+    <div class="cross-head">
+      <span class="eyebrow">住まいの終活相談カウンター 兵庫</span>
+      <h2>実家をどうしたいか、迷っている方へ。</h2>
+      <p>「売る」か「残す」かも決まっていない段階からご相談いただけます。中古住宅として売り出す前に、片づけ・空き家管理・査定までまとめてサポートする姉妹窓口です。</p>
+    </div>
+    <div class="cross-grid">
+      <div class="cross-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>
+        <h4>ワンストップ相談</h4><p>実家じまい全般をまとめて相談</p>
+      </div>
+      <div class="cross-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 7h16M6 7v13h12V7M9 7V4h6v3"/></svg>
+        <h4>実家片づけ代行</h4><p>荷物整理・遺品整理も依頼可能</p>
+      </div>
+      <div class="cross-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>
+        <h4>空き家管理</h4><p>遠方からでも定期巡回で安心</p>
+      </div>
+      <div class="cross-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h5"/></svg>
+        <h4>AI無料査定</h4><p>まずは概算価格をオンラインで</p>
+      </div>
+      <div class="cross-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21c4-4 7-7.6 7-11a7 7 0 10-14 0c0 3.4 3 7 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
+        <h4>買い取りします</h4><p>売却期限がある方も直接買取</p>
+      </div>
+    </div>
+    <div class="cross-cta">
+      <a class="btn btn-gold" href="#">住まいの終活相談カウンターへ</a>
+      <span class="note">現在の m-house.co.jp をベースに、本サイトと相互リンクします。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 来店予約・Web相談・資料請求 ================= -->
+<section class="band" id="action">
+  <div class="wrap">
+    <div class="head-row">
+      <div><span class="eyebrow">Contact</span><h2>まずは気軽にご相談ください</h2></div>
+    </div>
+    <div class="action-grid">
+      <div class="action-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+        <h3>来店予約</h3>
+        <p>店舗でじっくり物件をご案内。オンラインで日時を選ぶだけ。</p>
+        <a class="btn btn-line btn-block" href="#">予約する</a>
+      </div>
+      <div class="action-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <h3>Web相談</h3>
+        <p>ビデオ通話やチャットでご自宅から相談可能です。</p>
+        <a class="btn btn-line btn-block" href="#">Web相談を予約</a>
+      </div>
+      <div class="action-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4h16v16H4z"/><path d="M4 8l8 6 8-6"/></svg>
+        <h3>資料請求</h3>
+        <p>物件資料・会社案内をまとめて郵送またはメールでお届け。</p>
+        <a class="btn btn-line btn-block" href="#">資料請求する</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= お客様の声 ================= -->
+<section class="band band-alt">
+  <div class="wrap">
+    <div class="head-row"><div><span class="eyebrow">Customer Voice</span><h2>お客様の声</h2></div></div>
+    <div class="voice-grid">
+      <div class="voice-card"><div class="who">姫路市 B様</div><p>実家の売却でお世話になりました。丁寧な対応でスムーズに進み、感謝しています。</p></div>
+      <div class="voice-card"><div class="who">横浜市 H様</div><p>空き家の管理をお願いしました。遠方からでも安心して任せられています。</p></div>
+      <div class="voice-card"><div class="who">姫路市 S様</div><p>実家のリノベーションでお世話になりました。丁寧な提案で満足いく仕上がりです。</p></div>
+      <div class="voice-card"><div class="who">姫路市 A様</div><p>中古住宅探しから購入まで、こちらの希望を丁寧に汲み取っていただけました。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= スタッフ紹介 ================= -->
+<section class="band">
+  <div class="wrap">
+    <div class="head-row"><div><span class="eyebrow">Staff</span><h2>ご案内するスタッフ</h2></div></div>
+    <div class="staff-grid">
+      <div class="staff-card">
+        <div class="staff-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+        <div class="staff-role">代表取締役</div>
+        <div class="staff-name">森下 誉樹</div>
+        <div class="staff-cert">一級建築士／一級建築施工管理技士／省エネ建築診断士</div>
+        <p class="staff-msg">皆さまの大切な住まい選びを、建築のプロの目線でお手伝いします。</p>
+      </div>
+      <div class="staff-card">
+        <div class="staff-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+        <div class="staff-role">サービススタッフ</div>
+        <div class="staff-name">山﨑 敏宏</div>
+        <div class="staff-cert">住宅メンテナンス診断士／住宅外壁診断士</div>
+        <p class="staff-msg">建替え・リノベーションのご提案から施工まで丁寧にサポートします。</p>
+      </div>
+      <div class="staff-card">
+        <div class="staff-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+        <div class="staff-role">不動産手続対応スタッフ</div>
+        <div class="staff-name">松下 登志美</div>
+        <div class="staff-cert">宅地建物取引士／損害保険募集人</div>
+        <p class="staff-msg">売買契約や登記まわりも、法的な面からしっかりサポートします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= フッター ================= -->
+<footer class="site" id="company">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="foot-brand__head">
+          <svg class="brand-logo" viewBox="0 0 100 100" aria-hidden="true" style="width:34px;height:34px;">
+            <circle cx="50" cy="50" r="50" fill="var(--indigo)"/>
+            <circle cx="50" cy="22.5" r="6.5" fill="none" stroke="#fff" stroke-width="5"/>
+            <path d="M30,77 L30,45.5 L50,29 L70,45.5 L70,77" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="30" y1="60" x2="70" y2="60" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+          </svg>
+          <div class="mark">モリシタハウス</div>
+        </div>
+        <p>株式会社モリシタハウス<br>〒670-0085 兵庫県姫路市山吹2丁目12番30号<br>TEL 079-260-8878（フリーダイヤル 0120-736-066）<br>受付時間　平日9:00〜18:00（水曜定休）</p>
+      </div>
+      <div class="foot-col">
+        <h5>物件を探す</h5>
+        <ul>
+          <li><a href="#search">中古一戸建て</a></li>
+          <li><a href="#search">中古マンション</a></li>
+          <li><a href="#search">土地</a></li>
+          <li><a href="#member">会員登録・ログイン</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>サービス</h5>
+        <ul>
+          <li><a href="#uru">売却査定</a></li>
+          <li><a href="#jikka">実家・空き家の相談</a></li>
+          <li><a href="#event">イベント・セミナー</a></li>
+          <li><a href="#action">来店予約・Web相談</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>会社情報</h5>
+        <ul>
+          <li><a href="#company">会社概要</a></li>
+          <li><a href="#company">アクセス</a></li>
+          <li><a href="#">プライバシーポリシー</a></li>
+          <li><a href="#">サイトマップ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 株式会社モリシタハウス</span>
+      <span>宅地建物取引業者免許 兵庫県知事（13）第450028号</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // タブ切替（クイック検索）
+  document.querySelectorAll('.qs-tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.qs-tab').forEach(t=>t.setAttribute('aria-selected','false'));
+      tab.setAttribute('aria-selected','true');
+    });
+  });
+  // チップ選択トグル（詳細検索）
+  document.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click', ()=> chip.classList.toggle('is-on'));
+  });
+  // エリアマップ：地図とテーブルの連動ハイライト
+  (function(){
+    const setActive = (area) => {
+      document.querySelectorAll('.areamap-region').forEach(el=>el.classList.toggle('is-active', el.dataset.area===area));
+      document.querySelectorAll('table.areamap-table tbody tr').forEach(el=>el.classList.toggle('is-active', el.dataset.area===area));
+    };
+    document.querySelectorAll('.areamap-region, table.areamap-table tbody tr').forEach(el=>{
+      el.addEventListener('mouseenter', ()=> setActive(el.dataset.area));
+      el.addEventListener('mouseleave', ()=> setActive(null));
+    });
+  })();
+
+  // エリア別物件数：ダミーデータ（将来、物件管理システムのAPIから取得した値に置き換える想定）
+  // 例：fetch('/api/area-counts').then(res => res.json()).then(renderAreaCounts);
+  const AREA_COUNT_DATA = {
+    ekimae:    { name:'姫路駅周辺エリア', public:224, member:96, shop:38 },
+    shikama:   { name:'飾磨エリア',       public:201, member:84, shop:30 },
+    hirohata:  { name:'広畑エリア',       public:178, member:71, shop:27 },
+    aboshi:    { name:'網干エリア',       public:152, member:63, shop:24 },
+    shirahama: { name:'白浜エリア',       public:139, member:58, shop:21 },
+    otsu:      { name:'大津エリア',       public:163, member:69, shop:25 },
+  };
+
+  function renderAreaCounts(data){
+    const totals = { public:0, member:0, shop:0 };
+    Object.entries(data).forEach(([areaId, d])=>{
+      totals.public += d.public; totals.member += d.member; totals.shop += d.shop;
+
+      const row = document.querySelector(`table.areamap-table tbody tr[data-area="${areaId}"]`);
+      if(row){
+        row.querySelector('.c-public').textContent = d.public.toLocaleString();
+        row.querySelector('.c-member').textContent = d.member.toLocaleString();
+        row.querySelector('.c-shop').textContent = d.shop.toLocaleString();
+      }
+      const mapCount = document.querySelector(`[data-area-count="${areaId}"]`);
+      if(mapCount){ mapCount.textContent = `${d.public} / ${d.member} / ${d.shop}`; }
+    });
+
+    const footRow = document.querySelector('table.areamap-table tfoot tr');
+    if(footRow){
+      footRow.querySelector('.c-public').textContent = totals.public.toLocaleString();
+      footRow.querySelector('.c-member').textContent = totals.member.toLocaleString();
+      footRow.querySelector('.c-shop').textContent = totals.shop.toLocaleString();
+    }
+    const totalEl = document.querySelector('[data-total-count]');
+    if(totalEl){ totalEl.textContent = (totals.public + totals.member + totals.shop).toLocaleString(); }
+    const nonPublicEl = document.querySelector('[data-nonpublic-count]');
+    if(nonPublicEl){ nonPublicEl.textContent = (totals.member + totals.shop).toLocaleString(); }
+    const noteCount = document.querySelector('[data-member-note-count]');
+    if(noteCount){ noteCount.textContent = totals.member.toLocaleString(); }
+  }
+  renderAreaCounts(AREA_COUNT_DATA);
+</script>
