@@ -9,6 +9,7 @@
 - **公開URL（無料査定フォーム）**: https://jintan1962-hub.github.io/morishita-house-design/kaitori-form.html
 - **公開URL（会員登録）**: https://jintan1962-hub.github.io/morishita-house-design/member-register.html
 - **公開URL（会社概要）**: https://jintan1962-hub.github.io/morishita-house-design/company.html
+- **公開URL（イベント情報）**: https://jintan1962-hub.github.io/morishita-house-design/event.html
 - **GitHubリポジトリ**: https://github.com/jintan1962-hub/morishita-house-design（Public）
 - **ローカルの作業フォルダ**: `C:\Users\takaki\Dropbox\Documents\ClaudeWork\morishita-house-design\`
 
@@ -21,6 +22,7 @@
 | `kaitori-form.html` | 無料査定フォーム（買取LPからの申込先） |
 | `member-register.html` | 無料会員登録フォーム |
 | `company.html` | 会社概要 |
+| `event.html` | イベント情報 |
 
 ---
 
@@ -101,7 +103,17 @@
 
 ---
 
-## 6. デプロイ環境の構築
+## 6. イベント情報ページ（event.html）
+
+- グローバルメニュー「イベント情報」の実体ページとして新規作成。それまで `#event` は対応セクションのないダミーアンカーだった。
+- 参考: https://www.m-house.co.jp/seminar/ — セミナーをカード形式で「受付中／終了」に分けて掲載する構成。
+- 受付中／開催予定／終了したイベントをフィルタタブ（JSで表示切替）で絞り込める一覧を実装。
+- 掲載イベント（仮データ）: オープンハウス、中古住宅の選び方セミナー、会員限定個別相談会、リノベーション見学会、**姉妹サイト主催の「住まいの終活セミナー」**（m-house.co.jp/seminar/ へ直接リンク、「姉妹サイト開催」バッジ付き）、終了済みセミナー1件。
+- 全ページの「イベント情報」ナビ・フッターリンクをこのページに向け直した。
+
+---
+
+## 7. デプロイ環境の構築
 
 - 開発環境に GitHub CLI（`gh`）が未インストールだったため winget でインストール。
 - `gh auth login --web` によりブラウザ経由でユーザーのGitHubアカウント（`jintan1962-hub`）を認証（トークンはAI側では取得・保持していない）。
@@ -110,7 +122,7 @@
 
 ---
 
-## 7. 今後の実データ差し替えポイント（要対応）
+## 8. 今後の実データ差し替えポイント（要対応）
 
 サイト全体に **「デザイン案（モックアップ）」であることを示す注記バナー** を設置済み。特に以下は仮データ／プレースホルダーのため、公開前に本物へ差し替えが必要。
 
@@ -121,10 +133,11 @@
 - スタッフ写真・代表写真（現在はSVGアイコンのプレースホルダー）
 - 無料査定フォーム・会員登録フォームの送信処理（現状はサーバー接続なしのプロトタイプ）
 - 会社概要ページのアクセス地図（現状はプレースホルダー、Googleマップ検索リンクのみ設置）
+- イベント情報ページの開催日時・内容（現状は仮データ6件）
 
 ---
 
-## 8. 未確認・保留事項
+## 9. 未確認・保留事項
 
 - `index.html` フッターの「実家・空き家の相談」リンクは、ページ内アンカー（`#jikka`）のまま。グローバルメニューと揃えて外部リンク（m-house.co.jp）に変更するかは保留中。
 - `member-register.html` のグローバルメニュー「実家・空き家相談」も `index.html#jikka` のまま（トップページのナビは外部リンク化済みだが、このページは未追随）。
