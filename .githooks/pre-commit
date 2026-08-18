@@ -1,0 +1,62 @@
+#!/bin/sh
+# S-01：秘密情報をリポジトリに置かない。
+# 「毎回スキャンする」を人の意思に任せると実行回数は0に近づくため、仕組みで止める。
+#
+# 導入（クローンした人が1回だけ実行する）：
+#   git config core.hooksPath .githooks
+#
+# どうしても通す必要がある場合のみ `git commit --no-verify`。
+# その場合は docs/exceptions.md に理由と期限を書くこと（README 5章）。
+
+# 追加された行だけを見る（削除行や既存コードに反応させない）。
+# 生成コードとロックファイルは対象外（人が書いたものではなく誤検知が多い）。
+ADDED=$(git diff --cached -- . ':(exclude)src/generated' ':(exclude)pnpm-lock.yaml' \
+        | grep -E '^\+' | grep -v '^+++')
+
+# 1) 変数への「値の代入」だけを見る。`credentials.password` のような参照は拾わない。
+ASSIGN=$(printf '%s' "$ADDED" | grep -nEi \
+  '(api[_-]?key|secret|passwd|password|token|private[_-]?key)[a-z_]*[[:space:]]*[:=][[:space:]]*["'"'"'][^"'"'"']{8,}["'"'"']')
+
+# 2) 実在する鍵の形（誤検知がほぼ無い）
+KNOWN=$(printf '%s' "$ADDED" | grep -nE \
+  'AIza[0-9A-Za-z_-]{35}|sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{36}|BEGIN [A-Z ]*PRIVATE KEY')
+
+# 3) パスワード付きの接続文字列（実際に事故が起きたため追加）
+#    < > * を含むものは、説明文中のプレースホルダとみなして除外する
+#    （例: postgresql://postgres.<プロジェクトID>:<パスワード>@<ホスト>/postgres）
+CONNSTR=$(printf '%s' "$ADDED" | grep -nEi \
+  '(postgres(ql)?|mysql|mongodb(\+srv)?|redis)://[^:[:space:]<>*]+:[^@[:space:]<>*]+@')
+
+FOUND=$(printf '%s\n%s\n%s' "$ASSIGN" "$KNOWN" "$CONNSTR" | grep -v '^$')
+
+if [ -n "$FOUND" ]; then
+  echo "──────────────────────────────────────────────"
+  echo "コミットを中止しました（S-01 秘密情報スキャン）"
+  echo "──────────────────────────────────────────────"
+  echo "$FOUND" | head -20
+  echo ""
+  echo "追加された行に、鍵・パスワード・接続文字列らしきものがあります。"
+  echo "値は .env（gitignore済）か環境変数へ移してください。"
+  echo ""
+  echo "ダミー値や例示で誤検知の場合は git commit --no-verify で通せますが、"
+  echo "その場合は docs/exceptions.md に理由と期限を残してください。"
+  exit 1
+fi
+
+# 追跡してはいけないファイルが「追加・変更」されていないか
+# （--diff-filter=d：削除＝追跡から外す操作は対象外）
+BADFILES=$(git diff --cached --name-only --diff-filter=d \
+  | grep -Ei '(^|/)\.env($|\.)|credential|serviceaccount|\.pem$|\.p12$|\.csv$|\.xlsx?$|\.db$|libquery_engine' \
+  | grep -v '\.env\.example$')
+
+if [ -n "$BADFILES" ]; then
+  echo "──────────────────────────────────────────────"
+  echo "コミットを中止しました（S-01 追跡してはいけないファイル）"
+  echo "──────────────────────────────────────────────"
+  echo "$BADFILES"
+  echo ""
+  echo "git rm --cached <ファイル> で追跡から外し、.gitignore を確認してください。"
+  exit 1
+fi
+
+exit 0

@@ -1,61 +1,133 @@
 "use server";
 
-import { PrismaClient } from "../../generated/client";
 import { revalidatePath } from "next/cache";
+import prisma from "@/lib/prisma";
+import { requireAdmin, requireUser, authErrorMessage } from "@/lib/auth";
+import { reportError } from "@/lib/errors";
 
-const prisma = new PrismaClient();
+/**
+ * S-07：ここにある関数は "use server"、つまり公開されたHTTPエンドポイントである。
+ * 画面に管理メニューを出さないことは権限制御にならないため、
+ * データを返す関数・変える関数の冒頭で必ず requireAdmin() / requireUser() を呼ぶ。
+ */
 
+/** 会員一覧（管理者のみ）。退会済みは既定で除く。 */
 export async function getUsers() {
+  const auth = await requireAdmin();
+  if (!auth.ok) {
+    return { success: false, error: authErrorMessage(auth.reason) };
+  }
+
   try {
     const users = await prisma.user.findMany({
-      orderBy: { createdAt: 'desc' },
+      where: { deletedAt: null },
+      orderBy: { createdAt: "desc" },
     });
     return { success: true, data: users };
-  } catch (error: any) {
-    return { success: false, error: String(error) };
-  }
-}
-
-export async function getUserById(id: number) {
-  try {
-    return await prisma.user.findUnique({
-      where: { id },
-    });
   } catch (error) {
-    return null;
+    // D-07：例外の中身をそのまま返さない。ログにだけ残す。
+    return reportError("getUsers", error, "会員データを取得できませんでした。");
   }
 }
 
+/** 会員詳細（管理者のみ）。 */
+export async function getUserById(id: number) {
+  const auth = await requireAdmin();
+  if (!auth.ok) {
+    return { success: false as const, error: authErrorMessage(auth.reason) };
+  }
+
+  try {
+    const user = await prisma.user.findFirst({
+      where: { id, deletedAt: null },
+      include: { activityLogs: { orderBy: { createdAt: "desc" }, take: 20 } },
+    });
+    if (!user) {
+      return { success: false as const, error: "会員が見つかりません。" };
+    }
+    return { success: true as const, data: user };
+  } catch (error) {
+    return reportError("getUserById", error, "会員データを取得できませんでした。");
+  }
+}
+
+/** 会員の状態変更（管理者のみ）。 */
 export async function updateUserStatus(id: number, status: string) {
+  const auth = await requireAdmin();
+  if (!auth.ok) {
+    return { success: false as const, error: authErrorMessage(auth.reason) };
+  }
+
   try {
     const user = await prisma.user.update({
       where: { id },
       data: { status },
+      include: { activityLogs: { orderBy: { createdAt: "desc" }, take: 20 } },
     });
     revalidatePath("/admin/users");
-    return user;
+    return { success: true as const, data: user };
   } catch (error) {
-    return null;
+    return reportError("updateUserStatus", error, "状態を変更できませんでした。");
   }
 }
 
+/**
+ * 会員の削除（管理者のみ）。
+ * S-13：物理削除ではなく論理削除。誰がいつ消したかを残す。
+ * 以前は prisma.user.delete で、ActivityLog もカスケードで消えて復旧不能だった。
+ */
 export async function deleteUser(id: number) {
+  const auth = await requireAdmin();
+  if (!auth.ok) {
+    return { success: false as const, error: authErrorMessage(auth.reason) };
+  }
+
   try {
-    const user = await prisma.user.delete({
+    await prisma.user.update({
       where: { id },
+      data: { deletedAt: new Date(), deletedBy: auth.email },
     });
     revalidatePath("/admin/users");
-    return user;
+    return { success: true as const };
   } catch (error) {
-    return null;
+    return reportError("deleteUser", error, "会員を削除できませんでした。");
   }
 }
 
+/**
+ * 動作確認用のテストデータ投入（管理者のみ・本番では実行しない）。
+ * O-01：本番DBへ架空の個人情報を書き込まないための歯止め。
+ */
 export async function createTestUsers() {
+  const auth = await requireAdmin();
+  if (!auth.ok) {
+    return { success: false as const, error: authErrorMessage(auth.reason) };
+  }
+  if (process.env.NODE_ENV === "production") {
+    return {
+      success: false as const,
+      error: "本番環境ではテストデータを作成できません。",
+    };
+  }
+
   try {
     const users = [
-      { name: "山田 健太", email: "yamada@example.com", tel: "090-1111-2222", address: "宮城県仙台市...", memberType: "FREE", status: "ACTIVE" },
-      { name: "佐藤 拓也", email: "sato@example.com", tel: "080-3333-4444", address: "宮城県名取市...", memberType: "STORE", status: "ACTIVE" },
+      {
+        name: "テスト 太郎",
+        email: "test-taro@example.invalid",
+        tel: "090-0000-0000",
+        address: "テスト県テスト市",
+        memberType: "FREE",
+        status: "ACTIVE",
+      },
+      {
+        name: "テスト 花子",
+        email: "test-hanako@example.invalid",
+        tel: "080-0000-0000",
+        address: "テスト県テスト市",
+        memberType: "STORE",
+        status: "ACTIVE",
+      },
     ];
 
     for (const user of users) {
@@ -66,8 +138,55 @@ export async function createTestUsers() {
       });
     }
     revalidatePath("/admin/users");
-    return { success: true };
-  } catch (error: any) {
-    return { success: false, error: String(error) };
+    return { success: true as const };
+  } catch (error) {
+    return reportError("createTestUsers", error, "テストデータを作成できませんでした。");
+  }
+}
+
+/**
+ * 退会（本人のみ）。
+ * S-13：論理削除。誤操作からの復旧を可能にするため、レコードは残す。
+ */
+export async function deleteMyAccount() {
+  const auth = await requireUser();
+  if (!auth.ok) {
+    return { success: false as const, error: authErrorMessage(auth.reason) };
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: auth.userId },
+      data: { deletedAt: new Date(), deletedBy: "SELF" },
+    });
+    return { success: true as const };
+  } catch (error) {
+    return reportError("deleteMyAccount", error, "退会処理を完了できませんでした。");
+  }
+}
+
+/** プロフィール更新（本人のみ）。 */
+export async function updateMyProfile(formData: FormData) {
+  const auth = await requireUser();
+  if (!auth.ok) {
+    return { success: false as const, error: authErrorMessage(auth.reason) };
+  }
+
+  const name = formData.get("name")?.toString();
+  const tel = formData.get("tel")?.toString();
+
+  if (!name) {
+    return { success: false as const, error: "お名前は必須です" };
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: auth.userId },
+      data: { name, tel: tel || null },
+    });
+    revalidatePath("/mypage");
+    return { success: true as const };
+  } catch (error) {
+    return reportError("updateMyProfile", error, "情報を更新できませんでした。");
   }
 }

@@ -1,0 +1,58 @@
+/**
+ * D-19：会社に関する決めごとはこのファイルだけに書く。
+ * 電話番号・住所・差出人アドレスなどを変えるときは、ここ1箇所を直せば全画面とメールに反映される。
+ * このファイルは D-10 の行数上限の対象外。
+ *
+ * 秘密情報（パスワード・APIキー・SMTPの認証情報）はここに書かないこと（D-08 / S-01）。
+ * それらは .env から process.env 経由で読む。
+ */
+
+export const COMPANY = {
+  /** ブランド名（サイト表記） */
+  brandName: "リノベーションスタジオ RENOEL",
+  /** 短縮ブランド名（メール件名の【】内など） */
+  shortName: "RENOEL",
+  /** 運営法人名 */
+  legalName: "大井建設工業株式会社",
+  /** 郵便番号 */
+  zip: "385-0029",
+  /** 所在地 */
+  address: "長野県佐久市佐久平駅南9-1",
+  /** 問い合わせ電話番号（表示用） */
+  tel: "0120-556-119",
+  /** 問い合わせ電話番号（tel: リンク用。ハイフンなし） */
+  telLink: "tel:0120556119",
+  /** 営業時間・定休日 */
+  businessHours: "10:00〜18:00（定休日：火曜・祝日）",
+  /** コーポレートサイトURL */
+  siteUrl: "https://usedrenovation.ooi-kensetsu.co.jp/",
+} as const;
+
+/**
+ * メール差出人。
+ * 【要確認】noreply@renoel.example.com は create 時のプレースホルダのまま本番に残っていた。
+ * 実在する送信ドメインへ差し替えること（example.com 宛は到達しない／なりすまし判定される）。
+ */
+export const MAIL_FROM = {
+  name: "RENOEL リノベーションスタジオ",
+  address: process.env.MAIL_FROM_ADDRESS || "noreply@renoel.example.com",
+} as const;
+
+/**
+ * メール本文や画面に載せる自サイトのURL。
+ * M-08：以前はメール本文に http://localhost:3000 が直書きされており、
+ * 本番から送ると受信者が開けないリンクになっていた。環境変数を正とする。
+ */
+export const SITE_ORIGIN =
+  process.env.NEXT_PUBLIC_SITE_ORIGIN ||
+  process.env.NEXTAUTH_URL ||
+  "http://localhost:3000";
+
+/** メール署名（登録完了・問い合わせ控えで共通利用） */
+export const MAIL_SIGNATURE = `--------------------------------------------------
+${COMPANY.brandName}
+${COMPANY.legalName}
+〒${COMPANY.zip} ${COMPANY.address}
+TEL: ${COMPANY.tel}
+URL: ${COMPANY.siteUrl}
+--------------------------------------------------`;

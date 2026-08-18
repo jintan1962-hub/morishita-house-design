@@ -1,6 +1,10 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/client"
+  // Vercel の実行環境は Amazon Linux 2023（rhel-openssl-3.0.x）。
+  // native（開発マシン）だけだと、デプロイ先で
+  // 「Query engine library for current platform could not be found」で落ちる。
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -43,6 +47,31 @@ model PropertyImage {
   property   Property @relation(fields: [propertyId], references: [id])
 }
 
+/// D-17：一括更新の「控え」。上書き前の物件データをここへ日時つきで退避する。
+/// 上書きは元の値が消えるため、削除より復旧が難しい（S-13）。
+model PropertyImportBackup {
+  id         Int      @id @default(autoincrement())
+  importedAt DateTime @default(now())
+  /// 実行した管理者のメールアドレス（誰がやったか）
+  importedBy String
+  /// 取込対象の件数
+  itemCount  Int
+  /// 上書き前の既存レコード（JSON配列）。戻すときはこれを使う。
+  before     Json
+}
+
+/// O-05：コードを直さずに機能を止めるためのスイッチ置き場。
+/// 事故が起きたとき「まず止める」（S-14）ための手段を、事前に用意しておくもの。
+/// Supabase の table editor から value を書き換えれば、デプロイなしで即座に反映される。
+///
+/// key = "MAIL_SENDING_ENABLED" / value = "false" にすると、全てのメール送信が止まる。
+model SystemSetting {
+  key       String   @id
+  value     String
+  note      String?
+  updatedAt DateTime @updatedAt
+}
+
 model User {
   id            Int       @id @default(autoincrement())
   email         String    @unique
@@ -58,4 +87,40 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  // S-13 論理削除。物理削除はせず、ここに削除日時と実行者を残す。
+  // 参照系のクエリは必ず deletedAt: null で絞ること。
+  deletedAt     DateTime?
+  deletedBy     String?
+
+  // S-12 ログイン試行回数の制限。lockedUntil を過ぎるまで認証を拒否する。
+  failedLoginCount Int       @default(0)
+  lockedUntil      DateTime?
+
+  activityLogs  ActivityLog[]
+
+  @@index([deletedAt])
+}
+
+model ActivityLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  action    String   // 例: "LOGIN" や "VIEW_PROPERTY"
+  details   String?  // 物件IDなどの補足情報
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Inquiry {
+  id         Int      @id @default(autoincrement())
+  propertyId Int?     // どの物件についての問い合わせか（nullの場合は一般の問い合わせ）
+  userId     Int?     // ログインユーザーからの問い合わせならIDを記録
+  name       String
+  email      String
+  tel        String?
+  message    String   // お問い合わせ内容
+  status     String   @default("UNREAD") // UNREAD, REPLIED, etc.
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  repliedAt  DateTime?
 }

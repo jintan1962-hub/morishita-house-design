@@ -1,58 +1,78 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Filter, MoreVertical, Download, UserPlus, Eye, Trash2, RefreshCw, Loader2 } from "lucide-react";
+import { Search, Filter, UserPlus, Eye, Trash2, RefreshCw, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { getUsers, deleteUser, createTestUsers } from "@/app/actions/users";
 
+type User = {
+  id: number;
+  name: string | null;
+  email: string;
+  memberType: string;
+  createdAt: string | Date;
+  status: string;
+};
+
 export default function UserManagement() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const loadUsers = async () => {
-    setIsLoading(true);
+  // 取得だけを行う。読み込み中フラグは呼び出し側が面倒を見る。
+  // （useEffect の同期本体で setState すると react-hooks/set-state-in-effect に触れるため）
+  const fetchUsers = async () => {
     try {
       const response = await getUsers();
-      if (response.success) {
-        setUsers(response.data || []);
+      if (response.success && response.data) {
+        setUsers(response.data as User[]);
       } else {
-        alert(`会員データの取得に失敗しました:\n${response.error}`);
+        setErrorMessage(response.error ?? "会員データを取得できませんでした。");
       }
-    } catch (error: any) {
-      alert("通信エラーが発生しました。");
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      // D-07：握り潰さずログに残し、画面には内部情報を出さない
+      console.error("会員一覧の取得に失敗:", error);
+      setErrorMessage("通信エラーが発生しました。時間をおいて再度お試しください。");
     }
   };
 
+  const reload = async () => {
+    setIsLoading(true);
+    setErrorMessage("");
+    await fetchUsers();
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    loadUsers();
+    // 初期表示。isLoading は初期値が true なので、ここで立て直す必要はない。
+    void (async () => {
+      await fetchUsers();
+      setIsLoading(false);
+    })();
   }, []);
 
   const handleDelete = async (id: number) => {
-    if (!confirm("この会員を削除してもよろしいですか？")) return;
-    try {
-      await deleteUser(id);
-      await loadUsers();
-    } catch (error) {
-      alert("削除に失敗しました。");
+    if (!confirm("この会員を削除しますか？\n（データは論理削除され、一覧から見えなくなります）")) return;
+    const res = await deleteUser(id);
+    if (!res.success) {
+      setErrorMessage(res.error ?? "削除できませんでした。");
+      return;
     }
+    await reload();
   };
 
   const handleCreateTest = async () => {
     if (isCreating) return;
     setIsCreating(true);
-    try {
-      await createTestUsers();
-      await loadUsers();
-      alert("テストデータを作成しました。");
-    } catch (error) {
-      console.error("Failed to create test users:", error);
-      alert("テストデータの作成に失敗しました。");
-    } finally {
-      setIsCreating(false);
+    setErrorMessage("");
+    const res = await createTestUsers();
+    setIsCreating(false);
+    if (!res.success) {
+      setErrorMessage(res.error ?? "テストデータを作成できませんでした。");
+      return;
     }
+    await reload();
   };
 
   return (
@@ -64,7 +84,7 @@ export default function UserManagement() {
         </div>
         <div className="flex gap-3">
           <button 
-            onClick={loadUsers}
+            onClick={reload}
             className="bg-white border border-gray-200 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors"
           >
             <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} />
@@ -84,6 +104,12 @@ export default function UserManagement() {
           </button>
         </div>
       </div>
+
+      {errorMessage && (
+        <div className="bg-red-50 border border-red-200 text-red-700 rounded-2xl px-6 py-4 text-sm font-bold">
+          {errorMessage}
+        </div>
+      )}
 
       <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
         {/* Filters */}

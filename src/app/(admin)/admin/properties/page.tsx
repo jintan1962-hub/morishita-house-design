@@ -1,39 +1,68 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { 
-  Search, Filter, MoreVertical, Plus, 
-  ExternalLink, Edit3, Trash2, Eye, 
-  Upload, Download, X, Check, AlertCircle,
-  ArrowRight, Info
+import {
+  Search, Filter, Plus, Edit3, Eye,
+  Upload, Download, X, Check, AlertCircle, Info
 } from "lucide-react";
 import Link from "next/link";
-import { compareCSVData, importProperties, getProperties, DiffResult } from "@/app/actions/properties";
+import {
+  compareCSVData,
+  importProperties,
+  getProperties,
+  type DiffResult,
+  type IncomingProperty,
+} from "@/app/actions/properties";
+
+type PropertyRow = {
+  id: number;
+  objMngNo: number;
+  title: string;
+  priceMan: number;
+  madori: string | null;
+  address: string | null;
+  disclosureLevel: number;
+};
 
 export default function PropertyManagement() {
-  const [properties, setProperties] = useState<any[]>([]);
+  const [properties, setProperties] = useState<PropertyRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [importStatus, setImportStatus] = useState<"idle" | "parsing" | "preview" | "importing" | "success" | "error">("idle");
   const [diffResults, setDiffResults] = useState<DiffResult[]>([]);
   const [approvedIndices, setApprovedItems] = useState<Set<number>>(new Set());
+  const [errorMessage, setErrorMessage] = useState("");
+  const [importResult, setImportResult] = useState<{
+    count: number;
+    created: number;
+    overwritten: number;
+    backupId: number;
+  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Supabaseからデータを取得
-  const loadProperties = async () => {
-    setIsLoading(true);
-    try {
-      const data = await getProperties();
-      setProperties(data);
-    } catch (error) {
-      console.error("Failed to load properties:", error);
-    } finally {
-      setIsLoading(false);
+  // 取得だけを行う（useEffect の同期本体で setState しないため分けている）
+  const fetchProperties = async () => {
+    const res = await getProperties();
+    if (res.success) {
+      setProperties(res.data as PropertyRow[]);
+    } else {
+      setErrorMessage(res.error);
     }
   };
 
+  const loadProperties = async () => {
+    setIsLoading(true);
+    setErrorMessage("");
+    await fetchProperties();
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    loadProperties();
+    // isLoading の初期値が true なので、ここで立て直さない
+    void (async () => {
+      await fetchProperties();
+      setIsLoading(false);
+    })();
   }, []);
 
   const handleExport = () => {
@@ -52,25 +81,34 @@ export default function PropertyManagement() {
     if (!file) return;
 
     setImportStatus("parsing");
+    setErrorMessage("");
     const reader = new FileReader();
     reader.onload = async (event) => {
       try {
         const text = event.target?.result as string;
         const lines = text.split("\n").filter(line => line.trim() !== "");
         const headers = lines[0].split(",").map(h => h.trim());
-        const data = lines.slice(1).map(line => {
+        const data: IncomingProperty[] = lines.slice(1).map(line => {
           const values = line.split(",").map(v => v.trim());
-          return headers.reduce((obj: any, header, i) => {
+          return headers.reduce((obj: Record<string, string>, header, i) => {
             obj[header] = values[i];
             return obj;
-          }, {});
+          }, {}) as IncomingProperty;
         });
 
-        const diffs = await compareCSVData(data);
-        setDiffResults(diffs);
-        setApprovedItems(new Set(diffs.map((_, i) => i)));
+        // D-17 手順1：まず数える。この時点ではまだ1件も書き込まれていない。
+        const res = await compareCSVData(data);
+        if (!res.success) {
+          setErrorMessage(res.error);
+          setImportStatus("error");
+          return;
+        }
+        setDiffResults(res.data);
+        setApprovedItems(new Set(res.data.map((_, i) => i)));
         setImportStatus("preview");
       } catch (err) {
+        console.error("CSVの解析に失敗:", err);
+        setErrorMessage("CSVを読み取れませんでした。文字コードと列名をご確認ください。");
         setImportStatus("error");
       }
     };
@@ -78,18 +116,38 @@ export default function PropertyManagement() {
   };
 
   const handleImportExecute = async () => {
-    setImportStatus("importing");
-    try {
-      const itemsToImport = diffResults
-        .filter((_, i) => approvedIndices.has(i))
-        .map(d => d.incoming);
-      
-      await importProperties(itemsToImport);
-      setImportStatus("success");
-      loadProperties(); // リストを再読み込み
-    } catch (err) {
-      setImportStatus("error");
+    const itemsToImport = diffResults
+      .filter((_, i) => approvedIndices.has(i))
+      .map(d => d.incoming);
+
+    // D-17 手順3：画面に出ている件数を、そのまま想定件数としてサーバーへ渡す。
+    // サーバー側で実際の対象件数と突き合わせ、ずれていれば書き込まずに中止する。
+    const expectedCount = itemsToImport.length;
+
+    if (!window.confirm(
+      `${expectedCount}件を取り込みます。\n` +
+      `うち ${diffResults.filter((d, i) => approvedIndices.has(i) && d.type === "update").length}件は既存データを上書きします。\n\n` +
+      `上書き前のデータは控えとして保存されますが、実行してよろしいですか？`
+    )) {
+      return;
     }
+
+    setImportStatus("importing");
+    setErrorMessage("");
+    const res = await importProperties(itemsToImport, expectedCount);
+    if (!res.success) {
+      setErrorMessage(res.error);
+      setImportStatus("error");
+      return;
+    }
+    setImportResult({
+      count: res.count,
+      created: res.created,
+      overwritten: res.overwritten,
+      backupId: res.backupId,
+    });
+    setImportStatus("success");
+    loadProperties();
   };
 
   const toggleApproval = (index: number) => {
@@ -219,11 +277,27 @@ export default function PropertyManagement() {
 
               {importStatus === "preview" && (
                 <div className="space-y-6">
+                  {/* D-17 手順3：実行前に、想定件数を人間が目で確認する */}
                   <div className="bg-blue-50 p-4 rounded-2xl flex items-start gap-3">
                     <Info className="text-blue-600 mt-0.5" size={18} />
-                    <p className="text-xs font-bold text-blue-800 leading-relaxed">
-                      データベースとの照合が完了しました。取り込む項目を選択して「インポート実行」を押してください。
-                    </p>
+                    <div className="text-xs font-bold text-blue-800 leading-relaxed">
+                      <p className="mb-2">
+                        データベースとの照合が完了しました。件数をご確認のうえ「取り込みを実行」を押してください。
+                      </p>
+                      <ul className="space-y-0.5">
+                        <li>読み取った行数：{diffResults.length}件</li>
+                        <li>新規登録：{diffResults.filter(d => d.type === "new").length}件</li>
+                        <li className="text-orange-700">
+                          上書き（既存データが変わります）：
+                          {diffResults.filter(d => d.type === "update").length}件
+                        </li>
+                        <li>変更なし：{diffResults.filter(d => d.type === "no_change").length}件</li>
+                        <li className="pt-1">現在チェックが入っている取込対象：{approvedIndices.size}件</li>
+                      </ul>
+                      <p className="mt-2 text-blue-700">
+                        上書き前のデータは自動で控えを取ります。想定と件数が違う場合は実行しないでください。
+                      </p>
+                    </div>
                   </div>
 
                   <table className="w-full text-left text-xs">
@@ -267,11 +341,34 @@ export default function PropertyManagement() {
               )}
 
               {importStatus === "importing" && <div className="text-center py-12">取り込み中...</div>}
+
               {importStatus === "success" && (
                 <div className="text-center py-12">
                   <Check size={48} className="mx-auto mb-4 text-green-600" />
-                  <p className="font-black">インポートが完了しました</p>
-                  <button onClick={() => { setIsImportModalOpen(false); setImportStatus("idle"); }} className="mt-6 bg-blue-900 text-white px-8 py-2 rounded-xl">閉じる</button>
+                  <p className="font-black mb-4">インポートが完了しました</p>
+                  {importResult && (
+                    <div className="text-xs font-bold text-gray-500 space-y-1">
+                      <p>取り込み：{importResult.count}件</p>
+                      <p>新規登録：{importResult.created}件 ／ 上書き：{importResult.overwritten}件</p>
+                      {/* 戻すときに使う控えの番号を必ず画面に出す（D-17・O-03） */}
+                      <p className="text-gray-400">
+                        上書き前データの控え番号：#{importResult.backupId}
+                      </p>
+                    </div>
+                  )}
+                  <button onClick={() => { setIsImportModalOpen(false); setImportStatus("idle"); setImportResult(null); }} className="mt-6 bg-blue-900 text-white px-8 py-2 rounded-xl">閉じる</button>
+                </div>
+              )}
+
+              {importStatus === "error" && (
+                <div className="text-center py-12">
+                  <AlertCircle size={48} className="mx-auto mb-4 text-red-600" />
+                  <p className="font-black mb-2">取り込みを中止しました</p>
+                  {/* D-07：内部情報ではなく、対処できる文言だけを出す */}
+                  <p className="text-xs font-bold text-gray-500 max-w-md mx-auto leading-relaxed">
+                    {errorMessage || "取り込みに失敗しました。"}
+                  </p>
+                  <button onClick={() => { setImportStatus("idle"); setErrorMessage(""); }} className="mt-6 bg-gray-100 text-gray-700 px-8 py-2 rounded-xl font-bold">戻る</button>
                 </div>
               )}
             </div>

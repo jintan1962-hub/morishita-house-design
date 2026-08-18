@@ -4,3 +4,15 @@ allowBuilds:
   prisma: false
   sharp: false
   unrs-resolver: false
+
+# S-11：high の脆弱性はすべて next の推移的依存だった。
+# 新しいパッケージは足さず、既存の推移的依存を修正済みバージョンへ引き上げるだけにする。
+# 監査コマンド： pnpm audit --audit-level=high
+overrides:
+  postcss: '>=8.5.18'
+  nanoid: '>=3.3.18'
+  js-yaml: '>=4.3.1'
+  sharp: '>=0.35.0'
+  # brace-expansion は上書きしない。v5 に上げると minimatch@3 が
+  # 「expand is not a function」で落ち、ESLint が起動しなくなる（実測）。
+  # 他の上書きで minimatch の解決が変わり、結果として brace-expansion の警告も消えた。

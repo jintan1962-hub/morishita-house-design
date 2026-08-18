@@ -1,55 +1,54 @@
-"use client";
-
-import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useSession, signIn } from "next-auth/react";
+import { getPublicPropertyById } from "@/app/actions/properties";
+import { calculateMonthlyPayment } from "@/lib/loan";
+import {
+  DEFAULT_ANNUAL_RATE_PERCENT,
+  DEFAULT_LOAN_YEARS,
+  DEFAULT_RENOVATION_COST_YEN,
+  MAN_YEN,
+} from "@/config/loan";
+import { COMPANY } from "@/config/company";
+import SignInButton from "@/components/SignInButton";
+import PropertyViewLogger from "./PropertyViewLogger";
 
-// モックの物件データ (一覧ページと共通)
-const mockProperties = [
-  { id: 1, title: "青葉区 中古戸建", price: "2,980", priceNum: 29800000, area: "仙台市青葉区", disclosureLevel: 0, type: "中古一戸建て", address: "仙台市青葉区中山吉成1丁目", img: "assets/img/saku-lqh-thm.jpg" },
-  { id: 2, title: "泉区 リノベ済マンション", price: "1,850", priceNum: 18500000, area: "仙台市泉区", disclosureLevel: 0, type: "中古マンション", address: "仙台市泉区泉中央", img: "assets/img/miyota-lqh-thm.jpg" },
-  { id: 3, title: "【会員限定】太白区 未公開戸建", price: "3,200", priceNum: 32000000, area: "仙台市太白区", disclosureLevel: 1, type: "中古一戸建て", address: "仙台市太白区長町", img: "assets/img/t_thm.jpg" },
-  { id: 4, title: "若林区 駅徒歩5分 マンション", price: "2,400", priceNum: 24000000, area: "仙台市若林区", disclosureLevel: 0, type: "中古マンション", address: "仙台市若林区卸町", img: "assets/img/living.jpg" },
-  { id: 5, title: "【会員限定】宮城野区 収益物件", price: "4,500", priceNum: 45000000, area: "仙台市宮城野区", disclosureLevel: 1, type: "収益物件", address: "仙台市宮城野区榴岡", img: "assets/img/kitchen.jpg" },
-];
+/**
+ * C-03 / S-07：会員限定物件の秘匿をサーバー側へ移した。
+ * 以前は "use client" ＋ モック配列で、未ログインでも価格・所在地がソースから読めていた。
+ * いまは getPublicPropertyById() が、鍵つきの場合そもそも中身を返さない。
+ */
+export const dynamic = "force-dynamic";
 
-const calculateMortgage = (principal: number, annualRate: number, years: number) => {
-  const monthlyRate = annualRate / 12 / 100;
-  const numberOfPayments = years * 12;
-  if (monthlyRate === 0) return principal / numberOfPayments;
-  return (
-    (principal * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) /
-    (Math.pow(1 + monthlyRate, numberOfPayments) - 1)
-  );
-};
+const imgBase = "https://okazaki-bot.github.io/chuko-fudousan-design/";
 
-export default function PropertyDetailPage() {
-  const params = useParams();
-  const id = Number(params.id);
-  const { data: session, status } = useSession();
-  
-  const imgBase = "https://okazaki-bot.github.io/chuko-fudousan-design/";
-  const property = mockProperties.find(p => p.id === id) || mockProperties[0];
-  const isMemberOnly = property.disclosureLevel === 1;
-  const isLoggedIn = !!session;
-  const canView = !isMemberOnly || isLoggedIn;
+export default async function PropertyDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = await params;
+  const id = parseInt(resolvedParams.id);
 
-  const annualRate = 0.75;
-  const loanYears = 35;
-  const renoPrice = 15180000;
-  const totalLoanAmount = property.priceNum + renoPrice;
-  const monthlyPayment = useMemo(() => calculateMortgage(totalLoanAmount, annualRate, loanYears), [totalLoanAmount]);
+  const result = await getPublicPropertyById(id);
 
-  if (status === "loading") {
-    return <div className="min-h-[50vh] flex items-center justify-center">読み込み中...</div>;
+  if (!result.success) {
+    return (
+      <div className="p-20 text-center font-bold text-gray-500">
+        物件が見つかりませんでした
+      </div>
+    );
   }
 
-  if (!canView) {
+  const property = result.data;
+
+  // 会員限定 × 未ログイン。ここには価格も所在地も画像も渡ってきていない。
+  if (property.locked) {
     return (
       <>
         <div className="pageHead">
-          <div className="pageHead__bg"><img src={`${imgBase}assets/img/gallery.jpg`} alt="" /></div>
+          <div className="pageHead__bg">
+            {/* eslint-disable-next-line @next/next/no-img-element -- 外部CMS配信の固定画像 */}
+            <img src={`${imgBase}assets/img/gallery.jpg`} alt="" />
+          </div>
           <div className="container container--wide pageHead__inner">
             <span className="pageHead__en">MEMBERS ONLY</span>
             <h1 className="pageHead__ttl">会員限定物件</h1>
@@ -63,8 +62,10 @@ export default function PropertyDetailPage() {
               詳細な写真、所在地、周辺環境などを確認するには無料会員登録またはログインが必要です。
             </p>
             <div className="btnWrap" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              <button onClick={() => signIn()} className="btn btn--fill btn--lg" style={{ width: "100%" }}>ログインして詳細を見る</button>
-              <Link href="/register" className="btn btn--pink btn--lg">無料会員登録はこちら</Link>
+              <SignInButton className="btn btn--fill btn--lg" style={{ width: "100%" }}>
+                ログインして詳細を見る
+              </SignInButton>
+              <Link href="/member" className="btn btn--pink btn--lg">無料会員登録はこちら</Link>
             </div>
           </div>
         </section>
@@ -72,8 +73,19 @@ export default function PropertyDetailPage() {
     );
   }
 
+  const priceMan = property.priceMan ?? 0;
+  const totalLoanAmountYen = priceMan * MAN_YEN + DEFAULT_RENOVATION_COST_YEN;
+  const monthlyPayment = calculateMonthlyPayment(
+    totalLoanAmountYen,
+    DEFAULT_ANNUAL_RATE_PERCENT,
+    DEFAULT_LOAN_YEARS
+  );
+  const mainImage = property.images[0] ?? `${imgBase}assets/img/gallery.jpg`;
+
   return (
     <>
+      <PropertyViewLogger propertyId={property.id} propertyTitle={property.title ?? ""} />
+
       <nav className="container container--wide breadcrumb mt-8" aria-label="パンくずリスト">
         <ol>
           <li><Link href="/">HOME</Link></li>
@@ -88,22 +100,27 @@ export default function PropertyDetailPage() {
           <div>
             <div style={{ marginBottom: "24px" }}>
               <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
-                <span className="label label--new">NEW</span>
-                <span className="label label--member">{property.type}</span>
+                <span className="label label--member">{property.syumoku}</span>
+                {property.isMemberOnly && <span className="label label--new">会員限定</span>}
               </div>
               <h1 style={{ fontSize: "2.4rem", lineHeight: "1.4", fontWeight: "bold" }}>{property.title}</h1>
             </div>
 
             <div className="gallery">
               <div className="gallery__main">
-                <img src={`${imgBase}${property.img}`} alt={property.title} />
+                {/* eslint-disable-next-line @next/next/no-img-element -- 物件画像は外部CMS配信 */}
+                <img src={mainImage} alt={property.title ?? "物件画像"} />
               </div>
-              <div className="gallery__thumbs">
-                <button aria-current="true"><img src={`${imgBase}${property.img}`} alt="" /></button>
-                <button><img src={`${imgBase}assets/img/living.jpg`} alt="" /></button>
-                <button><img src={`${imgBase}assets/img/kitchen.jpg`} alt="" /></button>
-                <button><img src={`${imgBase}assets/img/gallery.jpg`} alt="" /></button>
-              </div>
+              {property.images.length > 1 && (
+                <div className="gallery__thumbs">
+                  {property.images.slice(0, 4).map((src, i) => (
+                    <button key={src} aria-current={i === 0 ? "true" : undefined}>
+                      {/* eslint-disable-next-line @next/next/no-img-element -- 物件画像は外部CMS配信 */}
+                      <img src={src} alt="" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div style={{ marginTop: "48px" }}>
@@ -117,20 +134,25 @@ export default function PropertyDetailPage() {
                     <td>{property.address}</td>
                   </tr>
                   <tr>
-                    <th>交通</th>
-                    <td>最寄り駅 徒歩15分</td>
-                  </tr>
-                  <tr>
                     <th>間取り</th>
-                    <td>4LDK</td>
+                    <td>{property.madori}</td>
                   </tr>
                   <tr>
                     <th>土地面積 / 建物面積</th>
-                    <td>200.15m² / 125.40m²</td>
+                    <td>
+                      {property.landMen ? `${property.landMen}m²` : "–"} /{" "}
+                      {property.bldMen ? `${property.bldMen}m²` : "–"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>構造</th>
+                    <td>{property.bldStructure || "–"}</td>
                   </tr>
                   <tr>
                     <th>築年月</th>
-                    <td>2009年6月</td>
+                    <td>
+                      {property.bldY ? `${property.bldY}年${property.bldM ?? ""}月` : "–"}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -140,26 +162,27 @@ export default function PropertyDetailPage() {
           {/* 右側：価格・ローン・CTA */}
           <aside className="detailSide">
             <p className="detailSide__price">
-              <span className="val">{property.price}</span>
+              <span className="val">{priceMan.toLocaleString()}</span>
               <span className="unit">万円</span>
             </p>
 
             <div className="detailSide__loan">
               リノベ込み月々 <strong className="num">{Math.round(monthlyPayment).toLocaleString()}</strong> 円<br />
               <span style={{ fontSize: "1.1rem", color: "var(--c-mute-dark)" }}>
-                （物件{property.price}万円＋リノベ1,518万円／金利0.75%・35年）
+                （物件{priceMan.toLocaleString()}万円＋リノベ
+                {(DEFAULT_RENOVATION_COST_YEN / MAN_YEN).toLocaleString()}万円／金利
+                {DEFAULT_ANNUAL_RATE_PERCENT}%・{DEFAULT_LOAN_YEARS}年）
               </span>
             </div>
 
             <div className="detailSide__btns">
-              <Link href="#reserve" className="btn btn--fill btn--block">見学を予約する</Link>
-              <Link href="#inquiry" className="btn btn--block">この物件について問い合わせる</Link>
+              <Link href={`/property/${property.id}/contact`} className="btn btn--fill btn--block">見学予約・お問い合わせ</Link>
             </div>
 
             <div className="detailSide__tel">
               <small>お電話でのお問い合わせ</small>
-              <a className="num gothic" href="tel:0120556119">0120-556-119</a>
-              <small>営業時間：8:00〜17:00</small>
+              <a className="num gothic" href={COMPANY.telLink}>{COMPANY.tel}</a>
+              <small>営業時間：{COMPANY.businessHours}</small>
             </div>
           </aside>
         </div>

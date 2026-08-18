@@ -1,3 +1,6 @@
+import "@/app/globals.css";
+import "@/app/(home)/style.css";
+
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Script from "next/script";

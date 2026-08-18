@@ -11,6 +11,9 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    // テストは node の標準ランナー（--experimental-strip-types）で実行するため、
+    // import 先を "./loan.ts" のように拡張子つきで書く必要がある。
+    "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
     "incremental": true,
     "plugins": [

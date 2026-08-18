@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import DeleteAccountButton from "@/components/DeleteAccountButton";
 
 export default async function MyPage() {
   const session = await getServerSession();
@@ -14,22 +15,16 @@ export default async function MyPage() {
 
   return (
     <>
-      <div className="pageHead">
-        <div className="pageHead__bg">
-          <img src={`${imgBase}assets/img/hero.jpg`} alt="" />
+      
+      <section className="memberHero" style={{ minHeight: "200px" }}>
+        <div className="memberHero__photo" style={{ backgroundImage: "url('https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2023/09/renoel7.jpg')" }}></div>
+        <div className="memberHero__panel" style={{ width: "100%", borderRadius: 0, paddingLeft: "5%", minHeight: "200px" }}>
+          <div className="memberHero__inner">
+            <h1 className="memberHero__ttl">マイページ</h1>
+          </div>
         </div>
-        <div className="container container--wide pageHead__inner">
-          <span className="pageHead__en">MY PAGE</span>
-          <h1 className="pageHead__ttl">マイページ</h1>
-        </div>
-      </div>
+      </section>
 
-      <nav className="container container--wide breadcrumb" aria-label="パンくずリスト">
-        <ol>
-          <li><Link href="/">HOME</Link></li>
-          <li aria-current="page">マイページ</li>
-        </ol>
-      </nav>
 
       <section className="sec">
         <div className="container" style={{ maxWidth: "800px" }}>
@@ -72,10 +67,11 @@ export default async function MyPage() {
                 </div>
               </dl>
               <div style={{ marginTop: "24px", textAlign: "center" }}>
-                <button className="btn btn--sm" disabled>情報を編集する (準備中)</button>
+                <Link href="/mypage/edit" className="btn btn--sm">登録情報を編集する</Link>
               </div>
             </div>
           </div>
+          <DeleteAccountButton />
         </div>
       </section>
     </>

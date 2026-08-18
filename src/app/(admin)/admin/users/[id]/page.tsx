@@ -1,30 +1,52 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowLeft, User, Mail, Calendar, MapPin, History, Heart, ShieldCheck, Edit3, Phone } from "lucide-react";
+import { ArrowLeft, User, Mail, MapPin, History, Heart, ShieldCheck, Edit3, Phone } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { getUserById } from "@/app/actions/users";
 
+type ActivityLog = {
+  id: number;
+  action: string;
+  details: string | null;
+  createdAt: string | Date;
+};
+
+type UserWithLogs = {
+  id: number;
+  name: string | null;
+  email: string;
+  tel: string | null;
+  address: string | null;
+  memberType: string;
+  status: string;
+  activityLogs?: ActivityLog[];
+};
+
 export default function UserDetail() {
   const params = useParams();
   const id = Number(params.id);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserWithLogs | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadUser = async () => {
       setIsLoading(true);
       try {
-        const data = await getUserById(id);
-        setUser(data);
+        const res = await getUserById(id);
+        if (res.success && res.data) {
+          setUser(res.data as UserWithLogs);
+        } else {
+          console.error(res.error);
+        }
       } catch (error) {
         console.error("Failed to load user:", error);
       } finally {
         setIsLoading(false);
       }
     };
-    loadUser();
+    void loadUser();
   }, [id]);
 
   if (isLoading) return <div className="p-20 text-center font-bold text-gray-400">会員データを読み込み中...</div>;
@@ -103,7 +125,23 @@ export default function UserDetail() {
               <History size={20} className="text-blue-900" />
               アクティビティログ
             </h2>
-            <div className="text-sm text-gray-400 text-center py-10">履歴データはありません</div>
+            {(!user.activityLogs || user.activityLogs.length === 0) ? (
+              <div className="text-sm text-gray-400 text-center py-10">履歴データはありません</div>
+            ) : (
+              <div className="space-y-4">
+                {user.activityLogs.map((log: ActivityLog) => (
+                  <div key={log.id} className="flex gap-4 p-4 border border-gray-100 rounded-2xl hover:bg-gray-50 transition-colors">
+                    <div className="bg-blue-50 text-blue-900 px-3 py-1 rounded-xl text-xs font-bold h-fit whitespace-nowrap">
+                      {new Date(log.createdAt).toLocaleString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                    </div>
+                    <div>
+                      <p className="font-bold text-gray-900">{log.action === "LOGIN" ? "ログイン" : log.action === "VIEW_PROPERTY" ? "物件閲覧" : log.action}</p>
+                      {log.details && <p className="text-sm text-gray-600 mt-1">{log.details}</p>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
         </div>
 
