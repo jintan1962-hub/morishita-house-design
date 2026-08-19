@@ -74,6 +74,45 @@ export default async function PropertyDetailPage({
   }
 
   const priceMan = property.priceMan ?? 0;
+
+  // 物件概要の追加行。値が入っている項目だけを、athome の表示順に近い並びで出す。
+  // 取扱店（会社名・免許番号など）は宅建業法の表示の扱いが未決定のため、まだ出さない。
+  const specRows = (
+    [
+      ["交通", property.trafficNote],
+      ["階建/階", property.floorsInfo],
+      ["駐車場", property.parking],
+      ["土地権利", property.landRight],
+      ["現況", property.currentState],
+      ["引渡可能時期", property.deliveryTiming],
+      ["取引態様", property.transactionType],
+      ["借地期間・地代", property.leaseTermRent],
+      ["権利金", property.keyMoney],
+      ["敷金・保証金", property.depositGuarantee],
+      ["維持費等", property.maintenanceCost],
+      ["その他一時金", property.otherLumpSum],
+      ["管理費", property.mgmtFeeYen ? `${property.mgmtFeeYen.toLocaleString()}円/月` : null],
+      ["修繕積立金", property.repairFundYen ? `${property.repairFundYen.toLocaleString()}円/月` : null],
+      ["総戸数", property.totalUnits ? `${property.totalUnits}戸` : null],
+      ["所在階", property.floorNo ? `${property.floorNo}階` : null],
+      ["向き", property.direction],
+      ["バルコニー面積", property.balconyMen ? `${property.balconyMen}m²` : null],
+      ["管理形態", property.mgmtForm],
+      ["建ぺい率", property.buildingCoverage ? `${property.buildingCoverage}%` : null],
+      ["容積率", property.floorAreaRatio ? `${property.floorAreaRatio}%` : null],
+      ["用途地域", property.zoning],
+      ["地目", property.landCategory],
+      ["都市計画", property.cityPlanning],
+      ["接道状況", property.roadAccess],
+      ["私道負担", property.privateRoad],
+      [
+        "情報公開日",
+        property.publishedOn ? property.publishedOn.toLocaleDateString("ja-JP") : null,
+      ],
+    ] as [string, string | null | undefined][]
+  )
+    .filter(([, value]) => value !== null && value !== undefined && value !== "")
+    .map(([label, value]) => ({ label, value: value as string }));
   const totalLoanAmountYen = priceMan * MAN_YEN + DEFAULT_RENOVATION_COST_YEN;
   const monthlyPayment = calculateMonthlyPayment(
     totalLoanAmountYen,
@@ -154,6 +193,13 @@ export default async function PropertyDetailPage({
                       {property.bldY ? `${property.bldY}年${property.bldM ?? ""}月` : "–"}
                     </td>
                   </tr>
+                  {/* 値が入っている項目だけ出す。空の行を並べても読みにくくなるだけのため。 */}
+                  {specRows.map((row) => (
+                    <tr key={row.label}>
+                      <th>{row.label}</th>
+                      <td>{row.value}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

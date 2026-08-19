@@ -7,6 +7,7 @@ import { reportError } from "@/lib/errors";
 import { DISCLOSURE_LEVEL } from "@/config/security";
 import { parseJapaneseDate } from "@/lib/dates";
 import { toJsonSafe } from "@/lib/json";
+import { PROPERTY_FIELDS } from "@/config/propertyFields";
 import {
   PREF_CODE,
   DEFAULT_CITY_CODE,
@@ -17,10 +18,16 @@ import {
   PROPERTY_TYPE_LABEL,
 } from "@/config/property";
 
-/** 任意の文字列列。空・「－」は null にする（athome の「値なし」表記）。 */
+/**
+ * 任意の文字列列。athome の「値なし」表記は null にする。
+ * 「－」だけでなく「－ / －」（敷金・保証金の欄）のように区切り記号を挟む書き方もあるため、
+ * ダッシュと区切りだけで出来ている値はまとめて「値なし」として扱う。
+ */
 function text(value: string | undefined): string | null {
   const t = (value ?? "").trim();
-  if (t === "" || t === "-" || t === "－" || t === "―") return null;
+  if (t === "") return null;
+  // -, －, ―, ‐, ／, /, ・, 空白 だけで構成されていれば値なし
+  if (/^[-－―‐/／・\s]+$/.test(t)) return null;
   return t;
 }
 
@@ -269,6 +276,36 @@ export async function getPublicPropertyById(id: number) {
         bldM: p.bldM,
         currentState: p.currentState,
         images: p.images.map((img) => img.path),
+
+        // 物件概要。取扱店（agency*）は宅建業法の表示の扱いが未決定のため、まだ返さない。
+        trafficNote: p.trafficNote,
+        floorsInfo: p.floorsInfo,
+        parking: p.parking,
+        landRight: p.landRight,
+        leaseTermRent: p.leaseTermRent,
+        keyMoney: p.keyMoney,
+        depositGuarantee: p.depositGuarantee,
+        maintenanceCost: p.maintenanceCost,
+        otherLumpSum: p.otherLumpSum,
+        deliveryTiming: p.deliveryTiming,
+        transactionType: p.transactionType,
+        mgmtFeeYen: p.mgmtFeeYen,
+        repairFundYen: p.repairFundYen,
+        totalUnits: p.totalUnits,
+        floorNo: p.floorNo,
+        direction: p.direction,
+        balconyMen: p.balconyMen,
+        mgmtForm: p.mgmtForm,
+        buildingCoverage: p.buildingCoverage,
+        floorAreaRatio: p.floorAreaRatio,
+        zoning: p.zoning,
+        landCategory: p.landCategory,
+        cityPlanning: p.cityPlanning,
+        roadAccess: p.roadAccess,
+        privateRoad: p.privateRoad,
+        publishedOn: p.publishedOn,
+        nextUpdateOn: p.nextUpdateOn,
+
         isMemberOnly,
         locked: false as const,
       },
@@ -549,5 +586,154 @@ export async function importProperties(
   } catch (error) {
     // トランザクションなので、ここへ来た時点で書き込みは1件も残っていない。
     return reportError("importProperties", error, "取込に失敗しました。");
+  }
+}
+
+/**
+ * 管理画面の物件詳細（管理者のみ）。
+ * 以前この画面は仙台の架空物件を直書きしており、URLの物件IDを見ていなかった。
+ *
+ * 統計は実データから数える。お気に入りは保持する仕組みが無いため出さない。
+ * 閲覧数は ActivityLog に残る「ログイン会員の閲覧」だけで、未ログインの閲覧は含まれない。
+ */
+export async function getPropertyForAdmin(id: number) {
+  const auth = await requireAdmin();
+  if (!auth.ok) {
+    return { success: false as const, error: authErrorMessage(auth.reason) };
+  }
+
+  try {
+    const property = await prisma.property.findUnique({
+      where: { id },
+      include: { images: true },
+    });
+    if (!property) {
+      return { success: false as const, error: "指定された物件が見つかりません。" };
+    }
+
+    const [memberViews, inquiries] = await Promise.all([
+      // logPropertyView が `物件ID: 12 (物件名)` の形で書いている。
+      // 末尾の " (" まで含めて照合しないと、物件ID 1 が 12 にも当たる。
+      prisma.activityLog.count({
+        where: { action: "VIEW_PROPERTY", details: { startsWith: `物件ID: ${id} (` } },
+      }),
+      prisma.inquiry.count({ where: { propertyId: id } }),
+    ]);
+
+    return {
+      success: true as const,
+      data: {
+        ...property,
+        objMngNo: property.objMngNo.toString(),
+        areaName: areaName(property.cityCd),
+        stats: { memberViews, inquiries },
+      },
+    };
+  } catch (error) {
+    return reportError("getPropertyForAdmin", error, "物件を取得できませんでした。");
+  }
+}
+
+/**
+ * 物件情報の更新（管理者のみ）。
+ *
+ * 編集できる項目は src/config/propertyFields.ts の定義がすべて。
+ * objMngNo（取込の突合キー）は変更させない。ここを書き換えると、次のCSV取込で
+ * 別の物件として重複登録される。
+ */
+export async function updateProperty(id: number, formData: FormData) {
+  const auth = await requireAdmin();
+  if (!auth.ok) {
+    return { success: false as const, error: authErrorMessage(auth.reason) };
+  }
+
+  if (!Number.isInteger(id) || id <= 0) {
+    return { success: false as const, error: "物件が指定されていません。" };
+  }
+
+  const data: Record<string, string | number | Date | null> = {};
+
+  for (const field of PROPERTY_FIELDS) {
+    const raw = formData.get(field.key)?.toString();
+    // 画面に無い項目は触らない（部分更新で他の値を消さないため）
+    if (raw === undefined) continue;
+
+    if (field.required && raw.trim() === "") {
+      return { success: false as const, error: `${field.label}は空にできません。` };
+    }
+
+    switch (field.type) {
+      case "int": {
+        const v = int(raw);
+        if (raw.trim() !== "" && v === null) {
+          return { success: false as const, error: `${field.label}は数値で入力してください。` };
+        }
+        data[field.key] = v;
+        break;
+      }
+      case "decimal": {
+        const v = float(raw);
+        if (raw.trim() !== "" && v === null) {
+          return { success: false as const, error: `${field.label}は数値で入力してください。` };
+        }
+        data[field.key] = v;
+        break;
+      }
+      case "date": {
+        const v = parseJapaneseDate(raw);
+        if (raw.trim() !== "" && v === null) {
+          return {
+            success: false as const,
+            error: `${field.label}は日付として読めません（例: 2026-08-19）。`,
+          };
+        }
+        data[field.key] = v;
+        break;
+      }
+      default:
+        data[field.key] = text(raw);
+    }
+  }
+
+  // 価格は必須かつ数値。required の判定だけでは 0 や空を通すため個別に確認する。
+  if (typeof data.priceMan !== "number" || !Number.isInteger(data.priceMan)) {
+    return { success: false as const, error: "価格は万円単位の整数で入力してください。" };
+  }
+
+  // 区分は他と別に扱う（取込と同じ検証を通す）
+  const cityCd = formData.get("cityCd")?.toString()?.trim();
+  if (cityCd !== undefined && cityCd !== "") {
+    if (!isSupportedArea(cityCd)) {
+      return { success: false as const, error: "掲載対象のエリアではありません。" };
+    }
+    data.cityCd = cityCd;
+    data.prefCd = PREF_CODE;
+  }
+
+  const syubetu = parseInt(formData.get("syubetu")?.toString() ?? "");
+  if (Number.isInteger(syubetu)) {
+    if (!isValidPropertyType(syubetu)) {
+      return { success: false as const, error: "物件種別が正しくありません。" };
+    }
+    data.syubetu = syubetu;
+  }
+
+  const disclosureLevel = parseInt(formData.get("disclosureLevel")?.toString() ?? "");
+  if (Number.isInteger(disclosureLevel)) {
+    if (disclosureLevel !== DISCLOSURE_LEVEL.PUBLIC && disclosureLevel !== DISCLOSURE_LEVEL.MEMBERS) {
+      return { success: false as const, error: "公開レベルが正しくありません。" };
+    }
+    data.disclosureLevel = disclosureLevel;
+  }
+
+  try {
+    await prisma.property.update({ where: { id }, data });
+    revalidatePath("/admin/properties");
+    revalidatePath(`/admin/properties/${id}`);
+    revalidatePath("/properties");
+    revalidatePath(`/property/${id}`);
+    return { success: true as const };
+  } catch (error) {
+    return reportError("updateProperty", error, "保存できませんでした。");
   }
 }

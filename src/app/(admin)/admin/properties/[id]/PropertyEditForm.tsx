@@ -1,0 +1,162 @@
+"use client";
+
+import { useState } from "react";
+import { Save } from "lucide-react";
+import { updateProperty } from "@/app/actions/properties";
+import { PROPERTY_FIELD_GROUPS, type FieldDef } from "@/config/propertyFields";
+import { AREAS } from "@/config/property";
+import { PROPERTY_TYPE_LABEL } from "@/config/property";
+
+/** 入力欄の初期値。null と undefined は空文字にする。日付は YYYY-MM-DD にする。 */
+function initialValue(value: unknown, type: FieldDef["type"]): string {
+  if (value === null || value === undefined) return "";
+  if (type === "date") {
+    const d = new Date(value as string);
+    return Number.isNaN(d.getTime()) ? "" : d.toISOString().slice(0, 10);
+  }
+  return String(value);
+}
+
+const labelClass =
+  "text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2";
+const inputClass =
+  "w-full px-4 py-3 rounded-2xl border border-gray-100 font-bold text-gray-900 focus:border-blue-900 outline-none transition-all";
+
+export default function PropertyEditForm({
+  property,
+}: {
+  property: Record<string, unknown>;
+}) {
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
+
+  const id = Number(property.id);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSaving(true);
+    setMessage(null);
+
+    const res = await updateProperty(id, new FormData(e.currentTarget));
+    setMessage(
+      res.success
+        ? { ok: true, text: "保存しました。" }
+        : { ok: false, text: res.error || "保存できませんでした。" }
+    );
+    setSaving(false);
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-8">
+      <div className="flex items-center justify-between gap-4 sticky top-16 z-10 bg-reno-bg/90 backdrop-blur py-3">
+        <div>
+          {message && (
+            <p
+              className={`text-sm font-black ${
+                message.ok ? "text-green-700" : "text-red-700"
+              }`}
+            >
+              {message.text}
+            </p>
+          )}
+        </div>
+        <button
+          type="submit"
+          disabled={saving}
+          className="bg-blue-900 text-white px-6 py-2 rounded-xl flex items-center gap-2 font-black hover:bg-blue-800 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-50"
+        >
+          <Save size={18} />
+          {saving ? "保存中…" : "変更を保存"}
+        </button>
+      </div>
+
+      {/* 区分（取込の検証と同じ選択肢しか選べない） */}
+      <section className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100 space-y-6">
+        <h2 className="text-lg font-black text-gray-900 border-b border-gray-50 pb-4">区分</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <label className={labelClass}>公開レベル</label>
+            <select
+              name="disclosureLevel"
+              defaultValue={String(property.disclosureLevel ?? 0)}
+              className={inputClass}
+            >
+              <option value="0">一般公開</option>
+              <option value="1">会員限定（未ログインには価格・所在地を返さない）</option>
+            </select>
+          </div>
+          <div>
+            <label className={labelClass}>物件種別</label>
+            <select name="syubetu" defaultValue={String(property.syubetu ?? 2)} className={inputClass}>
+              {Object.entries(PROPERTY_TYPE_LABEL).map(([code, label]) => (
+                <option key={code} value={code}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className={labelClass}>エリア</label>
+            <select name="cityCd" defaultValue={String(property.cityCd ?? "")} className={inputClass}>
+              {AREAS.map((a) => (
+                <option key={a.cityCd} value={a.cityCd}>
+                  {a.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </section>
+
+      {PROPERTY_FIELD_GROUPS.map((group) => (
+        <section
+          key={group.title}
+          className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100 space-y-6"
+        >
+          <div className="border-b border-gray-50 pb-4">
+            <h2 className="text-lg font-black text-gray-900">{group.title}</h2>
+            {group.note && (
+              <p className="text-xs font-bold text-gray-400 mt-1">{group.note}</p>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {group.fields.map((field) => (
+              <div
+                key={field.key}
+                className={field.type === "textarea" ? "md:col-span-2" : ""}
+              >
+                <label className={labelClass}>
+                  {field.label}
+                  {field.required && <span className="text-red-500 ml-1">必須</span>}
+                </label>
+                {field.type === "textarea" ? (
+                  <textarea
+                    name={field.key}
+                    rows={3}
+                    defaultValue={initialValue(property[field.key], field.type)}
+                    className={inputClass}
+                  />
+                ) : (
+                  <div className="relative">
+                    <input
+                      type={field.type === "date" ? "date" : "text"}
+                      name={field.key}
+                      defaultValue={initialValue(property[field.key], field.type)}
+                      className={`${inputClass} ${field.unit ? "pr-16" : ""}`}
+                    />
+                    {field.unit && (
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-gray-400 text-sm">
+                        {field.unit}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+    </form>
+  );
+}
