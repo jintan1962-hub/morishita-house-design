@@ -146,6 +146,8 @@ export function buildInquiryAdminMail(data: {
   propertyTitle: string;
   inquiryId: number;
   adminAddress: string;
+  /** 物件管理番号（athome の番号）。一般の問い合わせでは空 */
+  propertyObjMngNo?: string | null;
 }): MailPayload {
   return {
     from: formatFrom(),
@@ -155,7 +157,7 @@ export function buildInquiryAdminMail(data: {
 
 ■ お問い合わせ内容（受付番号: ${data.inquiryId}）
 --------------------------------------------------
-【対象物件】 ${data.propertyTitle}
+【対象物件】 ${data.propertyTitle}${data.propertyObjMngNo ? `\n【物件管理番号】 ${data.propertyObjMngNo}` : ""}
 【お名前】 ${data.name}
 【メールアドレス】 ${data.email}
 【お電話番号】 ${data.tel || "未記入"}

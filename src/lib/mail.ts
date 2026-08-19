@@ -215,6 +215,7 @@ export async function sendInquiryAdminNotice(data: {
   message: string;
   propertyTitle: string;
   inquiryId: number;
+  propertyObjMngNo?: string | null;
 }): Promise<MailResult> {
   const payload = buildInquiryAdminMail({ ...data, adminAddress: MAIL_ADMIN_ADDRESS });
   if (!MAIL_ADMIN_ADDRESS) {

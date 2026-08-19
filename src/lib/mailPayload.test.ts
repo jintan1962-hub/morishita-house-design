@@ -67,6 +67,34 @@ test("問い合わせの控えは本人宛、通知は管理者宛と、宛先�
   assert.ok(!toUser.text.includes("/admin"));
 });
 
+test("管理者宛の通知に物件管理番号が載る", () => {
+  const mail = buildInquiryAdminMail({
+    name: "佐久 花子",
+    email: "hanako@example.com",
+    tel: "",
+    message: "内見を希望します",
+    propertyTitle: "佐久平の中古戸建",
+    inquiryId: 42,
+    adminAddress: "admin@example.co.jp",
+    propertyObjMngNo: "6991837899",
+  });
+  assert.ok(mail.text.includes("【物件管理番号】 6991837899"));
+});
+
+test("一般の問い合わせでは物件管理番号の行を出さない", () => {
+  const mail = buildInquiryAdminMail({
+    name: "佐久 花子",
+    email: "hanako@example.com",
+    tel: "",
+    message: "資料がほしい",
+    propertyTitle: "指定なし",
+    inquiryId: 43,
+    adminAddress: "admin@example.co.jp",
+    propertyObjMngNo: null,
+  });
+  assert.ok(!mail.text.includes("物件管理番号"));
+});
+
 test("問い合わせ本文と物件名は両方のメールにそのまま載る", () => {
   const input = {
     name: "佐久 花子",

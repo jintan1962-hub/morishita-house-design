@@ -16,6 +16,10 @@ type Inquiry = {
   status: string;
   createdAt: string | Date;
   repliedAt: string | Date | null;
+  /** 物件管理番号（athome の番号）。物件が削除されていれば null */
+  propertyObjMngNo?: string | null;
+  /** 物件名。同上 */
+  propertyTitle?: string | null;
 };
 
 export default function InquiryList({ inquiries: initialInquiries }: { inquiries: Inquiry[] }) {
@@ -93,9 +97,20 @@ export default function InquiryList({ inquiries: initialInquiries }: { inquiries
                 </td>
                 <td className="px-6 py-5">
                   {inq.propertyId ? (
-                    <Link href={`/property/${inq.propertyId}`} target="_blank" className="text-teal font-bold hover:underline flex items-center gap-1">
-                      物件ID: {inq.propertyId} <ExternalLink size={12} />
-                    </Link>
+                    <div className="space-y-0.5">
+                      <Link href={`/property/${inq.propertyId}`} target="_blank" className="text-teal font-bold hover:underline flex items-center gap-1">
+                        {inq.propertyObjMngNo ? `物件管理番号: ${inq.propertyObjMngNo}` : `物件ID: ${inq.propertyId}`}
+                        <ExternalLink size={12} />
+                      </Link>
+                      {inq.propertyTitle && (
+                        <p className="text-xs text-gray-500 font-medium max-w-[16rem] truncate" title={inq.propertyTitle}>
+                          {inq.propertyTitle}
+                        </p>
+                      )}
+                      {!inq.propertyObjMngNo && (
+                        <p className="text-xs text-gray-400 font-medium">この物件は削除されています</p>
+                      )}
+                    </div>
                   ) : (
                     <span className="text-gray-400">一般のお問い合わせ</span>
                   )}
@@ -187,8 +202,17 @@ export default function InquiryList({ inquiries: initialInquiries }: { inquiries
                 <div>
                   <p className="text-xs text-gray-400 mb-1">対象物件</p>
                   <p className="font-bold text-teal">
-                    {selectedInquiry.propertyId ? `物件ID: ${selectedInquiry.propertyId}` : "一般のお問い合わせ"}
+                    {selectedInquiry.propertyId
+                      ? selectedInquiry.propertyObjMngNo
+                        ? `物件管理番号: ${selectedInquiry.propertyObjMngNo}`
+                        : `物件ID: ${selectedInquiry.propertyId}（この物件は削除されています）`
+                      : "一般のお問い合わせ"}
                   </p>
+                  {selectedInquiry.propertyTitle && (
+                    <p className="text-xs text-gray-500 font-medium mt-1">
+                      {selectedInquiry.propertyTitle}
+                    </p>
+                  )}
                 </div>
                 <div className="col-span-2">
                   <p className="text-xs text-gray-400 mb-1">連絡先</p>
