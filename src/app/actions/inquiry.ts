@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { requireAdmin, requireUser, authErrorMessage } from "@/lib/auth";
 import { reportError } from "@/lib/errors";
-import { sendInquiryEmail } from "@/lib/mail";
+import { sendInquiryEmail, sendInquiryAdminNotice } from "@/lib/mail";
 
 /** S-08：外部から受け取る値の長さを制限する。 */
 const LIMITS = { name: 100, email: 254, tel: 30, message: 4000 } as const;
@@ -57,13 +57,10 @@ export async function submitInquiry(formData: FormData) {
 
     // メール送信が失敗しても、問い合わせ自体は受け付け済みとして扱う。
     // ここで例外を投げると、保存できているのに利用者へ失敗と伝えることになる。
-    await sendInquiryEmail({
-      name,
-      email,
-      tel: tel || "",
-      message,
-      propertyTitle,
-    });
+    const notice = { name, email, tel: tel || "", message, propertyTitle };
+    const mail = await sendInquiryEmail(notice);
+    // 管理者が管理画面を見に行かなくても着信に気付けるようにする。
+    await sendInquiryAdminNotice({ ...notice, inquiryId: inquiry.id });
 
     if (userId) {
       await prisma.activityLog.create({
@@ -79,7 +76,8 @@ export async function submitInquiry(formData: FormData) {
     // C-04：ここで以前は別関数のローカル変数 updatedInquiry を返しており、
     // 常に ReferenceError → catch へ落ちて「送信中にエラーが発生しました」と表示していた。
     // 保存もメール送信も成功しているのに失敗と伝えるため、利用者が再送信し重複が発生していた。
-    return { success: true as const, data: { id: inquiry.id } };
+    // D-03：控えメールが送れていないのに「送信しました」と画面に出さない。
+    return { success: true as const, data: { id: inquiry.id }, mailSent: mail.ok };
   } catch (error) {
     return reportError("submitInquiry", error, "送信できませんでした。");
   }

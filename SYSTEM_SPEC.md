@@ -9,7 +9,7 @@
 - **Database**: PostgreSQL (Supabase)
 - **ORM**: Prisma
 - **Authentication**: NextAuth.js (Credentials Provider)
-- **Email**: Nodemailer (SMTP連携)
+- **Email**: Resend (REST API を fetch で直接呼び出し。SDKは使わない)
 - **Icons**: Lucide React
 - **Design**: 独自CSS (style.css) によるリニューアルデザインを適用
 
@@ -56,8 +56,18 @@
 - **管理**: 管理画面で「対応済」にチェックを入れると、対応完了時刻が自動記録される。
 
 ### 4.4 メール送信
-- **SMTP連携**: 独自ドメイン（エックスサーバー等）のSMTPサーバーを経由した送信設定に対応。
-- **自動返信**: 会員登録完了、お問い合わせ完了時に即時送信。
+- **送信基盤**: Resend。`src/lib/mail.ts` が REST API（`https://api.resend.com/emails`）を fetch で呼ぶ。
+  新規の依存パッケージは追加していない。本文の組み立ては `src/lib/mailPayload.ts`（テストあり）。
+- **自動返信**: 会員登録完了時とお問い合わせ完了時に、本人宛へ即時送信。
+- **管理者通知**: 同じタイミングで `MAIL_ADMIN_ADDRESS` 宛にも通知を送る。返信先（`reply_to`）は
+  お客様のアドレスにしてあるので、受信箱からそのまま返信できる。宛先が未設定なら送らず、記録だけ残す。
+- **送信結果の記録**: 全ての送信は `MailLog` に SENT / FAILED / SKIPPED として残り、
+  管理画面 `/admin/mail-logs` から確認できる。
+  以前は送信に失敗しても `console.error` に出るだけで、運用側からは気付けなかった。
+- **メールが送れなくても受付は成立させる**: 会員登録・お問い合わせの保存が終わったあとに送信するため、
+  送信の失敗が登録・受付を巻き戻すことはない。
+- **前提**: 実際に届かせるには Resend 側で送信ドメインの認証（SPF / DKIM の DNS 登録）が必要。
+  未認証の状態では `onboarding@resend.dev` から Resend アカウントの登録アドレス宛にしか送れない。
 
 ## 5. 運用・保守
 - **インフラ**: Vercel (Frontend/Backend), Supabase (Database)

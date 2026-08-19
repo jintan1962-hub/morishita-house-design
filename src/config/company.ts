@@ -56,3 +56,10 @@ ${COMPANY.legalName}
 TEL: ${COMPANY.tel}
 URL: ${COMPANY.siteUrl}
 --------------------------------------------------`;
+
+/**
+ * 管理者への通知メールの宛先（問い合わせ着信・新規入会）。
+ * 未設定なら通知は送らず、その事実を MailLog に SKIPPED として残す。
+ * D-03：宛先を推測で埋めない（「たぶん info@ だろう」で送ると誤送信になる）。
+ */
+export const MAIL_ADMIN_ADDRESS = (process.env.MAIL_ADMIN_ADDRESS || "").trim();

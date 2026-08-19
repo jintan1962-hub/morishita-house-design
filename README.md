@@ -7,7 +7,7 @@
 ## 2. インフラ構成
 - **フロントエンド / バックエンド**: Vercel
 - **データベース**: Supabase (PostgreSQL)
-- **メール送信**: SMTP (nodemailer)
+- **メール送信**: Resend（REST API を fetch で直接呼ぶ。SDKは使わない）
 
 ## 3. 緊急連絡先
 システム停止等の緊急時には、以下の窓口へ連絡してください。
@@ -60,8 +60,25 @@ pnpm dev          # http://localhost:3000
 
 ### メール送信について
 
-`.env.local` に `SMTP_*` を書かない限り、nodemailer の ethereal テスト送信になり、
-**実在の宛先へは飛ばない**。送信内容はサーバーログのプレビューURLで確認できる。
+送信基盤は [Resend](https://resend.com)。`src/lib/mail.ts` が REST API を fetch で呼ぶ。
+
+**ローカルでは `RESEND_API_KEY` を設定しない。** 未設定のとき、送信は行わず
+本文がサーバーのコンソールに出る。ただし結果は「失敗」として `MailLog` に記録される
+（`/admin/mail-logs` で確認できる）。これは意図した挙動で、
+**本番で設定を入れ忘れたときに黙って届かなくなるのを防ぐため**にこうしている。
+
+実際に届かせるには次の3つが揃っている必要がある。1つでも欠けると `/admin/mail-logs` に理由が残る。
+
+| 環境変数 | 役割 | 欠けたときの記録 |
+|---|---|---|
+| `RESEND_API_KEY` | Resend の APIキー | 「RESEND_API_KEY が未設定です」 |
+| `MAIL_FROM_ADDRESS` | 差出人。**Resendで認証済みのドメイン**であること | Resend が from を拒否し `HTTP 403` 系 |
+| `MAIL_ADMIN_ADDRESS` | 管理者への通知先 | 「MAIL_ADMIN_ADDRESS が未設定です」（本人宛は届く） |
+
+メールを止めたいときは `SystemSetting` の `MAIL_SENDING_ENABLED` を `false` にする（O-05）。
+止めた分も「未送信」として記録されるので、止めていたこと自体が後から分かる。
+
+メールの文面を直す場所は `src/lib/mailPayload.ts` の1箇所。直したら `pnpm test` を通すこと。
 
 ### コミット前に通すもの（D-05）
 

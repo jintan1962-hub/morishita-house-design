@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import { submitInquiry } from "@/app/actions/inquiry";
 import Link from "next/link";
+import { COMPANY } from "@/config/company";
 
 type ContactProperty = { id: number; title: string };
 type ContactUser = { name: string | null; email: string | null; tel: string | null } | null;
@@ -17,6 +18,8 @@ export default function ContactForm({
 }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  // 控えメールが実際に送れたか。届いていないのに「送信しました」と出さないため。
+  const [mailSent, setMailSent] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -29,6 +32,7 @@ export default function ContactForm({
 
     if (res.success) {
       setSuccess(true);
+      setMailSent(res.mailSent);
     } else {
       setError(res.error || "エラーが発生しました");
       setIsSubmitting(false);
@@ -40,8 +44,19 @@ export default function ContactForm({
       <div className="bg-white p-12 rounded-xl shadow-sm border border-reno-line text-center">
         <h2 className="text-2xl font-bold text-ink mb-4">お問い合わせを受け付けました</h2>
         <p className="text-reno-mute-dark mb-8">
-          ご入力いただいたメールアドレスに控えのメールを送信しました。<br/>
-          担当者からの連絡を今しばらくお待ちください。
+          {mailSent ? (
+            <>
+              ご入力いただいたメールアドレスに控えのメールを送信しました。<br/>
+              担当者からの連絡を今しばらくお待ちください。
+            </>
+          ) : (
+            <>
+              お問い合わせは確かに受け付けております。<br/>
+              ただいまシステムの都合により<strong>控えのメールをお送りできておりません</strong>。
+              重ねてご送信いただく必要はございません。<br/>
+              担当者からの連絡を今しばらくお待ちください。お急ぎの場合は {COMPANY.tel}（{COMPANY.businessHours}）へお電話ください。
+            </>
+          )}
         </p>
         <Link href={`/property/${property.id}`} className="btn btn--navy inline-block">
           物件ページへ戻る

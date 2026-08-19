@@ -24,6 +24,8 @@ type ConfirmData = {
 export default function MemberPage() {
   const [step, setStep] = useState(1);
   const [error, setError] = useState("");
+  // 登録完了メールが実際に送れたか。届いていないのに「お送りしました」と出さないため。
+  const [mailSent, setMailSent] = useState(true);
   const formRef = useRef<HTMLFormElement>(null);
   
   // States for confirmation display
@@ -92,6 +94,7 @@ export default function MemberPage() {
       
       const res = await registerUser(fd);
       if (res.success) {
+        setMailSent(res.mailSent);
         // Auto login
         const email = fd.get("email") as string;
         const password = fd.get("password") as string;
@@ -368,7 +371,12 @@ export default function MemberPage() {
                     <h3>会員登録が完了しました。</h3>
                   </div>
                   <p className="completeBox__txt">
-                    ご入力いただいたメールアドレスに登録完了メールをお送りしましたのでご確認ください。<br />
+                    {mailSent ? (
+                      <>ご入力いただいたメールアドレスに登録完了メールをお送りしましたのでご確認ください。<br /></>
+                    ) : (
+                      <>ご登録は完了しております。ただいまシステムの都合により<strong>登録完了メールをお送りできておりません</strong>。
+                      重ねてご登録いただく必要はございません。<br /></>
+                    )}
                     今すぐ、会員限定物件をご覧いただけます。
                   </p>
                   <div className="btnWrap">

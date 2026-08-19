@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
   LayoutDashboard, Users, Settings,
-  LogOut, Bell, Search, Building2, MessageSquare
+  LogOut, Bell, Search, Building2, MessageSquare, MailWarning
 } from "lucide-react";
 import { requireAdmin } from "@/lib/auth";
 
@@ -52,6 +52,10 @@ export default async function AdminLayout({
           <Link href="/admin/inquiries" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors font-bold !text-white text-sm">
             <MessageSquare size={20} />
             お問い合わせ管理
+          </Link>
+          <Link href="/admin/mail-logs" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors font-bold !text-white text-sm">
+            <MailWarning size={20} />
+            メール送信ログ
           </Link>
           <div className="pt-8 pb-2 px-4">
             <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">Settings</span>

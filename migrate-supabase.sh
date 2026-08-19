@@ -43,11 +43,15 @@ echo ""
 echo "── 1. 接続確認 ──────────────────────────"
 # D-07：エラーを握り潰さない。実際のメッセージをそのまま出す。
 #       パスワードは含まれない（Prismaはホスト名までしか出さない）。
+# set -e が効いているため、失敗した時点でここを抜けてしまい、
+# 下の原因案内が表示されなかった。判定するあいだだけ一時的に外す。
+set +e
 ERR=$(npx --yes prisma db execute --url "$DIRECT_URL" --stdin <<'SQL' 2>&1
 SELECT 1;
 SQL
 )
 RC=$?
+set -e
 if [ $RC -eq 0 ]; then
   echo "✅ 接続できました"
 else
@@ -78,8 +82,8 @@ SQL
 
 echo ""
 echo "✅ 完了しました。"
-echo "   Supabase の Table Editor に次の7つが並んでいれば成功です:"
-echo "   ActivityLog / Inquiry / Property / PropertyImage /"
+echo "   Supabase の Table Editor に次の8つが並んでいれば成功です:"
+echo "   ActivityLog / Inquiry / MailLog / Property / PropertyImage /"
 echo "   PropertyImportBackup / SystemSetting / User"
 echo ""
 echo "⚠️  終わったら接続情報を消してください:  rm .env.migrate"

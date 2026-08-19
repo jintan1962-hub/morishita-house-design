@@ -11,7 +11,7 @@
 解決する業務：物件掲載・会員限定物件の出し分け・会員管理・問い合わせ受付（詳細 SYSTEM_SPEC.md）
 利用者と権限：未ログイン=公開物件のみ／会員(USER)／管理者(ADMIN)。role の付与はDB直接操作のみ
 扱う個人情報：有（氏名／メール／電話／郵便番号／住所／問い合わせ本文／閲覧履歴）→ 触る変更は全てL3
-本番環境：Vercel／Supabase(PostgreSQL)／SMTP(nodemailer)。SMTP_HOST 未設定だと実際には届かない
+本番環境：Vercel／Supabase(PostgreSQL)／メールは Resend(REST)。RESEND_API_KEY 未設定なら送信は必ず失敗として MailLog に残る
 GAS WebApp：該当なし（Next.js / Vercel 構成）
 機械ゲート：`pnpm gate`。秘密情報スキャンは .githooks/pre-commit（git config core.hooksPath .githooks）
 デプロイ：AIは実行しない（O-04）。人間が Vercel へ。`prisma migrate deploy` も人間。【要記入】担当者
@@ -21,6 +21,7 @@ GAS WebApp：該当なし（Next.js / Vercel 構成）
 変更点マップ：docs/変更点マップ.md
 停止スイッチ：Supabase の SystemSetting で key='MAIL_SENDING_ENABLED' を 'false' → 全メール送信が即時停止
 　　　　　　　　（デプロイ不要）。予備：環境変数 MAIL_SENDING_DISABLED=true
+送信結果の確認：管理画面 /admin/mail-logs（MailLog テーブル）。「失敗」が出ている間は自動返信が届いていない
 ```
 
 ## 固有の注意（過去に事故った箇所）

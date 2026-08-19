@@ -3,7 +3,7 @@
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/prisma";
 import { reportError } from "@/lib/errors";
-import { sendRegistrationEmail } from "@/lib/mail";
+import { sendRegistrationEmail, sendRegistrationAdminNotice } from "@/lib/mail";
 import { ROLE, USER_STATUS } from "@/config/security";
 
 /** S-08：外部から受け取る値の長さを制限する。 */
@@ -84,13 +84,15 @@ export async function registerUser(formData: FormData) {
       },
     });
 
-    await sendRegistrationEmail({
-      name: name || "ゲスト",
-      email,
-      tel: tel || "",
-    });
+    // メール送信が失敗しても、登録そのものは成立している。
+    // 失敗は MailLog に記録され、管理画面 /admin/mail-logs から確認できる。
+    const notice = { name: name || "ゲスト", email, tel: tel || "" };
+    const mail = await sendRegistrationEmail(notice);
+    await sendRegistrationAdminNotice(notice);
 
-    return { success: true as const };
+    // D-03：届いていないのに「送信しました」と画面に出さない。
+    // 実際の送信結果を返し、画面側で文言を出し分ける。
+    return { success: true as const, mailSent: mail.ok };
   } catch (error) {
     return reportError("registerUser", error, "登録できませんでした。");
   }
