@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { COMPANY } from "@/config/company";
 import Link from "next/link";
+import SignInButton from "@/components/SignInButton";
 
 export default function Header() {
   useSession();
@@ -39,8 +40,8 @@ export default function Header() {
     </nav>
 
     <div className="header__util">
-      <a className="btnMini btnMini--accent" href="#register" aria-current="page">無料会員登録</a>
-      <a className="btnMini" href="./#member">ログイン</a>
+      <Link className="btnMini btnMini--accent" href="/member">無料会員登録</Link>
+      <SignInButton className="btnMini">ログイン</SignInButton>
       <a className="btnMini btnMini--navy" href="./#showroom">来店予約</a>
     </div>
 
@@ -65,7 +66,7 @@ export default function Header() {
     </ul>
 
     <div className="drawer__cta">
-      <a className="btn btn--accent" href="#register">無料会員登録</a>
+      <Link className="btn btn--accent" href="/member">無料会員登録</Link>
       <a className="btn btn--light" href="./#showroom">来店予約</a>
     </div>
 

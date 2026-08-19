@@ -38,7 +38,7 @@ export default function HomePage() {
 
     <nav class="header__gnav" aria-label="グローバルナビゲーション">
       <ul>
-        <li><a href="search.html">物件を探す</a></li>
+        <li><a href="/properties">物件を探す</a></li>
         <li><a href="https://usedrenovation.ooi-kensetsu.co.jp/sell/">物件を売る</a></li>
         <li><a href="#renovation">リノベーション事例</a></li>
         <li><a href="#simulation">資金計画</a></li>
@@ -65,7 +65,7 @@ export default function HomePage() {
 <div class="drawer" id="drawer">
   <nav aria-label="メニュー">
     <ul class="drawer__list">
-      <li><a href="search.html">物件を探す</a></li>
+      <li><a href="/properties">物件を探す</a></li>
       <li><a href="https://usedrenovation.ooi-kensetsu.co.jp/sell/">物件を売る</a></li>
       <li><a href="#newarrival">新着物件</a></li>
       <li><a href="#membership">会員登録のメリット</a></li>
@@ -223,7 +223,7 @@ export default function HomePage() {
       </div>
     </div>
 
-    <div class="btnWrap"><a class="btn btn--navy" href="search.html">価格・間取り・学区など詳しい条件で探す</a></div>
+    <div class="btnWrap"><a class="btn btn--navy" href="/properties">価格・間取り・学区など詳しい条件で探す</a></div>
   </div>
 </section>
 
@@ -243,23 +243,17 @@ export default function HomePage() {
           </div>
         </div>
         <p class="memberBox__txt">会員登録後すぐに、会員様だけの限定物件をご覧いただけます。</p>
-        <a class="btn btn--accent" href="https://ooikensetsu.github.io/renoel-renewal-/member.html">会員登録はこちら</a>
+        <a class="btn btn--accent" href="/member">会員登録はこちら</a>
       </div>
 
       <div class="memberBox__login">
         <h2 class="memberBox__loginTtl">会員様専用ログイン</h2>
-        <form action="#" onsubmit="return false;">
-          <div class="memberBox__field">
-            <label for="memberId">ID</label>
-            <input type="text" id="memberId" name="memberId" autocomplete="username">
-          </div>
-          <div class="memberBox__field">
-            <label for="memberPw">PASS</label>
-            <input type="password" id="memberPw" name="memberPw" autocomplete="current-password">
-          </div>
-          <button type="submit" class="btn">ログイン</button>
-        </form>
-        <p class="memberBox__forgot"><a href="#">ID・パスワードをお忘れの方はこちら</a></p>
+        <!-- ここには onsubmit="return false;" のフォームが置かれており、ID・パスワードを
+             入力してボタンを押しても何も起こらなかった。認証は NextAuth が担当するため、
+             この位置からはログイン画面へ渡す。
+             （パスワード再設定は未実装のため、案内リンクは出さない。docs/debt.md 起票済み） -->
+        <p class="memberBox__txt">ご登録済みの方は、こちらからログインしてください。</p>
+        <a class="btn" href="/api/auth/signin">ログイン</a>
       </div>
 
     </div>
@@ -278,7 +272,7 @@ export default function HomePage() {
 
     <div class="propGrid">
 
-      <a class="propCard" href="#">
+      <a class="propCard" href="/properties">
         <figure class="propCard__fig">
           <img src="https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2023/03/saku-lqh-after01.jpg" alt="佐久市中込の中古戸建て" loading="lazy">
           <span class="badge badge--new">NEW</span>
@@ -298,7 +292,7 @@ export default function HomePage() {
         </div>
       </a>
 
-      <a class="propCard" href="#">
+      <a class="propCard" href="/properties">
         <figure class="propCard__fig">
           <img src="https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2023/03/miyota-lqh-thm.jpg" alt="御代田町馬瀬口の中古戸建て" loading="lazy">
           <span class="badge badge--new">NEW</span>
@@ -339,7 +333,7 @@ export default function HomePage() {
         </div>
       </a>
 
-      <a class="propCard" href="#">
+      <a class="propCard" href="/properties">
         <figure class="propCard__fig">
           <img src="https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2023/03/saku-lqh-after04b.jpg" alt="小諸市御幸町の中古戸建て" loading="lazy">
           <span class="badge badge--new">NEW</span>
@@ -669,7 +663,7 @@ export default function HomePage() {
       </article>
     </div>
 
-    <div class="btnWrap"><a class="btn btn--navy" href="#">お客様の声をもっと見る</a></div>
+    <div class="btnWrap"><a class="btn btn--navy" href="/voice">お客様の声をもっと見る</a></div>
   </div>
 </section>
 
@@ -728,8 +722,8 @@ export default function HomePage() {
       <li>リノベ費用込みの<br>見積り依頼</li>
     </ul>
     <div class="memberCta__btns">
-      <a class="btn btn--accent" href="https://ooikensetsu.github.io/renoel-renewal-/member.html">無料会員登録はこちら</a>
-      <a class="btn btn--light" href="#">会員ログイン</a>
+      <a class="btn btn--accent" href="/member">無料会員登録はこちら</a>
+      <a class="btn btn--light" href="/api/auth/signin">会員ログイン</a>
     </div>
   </div>
 </section>
@@ -780,13 +774,13 @@ export default function HomePage() {
         <div>
           <h3>物件を探す</h3>
           <ul>
-            <li><a href="search.html?type=kodate">中古戸建て</a></li>
-            <li><a href="search.html?type=mansion">中古マンション</a></li>
-            <li><a href="search.html?type=tochi">土地</a></li>
-            <li><a href="search.html?type=new">新築</a></li>
-            <li><a href="search.html?type=jigyo">事業用</a></li>
+            <li><a href="/properties">中古戸建て</a></li>
+            <li><a href="/properties">中古マンション</a></li>
+            <li><a href="/properties">土地</a></li>
+            <li><a href="/properties">新築</a></li>
+            <li><a href="/properties">事業用</a></li>
             <li><a href="#area">エリアマップから探す</a></li>
-            <li><a href="search.html#school">学区で探す</a></li>
+            <li><a href="/properties">学区で探す</a></li>
           </ul>
         </div>
         <div>
@@ -833,7 +827,7 @@ export default function HomePage() {
 <!-- SP 固定CTA -->
 <nav class="spCta" aria-label="お問い合わせ">
   <a href="${COMPANY.telLink}">電話する</a>
-  <a href="search.html">物件を探す</a>
+  <a href="/properties">物件を探す</a>
   <a class="is-member" href="#member">無料会員登録</a>
 </nav>
 
