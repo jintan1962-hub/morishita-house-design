@@ -5,7 +5,13 @@ import prisma from "@/lib/prisma";
 import { requireAdmin, authErrorMessage } from "@/lib/auth";
 import { reportError } from "@/lib/errors";
 import { parseImageFileName, storagePathFor } from "@/lib/imageName";
-import { uploadImage, deleteImage, pathFromPublicUrl, isStorageConfigured } from "@/lib/storage";
+import {
+  uploadImage,
+  deleteImage,
+  pathFromPublicUrl,
+  isStorageConfigured,
+  checkStorage,
+} from "@/lib/storage";
 import {
   MAX_FILE_BYTES,
   MAX_FILE_LABEL,
@@ -249,4 +255,15 @@ export async function isStorageReady() {
   const auth = await requireAdmin();
   if (!auth.ok) return { success: false as const, error: authErrorMessage(auth.reason) };
   return { success: true as const, ready: isStorageConfigured() };
+}
+
+/**
+ * 保管先へ実際に接続して確かめる（管理者のみ）。アップロードせずに設定の誤りを切り分ける。
+ * S-01：URLもキーも返さない。判定結果の文言だけ返す。
+ */
+export async function testStorage() {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { success: false as const, error: authErrorMessage(auth.reason) };
+  const result = await checkStorage();
+  return { success: true as const, ...result };
 }

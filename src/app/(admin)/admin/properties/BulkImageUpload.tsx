@@ -5,6 +5,7 @@ import { Images, X } from "lucide-react";
 import {
   uploadImagesByFileName,
   isStorageReady,
+  testStorage,
   type ImageUploadResult,
 } from "@/app/actions/propertyImages";
 import { MAX_FILE_LABEL, MAX_IMAGES_PER_PROPERTY, ALLOWED_EXTENSIONS } from "@/config/images";
@@ -21,6 +22,7 @@ export default function BulkImageUpload() {
   const [busy, setBusy] = useState(false);
   const [results, setResults] = useState<ImageUploadResult[]>([]);
   const [error, setError] = useState("");
+  const [check, setCheck] = useState<{ ok: boolean; message: string } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -109,6 +111,28 @@ export default function BulkImageUpload() {
                 {error}
               </p>
             )}
+
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={async () => {
+                  setCheck(null);
+                  const r = await testStorage();
+                  if (r.success) setCheck({ ok: r.ok, message: r.message });
+                  else setError(r.error);
+                }}
+                className="text-xs font-black text-blue-900 underline hover:no-underline"
+              >
+                保管先の接続を確認する
+              </button>
+              {check && (
+                <span
+                  className={`text-xs font-bold ${check.ok ? "text-green-700" : "text-red-700"}`}
+                >
+                  {check.ok ? "✓" : "✕"} {check.message}
+                </span>
+              )}
+            </div>
 
             <input
               ref={inputRef}
