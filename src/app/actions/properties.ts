@@ -5,6 +5,29 @@ import prisma from "@/lib/prisma";
 import { requireAdmin, requireUser, authErrorMessage } from "@/lib/auth";
 import { reportError } from "@/lib/errors";
 import { DISCLOSURE_LEVEL } from "@/config/security";
+import {
+  PREF_CODE,
+  DEFAULT_CITY_CODE,
+  DEFAULT_PROPERTY_TYPE,
+  areaName,
+  isSupportedArea,
+  isValidPropertyType,
+  PROPERTY_TYPE_LABEL,
+} from "@/config/property";
+
+/**
+ * 物件管理番号を読む。athome / ATBB の番号は10桁あり Number では扱えないため BigInt にする。
+ * 数字以外が混ざっている行は取り込まない（null を返す）。
+ */
+function parseObjMngNo(value: string | undefined): bigint | null {
+  const trimmed = (value ?? "").trim();
+  if (!/^\d+$/.test(trimmed)) return null;
+  try {
+    return BigInt(trimmed);
+  } catch {
+    return null;
+  }
+}
 
 /** CSVの1行。取込元の列名に合わせた文字列で受け取る。 */
 export type IncomingProperty = {
@@ -27,7 +50,7 @@ export type IncomingProperty = {
 
 /** DBへ書き込む直前の、検証済みの1件分。 */
 type PropertyRow = {
-  objMngNo: number;
+  objMngNo: bigint;
   syubetu: number;
   syumoku: string;
   title: string;
@@ -46,7 +69,8 @@ type PropertyRow = {
 
 export type DiffResult = {
   type: "new" | "update" | "no_change";
-  current?: { objMngNo: number; title: string; priceMan: number } | null;
+  /** objMngNo は BigInt のままだと画面へ渡せないため文字列で返す。 */
+  current?: { objMngNo: string; title: string; priceMan: number } | null;
   incoming: IncomingProperty;
   changes?: string[];
 };
@@ -158,7 +182,16 @@ export async function getProperties() {
       orderBy: { updatedAt: "desc" },
       include: { images: true },
     });
-    return { success: true as const, data: properties };
+    // objMngNo は BigInt。クライアントコンポーネントへ渡すため文字列にする。
+    // あわせてエリア名を添える（画面側で対応表を持たせないため）。
+    return {
+      success: true as const,
+      data: properties.map((p) => ({
+        ...p,
+        objMngNo: p.objMngNo.toString(),
+        areaName: areaName(p.cityCd),
+      })),
+    };
   } catch (error) {
     return reportError("getProperties", error, "物件を取得できませんでした。");
   }
@@ -178,8 +211,8 @@ export async function compareCSVData(csvData: IncomingProperty[]) {
     const results: DiffResult[] = [];
 
     for (const item of csvData) {
-      const objMngNo = parseInt(item.objMngNo ?? "");
-      if (isNaN(objMngNo)) continue;
+      const objMngNo = parseObjMngNo(item.objMngNo);
+      if (objMngNo === null) continue;
 
       const existing = await prisma.property.findUnique({ where: { objMngNo } });
 
@@ -199,7 +232,7 @@ export async function compareCSVData(csvData: IncomingProperty[]) {
       results.push({
         type: changes.length > 0 ? "update" : "no_change",
         current: {
-          objMngNo: existing.objMngNo,
+          objMngNo: existing.objMngNo.toString(),
           title: existing.title,
           priceMan: existing.priceMan,
         },
@@ -268,9 +301,9 @@ export async function importProperties(
   // 取込データを先に検証する。1件でも壊れていれば、1件も書き込まない。
   const rows: PropertyRow[] = [];
   for (const item of approvedItems) {
-    const objMngNo = parseInt(item.objMngNo ?? "");
+    const objMngNo = parseObjMngNo(item.objMngNo);
     const priceMan = parseInt(item.priceMan ?? "");
-    if (!Number.isInteger(objMngNo) || !Number.isInteger(priceMan)) {
+    if (objMngNo === null || !Number.isInteger(priceMan)) {
       return {
         success: false as const,
         error: `物件管理番号または価格が数値として読めない行があるため、取込を中止しました（対象: ${
@@ -285,9 +318,30 @@ export async function importProperties(
       };
     }
 
+    // 対象エリアの外は取り込まない。エリアを増やすときは src/config/property.ts の AREAS に足す。
+    const cityCd = item.cityCd?.trim() || DEFAULT_CITY_CODE;
+    if (!isSupportedArea(cityCd)) {
+      return {
+        success: false as const,
+        error: `掲載対象のエリアではない市区町村コードがあるため、取込を中止しました（対象: ${objMngNo} / cityCd: ${cityCd}）。エリアを増やす場合は src/config/property.ts の AREAS に追加してください。`,
+      };
+    }
+
+    // 種別は土地・一戸建て・マンションのみ。
+    const syubetu = parseInt(item.syubetu ?? "") || DEFAULT_PROPERTY_TYPE;
+    if (!isValidPropertyType(syubetu)) {
+      const valid = Object.entries(PROPERTY_TYPE_LABEL)
+        .map(([code, label]) => `${code}=${label}`)
+        .join(" / ");
+      return {
+        success: false as const,
+        error: `物件種別の番号が正しくない行があるため、取込を中止しました（対象: ${objMngNo} / syubetu: ${syubetu}）。使える値は ${valid} です。`,
+      };
+    }
+
     rows.push({
       objMngNo,
-      syubetu: parseInt(item.syubetu ?? "") || 2,
+      syubetu,
       syumoku: item.syumoku || "中古",
       title: item.title,
       priceMan,
@@ -298,8 +352,8 @@ export async function importProperties(
       bldY: parseInt(item.bldY ?? "") || null,
       bldM: parseInt(item.bldM ?? "") || null,
       address: item.address,
-      prefCd: item.prefCd || "04",
-      cityCd: item.cityCd || "04101",
+      prefCd: item.prefCd?.trim() || PREF_CODE,
+      cityCd,
       disclosureLevel: parseInt(item.disclosureLevel ?? "") || 0,
     });
   }

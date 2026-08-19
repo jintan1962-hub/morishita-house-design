@@ -15,7 +15,10 @@ datasource db {
 
 model Property {
   id               Int             @id @default(autoincrement())
-  objMngNo         Int             @unique
+  /// 物件管理番号（athome / ATBB の番号をそのまま使う）。
+  /// 10桁あり Int（PostgreSQL の integer、上限 2,147,483,647）に収まらないため BigInt。
+  /// クライアントへ返すときは文字列に変換する（サーバーアクションの戻り値を参照）。
+  objMngNo         BigInt          @unique
   syubetu          Int
   syumoku          String
   title            String

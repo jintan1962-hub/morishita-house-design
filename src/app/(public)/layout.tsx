@@ -73,12 +73,6 @@ export default function PublicLayout({
         />
       </noscript>
 
-      <Script id="zsiqchat" strategy="afterInteractive">
-        {`
-          var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {widgetcode: "131b7648fae5b35fb7fae864e70237e486ead7a5093584f506c04b463fc86dc0", values:{},ready:function(){}};var d=document;s=d.createElement("script");s.type="text/javascript";s.id="zsiqscript";s.defer=true;s.src="https://salesiq.zohopublic.jp/widget";t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);
-        `}
-      </Script>
-
       <Header />
       <main className="flex-grow flex flex-col">{children}</main>
       <Footer />

@@ -248,10 +248,6 @@ export default function HomePage() {
 
       <div class="memberBox__login">
         <h2 class="memberBox__loginTtl">会員様専用ログイン</h2>
-        <!-- ここには onsubmit="return false;" のフォームが置かれており、ID・パスワードを
-             入力してボタンを押しても何も起こらなかった。認証は NextAuth が担当するため、
-             この位置からはログイン画面へ渡す。
-             （パスワード再設定は未実装のため、案内リンクは出さない。docs/debt.md 起票済み） -->
         <p class="memberBox__txt">ご登録済みの方は、こちらからログインしてください。</p>
         <a class="btn" href="/api/auth/signin">ログイン</a>
       </div>

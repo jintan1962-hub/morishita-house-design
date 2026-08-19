@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { parseCsv, decodeCsvBuffer } from "@/lib/csv";
 import {
   Search, Filter, Plus, Edit3, Eye,
   Upload, Download, X, Check, AlertCircle, Info
@@ -16,12 +17,15 @@ import {
 
 type PropertyRow = {
   id: number;
-  objMngNo: number;
+  /** 物件管理番号。DBは BigInt だがサーバーアクションが文字列にして返す。 */
+  objMngNo: string;
   title: string;
   priceMan: number;
   madori: string | null;
   address: string | null;
   disclosureLevel: number;
+  /** 市区町村コードから引いたエリア名。対象外なら null。 */
+  areaName?: string | null;
 };
 
 export default function PropertyManagement() {
@@ -32,6 +36,8 @@ export default function PropertyManagement() {
   const [diffResults, setDiffResults] = useState<DiffResult[]>([]);
   const [approvedIndices, setApprovedItems] = useState<Set<number>>(new Set());
   const [errorMessage, setErrorMessage] = useState("");
+  // 読み取ったCSVの文字コード。化けたときの切り分けに使う。
+  const [detectedEncoding, setDetectedEncoding] = useState<string | null>(null);
   const [importResult, setImportResult] = useState<{
     count: number;
     created: number;
@@ -85,16 +91,18 @@ export default function PropertyManagement() {
     const reader = new FileReader();
     reader.onload = async (event) => {
       try {
-        const text = event.target?.result as string;
-        const lines = text.split("\n").filter(line => line.trim() !== "");
-        const headers = lines[0].split(",").map(h => h.trim());
-        const data: IncomingProperty[] = lines.slice(1).map(line => {
-          const values = line.split(",").map(v => v.trim());
-          return headers.reduce((obj: Record<string, string>, header, i) => {
-            obj[header] = values[i];
-            return obj;
-          }, {}) as IncomingProperty;
-        });
+        // Excel の「CSV形式で保存」は既定で Shift-JIS。UTF-8 決め打ちだと日本語が全て化けるため、
+        // バイト列で受け取って文字コードを判定する。
+        const buffer = event.target?.result as ArrayBuffer;
+        const { text, encoding } = decodeCsvBuffer(buffer);
+        setDetectedEncoding(encoding);
+        // 引用符に対応した分解。値の中のカンマで列がずれない。
+        const data = parseCsv(text) as IncomingProperty[];
+        if (data.length === 0) {
+          setErrorMessage("データ行がありません。1行目がヘッダー、2行目以降がデータになっているかご確認ください。");
+          setImportStatus("error");
+          return;
+        }
 
         // D-17 手順1：まず数える。この時点ではまだ1件も書き込まれていない。
         const res = await compareCSVData(data);
@@ -112,7 +120,7 @@ export default function PropertyManagement() {
         setImportStatus("error");
       }
     };
-    reader.readAsText(file);
+    reader.readAsArrayBuffer(file);
   };
 
   const handleImportExecute = async () => {
@@ -297,6 +305,13 @@ export default function PropertyManagement() {
                       <p className="mt-2 text-blue-700">
                         上書き前のデータは自動で控えを取ります。想定と件数が違う場合は実行しないでください。
                       </p>
+                      {detectedEncoding && (
+                        <p className="mt-2 text-blue-700">
+                          読み取った文字コード：<strong>{detectedEncoding}</strong>
+                          {detectedEncoding === "Shift_JIS" &&
+                            "（Excelで保存したCSVです。下の物件名が化けていないかご確認ください）"}
+                        </p>
+                      )}
                     </div>
                   </div>
 
