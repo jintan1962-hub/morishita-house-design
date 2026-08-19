@@ -9,9 +9,11 @@
   var fmt = function (n) { return Math.round(n).toLocaleString('ja-JP'); };
 
   /* 市町村コード → 市町村名（地図・一覧・検索ボックスの橋渡し） */
+  // 掲載対象エリア。src/config/property.ts の AREAS と揃えること。
+  // 以前は上田市が入っていて立科町が抜けており、地図と設定が食い違っていた。
   var CODE2CITY = {
-    '20203': '上田市', '20219': '東御市', '20208': '小諸市', '20323': '御代田町',
-    '20321': '軽井沢町', '20217': '佐久市', '20309': '佐久穂町'
+    '20217': '佐久市', '20208': '小諸市', '20219': '東御市', '20321': '軽井沢町',
+    '20323': '御代田町', '20324': '立科町', '20309': '佐久穂町'
   };
 
   /* 種別 × 市町村の掲載件数（サンプルデータ） */
@@ -166,9 +168,21 @@
         return;
       }
 
-      // トップページからは検索ページへ市町村を引き継いで遷移
+      // トップページでは、その場で結果を出す（React 側の AreaProperties が受け取る）。
+      // 以前はここで search.html?city=... へ遷移していたが、そのページは存在せず
+      // Vercel 上では404になっていた（地図を押しても何も起きなかった）。
       mark('is-selected', code);
-      location.href = 'search.html?city=' + encodeURIComponent(city);
+      window.dispatchEvent(new CustomEvent('renoel:area-select', {
+        detail: { code: code, city: city }
+      }));
+
+      // 結果は地図の下に出るので、そこまでスクロールする
+      window.setTimeout(function () {
+        var results = document.getElementById('area-results');
+        if (!results) return;
+        var top = results.getBoundingClientRect().top + window.pageYOffset - 90;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }, 250);
     }
 
     all.forEach(function (el) {

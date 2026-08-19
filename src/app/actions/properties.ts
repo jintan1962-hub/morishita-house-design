@@ -189,14 +189,25 @@ export type DiffResult = {
  * 以前はクライアントコンポーネントが全物件データを保持しており、
  * 「価格非公開」と表示していても開発者ツールから価格が読めていた。
  */
-export async function getPublicProperties() {
+/**
+ * 一般公開用の物件一覧。
+ *
+ * @param cityCd  指定すると、その市区町村の物件だけを返す。掲載対象外のコードは無視する
+ * @param limit   返す件数の上限。トップページのエリア別表示（6件）で使う
+ */
+export async function getPublicProperties(cityCd?: string, limit?: number) {
   const auth = await requireUser();
   const isMember = auth.ok;
 
   try {
+    // 掲載対象のエリアでなければ絞り込まない（推測でコードを通さない）
+    const where = cityCd && isSupportedArea(cityCd) ? { cityCd } : {};
+
     const properties = await prisma.property.findMany({
+      where,
       orderBy: { updatedAt: "desc" },
       include: { images: { orderBy: { sortOrder: "asc" } } },
+      ...(Number.isInteger(limit) && (limit as number) > 0 ? { take: limit } : {}),
     });
 
     return {
@@ -736,5 +747,25 @@ export async function updateProperty(id: number, formData: FormData) {
     return { success: true as const };
   } catch (error) {
     return reportError("updateProperty", error, "保存できませんでした。");
+  }
+}
+
+/**
+ * 掲載対象エリアごとの物件件数。トップページの地図に出す。
+ * 会員限定の物件も件数には含める（存在すること自体は隠していない）。
+ */
+export async function getAreaPropertyCounts() {
+  try {
+    const grouped = await prisma.property.groupBy({
+      by: ["cityCd"],
+      _count: { _all: true },
+    });
+    const counts: Record<string, number> = {};
+    for (const row of grouped) {
+      if (isSupportedArea(row.cityCd)) counts[row.cityCd] = row._count._all;
+    }
+    return { success: true as const, data: counts };
+  } catch (error) {
+    return reportError("getAreaPropertyCounts", error, "件数を取得できませんでした。");
   }
 }

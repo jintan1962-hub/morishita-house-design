@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getPublicProperties } from "@/app/actions/properties";
+import { AREAS, areaName, isSupportedArea } from "@/config/property";
 
 /**
  * C-03 / S-07：会員限定物件の出し分けをサーバー側に移した。
@@ -11,8 +12,15 @@ import { getPublicProperties } from "@/app/actions/properties";
  */
 export const dynamic = "force-dynamic";
 
-export default async function PropertiesPage() {
-  const result = await getPublicProperties();
+export default async function PropertiesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ city?: string }>;
+}) {
+  const { city } = await searchParams;
+  // 掲載対象のエリアでなければ絞り込まない（不正なコードで空一覧にしない）
+  const selectedArea = city && isSupportedArea(city) ? areaName(city) : null;
+  const result = await getPublicProperties(selectedArea ? city : undefined);
 
   return (
     <>
@@ -20,18 +28,50 @@ export default async function PropertiesPage() {
         <div className="memberHero__photo" style={{ backgroundImage: "url('https://okazaki-bot.github.io/chuko-fudousan-design/assets/img/gallery.jpg')" }}></div>
         <div className="memberHero__panel" style={{ width: "100%", borderRadius: 0, paddingLeft: "5%", minHeight: "200px" }}>
           <div className="memberHero__inner">
-            <h1 className="memberHero__ttl">物件一覧</h1>
+            <h1 className="memberHero__ttl">
+              {selectedArea ? `${selectedArea}の物件` : "物件一覧"}
+            </h1>
           </div>
         </div>
       </section>
 
       <section className="sec sec--gray">
         <div className="container container--wide">
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "8px",
+              justifyContent: "center",
+              marginBottom: "32px",
+            }}
+          >
+            <Link
+              href="/properties"
+              className={selectedArea ? "btn btn--light" : "btn btn--navy"}
+              style={{ minWidth: 0, padding: "8px 18px", fontSize: "13px" }}
+            >
+              すべて
+            </Link>
+            {AREAS.map((a) => (
+              <Link
+                key={a.cityCd}
+                href={`/properties?city=${a.cityCd}`}
+                className={city === a.cityCd ? "btn btn--navy" : "btn btn--light"}
+                style={{ minWidth: 0, padding: "8px 18px", fontSize: "13px" }}
+              >
+                {a.name}
+              </Link>
+            ))}
+          </div>
+
           {!result.success ? (
             <p style={{ textAlign: "center", padding: "40px 0" }}>{result.error}</p>
           ) : result.data.length === 0 ? (
             <p style={{ textAlign: "center", padding: "40px 0" }}>
-              現在公開中の物件はありません。
+              {selectedArea
+                ? `${selectedArea}に現在公開中の物件はありません。`
+                : "現在公開中の物件はありません。"}
             </p>
           ) : (
             <div className="propGrid">
