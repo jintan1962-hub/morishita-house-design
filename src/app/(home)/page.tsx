@@ -28,11 +28,28 @@ export default function HomePage() {
   // （main.js は先頭のIIFEで要素を探し、無ければ何もせずに終わる作りのため）。
   // effect は DOM が組み上がったあとに必ず走るので、ここから読み込めば取りこぼさない。
   useEffect(() => {
-    if (document.getElementById("renoel-main-js")) return;
-    const script = document.createElement("script");
-    script.id = "renoel-main-js";
-    script.src = "/assets/js/main.js";
-    document.body.appendChild(script);
+    let tries = 0;
+    let timer: number | undefined;
+
+    function load() {
+      if (document.getElementById("renoel-main-js")) return;
+
+      // main.js は先頭で要素を探し、無ければ何もせずに終わる。
+      // 要素がDOMに出てから読み込む（出ていなければ少し待って再確認する）。
+      if (!document.querySelector(".areaMap__region") && tries < 40) {
+        tries += 1;
+        timer = window.setTimeout(load, 100);
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.id = "renoel-main-js";
+      script.src = "/assets/js/main.js";
+      document.body.appendChild(script);
+    }
+
+    load();
+    return () => window.clearTimeout(timer);
   }, []);
 
   return (

@@ -168,21 +168,13 @@
         return;
       }
 
-      // トップページでは、その場で結果を出す（React 側の AreaProperties が受け取る）。
+      // トップページでは選択中の見た目だけを付ける。
+      // 物件の取得・表示・スクロールは React 側（AreaProperties）が
+      // クリックを直接受けて行う。main.js の読み込みタイミングに依存させないため。
+      //
       // 以前はここで search.html?city=... へ遷移していたが、そのページは存在せず
       // Vercel 上では404になっていた（地図を押しても何も起きなかった）。
       mark('is-selected', code);
-      window.dispatchEvent(new CustomEvent('renoel:area-select', {
-        detail: { code: code, city: city }
-      }));
-
-      // 結果は地図の下に出るので、そこまでスクロールする
-      window.setTimeout(function () {
-        var results = document.getElementById('area-results');
-        if (!results) return;
-        var top = results.getBoundingClientRect().top + window.pageYOffset - 90;
-        window.scrollTo({ top: top, behavior: 'smooth' });
-      }, 250);
     }
 
     all.forEach(function (el) {

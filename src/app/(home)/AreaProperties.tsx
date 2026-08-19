@@ -59,9 +59,8 @@ export default function AreaProperties() {
     // 選択が続けて起きたとき、古い応答で新しい表示を上書きしないための番号
     let latest = 0;
 
-    async function onSelect(e: Event) {
-      const code = (e as CustomEvent<{ code?: string }>).detail?.code;
-      if (!code || !AREAS.some((a) => a.cityCd === code)) return;
+    async function select(code: string) {
+      if (!AREAS.some((a) => a.cityCd === code)) return;
 
       const seq = ++latest;
       setCityCd(code);
@@ -74,10 +73,55 @@ export default function AreaProperties() {
       if (res.success) setItems(res.data as Item[]);
       else setError(res.error);
       setLoading(false);
+
+      // 結果の位置までスクロールする
+      window.setTimeout(() => {
+        const el = document.getElementById("area-results");
+        if (!el) return;
+        window.scrollTo({
+          top: el.getBoundingClientRect().top + window.pageYOffset - 90,
+          behavior: "smooth",
+        });
+      }, 100);
     }
 
-    window.addEventListener(AREA_SELECT_EVENT, onSelect);
-    return () => window.removeEventListener(AREA_SELECT_EVENT, onSelect);
+    // 地図のクリックは React 側で直接受ける。
+    // 以前は main.js が CustomEvent を投げる作りにしていたが、main.js の
+    // 読み込みタイミングによっては要素を掴めず、地図が無反応になった。
+    // この effect は DOM が組み上がったあとに必ず走るため、取りこぼしがない。
+    function onClick(e: Event) {
+      const el = (e.target as Element | null)?.closest?.(
+        ".areaMap__region.is-target, .areaMap__listItem"
+      ) as HTMLElement | null;
+      if (!el?.dataset.code) return;
+      void select(el.dataset.code);
+    }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const el = (e.target as Element | null)?.closest?.(
+        ".areaMap__region.is-target, .areaMap__listItem"
+      ) as HTMLElement | null;
+      if (!el?.dataset.code) return;
+      e.preventDefault();
+      void select(el.dataset.code);
+    }
+
+    // document で受ける（委譲）。地図が後から差し替わっても効き続ける。
+    document.addEventListener("click", onClick);
+    document.addEventListener("keydown", onKeyDown);
+
+    // main.js 側から投げられた場合にも対応する（従来の経路）
+    function onEvent(e: Event) {
+      const code = (e as CustomEvent<{ code?: string }>).detail?.code;
+      if (code) void select(code);
+    }
+    window.addEventListener(AREA_SELECT_EVENT, onEvent);
+
+    return () => {
+      document.removeEventListener("click", onClick);
+      document.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener(AREA_SELECT_EVENT, onEvent);
+    };
   }, []);
 
   if (!cityCd) return null;
