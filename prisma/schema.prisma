@@ -128,8 +128,14 @@ model Property {
 model PropertyImage {
   id         Int      @id @default(autoincrement())
   propertyId Int
+  /// 公開URL（Supabase Storage）。画面はこの値をそのまま <img src> に使う
   path       String
-  property   Property @relation(fields: [propertyId], references: [id])
+  /// 表示順。一括アップロードではファイル名の連番がそのまま入る
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId, sortOrder])
 }
 
 /// D-17：一括更新の「控え」。上書き前の物件データをここへ日時つきで退避する。

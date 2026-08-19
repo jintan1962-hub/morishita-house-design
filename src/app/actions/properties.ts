@@ -196,7 +196,7 @@ export async function getPublicProperties() {
   try {
     const properties = await prisma.property.findMany({
       orderBy: { updatedAt: "desc" },
-      include: { images: true },
+      include: { images: { orderBy: { sortOrder: "asc" } } },
     });
 
     return {
@@ -238,7 +238,7 @@ export async function getPublicPropertyById(id: number) {
   try {
     const p = await prisma.property.findUnique({
       where: { id },
-      include: { images: true },
+      include: { images: { orderBy: { sortOrder: "asc" } } },
     });
     if (!p) {
       return { success: false as const, error: "物件が見つかりません。" };
@@ -326,7 +326,7 @@ export async function getProperties() {
   try {
     const properties = await prisma.property.findMany({
       orderBy: { updatedAt: "desc" },
-      include: { images: true },
+      include: { images: { orderBy: { sortOrder: "asc" } } },
     });
     // objMngNo は BigInt。クライアントコンポーネントへ渡すため文字列にする。
     // あわせてエリア名を添える（画面側で対応表を持たせないため）。
@@ -606,7 +606,7 @@ export async function getPropertyForAdmin(id: number) {
   try {
     const property = await prisma.property.findUnique({
       where: { id },
-      include: { images: true },
+      include: { images: { orderBy: { sortOrder: "asc" } } },
     });
     if (!property) {
       return { success: false as const, error: "指定された物件が見つかりません。" };

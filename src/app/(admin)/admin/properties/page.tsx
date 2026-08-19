@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { parseCsv, decodeCsvBuffer } from "@/lib/csv";
+import BulkImageUpload from "./BulkImageUpload";
 import {
   Search, Filter, Plus, Edit3, Eye,
   Upload, Download, X, Check, AlertCircle, Info
@@ -179,6 +180,7 @@ export default function PropertyManagement() {
           <button onClick={handleExport} className="bg-white border border-gray-200 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors">
             <Download size={18} /> 一括出力 (CSV)
           </button>
+          <BulkImageUpload />
           <Link href="/admin/properties/new" className="bg-orange-500 text-white px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20">
             <Plus size={18} /> 物件登録
           </Link>

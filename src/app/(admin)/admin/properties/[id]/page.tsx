@@ -2,6 +2,8 @@ import { ArrowLeft, ExternalLink, Eye, MessageSquare, Clock, Hash } from "lucide
 import Link from "next/link";
 import { getPropertyForAdmin } from "@/app/actions/properties";
 import PropertyEditForm from "./PropertyEditForm";
+import PropertyImages from "./PropertyImages";
+import { isStorageConfigured } from "@/lib/storage";
 
 /**
  * 管理画面の物件詳細。
@@ -120,6 +122,16 @@ export default async function PropertyAdminDetail({
           </div>
         </div>
       </section>
+
+      <PropertyImages
+        propertyId={p.id}
+        images={p.images.map((img) => ({
+          id: img.id,
+          path: img.path,
+          sortOrder: img.sortOrder,
+        }))}
+        storageReady={isStorageConfigured()}
+      />
 
       <PropertyEditForm property={p as unknown as Record<string, unknown>} />
     </div>
