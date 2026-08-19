@@ -6,6 +6,7 @@ import { requireAdmin, requireUser, authErrorMessage } from "@/lib/auth";
 import { reportError } from "@/lib/errors";
 import { DISCLOSURE_LEVEL } from "@/config/security";
 import { parseJapaneseDate } from "@/lib/dates";
+import { toJsonSafe } from "@/lib/json";
 import {
   PREF_CODE,
   DEFAULT_CITY_CODE,
@@ -518,7 +519,9 @@ export async function importProperties(
         data: {
           importedBy: auth.email,
           itemCount: rows.length,
-          before: JSON.parse(JSON.stringify(before)),
+          // objMngNo は BigInt。素の JSON.stringify では落ちるため toJsonSafe を通す。
+          // 既存が0件のうちは [] なので通ってしまい、2回目の取込で初めて失敗していた。
+          before: toJsonSafe(before) as object,
         },
       });
 
