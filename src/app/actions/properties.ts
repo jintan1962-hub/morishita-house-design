@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import { requireAdmin, requireUser, authErrorMessage } from "@/lib/auth";
 import { reportError } from "@/lib/errors";
 import { DISCLOSURE_LEVEL } from "@/config/security";
+import { parseJapaneseDate } from "@/lib/dates";
 import {
   PREF_CODE,
   DEFAULT_CITY_CODE,
@@ -14,6 +15,29 @@ import {
   isValidPropertyType,
   PROPERTY_TYPE_LABEL,
 } from "@/config/property";
+
+/** 任意の文字列列。空・「－」は null にする（athome の「値なし」表記）。 */
+function text(value: string | undefined): string | null {
+  const t = (value ?? "").trim();
+  if (t === "" || t === "-" || t === "－" || t === "―") return null;
+  return t;
+}
+
+/** 任意の整数列。読めなければ null。 */
+function int(value: string | undefined): number | null {
+  const t = (value ?? "").replace(/[,，\s]/g, "").trim();
+  if (t === "") return null;
+  const n = parseInt(t, 10);
+  return Number.isInteger(n) ? n : null;
+}
+
+/** 任意の小数列。読めなければ null。 */
+function float(value: string | undefined): number | null {
+  const t = (value ?? "").replace(/[,，\s]/g, "").trim();
+  if (t === "") return null;
+  const n = parseFloat(t);
+  return Number.isFinite(n) ? n : null;
+}
 
 /**
  * 物件管理番号を読む。athome / ATBB の番号は10桁あり Number では扱えないため BigInt にする。
@@ -46,6 +70,51 @@ export type IncomingProperty = {
   prefCd?: string;
   cityCd?: string;
   disclosureLevel?: string;
+  /** 現況（例: 空家 / 所有者居住中）。既存の Property.currentState に入る。 */
+  currentState?: string;
+
+  // 物件概要（athome の表示項目）。全て任意。
+  trafficNote?: string;
+  trafficLine?: string;
+  trafficStation?: string;
+  walkMinutes?: string;
+  leaseTermRent?: string;
+  keyMoney?: string;
+  depositGuarantee?: string;
+  maintenanceCost?: string;
+  otherLumpSum?: string;
+  floorsInfo?: string;
+  parking?: string;
+  landRight?: string;
+  deliveryTiming?: string;
+  transactionType?: string;
+  listingCompanyNo?: string;
+  publishedOn?: string;
+  nextUpdateOn?: string;
+
+  // マンション固有
+  mgmtFeeYen?: string;
+  repairFundYen?: string;
+  totalUnits?: string;
+  floorNo?: string;
+  direction?: string;
+  balconyMen?: string;
+  mgmtForm?: string;
+
+  // 土地固有
+  buildingCoverage?: string;
+  floorAreaRatio?: string;
+  zoning?: string;
+  landCategory?: string;
+  cityPlanning?: string;
+  roadAccess?: string;
+  privateRoad?: string;
+
+  // 取扱店
+  agencyName?: string;
+  agencyAddress?: string;
+  agencyTel?: string;
+  agencyLicense?: string;
 };
 
 /** DBへ書き込む直前の、検証済みの1件分。 */
@@ -65,6 +134,44 @@ type PropertyRow = {
   prefCd: string;
   cityCd: string;
   disclosureLevel: number;
+  currentState: string | null;
+
+  // 物件概要。CSVに列が無ければ null が入る。
+  trafficNote: string | null;
+  trafficLine: string | null;
+  trafficStation: string | null;
+  walkMinutes: number | null;
+  leaseTermRent: string | null;
+  keyMoney: string | null;
+  depositGuarantee: string | null;
+  maintenanceCost: string | null;
+  otherLumpSum: string | null;
+  floorsInfo: string | null;
+  parking: string | null;
+  landRight: string | null;
+  deliveryTiming: string | null;
+  transactionType: string | null;
+  listingCompanyNo: string | null;
+  publishedOn: Date | null;
+  nextUpdateOn: Date | null;
+  mgmtFeeYen: number | null;
+  repairFundYen: number | null;
+  totalUnits: number | null;
+  floorNo: number | null;
+  direction: string | null;
+  balconyMen: number | null;
+  mgmtForm: string | null;
+  buildingCoverage: number | null;
+  floorAreaRatio: number | null;
+  zoning: string | null;
+  landCategory: string | null;
+  cityPlanning: string | null;
+  roadAccess: string | null;
+  privateRoad: string | null;
+  agencyName: string | null;
+  agencyAddress: string | null;
+  agencyTel: string | null;
+  agencyLicense: string | null;
 };
 
 export type DiffResult = {
@@ -355,6 +462,46 @@ export async function importProperties(
       prefCd: item.prefCd?.trim() || PREF_CODE,
       cityCd,
       disclosureLevel: parseInt(item.disclosureLevel ?? "") || 0,
+      currentState: text(item.currentState),
+
+      trafficNote: text(item.trafficNote),
+      trafficLine: text(item.trafficLine),
+      trafficStation: text(item.trafficStation),
+      walkMinutes: int(item.walkMinutes),
+      leaseTermRent: text(item.leaseTermRent),
+      keyMoney: text(item.keyMoney),
+      depositGuarantee: text(item.depositGuarantee),
+      maintenanceCost: text(item.maintenanceCost),
+      otherLumpSum: text(item.otherLumpSum),
+      floorsInfo: text(item.floorsInfo),
+      parking: text(item.parking),
+      landRight: text(item.landRight),
+      deliveryTiming: text(item.deliveryTiming),
+      transactionType: text(item.transactionType),
+      listingCompanyNo: text(item.listingCompanyNo),
+      publishedOn: parseJapaneseDate(item.publishedOn),
+      nextUpdateOn: parseJapaneseDate(item.nextUpdateOn),
+
+      mgmtFeeYen: int(item.mgmtFeeYen),
+      repairFundYen: int(item.repairFundYen),
+      totalUnits: int(item.totalUnits),
+      floorNo: int(item.floorNo),
+      direction: text(item.direction),
+      balconyMen: float(item.balconyMen),
+      mgmtForm: text(item.mgmtForm),
+
+      buildingCoverage: int(item.buildingCoverage),
+      floorAreaRatio: int(item.floorAreaRatio),
+      zoning: text(item.zoning),
+      landCategory: text(item.landCategory),
+      cityPlanning: text(item.cityPlanning),
+      roadAccess: text(item.roadAccess),
+      privateRoad: text(item.privateRoad),
+
+      agencyName: text(item.agencyName),
+      agencyAddress: text(item.agencyAddress),
+      agencyTel: text(item.agencyTel),
+      agencyLicense: text(item.agencyLicense),
     });
   }
 

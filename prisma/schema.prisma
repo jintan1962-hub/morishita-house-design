@@ -38,6 +38,88 @@ model Property {
   disclosureLevel  Int             @default(0)
   priceDown        Boolean         @default(false)
   reformTarget     Boolean         @default(false)
+
+  // ───────── 物件概要（athome の表示項目に対応。全て任意）─────────
+  // 値が入らない項目は athome 上で「－」と表示されるもの。無理に構造化せず、
+  // 表示に使う文字列はそのまま持つ（D-03：推測で正規化しない）。
+
+  /// 交通の表示用テキスト（例: 北陸新幹線 佐久平駅 徒歩15000m）
+  trafficNote      String?
+  /// 沿線名
+  trafficLine      String?
+  /// 駅名
+  trafficStation   String?
+  /// 駅からの徒歩（分）。距離表記しかない物件では空
+  walkMinutes      Int?
+  /// 借地期間・地代
+  leaseTermRent    String?
+  /// 権利金
+  keyMoney         String?
+  /// 敷金・保証金
+  depositGuarantee String?
+  /// 維持費等（管理費など。物件により複数条件の文章が入る）
+  maintenanceCost  String?
+  /// その他一時金
+  otherLumpSum     String?
+  /// 階建/階（例: 2階建 / 3階/10階建）
+  floorsInfo       String?
+  /// 駐車場
+  parking          String?
+  /// 土地権利（例: 所有権）
+  landRight        String?
+  /// 引渡可能時期（例: 相談）
+  deliveryTiming   String?
+  /// 取引態様（例: 仲介 / 一般媒介）
+  transactionType  String?
+  /// 掲載会社管理番号（掲載会社が自社で付けている番号）
+  listingCompanyNo String?
+  /// 情報公開日
+  publishedOn      DateTime?
+  /// 次回更新予定日。これを過ぎた物件を出し続けない運用に使う
+  nextUpdateOn     DateTime?
+
+  // ───────── マンション固有 ─────────
+  /// 管理費（円/月）
+  mgmtFeeYen       Int?
+  /// 修繕積立金（円/月）
+  repairFundYen    Int?
+  /// 総戸数
+  totalUnits       Int?
+  /// 所在階
+  floorNo          Int?
+  /// 向き
+  direction        String?
+  /// バルコニー面積（㎡）
+  balconyMen       Float?
+  /// 管理形態
+  mgmtForm         String?
+
+  // ───────── 土地固有 ─────────
+  /// 建ぺい率（%）
+  buildingCoverage Int?
+  /// 容積率（%）
+  floorAreaRatio   Int?
+  /// 用途地域
+  zoning           String?
+  /// 地目
+  landCategory     String?
+  /// 都市計画
+  cityPlanning     String?
+  /// 接道状況
+  roadAccess       String?
+  /// 私道負担
+  privateRoad      String?
+
+  // ───────── 取扱店 ─────────
+  // 宅建業法の広告表示に関わる。画面へ出すかは別途判断する（列としては保持する）。
+  /// 取扱不動産会社名
+  agencyName       String?
+  /// 取扱店の所在地
+  agencyAddress    String?
+  /// 取扱店の電話番号
+  agencyTel        String?
+  /// 宅地建物取引業の免許番号
+  agencyLicense    String?
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   images           PropertyImage[]
