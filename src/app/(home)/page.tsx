@@ -21,6 +21,20 @@ export default function HomePage() {
     };
   }, []);
 
+  // 確定版HTMLの中の地図・シミュレーター・クッキーバーを動かすスクリプト。
+  //
+  // 以前は <Script strategy="lazyOnload"> で読み込んでいたが、本番では
+  // main.js が中の要素を見つけられず、地図もシミュレーターも無反応になっていた
+  // （main.js は先頭のIIFEで要素を探し、無ければ何もせずに終わる作りのため）。
+  // effect は DOM が組み上がったあとに必ず走るので、ここから読み込めば取りこぼさない。
+  useEffect(() => {
+    if (document.getElementById("renoel-main-js")) return;
+    const script = document.createElement("script");
+    script.id = "renoel-main-js";
+    script.src = "/assets/js/main.js";
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <>
       <title>{`中古住宅×リノベーション ${COMPANY.brandName}（リノエル）｜佐久・小諸・御代田・軽井沢の中古物件とリノベーション`}</title>
@@ -843,7 +857,7 @@ export default function HomePage() {
 
 ` }} />
       
-      <Script src="/assets/js/main.js" strategy="lazyOnload" />
+
     </>
   );
 }
