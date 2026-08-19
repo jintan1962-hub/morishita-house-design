@@ -7,6 +7,7 @@ import { reportError } from "@/lib/errors";
 import { DISCLOSURE_LEVEL } from "@/config/security";
 import { parseJapaneseDate } from "@/lib/dates";
 import { toJsonSafe } from "@/lib/json";
+import { blankToNull } from "@/lib/blank";
 import { PROPERTY_FIELDS } from "@/config/propertyFields";
 import {
   PREF_CODE,
@@ -18,17 +19,9 @@ import {
   PROPERTY_TYPE_LABEL,
 } from "@/config/property";
 
-/**
- * 任意の文字列列。athome の「値なし」表記は null にする。
- * 「－」だけでなく「－ / －」（敷金・保証金の欄）のように区切り記号を挟む書き方もあるため、
- * ダッシュと区切りだけで出来ている値はまとめて「値なし」として扱う。
- */
+/** 任意の文字列列。athome の「値なし」表記（「－」「－ / －」など）は null にする。 */
 function text(value: string | undefined): string | null {
-  const t = (value ?? "").trim();
-  if (t === "") return null;
-  // -, －, ―, ‐, ／, /, ・, 空白 だけで構成されていれば値なし
-  if (/^[-－―‐/／・\s]+$/.test(t)) return null;
-  return t;
+  return blankToNull(value);
 }
 
 /** 任意の整数列。読めなければ null。 */
@@ -277,8 +270,16 @@ export async function getPublicPropertyById(id: number) {
         currentState: p.currentState,
         images: p.images.map((img) => img.path),
 
-        // 物件概要。取扱店（agency*）は宅建業法の表示の扱いが未決定のため、まだ返さない。
+        // 物件概要。取扱店（agency*）も返す（大野の指示：管理画面と同じ情報をお客様も見られるように）。
         trafficNote: p.trafficNote,
+        trafficLine: p.trafficLine,
+        trafficStation: p.trafficStation,
+        walkMinutes: p.walkMinutes,
+        listingCompanyNo: p.listingCompanyNo,
+        agencyName: p.agencyName,
+        agencyAddress: p.agencyAddress,
+        agencyTel: p.agencyTel,
+        agencyLicense: p.agencyLicense,
         floorsInfo: p.floorsInfo,
         parking: p.parking,
         landRight: p.landRight,

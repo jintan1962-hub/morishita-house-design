@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isBlankMark } from "@/lib/blank";
 import { getPublicPropertyById } from "@/app/actions/properties";
 import { calculateMonthlyPayment } from "@/lib/loan";
 import {
@@ -105,13 +106,31 @@ export default async function PropertyDetailPage({
       ["都市計画", property.cityPlanning],
       ["接道状況", property.roadAccess],
       ["私道負担", property.privateRoad],
+      ["掲載会社管理番号", property.listingCompanyNo],
       [
         "情報公開日",
         property.publishedOn ? property.publishedOn.toLocaleDateString("ja-JP") : null,
       ],
+      [
+        "次回更新予定日",
+        property.nextUpdateOn ? property.nextUpdateOn.toLocaleDateString("ja-JP") : null,
+      ],
     ] as [string, string | null | undefined][]
   )
-    .filter(([, value]) => value !== null && value !== undefined && value !== "")
+    // 取込より前に入った「－ / －」のような値も出さない。判定は src/lib/blank.ts に集約。
+    .filter(([, value]) => !isBlankMark(value))
+    .map(([label, value]) => ({ label, value: value as string }));
+
+  // 取扱店。宅建業法の広告表示に関わる項目のため、値が入っていれば必ず出す。
+  const agencyRows = (
+    [
+      ["会社名", property.agencyName],
+      ["所在地", property.agencyAddress],
+      ["電話番号", property.agencyTel],
+      ["免許番号", property.agencyLicense],
+    ] as [string, string | null | undefined][]
+  )
+    .filter(([, value]) => !isBlankMark(value))
     .map(([label, value]) => ({ label, value: value as string }));
   const totalLoanAmountYen = priceMan * MAN_YEN + DEFAULT_RENOVATION_COST_YEN;
   const monthlyPayment = calculateMonthlyPayment(
@@ -202,6 +221,27 @@ export default async function PropertyDetailPage({
                   ))}
                 </tbody>
               </table>
+
+              {agencyRows.length > 0 && (
+                <div style={{ marginTop: "32px" }}>
+                  <h3
+                    className="ja"
+                    style={{ fontSize: "1.25rem", color: "var(--c-ink)", marginBottom: "12px" }}
+                  >
+                    取扱店
+                  </h3>
+                  <table className="specTable">
+                    <tbody>
+                      {agencyRows.map((row) => (
+                        <tr key={row.label}>
+                          <th>{row.label}</th>
+                          <td>{row.value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
 
