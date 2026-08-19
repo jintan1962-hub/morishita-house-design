@@ -221,6 +221,8 @@ export async function getPublicProperties(cityCd?: string, limit?: number) {
           id: p.id,
           title: locked ? "詳細は会員限定" : p.title,
           syumoku: p.syumoku,
+          // エリア名の表示に使う。会員限定でも所在地そのものではないので返してよい
+          cityCd: p.cityCd,
           madori: locked ? null : p.madori,
           priceMan: locked ? null : p.priceMan,
           address: locked ? null : p.address,

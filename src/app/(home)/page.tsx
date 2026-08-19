@@ -9,6 +9,8 @@ import { useSession } from "next-auth/react";
 import Script from "next/script";
 import { COMPANY } from "@/config/company";
 import AreaProperties from "./AreaProperties";
+import NewArrivals from "./NewArrivals";
+import LoanSimulator from "./LoanSimulator";
 
 export default function HomePage() {
   useSession();
@@ -294,145 +296,12 @@ export default function HomePage() {
   </div>
 </section>
 
-<!-- ======================================================================
-     NEW ARRIVAL
-====================================================================== -->
-<section class="sec" id="newarrival">
-  <div class="container container--wide">
-    <h2 class="secTtl">
-      <span class="secTtl__main">新着物件</span>
-    </h2>
-    <p class="secLead">毎日更新しています。物件価格の下に出ている金額は、リノベーション費用まで含めた月々のお支払い目安です。</p>
 
-    <div class="propGrid">
+` }} />
 
-      <a class="propCard" href="/properties">
-        <figure class="propCard__fig">
-          <img src="https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2023/03/saku-lqh-after01.jpg" alt="佐久市中込の中古戸建て" loading="lazy">
-          <span class="badge badge--new">NEW</span>
-        </figure>
-        <div class="propCard__body">
-          <p class="propCard__cat">中古戸建て／佐久市</p>
-          <h3 class="propCard__ttl">佐久市中込　4LDK　南面採光の平屋</h3>
-          <p class="propCard__price"><strong>1,380</strong>万円</p>
-          <p class="propCard__loan">リノベ込み月々 <b>78,473</b> 円<br>
-            <small>（物件1,380万円＋リノベ1,518万円／金利0.75%・35年）</small></p>
-          <dl class="propCard__spec">
-            <div><dt>間取り</dt><dd>4LDK</dd></div>
-            <div><dt>土地/建物</dt><dd>198.4㎡ / 105.6㎡</dd></div>
-            <div><dt>築年月</dt><dd>1996年5月</dd></div>
-            <div><dt>最寄り</dt><dd>JR中込駅 徒歩12分</dd></div>
-          </dl>
-        </div>
-      </a>
+      <NewArrivals />
 
-      <a class="propCard" href="/properties">
-        <figure class="propCard__fig">
-          <img src="https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2023/03/miyota-lqh-thm.jpg" alt="御代田町馬瀬口の中古戸建て" loading="lazy">
-          <span class="badge badge--new">NEW</span>
-          <span class="badge badge--down">価格変更</span>
-        </figure>
-        <div class="propCard__body">
-          <p class="propCard__cat">中古戸建て／御代田町</p>
-          <h3 class="propCard__ttl">御代田町馬瀬口　5LDK　浅間山を望む高台</h3>
-          <p class="propCard__price"><strong>1,780</strong>万円<del>1,980万円</del></p>
-          <p class="propCard__loan">リノベ込み月々 <b>89,650</b> 円<br>
-            <small>（物件1,780万円＋リノベ1,480万円／金利0.75%・35年）</small></p>
-          <dl class="propCard__spec">
-            <div><dt>間取り</dt><dd>5LDK</dd></div>
-            <div><dt>土地/建物</dt><dd>264.0㎡ / 128.2㎡</dd></div>
-            <div><dt>築年月</dt><dd>1989年11月</dd></div>
-            <div><dt>最寄り</dt><dd>しなの鉄道 御代田駅 車6分</dd></div>
-          </dl>
-        </div>
-      </a>
-
-      <a class="propCard is-locked" href="#member">
-        <figure class="propCard__fig">
-          <img src="https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2022/11/t_thm.jpg" alt="軽井沢町の中古戸建て（会員限定）" loading="lazy">
-          <span class="badge badge--member">会員限定</span>
-          <span class="propCard__mask"><span>会員限定公開</span></span>
-        </figure>
-        <div class="propCard__body">
-          <p class="propCard__cat">中古戸建て／軽井沢町</p>
-          <h3 class="propCard__ttl">軽井沢町　4LDK　林間の平屋（詳細は会員限定）</h3>
-          <p class="propCard__price"><strong>2,480</strong>万円</p>
-          <dl class="propCard__spec">
-            <div><dt>所在地</dt><dd>–</dd></div>
-            <div><dt>間取り</dt><dd>4LDK</dd></div>
-            <div><dt>土地/建物</dt><dd>–</dd></div>
-            <div><dt>築年月</dt><dd>1998年（推定）</dd></div>
-          </dl>
-          <p class="propCard__note">この物件は無料会員限定で公開しています。所在地・写真・図面は会員登録後にご覧いただけます。</p>
-        </div>
-      </a>
-
-      <a class="propCard" href="/properties">
-        <figure class="propCard__fig">
-          <img src="https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2023/03/saku-lqh-after04b.jpg" alt="小諸市御幸町の中古戸建て" loading="lazy">
-          <span class="badge badge--new">NEW</span>
-        </figure>
-        <div class="propCard__body">
-          <p class="propCard__cat">中古戸建て／小諸市</p>
-          <h3 class="propCard__ttl">小諸市御幸町　3LDK　駅近・車2台</h3>
-          <p class="propCard__price"><strong>980</strong>万円</p>
-          <p class="propCard__loan">リノベ込み月々 <b>62,140</b> 円<br>
-            <small>（物件980万円＋リノベ1,320万円／金利0.75%・35年）</small></p>
-          <dl class="propCard__spec">
-            <div><dt>間取り</dt><dd>3LDK</dd></div>
-            <div><dt>土地/建物</dt><dd>152.7㎡ / 92.4㎡</dd></div>
-            <div><dt>築年月</dt><dd>1992年3月</dd></div>
-            <div><dt>最寄り</dt><dd>しなの鉄道 小諸駅 徒歩9分</dd></div>
-          </dl>
-        </div>
-      </a>
-
-      <a class="propCard is-locked" href="#showroom">
-        <figure class="propCard__fig">
-          <img src="https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2022/11/h_thm.jpg" alt="上田市の中古戸建て（店舗公開）" loading="lazy">
-          <span class="badge badge--shop">店舗公開</span>
-          <span class="propCard__mask"><span>店舗のみ公開</span></span>
-        </figure>
-        <div class="propCard__body">
-          <p class="propCard__cat">中古戸建て／上田市</p>
-          <h3 class="propCard__ttl">上田市　4LDK　（Web非公開・店舗にてご案内）</h3>
-          <p class="propCard__price"><strong>–</strong>万円</p>
-          <dl class="propCard__spec">
-            <div><dt>所在地</dt><dd>–</dd></div>
-            <div><dt>間取り</dt><dd>4LDK</dd></div>
-            <div><dt>土地/建物</dt><dd>–</dd></div>
-            <div><dt>築年月</dt><dd>–</dd></div>
-          </dl>
-          <p class="propCard__note">売主さまのご事情によりWebに掲載できない物件です。ご来店時にのみご案内しています。</p>
-        </div>
-      </a>
-
-      <a class="propCard is-locked" href="#member">
-        <figure class="propCard__fig">
-          <img src="https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2022/11/f_thm.jpg" alt="佐久平駅南の中古マンション（会員限定）" loading="lazy">
-          <span class="badge badge--member">会員限定</span>
-          <span class="propCard__mask"><span>会員限定公開</span></span>
-        </figure>
-        <div class="propCard__body">
-          <p class="propCard__cat">中古マンション／佐久市</p>
-          <h3 class="propCard__ttl">佐久平駅南　3LDK　角部屋（詳細は会員限定）</h3>
-          <p class="propCard__price"><strong>1,290</strong>万円</p>
-          <dl class="propCard__spec">
-            <div><dt>所在地</dt><dd>–</dd></div>
-            <div><dt>間取り</dt><dd>3LDK</dd></div>
-            <div><dt>専有面積</dt><dd>–</dd></div>
-            <div><dt>築年月</dt><dd>2003年（推定）</dd></div>
-          </dl>
-          <p class="propCard__note">この物件は無料会員限定で公開しています。所在地・写真・図面は会員登録後にご覧いただけます。</p>
-        </div>
-      </a>
-
-    </div>
-
-    <p class="sampleNote">※掲載中の物件情報はデザイン確認用のサンプルデータです。</p>
-    <div class="btnWrap"><a class="btn btn--navy" href="https://usedrenovation.ooi-kensetsu.co.jp/buy/">新着物件をもっと見る</a></div>
-  </div>
-</section>
+      <div dangerouslySetInnerHTML={{ __html: `
 
 <!-- ======================================================================
      MEMBERSHIP
@@ -472,72 +341,12 @@ export default function HomePage() {
   </div>
 </section>
 
-<!-- ======================================================================
-     SIMULATION
-====================================================================== -->
-<section class="sec" id="simulation">
-  <div class="container container--wide">
-    <h2 class="secTtl">
-      <span class="secTtl__main">資金計画シミュレーション</span>
-    </h2>
-    <p class="secLead">中古住宅は「物件価格」だけでは判断できません。物件＋リノベーション費用を1本のローンにまとめた月々のお支払いで比べてください。</p>
 
-    <div class="simu">
-      <form class="simu__form" action="#" onsubmit="return false;">
-        <div class="simu__row">
-          <label for="simPrice">物件価格</label>
-          <div class="simu__ctl">
-            <input type="range" id="simPrice" min="300" max="6000" step="1" value="1380">
-            <output for="simPrice"><b id="simPriceOut">1,380</b> 万円</output>
-          </div>
-        </div>
-        <div class="simu__row">
-          <label for="simReno">リノベーション費用</label>
-          <div class="simu__ctl">
-            <input type="range" id="simReno" min="300" max="4000" step="1" value="1518">
-            <output for="simReno"><b id="simRenoOut">1,518</b> 万円</output>
-          </div>
-        </div>
-        <div class="simu__row">
-          <label for="simDown">自己資金（頭金）</label>
-          <div class="simu__ctl">
-            <input type="range" id="simDown" min="0" max="2000" step="1" value="0">
-            <output for="simDown"><b id="simDownOut">0</b> 万円</output>
-          </div>
-        </div>
-        <div class="simu__row">
-          <label for="simRate">金利（年）</label>
-          <div class="simu__ctl">
-            <input type="range" id="simRate" min="0.3" max="3" step="0.05" value="0.75">
-            <output for="simRate"><b id="simRateOut">0.75</b> ％</output>
-          </div>
-        </div>
-        <div class="simu__row">
-          <label for="simYears">返済期間</label>
-          <div class="simu__ctl">
-            <input type="range" id="simYears" min="10" max="40" step="1" value="35">
-            <output for="simYears"><b id="simYearsOut">35</b> 年</output>
-          </div>
-        </div>
-      </form>
+` }} />
 
-      <div class="simu__result">
-        <p class="simu__resultLb">月々のお支払い<small>（元利均等・ボーナス払いなし）</small></p>
-        <p class="simu__resultNum"><strong id="simMonthly">78,473</strong> 円</p>
-        <dl class="simu__detail">
-          <div><dt>借入総額</dt><dd><span id="simTotal">2,898</span> 万円</dd></div>
-          <div><dt>返済期間</dt><dd><span id="simYears2">35</span> 年</dd></div>
-          <div><dt>適用金利</dt><dd><span id="simRate2">0.75</span> ％</dd></div>
-        </dl>
-        <p class="simu__note">
-          金利は当社提携金融機関の変動金利を想定した参考値です。<br>
-          実際の借入可能額・適用金利はご年収や審査結果により異なります。
-        </p>
-        <a class="btn btn--navy" href="https://usedrenovation.ooi-kensetsu.co.jp/financing-plan/">資金計画の考え方を詳しく見る</a>
-      </div>
-    </div>
-  </div>
-</section>
+      <LoanSimulator />
+
+      <div dangerouslySetInnerHTML={{ __html: `
 
 <!-- ======================================================================
      RENOVATION
