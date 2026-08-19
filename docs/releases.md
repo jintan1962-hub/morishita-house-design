@@ -193,3 +193,49 @@ D-03。届いていないのに「送信しました」と出すと、利用者�
 3. 会員登録を1件試し、`/admin/mail-logs` が `SENT` になることを確認
 
 **コードの変更は不要。**環境変数の差し替えだけで切り替わる。
+
+
+---
+
+## 2026-08-19 デプロイが Vercel にブロックされた件と対処
+
+### 何が起きたか
+
+`d42c96b` を push したがデプロイされず、`/admin/mail-logs` が 404 のままだった。
+Vercel の Deployment Details に次の表示。
+
+```
+Deployment Blocked
+The deployment was blocked because the commit author did not have
+contributing access to the project on Vercel.
+The Hobby Plan does not support collaboration for private repositories.
+```
+
+### 原因
+
+**リポジトリを private にしたこと。**Vercel の Hobby プランは、private リポジトリの場合
+プロジェクト所有者本人のコミットでないとデプロイを起動しない。
+8/18 の時点では repo が public だったためこの判定が働かず、`8e9c6fd` はデプロイできていた。
+全4コミットの作者が `awnoono <oono@awn.jp>` で、Vercel 側の所有者と一致していなかった。
+
+private 化自体は 8/18 の検品（O-08）で指摘した正しい対処。その副作用として表面化した。
+
+### 対処
+
+コミット作者のメールアドレスを `oono.web.pd@gmail.com` に統一した（Vercel / GitHub 側も同アドレスへ）。
+git の設定は**このリポジトリのみ**変更しており、グローバル設定（`oono@awn.jp`）は触っていない。
+
+```
+git config user.email "oono.web.pd@gmail.com"   # --global は付けない
+```
+
+既に push 済みのコミットは作り直していない（`git push --force` は D-15 の禁止コマンド）。
+新しい作者名義のコミットを1つ積むことで、Vercel が評価する先端コミットを差し替える。
+
+### 残っている論点：Hobby プランの商用利用
+
+Vercel の Hobby プランは**非商用利用に限る**規約であり、本件は商用サイトである。
+private 化とは無関係に、**本番公開の前に Pro（$20/月）へ切り替える必要がある**。
+今回の停止はたまたま private 化で表面化しただけで、いずれ整理が必要だった。
+
+→ docs/debt.md に起票。
