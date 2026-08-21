@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { requireUser } from "@/lib/auth";
+import { signInPath } from "@/lib/authPaths";
 import { getPublicPropertyById } from "@/app/actions/properties";
 import ContactForm from "./ContactForm";
 
@@ -37,7 +38,8 @@ export default async function PropertyContactPage({
 
   // 会員限定物件は、未ログインのまま問い合わせ画面に入れない
   if (property.locked) {
-    redirect("/api/auth/signin");
+    // ログイン後はこの物件の問い合わせ画面へ戻す（signInPath 参照）
+    redirect(signInPath(`/property/${propertyId}/contact`));
   }
 
   // ログイン済みなら、フォームの初期値に本人の登録情報を差し込む

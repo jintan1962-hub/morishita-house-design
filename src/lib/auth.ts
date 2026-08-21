@@ -197,3 +197,4 @@ export function authErrorMessage(reason: "UNAUTHENTICATED" | "FORBIDDEN"): strin
     ? "ログインが必要です。"
     : "この操作を行う権限がありません。";
 }
+

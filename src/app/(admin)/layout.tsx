@@ -6,6 +6,7 @@ import {
   LogOut, Bell, Search, Building2, MessageSquare, MailWarning
 } from "lucide-react";
 import { requireAdmin } from "@/lib/auth";
+import { signInPath } from "@/lib/authPaths";
 
 // 管理画面配下は毎回サーバー側で権限を確認する（キャッシュさせない）。
 export const dynamic = "force-dynamic";
@@ -20,7 +21,8 @@ export default async function AdminLayout({
   // 個別に requireAdmin() を呼んでいる（画面を通らない直接呼び出しがあるため）。
   const auth = await requireAdmin();
   if (!auth.ok) {
-    redirect(auth.reason === "UNAUTHENTICATED" ? "/api/auth/signin" : "/");
+    // ログイン後に管理画面へ戻す。戻り先を渡さないと NextAuth はトップへ戻す（signInPath 参照）。
+    redirect(auth.reason === "UNAUTHENTICATED" ? signInPath("/admin") : "/");
   }
 
   return (

@@ -8,6 +8,7 @@ import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Script from "next/script";
 import { COMPANY } from "@/config/company";
+import { signInPath, AFTER_LOGIN_PATH } from "@/lib/authPaths";
 import AreaProperties from "./AreaProperties";
 import NewArrivals from "./NewArrivals";
 import LoanSimulator from "./LoanSimulator";
@@ -289,7 +290,7 @@ export default function HomePage() {
       <div class="memberBox__login">
         <h2 class="memberBox__loginTtl">会員様専用ログイン</h2>
         <p class="memberBox__txt">ご登録済みの方は、こちらからログインしてください。</p>
-        <a class="btn" href="/api/auth/signin">ログイン</a>
+        <a class="btn" href="${signInPath(AFTER_LOGIN_PATH)}">ログイン</a>
       </div>
 
     </div>
@@ -566,7 +567,7 @@ export default function HomePage() {
     </ul>
     <div class="memberCta__btns">
       <a class="btn btn--accent" href="/member">無料会員登録はこちら</a>
-      <a class="btn btn--light" href="/api/auth/signin">会員ログイン</a>
+      <a class="btn btn--light" href="${signInPath(AFTER_LOGIN_PATH)}">会員ログイン</a>
     </div>
   </div>
 </section>

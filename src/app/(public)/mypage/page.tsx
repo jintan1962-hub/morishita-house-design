@@ -2,13 +2,14 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import DeleteAccountButton from "@/components/DeleteAccountButton";
+import { signInPath } from "@/lib/authPaths";
 
 export default async function MyPage() {
   const session = await getServerSession();
 
   // ログインしていない場合はトップ（またはログイン画面）へリダイレクト
   if (!session) {
-    redirect("/api/auth/signin");
+    redirect(signInPath("/mypage"));
   }
 
   const imgBase = "https://okazaki-bot.github.io/chuko-fudousan-design/";

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { requireUser } from "@/lib/auth";
+import { signInPath } from "@/lib/authPaths";
 import EditForm from "./EditForm";
 import Link from "next/link";
 
@@ -8,7 +9,7 @@ export default async function EditProfilePage() {
   // S-07：ログイン状態と、退会・停止されていないことをサーバー側で確認する
   const auth = await requireUser();
   if (!auth.ok) {
-    redirect("/api/auth/signin");
+    redirect(signInPath("/mypage/edit"));
   }
 
   const user = await prisma.user.findFirst({
@@ -16,7 +17,7 @@ export default async function EditProfilePage() {
   });
 
   if (!user) {
-    redirect("/api/auth/signin");
+    redirect(signInPath("/mypage/edit"));
   }
 
   return (
