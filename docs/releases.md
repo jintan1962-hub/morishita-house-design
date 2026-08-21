@@ -275,3 +275,57 @@ DBマイグレーションは事前に適用済み（大野が `migrate-supabase
 3. 会員登録を1件試し、MailLog が記録されることを確認
 4. **Vercel を Pro へ**（Hobbyは非商用限定。docs/debt.md 起票済み）
 5. **Resend の送信ドメイン認証**（済むまでお客様へは1通も届かない）
+
+---
+
+## 2026-08-21 ログイン後の戻り先を修正（`2622d9c`）
+
+**症状**：`/admin` を開いてログインしても、管理画面ではなくトップページに戻る。
+ログイン後に自分でURLへ `admin` と打ち直せば入れる、という状態だった。
+
+**原因**：未ログイン時に**戻り先を渡さずに** `/api/auth/signin` へ送っていた。
+NextAuth は `?callbackUrl=` が無いとログイン後にサイトのトップへ戻す
+（`next-auth/core/lib/callback-url.js` の `let callbackUrl = url.origin`）。
+`/mypage`・`/mypage/edit`・会員限定物件の問い合わせ画面も同じ書き方だった。
+
+**変更**（ログイン後の行き先のみ。権限判定・DBスキーマには触れていない）
+
+| 追加・変更 | 内容 |
+|---|---|
+| `src/lib/authPaths.ts`（新規） | `signInPath()` と `AFTER_LOGIN_PATH`。ログイン画面のURL組み立てはここだけ（D-09） |
+| `src/app/after-login/page.tsx`（新規） | ログイン直後の中継。管理者→`/admin`、会員→`/mypage` に振り分けるだけで画面は出さない |
+| `(admin)/layout.tsx` ほか4画面 | 自分自身を戻り先に指定 |
+| `(home)/page.tsx` | 「ログイン」「会員ログイン」を `/after-login` 経由に |
+
+**ローカルでの確認**（Docker の dev DB ＋ `pnpm dev`。画面を実際に操作した）
+
+| 操作 | 結果 |
+|---|---|
+| 未ログインで `/admin` → 管理者でログイン | `/admin` の管理者ダッシュボードが表示された |
+| トップの「ログイン」→ 管理者でログイン | `/admin` に着いた |
+| トップの「ログイン」→ 一般会員でログイン | `/mypage` に着いた |
+| 一般会員のまま `/admin` を開く | トップへ弾かれる（従来どおり。権限の穴は開けていない） |
+| ログアウト後に `/mypage` | `…/signin?callbackUrl=%2Fmypage` へ |
+
+**機械ゲート**：`tsc --noEmit` エラー0／`eslint .` エラー0（警告18は既存）／`node --test` 49件全通過。
+
+**本番で確認したこと**（デプロイ後、実URLへのリクエストで確認）
+
+| パス | 応答 |
+|---|---|
+| `/admin` | 307 → `…/signin?callbackUrl=%2Fadmin` |
+| `/admin/properties` | 307 → `…/signin?callbackUrl=%2Fadmin` |
+| `/mypage` | 307 → `…/signin?callbackUrl=%2Fmypage` |
+| `/mypage/edit` | 307 → `…/signin?callbackUrl=%2Fmypage%2Fedit` |
+| `/after-login` | 307 → `…/signin?callbackUrl=%2Fafter-login` |
+| トップのログイン導線 | `href="/api/auth/signin?callbackUrl=%2Fafter-login"` |
+
+**本番で確認していないこと（合格と書かない）**
+本番の管理者アカウントで実際にログインし `/admin` に着地するところまでは未確認。
+本番のパスワードはAIが扱わないため、大野が1回ログインして確かめること。
+
+**この修正では直らないこと**
+未ログインで `/admin/properties/5` のような深いURLを開いた場合、ログイン後は `/admin` に着く。
+レイアウトからは元のパスが取れないため（直すならミドルウェアの追加が必要＝別件）。
+
+**戻し方**：`git revert 2622d9c` して push。DBの変更が無いので戻しは1手で済む。
