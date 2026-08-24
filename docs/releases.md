@@ -7,6 +7,67 @@ O-03：次の3つが言えない変更は本番へ出さない。
 
 ---
 
+## 2026-08-25 モリシタハウス用 Supabase へのスキーマ適用
+
+**状態：適用済み。** 実行者：Claude（大野の指示）
+
+※ これはモリシタハウス版（morishita-used-housing-site）の記録。
+以降の RENOEL 版の記録とは対象環境が異なる。
+
+### ① 何を変えたか
+
+新規作成した Supabase プロジェクト（リージョン ap-south-1）へ
+`prisma migrate deploy` でマイグレーション8件を適用した。
+
+利用者から見た変化は**なし**。サイトはまだ公開しておらず、
+テーブルの器を作っただけでデータは入れていない。
+
+適用後の実測：
+
+- public のテーブル 9件（ActivityLog / Inquiry / MailLog / Property /
+  PropertyImage / PropertyImportBackup / SystemSetting / User / _prisma_migrations）
+- `_prisma_migrations` に8件すべて applied、ロールバック0件
+- データ件数 User 0 / Property 0 / Inquiry 0 / MailLog 0
+- SystemSetting のみ1件（`MAIL_SENDING_ENABLED = true`。O-05 停止スイッチの行。
+  マイグレーションが入れるもので、想定どおり）
+
+接続は `DIRECT_URL`（ポート5432）を使用。pooler 経由ではマイグレーションが失敗するため。
+
+### ② 問題が出たらどう気付くか
+
+この時点ではサイトが公開されていないため、利用者側の兆候は無い。
+次にデプロイした際、以下で気付く。
+
+- Vercel のビルド／実行ログに `P1001`（DB到達不可）や `P2021`（テーブル無し）が出る
+- 会員登録や物件一覧が「処理できませんでした（お問い合わせID: …）」を返す
+- 管理画面 /admin/mail-logs にメール送信の失敗が並ぶ
+
+### ③ どうやって元に戻すか
+
+データが0件のため損失なく戻せる。所要5分程度。
+
+1. Supabase の SQL Editor で `drop schema public cascade; create schema public;`
+   （`DROP` は D-15 の禁止コマンドのため、AIは実行しない。人間が操作する）
+2. または Supabase のプロジェクトごと削除して作り直す
+
+このマイグレーションはテーブル作成のみで、既存データの変換や列削除を含まない。
+そのため「戻すSQL」は上記に集約される。
+
+### 併せて記録
+
+- `DATABASE_URL`（Transaction pooler）に `?pgbouncer=true` が付いていなかったため追記した
+- リージョンが推奨（東京）ではなくムンバイである件は、大野の判断で現状のまま進める。
+  経緯と見直し条件は docs/exceptions.md
+
+### この時点で未了
+
+- GitHub への push（未実施）
+- Vercel プロジェクトの作成と環境変数の登録（未実施）
+- Supabase Storage のバケット `property-images`（Public）の作成 — 未確認
+- 管理者アカウントの作成（サイト公開後、/member で登録 → Table Editor で role を ADMIN へ）
+
+---
+
 ## 2026-08-18 セキュリティ是正（**未リリース**）
 
 **状態：コード修正済み・本番未適用。** 実行者欄が空のうちは本番へ出ていない。
