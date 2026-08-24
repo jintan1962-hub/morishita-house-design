@@ -19,6 +19,10 @@
 　　　　　　**この2ファイルを .env に戻さないこと**（他社の本番DBに繋がる）
 GAS WebApp：該当なし（Next.js / Vercel 構成）
 機械ゲート：`pnpm gate`。秘密情報スキャンは .githooks/pre-commit（git config core.hooksPath .githooks）
+開発用DB：Docker コンテナ `morishita-dev-db`（postgres:16-alpine／ホスト側ポート **5434**／
+　　　　　ボリューム morishita-dev-db-data）。起動 `pnpm db:up` ／ 停止 `pnpm db:down`。
+　　　　　RENOEL版の `renoel-dev-db`（ポート5433）とは別コンテナ・別ボリュームでデータを共有しない。
+　　　　　接続情報は .env.local にのみ書く（.gitignore 対象）。投入は `pnpm seed:dev`
 デプロイ：**AIが実行する**（2026-08-19に大野が変更。D-14を参照。O-04はこのプロジェクトでは適用しない）
 　　　　　　`git push` / Vercelへのデプロイ / `prisma migrate deploy` まで。実行前に毎回確認を取る
 バックアップ：対象=Supabase全テーブル／頻度・保存先(Supabase外にも1本)・保持期間・復旧手順【要記入】

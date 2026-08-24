@@ -4,7 +4,7 @@
  * O-01：本番DBに対して実行しないこと。DATABASE_URL がローカルを指していない場合は中止する。
  * S-03：実在の個人情報は一切使わない。氏名・メール・電話はすべて架空のもの。
  *
- * 実行： pnpm seed:dev
+ * 実行： pnpm seed:dev（先に pnpm db:up でコンテナ morishita-dev-db を起動しておく）
  */
 import { PrismaClient } from "../src/generated/client/index.js";
 import bcrypt from "bcryptjs";

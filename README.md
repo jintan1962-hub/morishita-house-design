@@ -29,14 +29,22 @@
 pnpm install
 
 # 2. 開発用DBを起動（Docker）
-#    初回のみ：コンテナを作成する
-docker run -d --name renoel-dev-db \
-  -e POSTGRES_PASSWORD=localdevonly -e POSTGRES_USER=renoel -e POSTGRES_DB=renoel_dev \
-  -p 5433:5432 postgres:16-alpine
+#    初回のみ：このプロジェクト専用のコンテナを作成する。
+#    パスワードは手元だけで使う適当な文字列にし、.env.local にだけ書く（S-01）。
+#    ポート5434・ボリューム morishita-dev-db-data は、RENOEL版（renoel-dev-db／5433）と
+#    ぶつからないように分けてある。同じDBを2つのサイトで共有しない。
+#    手元だけで使うランダムな文字列を作り、シェル変数に入れる（画面にも履歴にも残さない）
+read -rs DBPW && export DBPW
+docker run -d --name morishita-dev-db \
+  -e POSTGRES_USER=morishita -e POSTGRES_DB=morishita_dev \
+  -e POSTGRES_PASSWORD="$DBPW" \
+  -p 5434:5432 -v morishita-dev-db-data:/var/lib/postgresql/data postgres:16-alpine
 #    2回目以降： pnpm db:up  （停止は pnpm db:down）
 
 # 3. .env.local を用意（本番の値は絶対に書かない。コミットもされない）
 #    DATABASE_URL / DIRECT_URL は上のコンテナを指す
+#      ユーザー morishita / ホスト localhost / ポート 5434 / DB名 morishita_dev
+#      認証部分には上で決めた文字列を入れる
 #    NEXTAUTH_SECRET はローカル専用の適当な文字列でよい
 
 # 4. スキーマを流し、動作確認用データを入れる

@@ -12,8 +12,8 @@
     "test": "node --test --experimental-strip-types \"src/**/*.test.ts\"",
     "gate": "pnpm typecheck && pnpm lint && pnpm test",
     "seed:dev": "node --env-file=.env.local prisma/seed.dev.mjs",
-    "db:up": "docker start renoel-dev-db",
-    "db:down": "docker stop renoel-dev-db"
+    "db:up": "docker start morishita-dev-db",
+    "db:down": "docker stop morishita-dev-db"
   },
   "dependencies": {
     "@prisma/client": "5.22.0",
