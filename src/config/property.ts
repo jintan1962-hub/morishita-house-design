@@ -3,34 +3,55 @@
  * 対象エリアを増やす・物件種別を変えるときは、ここ1箇所を直す。
  *
  * 【出典】市区町村コードは総務省の全国地方公共団体コード。
- * 下の CHECK_DIGIT は5桁コードから検査数字を求める式で、7件すべて公表値と一致することを
- * 確認済み（2026-08-19）。コードを追加したら同じ方法で検算すること。
+ * 2026-08-25 に geolonia/japanese-addresses（総務省コード準拠）の全国データと
+ * 突き合わせ、下記20件すべてコード・名称の一致を確認した。
+ * コードを追加したら同じ方法で検算すること（末尾の checkDigit も使える）。
  */
 
-/** 都道府県コード（長野県）。 */
-export const PREF_CODE = "20";
+/** 都道府県コード（兵庫県）。 */
+export const PREF_CODE = "28";
 
 /** 都道府県名（表示用）。 */
-export const PREF_NAME = "長野県";
+export const PREF_NAME = "兵庫県";
 
 /**
  * 掲載対象のエリア。ここに無い市区町村コードのデータは、取込時に警告する。
  * cityCd は5桁（検査数字なし）。CSVにもこの5桁を書く。
+ *
+ * 会社概要ページの営業エリア（姫路市・明石市・加古郡・加古川市・高砂市・たつの市・
+ * 揖保郡・相生市・赤穂市・赤穂郡・佐用郡・宍粟市・神崎郡・加西市・小野市・三木市・西脇市）
+ * を市区町村コードに展開したもの。
+ *
+ * TODO:未確認 営業エリアには「神戸市（一部）」も含まれるが、どの区が対象かが
+ * 公開情報から特定できないため入れていない。対象区が決まったら 28101〜28111 から追加する。
  */
 export const AREAS = [
-  { cityCd: "20217", name: "佐久市" },
-  { cityCd: "20208", name: "小諸市" },
-  { cityCd: "20219", name: "東御市" },
-  { cityCd: "20321", name: "軽井沢町" },
-  { cityCd: "20323", name: "御代田町" },
-  { cityCd: "20324", name: "立科町" },
-  { cityCd: "20309", name: "佐久穂町" },
+  { cityCd: "28201", name: "姫路市" },
+  { cityCd: "28203", name: "明石市" },
+  { cityCd: "28208", name: "相生市" },
+  { cityCd: "28210", name: "加古川市" },
+  { cityCd: "28212", name: "赤穂市" },
+  { cityCd: "28213", name: "西脇市" },
+  { cityCd: "28215", name: "三木市" },
+  { cityCd: "28216", name: "高砂市" },
+  { cityCd: "28218", name: "小野市" },
+  { cityCd: "28220", name: "加西市" },
+  { cityCd: "28227", name: "宍粟市" },
+  { cityCd: "28229", name: "たつの市" },
+  { cityCd: "28381", name: "稲美町" },
+  { cityCd: "28382", name: "播磨町" },
+  { cityCd: "28442", name: "市川町" },
+  { cityCd: "28443", name: "福崎町" },
+  { cityCd: "28446", name: "神河町" },
+  { cityCd: "28464", name: "太子町" },
+  { cityCd: "28481", name: "上郡町" },
+  { cityCd: "28501", name: "佐用町" },
 ] as const;
 
 export type AreaCode = (typeof AREAS)[number]["cityCd"];
 
 /** 既定のエリア。CSVで cityCd を省略した行に入る。 */
-export const DEFAULT_CITY_CODE = "20217";
+export const DEFAULT_CITY_CODE = "28201";
 
 /** 市区町村コードから名称を引く。未登録なら null。 */
 export function areaName(cityCd: string): string | null {

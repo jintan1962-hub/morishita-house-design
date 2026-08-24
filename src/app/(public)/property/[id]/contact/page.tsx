@@ -5,6 +5,7 @@ import { requireUser } from "@/lib/auth";
 import { signInPath } from "@/lib/authPaths";
 import { getPublicPropertyById } from "@/app/actions/properties";
 import ContactForm from "./ContactForm";
+import PageHead from "@/components/PageHead";
 
 export const dynamic = "force-dynamic";
 
@@ -18,9 +19,20 @@ export default async function PropertyContactPage({
 
   if (!Number.isInteger(propertyId) || propertyId <= 0) {
     return (
-      <div className="p-20 text-center font-bold text-gray-500">
-        物件が見つかりませんでした
-      </div>
+      <>
+        <PageHead en="Not Found" title="物件が見つかりません" crumbs={[{ label: "物件が見つかりません" }]} />
+        <section className="band">
+          <div className="wrap-narrow">
+            <div className="empty-panel">
+              <h2>お探しの物件は見つかりませんでした</h2>
+              <p>掲載が終了したか、URLが変わった可能性があります。</p>
+              <Link className="btn btn-solid" href="/properties">
+                物件一覧へ
+              </Link>
+            </div>
+          </div>
+        </section>
+      </>
     );
   }
 
@@ -29,9 +41,20 @@ export default async function PropertyContactPage({
   const result = await getPublicPropertyById(propertyId);
   if (!result.success) {
     return (
-      <div className="p-20 text-center font-bold text-gray-500">
-        物件が見つかりませんでした
-      </div>
+      <>
+        <PageHead en="Not Found" title="物件が見つかりません" crumbs={[{ label: "物件が見つかりません" }]} />
+        <section className="band">
+          <div className="wrap-narrow">
+            <div className="empty-panel">
+              <h2>お探しの物件は見つかりませんでした</h2>
+              <p>掲載が終了したか、URLが変わった可能性があります。</p>
+              <Link className="btn btn-solid" href="/properties">
+                物件一覧へ
+              </Link>
+            </div>
+          </div>
+        </section>
+      </>
     );
   }
   const property = result.data;
@@ -53,33 +76,35 @@ export default async function PropertyContactPage({
 
   return (
     <>
-      <section className="memberHero" style={{ minHeight: "200px" }}>
-        <div className="memberHero__photo" style={{ backgroundImage: "url('https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2023/09/renoel7.jpg')" }}></div>
-        <div className="memberHero__panel" style={{ width: "100%", borderRadius: 0, paddingLeft: "5%", minHeight: "200px" }}>
-          <div className="memberHero__inner">
-            <h1 className="memberHero__ttl">物件のお問い合わせ</h1>
-          </div>
-        </div>
-      </section>
-
-      <nav className="container container--wide breadcrumb" aria-label="パンくずリスト">
-        <ol>
-          <li><Link href="/">HOME</Link></li>
-          <li><Link href="/properties">物件一覧</Link></li>
-          <li><Link href={`/property/${property.id}`}>{property.title}</Link></li>
-          <li aria-current="page">お問い合わせ</li>
-        </ol>
-      </nav>
+      <PageHead
+        en="Contact"
+        title="物件のお問い合わせ"
+        crumbs={[
+          { label: "物件一覧", href: "/properties" },
+          { label: property.title ?? "物件詳細", href: `/property/${property.id}` },
+          { label: "お問い合わせ" },
+        ]}
+      />
 
       <section className="sec sec--gray">
-        <div className="container" style={{ maxWidth: "800px" }}>
-          <div className="bg-white p-8 rounded-xl shadow-sm border border-reno-line mb-8">
-            <h2 className="text-xl font-bold text-ink mb-4 border-b pb-4">お問い合わせ対象の物件</h2>
-            <p className="text-lg font-bold text-teal">{property.title}</p>
-            <p className="text-sm text-reno-mute-dark mt-2">
-              価格: {property.priceMan?.toLocaleString()}万円 / エリア: {property.address}
-            </p>
-          </div>
+        <div className="container">
+          <table className="spec-table" style={{ marginBottom: 28 }}>
+            <caption className="visually-hidden">お問い合わせ対象の物件</caption>
+            <tbody>
+              <tr>
+                <th>物件</th>
+                <td>{property.title}</td>
+              </tr>
+              <tr>
+                <th>価格</th>
+                <td>{property.priceMan?.toLocaleString()}万円</td>
+              </tr>
+              <tr>
+                <th>所在地</th>
+                <td>{property.address}</td>
+              </tr>
+            </tbody>
+          </table>
 
           <ContactForm
             property={{ id: property.id, title: property.title ?? "" }}

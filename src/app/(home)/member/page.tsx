@@ -5,6 +5,7 @@ import React, { useState, useRef } from "react";
 import { registerUser } from "@/app/actions/registerUser";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { COMPANY } from "@/config/company";
 
 type ConfirmData = {
   name?: string;
@@ -132,7 +133,7 @@ export default function MemberPage() {
               <p className="memberHero__catch">1分で完了・完全無料</p>
               <div className="memberHero__head">
                 <p className="memberHero__badge"><em>登録</em><strong>無料</strong></p>
-                <h1 className="memberHero__ttl">RENOEL<br />無料会員登録</h1>
+                <h1 className="memberHero__ttl">{COMPANY.shortName}<br />無料会員登録</h1>
               </div>
               <p className="memberHero__lead">
                 会員登録をいただくと、会員限定物件の閲覧や、ご希望条件の登録・メール通知などの特典をご利用いただけます。<br />
@@ -390,7 +391,6 @@ export default function MemberPage() {
         </section>
       </main>
 
-      {/* スタイル崩れ防止のため、不要なmain.jsがステップを上書きしないようにする */}
     </>
   );
 }

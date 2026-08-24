@@ -1,79 +1,50 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+import PageHead from "@/components/PageHead";
 
-const testimonials = [
-  {
-    id: 1,
-    name: "仙台市太白区 T様",
-    family: "夫婦+子供1人",
-    type: "中古戸建てリノベ",
-    title: "「中古を買ってリノベ」という選択が正解でした。",
-    content: "新築も検討していましたが、自分たちの好きなエリアで理想の広さを確保するには中古リノベが最適でした。間取りも自由に変更でき、新築以上の満足度です。",
-    image: "assets/img/saku-lqh-thm.jpg"
-  },
-  {
-    id: 2,
-    name: "仙台市泉区 S様",
-    family: "夫婦",
-    type: "マンションリノベ",
-    title: "築30年のマンションが、最新のホテルのような空間に。",
-    content: "古い物件特有の配管や断熱の不安も、担当の方が技術的に詳しく説明してくれたので払拭されました。デザインだけでなく住み心地も最高です。",
-    image: "assets/img/miyota-lqh-thm.jpg"
-  },
-  {
-    id: 3,
-    name: "郡山市 K様",
-    family: "夫婦+子供2人",
-    type: "中古戸建てリノベ",
-    title: "子供の学区を変えずに、理想のマイホームを叶えられました。",
-    content: "学区内で探すと新築は手が届かない価格でしたが、365リノベさんなら予算内で土地も建物もリフォームも全て収まり、夢を諦めずに済みました。",
-    image: "assets/img/t_thm.jpg"
-  }
-];
+/**
+ * お客様の声。
+ *
+ * 【なぜ空なのか】
+ * 以前このページには「仙台市太白区 T様」などの体験談が4件載っていたが、
+ * すべてRENOEL版の見本文で、実在のお客様の声ではなかった。
+ * 実際に寄せられていない感想を掲載することは、景品表示法の
+ * 「一般消費者に誤認される表示」（いわゆるステルスマーケティング告示）に
+ * あたるおそれがあるため、実データを受け取るまで空にしている（D-03）。
+ *
+ * TODO:未確認 掲載の許諾を得たお客様の声を受け取ったら、
+ * 掲載範囲（氏名の出し方・写真の有無）を決めたうえで実装する。
+ */
+export const metadata: Metadata = {
+  title: "お客様の声",
+};
 
 export default function VoicePage() {
-  const imgBase = "https://okazaki-bot.github.io/chuko-fudousan-design/";
-
   return (
     <>
-      <div className="pageHead">
-        <div className="pageHead__bg">
-          <img src={`${imgBase}assets/img/hero.jpg`} alt="" />
-        </div>
-        <div className="container container--wide pageHead__inner">
-          <span className="pageHead__en">CUSTOMER VOICE</span>
-          <h1 className="pageHead__ttl">お客様の声</h1>
-        </div>
-      </div>
+      <PageHead
+        en="Customer Voice"
+        title="お客様の声"
+        lead="実際にご利用いただいたお客様からいただいた声をご紹介します。"
+        crumbs={[{ label: "お客様の声" }]}
+      />
 
-      <nav className="container container--wide breadcrumb" aria-label="パンくずリスト">
-        <ol>
-          <li><Link href="/">HOME</Link></li>
-          <li aria-current="page">お客様の声</li>
-        </ol>
-      </nav>
-
-      <section className="sec">
-        <div className="container container--wide">
-          <div className="cardGrid cardGrid--2">
-            {testimonials.map((voice) => (
-              <div key={voice.id} className="voiceCard">
-                <div className="voiceCard__head">
-                  <div className="voiceCard__ph">
-                    <img src={`${imgBase}${voice.image}`} alt={voice.name} />
-                  </div>
-                  <div className="voiceCard__who">
-                    {voice.name}<br />
-                    {voice.family} / {voice.type}
-                  </div>
-                </div>
-                <h2 className="voiceCard__ttl">{voice.title}</h2>
-                <p className="voiceCard__txt">{voice.content}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="btnWrap">
-            <button className="btn btn--fill btn--lg">もっと声を見る</button>
+      <section className="band">
+        <div className="wrap-narrow">
+          <div className="empty-panel">
+            <h2>掲載準備中です</h2>
+            <p>
+              お客様の声は、掲載の許諾をいただいたものから順に公開します。
+              ご相談の様子や進め方は、店舗で直接お話しさせていただけます。
+            </p>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 24 }}>
+              <Link className="btn btn-solid" href="/showroom">
+                来店予約・アクセス
+              </Link>
+              <Link className="btn btn-line" href="/company">
+                会社概要を見る
+              </Link>
+            </div>
           </div>
         </div>
       </section>

@@ -10,6 +10,12 @@ import { toJsonSafe } from "@/lib/json";
 import { blankToNull } from "@/lib/blank";
 import { PROPERTY_FIELDS } from "@/config/propertyFields";
 import {
+  parseSearchParams,
+  toPrismaWhere,
+  matchesMadori,
+  type RawSearchParams,
+} from "@/lib/propertySearch";
+import {
   PREF_CODE,
   DEFAULT_CITY_CODE,
   DEFAULT_PROPERTY_TYPE,
@@ -190,29 +196,48 @@ export type DiffResult = {
  * 「価格非公開」と表示していても開発者ツールから価格が読めていた。
  */
 /**
- * 一般公開用の物件一覧。
+ * 一般公開用の物件一覧（検索条件つき）。
  *
- * @param cityCd  指定すると、その市区町村の物件だけを返す。掲載対象外のコードは無視する
- * @param limit   返す件数の上限。トップページのエリア別表示（6件）で使う
+ * 一覧を返す経路は**この関数1つ**にしている（D-20）。トップの新着・エリア別、
+ * 物件一覧ページ、こだわり検索は、いずれも条件の作り方が違うだけでここを通る。
+ * 条件の検証は src/lib/propertySearch.ts が1箇所で行う。
+ *
+ * @param raw   URLのクエリ相当の値。検証はここではなく parseSearchParams が行う
+ * @param limit 返す件数の上限。トップページのエリア別表示（6件）などで使う
  */
-export async function getPublicProperties(cityCd?: string, limit?: number) {
+export async function searchPublicProperties(raw: RawSearchParams = {}, limit?: number) {
   const auth = await requireUser();
   const isMember = auth.ok;
 
   try {
-    // 掲載対象のエリアでなければ絞り込まない（推測でコードを通さない）
-    const where = cityCd && isSupportedArea(cityCd) ? { cityCd } : {};
+    const filter = parseSearchParams(raw);
+    const where = toPrismaWhere(filter);
+
+    // 間取りは "3LDK" という文字列なので SQL では区分に絞れない。
+    // そのぶん多めに取ってから matchesMadori で絞る。件数上限は絞ったあとに掛ける。
+    const needsMadoriFilter = filter.madori !== undefined;
 
     const properties = await prisma.property.findMany({
       where,
       orderBy: { updatedAt: "desc" },
       include: { images: { orderBy: { sortOrder: "asc" } } },
-      ...(Number.isInteger(limit) && (limit as number) > 0 ? { take: limit } : {}),
+      ...(!needsMadoriFilter && Number.isInteger(limit) && (limit as number) > 0
+        ? { take: limit }
+        : {}),
     });
+
+    const matched = needsMadoriFilter
+      ? properties.filter((p) => matchesMadori(filter, p.madori))
+      : properties;
+
+    const limited =
+      needsMadoriFilter && Number.isInteger(limit) && (limit as number) > 0
+        ? matched.slice(0, limit)
+        : matched;
 
     return {
       success: true as const,
-      data: properties.map((p) => {
+      data: limited.map((p) => {
         const isMemberOnly = p.disclosureLevel === DISCLOSURE_LEVEL.MEMBERS;
         const locked = isMemberOnly && !isMember;
 
@@ -235,8 +260,16 @@ export async function getPublicProperties(cityCd?: string, limit?: number) {
       }),
     };
   } catch (error) {
-    return reportError("getPublicProperties", error, "物件を取得できませんでした。");
+    return reportError("searchPublicProperties", error, "物件を取得できませんでした。");
   }
+}
+
+/**
+ * 市区町村だけで絞る一覧。トップページの新着・エリア別が使う。
+ * 中身は searchPublicProperties と同じ（D-09：2つ目の実装を書かない）。
+ */
+export async function getPublicProperties(cityCd?: string, limit?: number) {
+  return searchPublicProperties({ city: cityCd }, limit);
 }
 
 /** 一般公開用の物件詳細。会員限定物件は未ログインなら中身を返さない。 */

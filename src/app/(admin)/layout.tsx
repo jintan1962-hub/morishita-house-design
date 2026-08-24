@@ -6,6 +6,8 @@ import { requireAdmin } from "@/lib/auth";
 import { signInPath } from "@/lib/authPaths";
 import { getUnreadInquiryCount } from "@/app/actions/dashboard";
 import AdminNav from "./AdminNav";
+import BrandLogo from "@/components/BrandLogo";
+import { COMPANY } from "@/config/company";
 
 // 管理画面配下は毎回サーバー側で権限を確認する（キャッシュさせない）。
 export const dynamic = "force-dynamic";
@@ -34,12 +36,13 @@ export default async function AdminLayout({
       {/* ---------------- サイドバー ---------------- */}
       <aside className="w-64 bg-ink text-white flex flex-col fixed h-full z-20">
         <div className="px-6 py-7">
-          <Link href="/admin" className="flex flex-col">
-            <span className="text-2xl font-black tracking-tighter leading-none">
-              RENO<span className="text-pink">ADMIN</span>
-            </span>
-            <span className="text-xs text-white/70 font-bold mt-1 tracking-widest">
-              管理システム
+          <Link href="/admin" className="flex items-center gap-3">
+            <BrandLogo size={34} circleFill="#fff" strokeColor="var(--ink)" />
+            <span className="flex flex-col leading-tight">
+              <span className="text-lg font-bold tracking-wide">{COMPANY.shortName}</span>
+              <span className="text-xs text-white/60 font-bold mt-1 tracking-widest">
+                管理システム
+              </span>
             </span>
           </Link>
         </div>

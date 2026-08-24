@@ -11,7 +11,7 @@ import {
 } from "@/config/loan";
 
 /**
- * トップページの資金計画シミュレーション。
+ * 資金計画シミュレーション（/simulation ページ）。
  *
  * もとは確定版HTMLの中にあり、計算は public/assets/js/main.js が持っていた。
  * main.js は読み込みのタイミング次第で機能しなくなることがあり（実際に本番で
@@ -52,9 +52,6 @@ export default function LoanSimulator() {
   return (
     <section className="sec" id="simulation">
       <div className="container container--wide">
-        <h2 className="secTtl">
-          <span className="secTtl__main">資金計画シミュレーション</span>
-        </h2>
         <p className="secLead">
           中古住宅は「物件価格」だけでは判断できません。物件＋リノベーション費用を1本のローンにまとめた月々のお支払いで比べてください。
         </p>
@@ -116,8 +113,8 @@ export default function LoanSimulator() {
               <br />
               仲介手数料・登記費用などの諸費用は含みません。
             </p>
-            <Link className="btn btn--navy" href="/simulation">
-              資金計画をもっと詳しく見る
+            <Link className="btn btn--accent" href="/properties">
+              この予算で物件を探す
             </Link>
           </div>
         </div>

@@ -7,18 +7,26 @@
 
 ## プロジェクト固有欄
 ```
-プロジェクト名：RENOEL 中古住宅×リノベーション サイト（used-housing-site）
+プロジェクト名：中古住宅専門店 モリシタハウス サイト（morishita-used-housing-site）
+　　　　　　　　※ used-housing-site（RENOEL／大井建設工業）とは**別プロジェクト・別デプロイ先**。
+　　　　　　　　　仕組みだけを引き継いでおり、リポジトリ・DB・ドメインは共有しない
 解決する業務：物件掲載・会員限定物件の出し分け・会員管理・問い合わせ受付（詳細 SYSTEM_SPEC.md）
 利用者と権限：未ログイン=公開物件のみ／会員(USER)／管理者(ADMIN)。role の付与はDB直接操作のみ
 扱う個人情報：有（氏名／メール／電話／郵便番号／住所／問い合わせ本文／閲覧履歴）→ 触る変更は全てL3
-本番環境：Vercel／Supabase(PostgreSQL)／メールは Resend(REST)。RESEND_API_KEY 未設定なら送信は必ず失敗として MailLog に残る
+本番環境：【未構築】Vercel／Supabase(PostgreSQL)／メールは Resend(REST)。
+　　　　　　モリシタハウス用の Supabase・Vercel は未作成（2026-08-25 時点）。
+　　　　　　RENOEL の本番接続情報は .env.renoel-production.bak / .env.renoel-migrate.bak へ退避済み。
+　　　　　　**この2ファイルを .env に戻さないこと**（他社の本番DBに繋がる）
 GAS WebApp：該当なし（Next.js / Vercel 構成）
 機械ゲート：`pnpm gate`。秘密情報スキャンは .githooks/pre-commit（git config core.hooksPath .githooks）
 デプロイ：**AIが実行する**（2026-08-19に大野が変更。D-14を参照。O-04はこのプロジェクトでは適用しない）
 　　　　　　`git push` / Vercelへのデプロイ / `prisma migrate deploy` まで。実行前に毎回確認を取る
 バックアップ：対象=Supabase全テーブル／頻度・保存先(Supabase外にも1本)・保持期間・復旧手順【要記入】
 復旧目標：復旧時間・許容データ損失【要記入】（先に決めてから頻度を決める）／連絡先：一次・二次・初報期限【要記入】
-業務ルールの集約先：src/config/ 配下（company.ts=社名住所電話差出人／loan.ts=金利年数／security.ts=権限）
+業務ルールの集約先：src/config/ 配下
+　　　　company.ts=社名住所電話差出人免許番号／loan.ts=金利年数／security.ts=権限
+　　　　property.ts=掲載エリア(兵庫県20市町)・物件種別／himejiAreas.ts=姫路市内の地区と小学校区
+　　　　navigation.ts=メニュー／staff.ts=スタッフと代表メッセージ／analytics.ts=計測タグID
 変更点マップ：docs/変更点マップ.md
 停止スイッチ：Supabase の SystemSetting で key='MAIL_SENDING_ENABLED' を 'false' → 全メール送信が即時停止
 　　　　　　　　（デプロイ不要）。予備：環境変数 MAIL_SENDING_DISABLED=true
@@ -32,6 +40,11 @@ GAS WebApp：該当なし（Next.js / Vercel 構成）
 3. `NEXTAUTH_SECRET` にフォールバック値を置かない（固定値をpublicリポジトリへ公開した前科あり）。
 4. 会員削除は論理削除（`deletedAt`）。参照系は必ず `deletedAt: null` で絞る。
 5. 本番DBを直接触るスクリプトをリポジトリ直下に置かない（docs/debt.md）。
+6. **架空データを画面に置かない。**このプロジェクトは RENOEL 版から複製したため、
+   仙台・福島の施工事例、実在しないショールーム、創作のお客様の声が入っていた前科がある。
+   実データが無い画面は「掲載準備中」にする（2026-08-25 の作業ログ参照）。
+7. **他社の計測タグ・画像・ロゴを引き継がない。**GA4・Meta Pixel などのIDは
+   src/config/analytics.ts で環境変数からのみ読む。直書きしない。
 
 ## D-01 作業開始時に変更レベルを宣言する
 

@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import AuthProvider from "@/components/AuthProvider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { COMPANY } from "@/config/company";
 
 export const metadata: Metadata = {
-  title: "中古住宅×リノベーション RENOEL",
-  description: "佐久・小諸・御代田・軽井沢の中古物件とリノベーション",
+  title: {
+    default: `中古住宅専門店 ${COMPANY.shortName}｜${COMPANY.areaLabel}`,
+    template: `%s｜${COMPANY.shortName}`,
+  },
+  description:
+    `${COMPANY.areaLabel}の中古住宅・中古マンション・土地を扱う中古住宅専門店。` +
+    "会員登録で、一般に公開していない物件情報までご覧いただけます。",
 };
 
 export default function RootLayout({
@@ -23,11 +18,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="antialiased min-h-screen flex flex-col">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+    // 書体は globals.css の --serif / --sans（游明朝体・游ゴシック体）で指定する。
+    // 以前はここで Geist（欧文フォント）を読み込んでいたが、日本語には効かず
+    // 読み込み分だけ遅くなっていたため外した。
+    <html lang="ja">
+      <body>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

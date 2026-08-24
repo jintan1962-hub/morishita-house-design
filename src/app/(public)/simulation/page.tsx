@@ -1,155 +1,73 @@
-"use client";
-
-import { useState } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
+import LoanSimulator from "@/components/LoanSimulator";
+import PageHead from "@/components/PageHead";
+import {
+  DEFAULT_ANNUAL_RATE_PERCENT,
+  DEFAULT_LOAN_YEARS,
+  DEFAULT_RENOVATION_COST_YEN,
+  MAN_YEN,
+} from "@/config/loan";
 
-const calculateMortgage = (principal: number, annualRate: number, years: number) => {
-  const monthlyRate = annualRate / 12 / 100;
-  const numberOfPayments = years * 12;
-  if (monthlyRate === 0) return principal / numberOfPayments;
-  
-  return (
-    (principal * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) /
-    (Math.pow(1 + monthlyRate, numberOfPayments) - 1)
-  );
+/**
+ * 資金計画シミュレーション。
+ *
+ * D-09：このページには元利均等返済の計算式が**もう1つ**書かれていた
+ * （calculateMortgage というローカル関数）。テストのある src/lib/loan.ts と
+ * 式が二重になっており、片方だけ直すとページごとに金額が食い違う状態だった。
+ * 計算とUIは LoanSimulator（src/lib/loan.ts を使う）に1本化している。
+ */
+export const metadata: Metadata = {
+  title: "資金計画シミュレーション",
 };
 
 export default function SimulationPage() {
-  const imgBase = "https://okazaki-bot.github.io/chuko-fudousan-design/";
-  const [propertyPrice, setPropertyPrice] = useState(2500); // 万円
-  const [reformPrice, setReformPrice] = useState(1000); // 万円
-  const [downPayment, setDownPayment] = useState(0); // 万円
-  const [interestRate, setInterestRate] = useState(0.75);
-  const [loanYears, setLoanYears] = useState(35);
-
-  const totalLoanAmount = (propertyPrice + reformPrice - downPayment) * 10000;
-  const monthlyPayment = calculateMortgage(totalLoanAmount, interestRate, loanYears);
-
   return (
     <>
-      <div className="pageHead">
-        <div className="pageHead__bg">
-          <img src={`${imgBase}assets/img/hero.jpg`} alt="" />
-        </div>
-        <div className="container container--wide pageHead__inner">
-          <span className="pageHead__en">SIMULATION</span>
-          <h1 className="pageHead__ttl">資金シミュレーション</h1>
-        </div>
-      </div>
+      <PageHead
+        en="Simulation"
+        title="資金計画シミュレーション"
+        lead="中古住宅は「物件価格」だけでは判断できません。物件＋リノベーション費用を1本のローンにまとめた月々のお支払いで比べてください。"
+        crumbs={[{ label: "資金計画シミュレーション" }]}
+      />
 
-      <nav className="container container--wide breadcrumb" aria-label="パンくずリスト">
-        <ol>
-          <li><Link href="/">HOME</Link></li>
-          <li aria-current="page">資金シミュレーション</li>
-        </ol>
-      </nav>
+      <LoanSimulator />
 
-      <section className="sec">
-        <div className="container container--wide">
-          <div className="secTtl">
-            <span className="en">SIMULATION</span>
-            <span className="ja">月々のお支払い額を計算</span>
-          </div>
-
-          <div className="simWrap">
-            {/* 入力フォーム */}
-            <div className="simForm">
-              <div className="simForm__row">
-                <label>物件価格</label>
-                <span className="val">{propertyPrice.toLocaleString()}万円</span>
-                <input 
-                  type="range" min="500" max="10000" step="100" 
-                  value={propertyPrice} onChange={(e) => setPropertyPrice(Number(e.target.value))}
-                />
-              </div>
-
-              <div className="simForm__row">
-                <label>リフォーム費用</label>
-                <span className="val">{reformPrice.toLocaleString()}万円</span>
-                <input 
-                  type="range" min="0" max="3000" step="50" 
-                  value={reformPrice} onChange={(e) => setReformPrice(Number(e.target.value))}
-                />
-              </div>
-
-              <div className="simForm__row">
-                <label>頭金</label>
-                <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                  <input 
-                    type="number" value={downPayment} onChange={(e) => setDownPayment(Number(e.target.value))}
-                    style={{ width: "100px", textAlign: "right" }}
-                  />
-                  <span>万円</span>
-                </div>
-              </div>
-
-              <div className="simForm__row">
-                <label>借入期間</label>
-                <div className="selectWrap">
-                  <select 
-                    value={loanYears} onChange={(e) => setLoanYears(Number(e.target.value))}
-                  >
-                    {[20, 25, 30, 35, 40].map(y => <option key={y} value={y}>{y}年</option>)}
-                  </select>
-                </div>
-              </div>
-
-              <div className="simForm__row">
-                <label>想定金利</label>
-                <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                  <input 
-                    type="number" step="0.01" value={interestRate} onChange={(e) => setInterestRate(Number(e.target.value))}
-                    style={{ width: "100px", textAlign: "right" }}
-                  />
-                  <span>%</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 結果表示 */}
-            <div className="simResult">
-              <div className="simResult__label">月々のお支払い目安</div>
-              <div className="simResult__val">
-                {Math.round(monthlyPayment).toLocaleString()}
-                <span className="unit">円</span>
-              </div>
-
-              <div className="simResult__break">
-                <div>
-                  <span>物件価格</span>
-                  <span>{propertyPrice.toLocaleString()}万円</span>
-                </div>
-                <div>
-                  <span>リフォーム費用</span>
-                  <span>+{reformPrice.toLocaleString()}万円</span>
-                </div>
-                <div>
-                  <span>頭金</span>
-                  <span>-{downPayment.toLocaleString()}万円</span>
-                </div>
-                <div style={{ marginTop: "12px", paddingTop: "12px", borderTop: "1px dotted rgba(255,255,255,0.4)" }}>
-                  <span>お借入総額</span>
-                  <span style={{ fontSize: "1.6rem", fontWeight: "bold" }}>
-                    {(propertyPrice + reformPrice - downPayment).toLocaleString()}万円
-                  </span>
-                </div>
-              </div>
-
-              <p className="simResult__note" style={{ marginTop: "24px" }}>
-                ※シミュレーション結果は概算です。<br />実際の借入条件や諸経費については別途お問い合わせください。
-              </p>
-
-              <div className="mt-8">
-                <button className="btn btn--white btn--block">この資金計画で相談する</button>
-              </div>
-            </div>
-          </div>
-
-          <div className="alertNote" style={{ marginTop: "40px" }}>
-            <strong>住宅ローン控除も対象です</strong>
-            <p className="mt-2">
-              中古住宅の購入＋リノベーションでも、一定の要件を満たせば住宅ローン控除が受けられます。税金や補助金に関するアドバイスも行っています。
-            </p>
+      <section className="band band-alt">
+        <div className="wrap-narrow">
+          <h2 style={{ fontSize: 22, marginBottom: 18 }}>試算の前提</h2>
+          <table className="spec-table">
+            <tbody>
+              <tr>
+                <th>返済方式</th>
+                <td>元利均等返済・ボーナス払いなし</td>
+              </tr>
+              <tr>
+                <th>金利の初期値</th>
+                <td>年 {DEFAULT_ANNUAL_RATE_PERCENT}％（変動金利を想定した参考値）</td>
+              </tr>
+              <tr>
+                <th>返済期間の初期値</th>
+                <td>{DEFAULT_LOAN_YEARS}年</td>
+              </tr>
+              <tr>
+                <th>リノベーション費用の初期値</th>
+                <td>{(DEFAULT_RENOVATION_COST_YEN / MAN_YEN).toLocaleString()}万円</td>
+              </tr>
+              <tr>
+                <th>含まれない費用</th>
+                <td>仲介手数料・登記費用・火災保険料・引越費用などの諸費用</td>
+              </tr>
+            </tbody>
+          </table>
+          <p className="note-line">
+            実際の借入可能額・適用金利は、ご年収や金融機関の審査結果により異なります。
+            具体的なご相談は店舗で承ります。
+          </p>
+          <div style={{ marginTop: 24 }}>
+            <Link className="btn btn-solid" href="/showroom">
+              来店予約・アクセス
+            </Link>
           </div>
         </div>
       </section>

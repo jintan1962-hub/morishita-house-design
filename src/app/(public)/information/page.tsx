@@ -1,67 +1,37 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+import PageHead from "@/components/PageHead";
 
-const newsItems = [
-  { id: 1, date: "2026.07.28", category: "イベント", title: "【仙台】中古住宅×リノベーション相談会を開催します" },
-  { id: 2, date: "2026.07.25", category: "お知らせ", title: "夏季休業期間中の営業に関するお知らせ" },
-  { id: 3, date: "2026.07.20", category: "重要", title: "物件情報更新システムメンテナンスのお知らせ" },
-  { id: 4, date: "2026.07.15", category: "施工事例", title: "新着施工事例を公開しました（仙台市太白区 T様邸）" },
-  { id: 5, date: "2026.07.10", category: "メディア", title: "地元情報誌「〇〇」に掲載されました" },
-];
+/**
+ * お知らせ。
+ *
+ * 【なぜ空なのか】
+ * 以前は「【仙台】中古住宅×リノベーション相談会」など、RENOEL版の
+ * 見本のお知らせ5件が日付つきで載っていた。日付入りの告知は
+ * 実際の予定と取り違えられるため、実データを受け取るまで空にしている（D-03）。
+ *
+ * TODO:未確認 お知らせを継続的に出すなら、管理画面から投稿できるように
+ * DBのテーブルを追加する必要がある（現状は Property / User / Inquiry のみ）。
+ * 更新頻度を確認してから設計する。
+ */
+export const metadata: Metadata = {
+  title: "お知らせ",
+};
 
 export default function InformationPage() {
-  const imgBase = "https://okazaki-bot.github.io/chuko-fudousan-design/";
-
   return (
     <>
-      <div className="pageHead">
-        <div className="pageHead__bg">
-          <img src={`${imgBase}assets/img/hero.jpg`} alt="" />
-        </div>
-        <div className="container container--wide pageHead__inner">
-          <span className="pageHead__en">INFORMATION</span>
-          <h1 className="pageHead__ttl">お知らせ</h1>
-        </div>
-      </div>
+      <PageHead en="Information" title="お知らせ" crumbs={[{ label: "お知らせ" }]} />
 
-      <nav className="container container--wide breadcrumb" aria-label="パンくずリスト">
-        <ol>
-          <li><Link href="/">HOME</Link></li>
-          <li aria-current="page">お知らせ</li>
-        </ol>
-      </nav>
-
-      <section className="sec">
-        <div className="container" style={{ maxWidth: "800px" }}>
-          <div className="listBar">
-            <div className="listBar__hit">
-              お知らせ一覧
-            </div>
-            <div className="listBar__sort selectWrap">
-              <select aria-label="カテゴリ">
-                <option>すべてのカテゴリ</option>
-                <option>お知らせ</option>
-                <option>イベント</option>
-                <option>施工事例</option>
-                <option>重要</option>
-              </select>
-            </div>
+      <section className="band">
+        <div className="wrap-narrow">
+          <div className="empty-panel">
+            <h2>現在お知らせはありません</h2>
+            <p>新しいお知らせを掲載しましたら、こちらでお伝えします。</p>
+            <Link className="btn btn-solid" href="/properties">
+              物件を探す
+            </Link>
           </div>
-
-          <div className="postList">
-            {newsItems.map((item) => (
-              <Link href={`/information/${item.id}`} key={item.id}>
-                <time>{item.date}<span className="cat">{item.category}</span></time>
-                <span className="ttl">{item.title}</span>
-              </Link>
-            ))}
-          </div>
-
-          <nav className="pager" aria-label="ページ送り">
-            <span className="is-current" aria-current="page">1</span>
-            <Link href="#">2</Link>
-            <Link href="#">3</Link>
-            <Link href="#">›</Link>
-          </nav>
         </div>
       </section>
     </>

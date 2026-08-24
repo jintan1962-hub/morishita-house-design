@@ -51,7 +51,7 @@ export function buildRegistrationMail(data: {
     subject: `【${COMPANY.shortName}】無料会員登録が完了しました`,
     text: `${data.name} 様
 
-中古住宅×リノベーション RENOEL の無料会員にご登録いただき、誠にありがとうございます。
+${COMPANY.brandName} の無料会員にご登録いただき、誠にありがとうございます。
 以下の内容で登録が完了いたしました。
 
 ■ 登録内容の控え
@@ -118,7 +118,7 @@ export function buildInquiryMail(data: {
     subject: `【${COMPANY.shortName}】物件へのお問い合わせを承りました`,
     text: `${data.name} 様
 
-中古住宅×リノベーション RENOEL です。
+${COMPANY.brandName} です。
 以下の内容で物件へのお問い合わせを承りました。
 担当者より順次ご返信いたしますので、今しばらくお待ちください。
 

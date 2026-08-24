@@ -1,135 +1,135 @@
 import Link from "next/link";
-import { getPublicProperties } from "@/app/actions/properties";
-import { AREAS, areaName, isSupportedArea } from "@/config/property";
+import type { Metadata } from "next";
+import { searchPublicProperties } from "@/app/actions/properties";
+import { areaName, PROPERTY_TYPE_LABEL } from "@/config/property";
+import { himejiDistrict } from "@/config/himejiAreas";
+import { MADORI_BUCKETS } from "@/lib/madori";
+import { parseSearchParams, hasAnyCondition, type RawSearchParams } from "@/lib/propertySearch";
+import PropertyCard, { type PublicProperty } from "@/components/PropertyCard";
+import PropertySearchPanel from "@/components/PropertySearchPanel";
+import PageHead from "@/components/PageHead";
 
 /**
- * C-03 / S-07：会員限定物件の出し分けをサーバー側に移した。
+ * 物件一覧。
  *
+ * C-03 / S-07：会員限定物件の出し分けはサーバー側で行う。
  * 以前はこのファイルが "use client" で、非公開物件を含む全データを
  * ソース中の配列に持っていた。「価格非公開」と表示していても、
  * 開発者ツールやページソースから価格・所在地がそのまま読めていた。
- * いまは getPublicProperties() が、未ログインには秘匿項目を含まないデータだけを返す。
+ * いまは searchPublicProperties() が、未ログインには秘匿項目を含まないデータだけを返す。
+ *
+ * 絞り込み条件はURLのクエリで受ける。検証は parseSearchParams が1箇所で行う。
  */
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "物件一覧",
+};
 
 export default async function PropertiesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ city?: string }>;
+  searchParams: Promise<RawSearchParams>;
 }) {
-  const { city } = await searchParams;
-  // 掲載対象のエリアでなければ絞り込まない（不正なコードで空一覧にしない）
-  const selectedArea = city && isSupportedArea(city) ? areaName(city) : null;
-  const result = await getPublicProperties(selectedArea ? city : undefined);
+  const raw = await searchParams;
+  const filter = parseSearchParams(raw);
+  const result = await searchPublicProperties(raw);
+
+  const conditions = describeConditions(raw);
+  const heading = conditions.length > 0 ? conditions.join("　") : "物件一覧";
 
   return (
     <>
-      <section className="memberHero" style={{ minHeight: "200px" }}>
-        <div className="memberHero__photo" style={{ backgroundImage: "url('https://okazaki-bot.github.io/chuko-fudousan-design/assets/img/gallery.jpg')" }}></div>
-        <div className="memberHero__panel" style={{ width: "100%", borderRadius: 0, paddingLeft: "5%", minHeight: "200px" }}>
-          <div className="memberHero__inner">
-            <h1 className="memberHero__ttl">
-              {selectedArea ? `${selectedArea}の物件` : "物件一覧"}
-            </h1>
-          </div>
-        </div>
-      </section>
+      <PageHead en="Properties" title={heading} crumbs={[{ label: "物件一覧" }]} />
 
-      <section className="sec sec--gray">
-        <div className="container container--wide">
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "8px",
-              justifyContent: "center",
-              marginBottom: "32px",
-            }}
-          >
-            <Link
-              href="/properties"
-              className={selectedArea ? "btn btn--light" : "btn btn--navy"}
-              style={{ minWidth: 0, padding: "8px 18px", fontSize: "13px" }}
-            >
-              すべて
-            </Link>
-            {AREAS.map((a) => (
-              <Link
-                key={a.cityCd}
-                href={`/properties?city=${a.cityCd}`}
-                className={city === a.cityCd ? "btn btn--navy" : "btn btn--light"}
-                style={{ minWidth: 0, padding: "8px 18px", fontSize: "13px" }}
-              >
-                {a.name}
+      <section className="band band-alt">
+        <div className="wrap">
+          <div className="head-row" style={{ marginBottom: 24 }}>
+            <div>
+              <h2 style={{ fontSize: 22 }}>
+                {result.success ? `${result.data.length}件` : "検索結果"}
+              </h2>
+              {hasAnyCondition(filter) && (
+                <p className="note-line" style={{ marginTop: 6 }}>
+                  絞り込み中：{conditions.join("／")}
+                </p>
+              )}
+            </div>
+            {hasAnyCondition(filter) && (
+              <Link className="more" href="/properties">
+                条件をすべて解除する
               </Link>
-            ))}
+            )}
           </div>
 
           {!result.success ? (
-            <p style={{ textAlign: "center", padding: "40px 0" }}>{result.error}</p>
+            <p className="notice notice-ng">{result.error}</p>
           ) : result.data.length === 0 ? (
-            <p style={{ textAlign: "center", padding: "40px 0" }}>
-              {selectedArea
-                ? `${selectedArea}に現在公開中の物件はありません。`
-                : "現在公開中の物件はありません。"}
+            <p className="state-msg">
+              条件に合う物件はありませんでした。
+              <br />
+              条件をゆるめるか、会員登録をすると会員限定物件も検索対象になります。
             </p>
           ) : (
-            <div className="propGrid">
-              {result.data.map((property) => {
-                // 鍵つき（会員限定 × 未ログイン）。この分岐に入るとき、
-                // property には価格も所在地も画像も入っていない。
-                if (property.locked) {
-                  return (
-                    <Link key={property.id} className="propCard is-locked" href="/member">
-                      <figure className="propCard__fig">
-                        <span className="badge badge--member">会員限定</span>
-                        <span className="propCard__mask"><span>会員限定公開</span></span>
-                      </figure>
-                      <div className="propCard__body">
-                        <p className="propCard__cat">{property.syumoku}／非公開</p>
-                        <h3 className="propCard__ttl">詳細は会員限定</h3>
-                        <p className="propCard__price"><strong>価格非公開</strong></p>
-                        <dl className="propCard__spec">
-                          <div><dt>所在地</dt><dd>–</dd></div>
-                          <div><dt>間取り</dt><dd>–</dd></div>
-                          <div><dt>土地/建物</dt><dd>–</dd></div>
-                          <div><dt>築年月</dt><dd>–</dd></div>
-                        </dl>
-                        <p className="propCard__note">
-                          この物件は無料会員限定で公開しています。所在地・写真・図面は会員登録後にご覧いただけます。
-                        </p>
-                      </div>
-                    </Link>
-                  );
-                }
-
-                return (
-                  <Link key={property.id} className="propCard" href={`/property/${property.id}`}>
-                    <figure className="propCard__fig">
-                      {property.images[0] && (
-                        // eslint-disable-next-line @next/next/no-img-element -- 物件画像は外部CMS配信のため next/image の最適化対象外
-                        <img src={property.images[0]} alt={property.title ?? "物件画像"} />
-                      )}
-                      {property.isMemberOnly && <span className="badge badge--member">会員限定</span>}
-                    </figure>
-                    <div className="propCard__body">
-                      <p className="propCard__cat">{property.syumoku}／{property.address}</p>
-                      <h3 className="propCard__ttl">{property.title}</h3>
-                      <p className="propCard__price">
-                        <strong>{property.priceMan?.toLocaleString()}</strong>万円
-                      </p>
-                      <dl className="propCard__spec">
-                        <div><dt>所在地</dt><dd>{property.address}</dd></div>
-                        <div><dt>間取り</dt><dd>{property.madori}</dd></div>
-                      </dl>
-                    </div>
-                  </Link>
-                );
-              })}
+            <div className="prop-grid">
+              {result.data.map((property) => (
+                <PropertyCard key={property.id} property={property as PublicProperty} />
+              ))}
             </div>
           )}
         </div>
       </section>
+
+      <section className="band">
+        <div className="wrap">
+          <div className="head-row">
+            <div>
+              <span className="eyebrow">Property Search</span>
+              <h2>条件を変えて探す</h2>
+            </div>
+          </div>
+          <PropertySearchPanel current={raw} />
+        </div>
+      </section>
     </>
   );
+}
+
+/**
+ * いま効いている条件を、人が読める言葉にする。
+ * 検証を通った値だけを言葉にするので、URLに不正な値を入れても表示に出ない。
+ */
+function describeConditions(raw: RawSearchParams): string[] {
+  const filter = parseSearchParams(raw);
+  const labels: string[] = [];
+
+  // 地区・小学校区は市区町村より具体的なので、そちらを優先して見せる
+  const district = raw.district ? himejiDistrict(raw.district) : null;
+  if (district) {
+    labels.push(`${district.name}エリア`);
+  } else if (filter.schools?.length === 1) {
+    labels.push(filter.schools[0]);
+  } else if (filter.cityCd) {
+    const name = areaName(filter.cityCd);
+    if (name) labels.push(name);
+  }
+
+  if (filter.syubetu !== undefined) labels.push(PROPERTY_TYPE_LABEL[filter.syubetu]);
+
+  if (filter.priceMinMan !== undefined || filter.priceMaxMan !== undefined) {
+    const min = filter.priceMinMan?.toLocaleString() ?? "";
+    const max = filter.priceMaxMan?.toLocaleString() ?? "";
+    labels.push(`${min}〜${max}万円`);
+  }
+
+  if (filter.madori) {
+    const bucket = MADORI_BUCKETS.find((b) => b.key === filter.madori);
+    if (bucket) labels.push(bucket.label);
+  }
+
+  if (filter.maxAgeYears !== undefined) labels.push(`築${filter.maxAgeYears}年以内`);
+  if (filter.priceDown) labels.push("価格変更あり");
+  if (filter.reformTarget) labels.push("リノベーション向き");
+
+  return labels;
 }

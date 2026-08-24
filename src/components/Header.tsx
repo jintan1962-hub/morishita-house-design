@@ -1,81 +1,95 @@
-
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { COMPANY } from "@/config/company";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
+import { COMPANY } from "@/config/company";
+import { PRIMARY_NAV } from "@/config/navigation";
+import BrandLogo from "@/components/BrandLogo";
 import SignInButton from "@/components/SignInButton";
 
+/**
+ * 全公開ページ共通のヘッダー。
+ *
+ * 以前はここに RENOEL のロゴ（他社サーバー上の SVG を直リンク）と、
+ * 存在しないページ（./#renovation など）へのアンカーが入っていた。
+ * リンク先は src/config/navigation.ts に集約し、実在するページだけを出す。
+ *
+ * ログイン状態でボタンの出し分けをするため "use client"。
+ * ここで見せ方を変えているだけで、認可の判定はサーバー側で別途行っている（S-07）。
+ */
 export default function Header() {
-  useSession();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  useEffect(() => {
-    const btn = document.getElementById("drawerBtn");
-    if(btn) {
-        btn.onclick = () => setIsDrawerOpen(prev => !prev);
-    }
-  }, []);
+  const { data: session, status } = useSession();
+  const pathname = usePathname();
+  const isAdmin = session?.user?.role === "ADMIN";
 
   return (
-    <>
-      <header className="header" id="header">
-  <div className="header__inner">
-    <p className="header__logo">
-      <Link href="/" aria-label={`${COMPANY.brandName} トップページ`}>
-        <img src="https://usedrenovation.ooi-kensetsu.co.jp/wp-content/themes/base/images/common/top/top-logoB.svg" alt={`${COMPANY.legalName} ${COMPANY.brandName}`} />
-      </Link>
-    </p>
+    <header className="site">
+      <div className="topbar">
+        <Link className="brand" href="/" aria-label={`${COMPANY.shortName} トップページ`}>
+          <BrandLogo className="brand-logo" />
+          <span className="brand-text">
+            <span className="brand-badge">中古住宅専門店</span>
+            <span className="mark">{COMPANY.shortName}</span>
+            <span className="mark-en">{COMPANY.brandNameEn}</span>
+          </span>
+          <span className="tagline">{COMPANY.areaLabel}</span>
+        </Link>
 
-    <nav className="header__gnav" aria-label="グローバルナビゲーション">
-      <ul>
-        <li><a href="/properties">物件を探す</a></li>
-        <li><a href="https://usedrenovation.ooi-kensetsu.co.jp/sell/">物件を売る</a></li>
-        <li><a href="./#renovation">リノベーション事例</a></li>
-        <li><a href="./#simulation">資金計画</a></li>
-        <li><a href="./#voice">お客様の声</a></li>
-        <li><a href="./#company">会社案内</a></li>
-      </ul>
-    </nav>
-
-    <div className="header__util">
-      <Link className="btnMini btnMini--accent" href="/member">無料会員登録</Link>
-      <SignInButton className="btnMini">ログイン</SignInButton>
-      <a className="btnMini btnMini--navy" href="./#showroom">来店予約</a>
-    </div>
-
-    <button className="drawerBtn" id="drawerBtn" aria-label="メニューを開く" aria-expanded="false" aria-controls="drawer">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
-      <div className={`drawer ${isDrawerOpen ? "is-open" : ""}`} id="drawer" style={{ display: isDrawerOpen ? "block" : "none" }}>
-        
-  <nav aria-label="メニュー">
-    <ul className="drawer__list">
-      <li><a href="/properties">物件を探す</a></li>
-      <li><a href="https://usedrenovation.ooi-kensetsu.co.jp/sell/">物件を売る</a></li>
-      <li><a href="./#newarrival">新着物件</a></li>
-      <li><a href="./#membership">会員登録のメリット</a></li>
-      <li><a href="./#simulation">資金計画</a></li>
-      <li><a href="./#renovation">リノベーション事例</a></li>
-      <li><a href="./#voice">お客様の声</a></li>
-      <li><a href="./#news">お知らせ・ブログ</a></li>
-      <li><a href="./#company">会社案内</a></li>
-    </ul>
-
-    <div className="drawer__cta">
-      <Link className="btn btn--accent" href="/member">無料会員登録</Link>
-      <a className="btn btn--light" href="./#showroom">来店予約</a>
-    </div>
-
-    <div className="drawer__info">
-      <a className="drawer__tel" href={COMPANY.telLink}>{COMPANY.tel}</a>
-      <p>{COMPANY.brandName}<br />{COMPANY.businessHours}</p>
-    </div>
-  </nav>
+        <div className="utility">
+          {status === "loading" ? (
+            // 判定中に「会員登録」と出してから「マイページ」へ入れ替わるのを防ぐ。
+            // 幅は確保しておき、レイアウトが飛ばないようにする。
+            <span className="btn btn-ghost" aria-hidden="true" style={{ visibility: "hidden" }}>
+              会員登録・ログイン
+            </span>
+          ) : session ? (
+            <>
+              {isAdmin && (
+                <Link className="btn btn-ghost" href="/admin">
+                  管理画面
+                </Link>
+              )}
+              <Link className="btn btn-ghost" href="/mypage">
+                マイページ
+              </Link>
+              <button className="btn btn-line" onClick={() => signOut({ callbackUrl: "/" })}>
+                ログアウト
+              </button>
+            </>
+          ) : (
+            <>
+              <SignInButton className="btn btn-ghost">ログイン</SignInButton>
+              <Link className="btn btn-gold" href="/member">
+                無料会員登録
+              </Link>
+            </>
+          )}
+          <Link className="btn btn-solid" href="/showroom">
+            来店予約
+          </Link>
+        </div>
       </div>
-    </>
+
+      <div className="nav-row">
+        <nav className="primary" aria-label="メインメニュー">
+          {PRIMARY_NAV.map((item) =>
+            item.external ? (
+              <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer">
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={pathname === item.href ? "page" : undefined}
+              >
+                {item.label}
+              </Link>
+            )
+          )}
+        </nav>
+      </div>
+    </header>
   );
 }

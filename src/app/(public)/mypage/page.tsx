@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import DeleteAccountButton from "@/components/DeleteAccountButton";
 import { signInPath } from "@/lib/authPaths";
+import PageHead from "@/components/PageHead";
 
 export default async function MyPage() {
   const session = await getServerSession();
@@ -12,19 +13,12 @@ export default async function MyPage() {
     redirect(signInPath("/mypage"));
   }
 
-  const imgBase = "https://okazaki-bot.github.io/chuko-fudousan-design/";
-
   return (
     <>
       
-      <section className="memberHero" style={{ minHeight: "200px" }}>
-        <div className="memberHero__photo" style={{ backgroundImage: "url('https://usedrenovation.ooi-kensetsu.co.jp/wp-content/uploads/2023/09/renoel7.jpg')" }}></div>
-        <div className="memberHero__panel" style={{ width: "100%", borderRadius: 0, paddingLeft: "5%", minHeight: "200px" }}>
-          <div className="memberHero__inner">
-            <h1 className="memberHero__ttl">マイページ</h1>
-          </div>
-        </div>
-      </section>
+      {/* 以前ここに RENOEL（他社）のサーバー上にある写真を背景として直リンクしていた。
+          モリシタハウスのサイトから他社サーバーへ画像を取りに行く状態だったため外している。 */}
+      <PageHead en="My Page" title="マイページ" crumbs={[{ label: "マイページ" }]} />
 
 
       <section className="sec">
@@ -32,17 +26,10 @@ export default async function MyPage() {
           <p style={{ marginBottom: "32px", fontSize: "1.8rem" }}>ようこそ、{session.user?.name || "会員"}さん</p>
 
           <div className="cardGrid cardGrid--2">
-            {/* お気に入り物件 (モック) */}
-            <div className="voiceCard" style={{ display: "flex", flexDirection: "column" }}>
-              <h2 className="voiceCard__ttl" style={{ borderBottom: "1px solid var(--c-line)", paddingBottom: "12px", marginBottom: "16px" }}>お気に入り物件</h2>
-              <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px 0" }}>
-                <p style={{ color: "var(--c-mute-dark)", fontSize: "1.4rem" }}>現在登録されている物件はありません。</p>
-              </div>
-              <div style={{ marginTop: "auto", textAlign: "center" }}>
-                <Link href="/properties" className="btn btn--sm btn--block">物件を探す</Link>
-              </div>
-            </div>
-
+            {/* お気に入り機能は未実装のため枠を出していない。
+                「登録されている物件はありません」とだけ出る枠は、
+                登録できる導線が無いのに登録済みの有無を語ることになる（D-03）。
+                TODO:未確認 お気に入りを実装するなら Favorite テーブルの追加が要る。 */}
             {/* 会員限定物件検索 */}
             <div className="voiceCard" style={{ display: "flex", flexDirection: "column" }}>
               <h2 className="voiceCard__ttl" style={{ borderBottom: "1px solid var(--c-line)", paddingBottom: "12px", marginBottom: "16px" }}>会員限定物件</h2>

@@ -1,79 +1,49 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+import PageHead from "@/components/PageHead";
 
-const cases = [
-  { id: 1, title: "ヴィンテージモダンが奏でる、大人の隠れ家", category: "マンション", area: "仙台市", tags: ["#フルリノベ", "#造作キッチン"], image: "assets/img/saku-lqh-thm.jpg" },
-  { id: 2, title: "北欧スタイルと暮らす、光溢れるリビング", category: "一戸建て", area: "名取市", tags: ["#無垢床", "#断熱改修"], image: "assets/img/miyota-lqh-thm.jpg" },
-  { id: 3, title: "インダストリアル×和モダン、異素材の融合", category: "マンション", area: "福島市", tags: ["#趣味の部屋", "#土間"], image: "assets/img/t_thm.jpg" },
-  { id: 4, title: "開放感にこだわった、吹き抜けのある家", category: "一戸建て", area: "仙台市", tags: ["#吹き抜け", "#収納重視"], image: "assets/img/living.jpg" },
-  { id: 5, title: "カフェスタイルを楽しむ、こだわりのキッチン", category: "一戸建て", area: "宇都宮市", tags: ["#キッチン", "#DIY"], image: "assets/img/kitchen.jpg" },
-  { id: 6, title: "限られた空間を最大化する、都心のリノベ", category: "マンション", area: "仙台市", tags: ["#狭小", "#機能的"], image: "assets/img/living.jpg" },
-];
+/**
+ * リノベーション事例。
+ *
+ * 【なぜ空なのか】
+ * このページには以前、仙台市・名取市・福島市などの施工事例6件が
+ * 写真つきで載っていた。いずれもRENOEL版の見本データで、モリシタハウスの
+ * 実績ではない。姫路の会社のサイトに他地域の架空事例を載せることはできないため、
+ * 実データを受け取るまで空の状態にしている（D-03：推測で埋めない）。
+ *
+ * TODO:未確認 掲載する事例（写真・エリア・工事内容・費用）を受け取ったら、
+ * 物件と同じくDBで管理するか、この配列に持つかを決めてから実装する。
+ */
+export const metadata: Metadata = {
+  title: "リノベーション事例",
+};
 
 export default function CasesPage() {
-  const imgBase = "https://okazaki-bot.github.io/chuko-fudousan-design/";
-
   return (
     <>
-      <div className="pageHead">
-        <div className="pageHead__bg">
-          <img src={`${imgBase}assets/img/hero.jpg`} alt="" />
-        </div>
-        <div className="container container--wide pageHead__inner">
-          <span className="pageHead__en">WORKS</span>
-          <h1 className="pageHead__ttl">施工事例</h1>
-        </div>
-      </div>
+      <PageHead
+        en="Works"
+        title="リノベーション事例"
+        lead="中古住宅を買って、住みやすく直した事例をご紹介します。"
+        crumbs={[{ label: "リノベーション事例" }]}
+      />
 
-      <nav className="container container--wide breadcrumb" aria-label="パンくずリスト">
-        <ol>
-          <li><Link href="/">HOME</Link></li>
-          <li aria-current="page">施工事例</li>
-        </ol>
-      </nav>
-
-      <section className="sec">
-        <div className="container container--wide">
-          <div className="listBar">
-            <div className="listBar__hit">
-              施工事例 <strong>{cases.length}</strong> 件
-            </div>
-            <div className="listBar__sort selectWrap">
-              <select aria-label="物件種別">
-                <option>すべての種別</option>
-                <option>マンション</option>
-                <option>一戸建て</option>
-              </select>
-              <select aria-label="テイスト">
-                <option>すべてのテイスト</option>
-                <option>ヴィンテージ</option>
-                <option>ナチュラル</option>
-                <option>モダン</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="cardGrid cardGrid--3">
-            {cases.map((work) => (
-              <Link key={work.id} href={`/cases/${work.id}`} className="mediaCard">
-                <div className="mediaCard__thumb">
-                  <img src={`${imgBase}${work.image}`} alt={work.title} />
-                  <span className="mediaCard__cat">{work.category}</span>
-                </div>
-                <div className="mediaCard__body">
-                  <h3 className="mediaCard__ttl">{work.title}</h3>
-                  <div className="mediaCard__meta flex justify-between items-center">
-                    <span>{work.area}</span>
-                    <div className="flex gap-2">
-                      {work.tags.map(t => <span key={t}>{t}</span>)}
-                    </div>
-                  </div>
-                </div>
+      <section className="band">
+        <div className="wrap-narrow">
+          <div className="empty-panel">
+            <h2>掲載準備中です</h2>
+            <p>
+              施工事例は現在準備しております。
+              実際の事例は店舗でご覧いただけますので、お気軽にお問い合わせください。
+            </p>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 24 }}>
+              <Link className="btn btn-solid" href="/properties">
+                物件を探す
               </Link>
-            ))}
-          </div>
-
-          <div className="btnWrap">
-            <button className="btn btn--fill btn--lg">もっと事例を見る</button>
+              <Link className="btn btn-line" href="/showroom">
+                来店予約・アクセス
+              </Link>
+            </div>
           </div>
         </div>
       </section>

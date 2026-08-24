@@ -1,0 +1,260 @@
+/* ==========================================================================
+   共通のUI部品（フォーム・ステップ・シミュレーター）
+   --------------------------------------------------------------------------
+   【このファイルの位置づけ】
+
+   会員登録・お問い合わせ・マイページ・資金計画の各画面は、RENOEL版の
+   クラス名（.formSheet / .fRow / .stepBar / .simu …）で組まれている。
+   これらの**マークアップには手を入れず**、見た目だけをモリシタハウスの
+   デザインへ載せ替えるためのスタイルをここに置く。
+
+   マークアップを書き換えなかったのは、会員登録が4ステップの分岐を持つ
+   画面で、見た目のために触ると入力・確認・送信の挙動を壊しかねないため
+   （D-12：動くコードを壊さない）。クラス名は残っているが、色・書体・
+   余白はすべて globals.css のトークンから来ている。
+
+   TODO:未確認 将来マークアップを整理するなら、クラス名を
+   .field / .btn 系（globals.css）に寄せてこのファイルを畳む。
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   レイアウト（旧 .container / .sec）
+   -------------------------------------------------------------------------- */
+.container { max-width: 880px; margin: 0 auto; padding: 0 28px; }
+.container--wide { max-width: var(--w-container); }
+
+.sec { padding: 80px 0; }
+.sec--gray { background: var(--paper-alt); }
+
+.secTtl { margin-bottom: 32px; }
+.secTtl__main {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(22px, 3vw, 30px); color: var(--ink);
+  display: inline-block; padding-bottom: 12px; position: relative;
+}
+.secTtl__main::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 40px; height: 2px; background: var(--gold-bright);
+}
+.secTtl--left { text-align: left; }
+.secLead { color: var(--ink-soft); font-size: 14.5px; margin: -16px 0 32px; }
+.leadTxt { color: var(--ink-soft); font-size: 15px; margin-bottom: 28px; }
+
+.ja { font-family: var(--serif); font-weight: 700; }
+.en { font-family: var(--sans); letter-spacing: .18em; font-size: 12px; color: var(--indigo); }
+
+/* --------------------------------------------------------------------------
+   ボタン（旧 .btn--* を globals.css の .btn-* と同じ見た目に揃える）
+   -------------------------------------------------------------------------- */
+.btn--fill, .btn--navy {
+  background: var(--indigo); color: #fff; border-color: var(--indigo);
+}
+.btn--fill:hover, .btn--navy:hover { background: var(--indigo-deep); color: #fff; }
+.btn--accent, .btn--pink { background: var(--gold-bright); color: #2b2108; border-color: var(--gold-bright); }
+.btn--accent:hover, .btn--pink:hover { background: var(--gold); color: #2b2108; }
+.btn--light { border-color: var(--line-strong); color: var(--ink); background: #fff; }
+.btn--light:hover { border-color: var(--indigo); color: var(--indigo); }
+.btn--white { background: #fff; color: var(--ink); border-color: var(--line-strong); }
+.btn--block { width: 100%; }
+.btn--lg { padding: 15px 46px; font-size: 15px; }
+.btn--sm { padding: 8px 14px; font-size: 12.5px; }
+.btnWrap { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+
+/* --------------------------------------------------------------------------
+   下層ページのヒーロー（旧 .memberHero）
+   写真は使わない。デザイン案と同じ「地色＋方眼の罫線」にする。
+   -------------------------------------------------------------------------- */
+.memberHero {
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 105, 86, 0.05) 0 1px, transparent 1px 56px),
+    repeating-linear-gradient(90deg, rgba(0, 105, 86, 0.05) 0 1px, transparent 1px 56px),
+    linear-gradient(180deg, var(--indigo-tint) 0%, var(--paper) 100%);
+  border-bottom: 1px solid var(--line);
+}
+/* 旧デザインは他社サーバーの写真を背景に敷いていた。読み込まない。 */
+.memberHero__photo { display: none; }
+.memberHero__panel { padding: 8px 0 48px; }
+.memberHero__inner { max-width: var(--w-container); margin: 0 auto; padding: 0 28px; }
+.memberHero__crumb { font-size: 12px; color: var(--ink-faint); padding: 14px 0; }
+.memberHero__crumb ol { display: flex; flex-wrap: wrap; gap: 8px; }
+.memberHero__crumb li + li::before { content: "／"; margin-right: 8px; color: var(--line-strong); }
+.memberHero__catch {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12.5px; letter-spacing: .22em; font-weight: 600; color: var(--indigo);
+  margin: 0 0 10px;
+}
+.memberHero__catch::before { content: ""; width: 22px; height: 1px; background: var(--gold-bright); }
+.memberHero__head { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.memberHero__badge {
+  background: var(--gold-bright); color: #2b2108; padding: 8px 14px; border-radius: 3px;
+  text-align: center; margin: 0; line-height: 1.2;
+}
+.memberHero__badge em { display: block; font-style: normal; font-size: 10.5px; letter-spacing: .1em; }
+.memberHero__badge strong { font-family: var(--serif); font-size: 20px; }
+.memberHero__ttl { font-size: clamp(24px, 3.4vw, 34px); line-height: 1.4; }
+.memberHero__lead { color: var(--ink-soft); font-size: 14.5px; margin-top: 18px; max-width: 62ch; }
+
+/* --------------------------------------------------------------------------
+   ステップバー（旧 .stepBar）
+   -------------------------------------------------------------------------- */
+.stepBar {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+  gap: 1px; background: var(--line); border: 1px solid var(--line);
+  margin-bottom: 34px; overflow: hidden; border-radius: 4px;
+}
+.stepBar li {
+  background: #fff; padding: 14px 10px; text-align: center;
+  font-size: 12.5px; font-weight: 600; color: var(--ink-faint);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.stepBar li em {
+  font-style: normal; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--line); color: var(--ink-faint); font-size: 11px; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+}
+.stepBar li.is-current { background: var(--indigo-tint); color: var(--indigo-deep); }
+.stepBar li.is-current em { background: var(--indigo); color: #fff; }
+.stepBar li.is-done { background: #fff; color: var(--ink-soft); }
+.stepBar li.is-done em { background: var(--indigo-deep); color: #fff; }
+@media (max-width: 600px) {
+  .stepBar { grid-auto-flow: row; grid-auto-columns: auto; }
+}
+
+/* --------------------------------------------------------------------------
+   フォーム（旧 .formSheet / .fRow）
+   -------------------------------------------------------------------------- */
+.formSheet { background: #fff; border: 1px solid var(--line); padding: 34px 36px 38px; }
+.formStep { display: block; }
+
+.fRow {
+  display: grid; grid-template-columns: 230px 1fr; gap: 20px 28px;
+  padding: 22px 0; border-bottom: 1px solid var(--line);
+}
+.fRow:first-child { padding-top: 0; }
+.fRow__lb {
+  font-size: 13.5px; font-weight: 600; color: var(--ink); margin: 0;
+  display: flex; align-items: flex-start; gap: 8px; flex-wrap: wrap;
+}
+.fRow__ctl { min-width: 0; }
+
+.tag {
+  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 2px;
+  background: var(--line); color: var(--ink-soft); flex: none;
+}
+.tag--req { background: var(--gold-bright); color: #2b2108; }
+
+.fRow input[type="text"],
+.fRow input[type="email"],
+.fRow input[type="tel"],
+.fRow input[type="password"],
+.fRow input[type="number"],
+.fRow textarea,
+.fRow select,
+.formSheet input[type="text"],
+.formSheet input[type="email"],
+.formSheet input[type="tel"],
+.formSheet input[type="password"],
+.formSheet input[type="number"],
+.formSheet textarea,
+.formSheet select {
+  width: 100%; padding: 11px 12px; border: 1px solid var(--line-strong);
+  border-radius: 4px; background: var(--paper); font-size: 14px;
+  color: var(--ink); font-family: var(--sans); appearance: none;
+}
+.formSheet textarea { line-height: 1.7; resize: vertical; min-height: 140px; }
+.formSheet select {
+  background: var(--paper) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0l5 6 5-6z" fill="%2357626B"/></svg>') no-repeat right 12px center;
+}
+.formSheet :is(input, textarea, select):focus {
+  border-color: var(--indigo); outline: 2px solid var(--indigo-tint); outline-offset: 0;
+}
+.formSheet input::placeholder, .formSheet textarea::placeholder { color: var(--ink-faint); }
+
+.fCols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fNote { font-size: 12px; color: var(--ink-faint); margin: 8px 0 0; line-height: 1.6; }
+.fSub { font-size: 12px; color: var(--ink-soft); margin: 12px 0 6px; }
+.pwField { position: relative; }
+.selectWrap { position: relative; }
+.tilde { color: var(--ink-faint); padding: 0 6px; }
+
+/* 選択肢（チェックボックス／ラジオ）をチップ状に並べる */
+.pillGroup { display: flex; flex-wrap: wrap; gap: 8px; }
+.pillGroup label, .chk {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--ink-soft); cursor: pointer;
+}
+.pillGroup label {
+  border: 1px solid var(--line-strong); border-radius: 16px; padding: 7px 14px; background: #fff;
+}
+.pillGroup label:hover { border-color: var(--indigo); color: var(--indigo); }
+.pillGroup input, .chk input { width: 16px; height: 16px; accent-color: var(--indigo); flex: none; }
+.sel { display: flex; align-items: center; gap: 8px; }
+
+.fTerms { margin-top: 26px; }
+.fTerms__box {
+  max-height: 200px; overflow-y: auto; border: 1px solid var(--line);
+  background: var(--paper-alt); padding: 18px 20px; font-size: 12.5px;
+  color: var(--ink-soft); line-height: 1.8; margin-bottom: 16px;
+}
+
+.formSheet__foot {
+  margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--line);
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+}
+.formSheet__login {
+  margin-top: 20px; text-align: center; font-size: 13px; color: var(--ink-soft);
+}
+.formSheet__login a { color: var(--indigo); border-bottom: 1px solid var(--indigo); }
+
+.completeBox { text-align: center; padding: 40px 0; }
+.completeBox__head { font-family: var(--serif); font-size: 24px; color: var(--indigo-deep); }
+.completeBox__txt { color: var(--ink-soft); font-size: 14.5px; margin-top: 18px; }
+
+.alertNote {
+  border-radius: 4px; padding: 14px 18px; font-size: 13.5px; margin-bottom: 22px;
+  background: #FDECEA; border: 1px solid #E4B4AE; color: #8C1D18;
+}
+
+@media (max-width: 767px) {
+  .formSheet { padding: 22px 18px 26px; }
+  .fRow { grid-template-columns: 1fr; gap: 10px; }
+  .fCols2 { grid-template-columns: 1fr; }
+}
+
+/* --------------------------------------------------------------------------
+   資金計画シミュレーター（旧 .simu / .simForm / .simResult）
+   -------------------------------------------------------------------------- */
+.simWrap, .simu { display: grid; grid-template-columns: 1.1fr .9fr; gap: 34px; align-items: start; }
+.simu__form, .simForm { background: #fff; border: 1px solid var(--line); padding: 28px 30px; }
+.simu__row, .simForm__row { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.simu__row:last-child, .simForm__row:last-child { border-bottom: none; }
+.simu__row label, .simForm__row label {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 13.5px; font-weight: 600; margin-bottom: 8px;
+}
+.simu__ctl { display: flex; align-items: center; gap: 12px; }
+.simu__row input[type="range"], .simForm__row input[type="range"] {
+  width: 100%; accent-color: var(--indigo);
+}
+.simu__row input[type="number"], .simForm__row input[type="number"] {
+  width: 110px; padding: 8px 10px; border: 1px solid var(--line-strong);
+  border-radius: 4px; font-size: 14px; font-family: var(--sans);
+}
+.simu__note, .simResult__note { font-size: 12px; color: var(--ink-faint); margin-top: 14px; line-height: 1.7; }
+
+.simu__result, .simResult {
+  background: var(--ink); color: #fff; padding: 30px 28px; border-radius: 4px;
+}
+.simu__resultLb, .simResult__label { font-size: 12.5px; color: rgba(255, 255, 255, .65); letter-spacing: .08em; }
+.simu__resultNum, .simResult__val {
+  font-family: var(--serif); font-size: 42px; color: var(--gold-bright);
+  font-variant-numeric: tabular-nums; line-height: 1.2;
+}
+.simResult__break { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .16); font-size: 13px; }
+.simu__detail { font-size: 13px; color: rgba(255, 255, 255, .78); margin-top: 18px; }
+.val { font-variant-numeric: tabular-nums; }
+.unit { font-size: 14px; margin-left: 4px; }
+
+@media (max-width: 960px) {
+  .simWrap, .simu { grid-template-columns: 1fr; }
+}
