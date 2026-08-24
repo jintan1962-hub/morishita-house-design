@@ -11,6 +11,28 @@ import { reportError } from "@/lib/errors";
  * データを返す関数・変える関数の冒頭で必ず requireAdmin() / requireUser() を呼ぶ。
  */
 
+/**
+ * 画面へ返してよい列だけを明示する。
+ *
+ * S-01：これが無いと Prisma は User の全列を返す。User には password（bcryptハッシュ）、
+ * failedLoginCount、lockedUntil、deletedBy が含まれ、"use server" の戻り値は
+ * そのままブラウザへ配信されるため、会員全員のパスワードハッシュが
+ * 管理画面のレスポンスに載っていた。列を足すときはここに足す。
+ */
+const USER_FIELDS = {
+  id: true,
+  email: true,
+  name: true,
+  tel: true,
+  zip: true,
+  address: true,
+  role: true,
+  status: true,
+  memberType: true,
+  createdAt: true,
+  updatedAt: true,
+} as const;
+
 /** 会員一覧（管理者のみ）。退会済みは既定で除く。 */
 export async function getUsers() {
   const auth = await requireAdmin();
@@ -22,6 +44,7 @@ export async function getUsers() {
     const users = await prisma.user.findMany({
       where: { deletedAt: null },
       orderBy: { createdAt: "desc" },
+      select: USER_FIELDS,
     });
     return { success: true, data: users };
   } catch (error) {
@@ -40,7 +63,10 @@ export async function getUserById(id: number) {
   try {
     const user = await prisma.user.findFirst({
       where: { id, deletedAt: null },
-      include: { activityLogs: { orderBy: { createdAt: "desc" }, take: 20 } },
+      select: {
+        ...USER_FIELDS,
+        activityLogs: { orderBy: { createdAt: "desc" }, take: 20 },
+      },
     });
     if (!user) {
       return { success: false as const, error: "会員が見つかりません。" };
@@ -62,7 +88,10 @@ export async function updateUserStatus(id: number, status: string) {
     const user = await prisma.user.update({
       where: { id },
       data: { status },
-      include: { activityLogs: { orderBy: { createdAt: "desc" }, take: 20 } },
+      select: {
+        ...USER_FIELDS,
+        activityLogs: { orderBy: { createdAt: "desc" }, take: 20 },
+      },
     });
     revalidatePath("/admin/users");
     return { success: true as const, data: user };
@@ -83,6 +112,22 @@ export async function deleteUser(id: number) {
   }
 
   try {
+    const target = await prisma.user.findFirst({
+      where: { id, deletedAt: null },
+      select: { email: true },
+    });
+    if (!target) {
+      return { success: false as const, error: "会員が見つかりません。" };
+    }
+    // 自分自身を削除すると、その場で管理画面に入れなくなり戻す手段が無くなる。
+    // 復旧はDBを直接触るしかないため、ここで止める。
+    if (target.email === auth.email) {
+      return {
+        success: false as const,
+        error: "ログイン中のご自身のアカウントは削除できません。",
+      };
+    }
+
     await prisma.user.update({
       where: { id },
       data: { deletedAt: new Date(), deletedBy: auth.email },

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Search, Filter, UserPlus, Eye, Trash2, RefreshCw, Loader2 } from "lucide-react";
+import { useState, useEffect, useMemo, useId } from "react";
+import { Search, UserPlus, Eye, Trash2, RefreshCw, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { getUsers, deleteUser, createTestUsers } from "@/app/actions/users";
 
@@ -12,6 +12,7 @@ type User = {
   memberType: string;
   createdAt: string | Date;
   status: string;
+  role: string;
 };
 
 export default function UserManagement() {
@@ -19,6 +20,14 @@ export default function UserManagement() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  // 一覧の絞り込み。以前は検索窓もフィルタボタンも置いてあるだけで何も起きなかった。
+  const [keyword, setKeyword] = useState("");
+  const [typeFilter, setTypeFilter] = useState<"all" | "FREE" | "STORE">("all");
+  const [statusFilter, setStatusFilter] = useState<"all" | "ACTIVE" | "SUSPENDED">("all");
+  const searchId = useId();
+  const typeId = useId();
+  const statusId = useId();
 
   // 取得だけを行う。読み込み中フラグは呼び出し側が面倒を見る。
   // （useEffect の同期本体で setState すると react-hooks/set-state-in-effect に触れるため）
@@ -75,106 +84,199 @@ export default function UserManagement() {
     await reload();
   };
 
+  // 氏名・メールを対象に、読み込み済みの一覧を手元で絞り込む。
+  const visibleUsers = useMemo(() => {
+    const kw = keyword.trim().toLowerCase();
+    return users.filter((u) => {
+      if (typeFilter !== "all" && u.memberType !== typeFilter) return false;
+      if (statusFilter !== "all" && u.status !== statusFilter) return false;
+      if (kw === "") return true;
+      return [u.name, u.email].some((v) => (v ?? "").toLowerCase().includes(kw));
+    });
+  }, [users, keyword, typeFilter, statusFilter]);
+
+  const isFiltered = keyword.trim() !== "" || typeFilter !== "all" || statusFilter !== "all";
+
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-end">
+      <div className="flex flex-wrap justify-between items-end gap-4">
         <div>
-          <h1 className="text-2xl font-black text-gray-900 mb-2">会員管理</h1>
-          <p className="text-gray-500">Supabase連携：リアルタイム会員データ</p>
+          <h1 className="text-2xl font-mincho font-bold text-ink mb-2">会員管理</h1>
+          <p className="text-sm text-reno-mute-dark">
+            サイトから登録された会員の一覧です。氏名をクリックすると詳細を表示します。
+          </p>
         </div>
-        <div className="flex gap-3">
-          <button 
+        <div className="flex flex-wrap gap-3">
+          <button
             onClick={reload}
-            className="bg-white border border-gray-200 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors"
+            className="bg-white border border-reno-line px-4 py-2.5 rounded-xl flex items-center gap-2 text-sm font-bold text-ink hover:bg-reno-bg transition-colors"
           >
             <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} />
             リスト更新
           </button>
-          <button 
-            onClick={handleCreateTest} 
+          {process.env.NODE_ENV !== "production" && (
+          <button
+            onClick={handleCreateTest}
             disabled={isCreating}
-            className="bg-white border border-gray-200 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-white border border-reno-line px-4 py-2.5 rounded-xl flex items-center gap-2 text-sm font-bold text-ink hover:bg-reno-bg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isCreating ? (
-              <Loader2 size={18} className="animate-spin text-blue-600" />
-            ) : (
-              <UserPlus size={18} />
-            )}
+            {isCreating ? <Loader2 size={18} className="animate-spin text-teal" /> : <UserPlus size={18} />}
             {isCreating ? "作成中..." : "テストデータ作成"}
           </button>
+          )}
         </div>
       </div>
 
       {errorMessage && (
-        <div className="bg-red-50 border border-red-200 text-red-700 rounded-2xl px-6 py-4 text-sm font-bold">
+        <p
+          role="alert"
+          className="bg-red-50 border border-red-200 text-red-800 rounded-2xl px-6 py-4 text-sm font-bold"
+        >
           {errorMessage}
-        </div>
+        </p>
       )}
 
-      <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-        {/* Filters */}
-        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-          <div className="flex gap-4">
+      <div className="bg-white rounded-2xl border border-reno-line overflow-hidden">
+        {/* ------------ 絞り込み ------------ */}
+        <div className="p-4 border-b border-reno-line flex flex-wrap justify-between items-center gap-4 bg-reno-bg/60">
+          <div className="flex flex-wrap gap-3 items-center">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-              <input type="text" placeholder="名前・メールで検索" className="pl-10 pr-4 py-2 rounded-lg border border-gray-200 text-sm focus:ring-2 focus:ring-blue-500/20 outline-none w-64" />
+              <label htmlFor={searchId} className="sr-only">氏名・メールアドレスで検索</label>
+              <Search
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-reno-mute-dark pointer-events-none"
+                size={18}
+              />
+              <input
+                id={searchId}
+                type="search"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                placeholder="氏名・メールアドレスで検索"
+                className="pl-11 pr-4 py-2.5 rounded-xl border border-reno-line bg-white text-sm w-72 outline-none focus:border-teal"
+              />
             </div>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 bg-white text-sm font-bold text-gray-600 hover:bg-gray-50">
-              <Filter size={16} />
-              フィルタ
-            </button>
+            <div className="flex items-center gap-2">
+              <label htmlFor={typeId} className="text-sm font-bold text-reno-mute-dark">会員種別</label>
+              <select
+                id={typeId}
+                value={typeFilter}
+                onChange={(e) => setTypeFilter(e.target.value as typeof typeFilter)}
+                className="px-3 py-2.5 rounded-xl border border-reno-line bg-white text-sm font-bold text-ink outline-none focus:border-teal"
+              >
+                <option value="all">すべて</option>
+                <option value="FREE">無料会員</option>
+                <option value="STORE">店舗会員</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <label htmlFor={statusId} className="text-sm font-bold text-reno-mute-dark">状態</label>
+              <select
+                id={statusId}
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
+                className="px-3 py-2.5 rounded-xl border border-reno-line bg-white text-sm font-bold text-ink outline-none focus:border-teal"
+              >
+                <option value="all">すべて</option>
+                <option value="ACTIVE">有効</option>
+                <option value="SUSPENDED">停止</option>
+              </select>
+            </div>
+            {isFiltered && (
+              <button
+                onClick={() => { setKeyword(""); setTypeFilter("all"); setStatusFilter("all"); }}
+                className="text-sm font-bold text-teal hover:underline"
+              >
+                絞り込みを解除
+              </button>
+            )}
           </div>
-          <p className="text-xs font-bold text-gray-400">全 {users.length} 名表示</p>
+          <p className="text-sm font-bold text-reno-mute-dark">
+            {isFiltered ? `${visibleUsers.length} 名 / 全 ${users.length} 名` : `全 ${users.length} 名`}
+          </p>
         </div>
 
-        {/* Table */}
+        {/* ------------ 一覧 ------------ */}
         <div className="overflow-x-auto">
           {isLoading && users.length === 0 ? (
-            <div className="p-20 text-center text-gray-400 font-bold">会員データを読み込み中...</div>
-          ) : !isLoading && users.length === 0 ? (
-            <div className="p-20 text-center text-gray-400 font-bold">
-              会員が登録されていません。「テストデータ作成」を押してサンプルを追加してください。
-            </div>
+            <p className="p-16 text-center text-sm font-bold text-reno-mute-dark">
+              会員データを読み込み中です…
+            </p>
+          ) : users.length === 0 ? (
+            <p className="p-16 text-center text-sm font-bold text-reno-mute-dark">
+              会員が登録されていません。
+            </p>
+          ) : visibleUsers.length === 0 ? (
+            <p className="p-16 text-center text-sm font-bold text-reno-mute-dark">
+              条件に合う会員がいません。検索語や絞り込みを変えてお試しください。
+            </p>
           ) : (
-            <table className="w-full text-left">
+            <table className="w-full min-w-[880px] text-left">
               <thead>
-                <tr className="bg-gray-50/50 text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-100">
-                  <th className="px-8 py-4">名前</th>
-                  <th className="px-8 py-4">メールアドレス</th>
-                  <th className="px-8 py-4">会員種別</th>
-                  <th className="px-8 py-4">登録日</th>
-                  <th className="px-8 py-4">ステータス</th>
-                  <th className="px-8 py-4 text-center">操作</th>
+                <tr className="bg-reno-bg text-sm font-bold text-reno-mute-dark border-b border-reno-line whitespace-nowrap">
+                  <th scope="col" className="px-6 py-3">氏名</th>
+                  <th scope="col" className="px-6 py-3">メールアドレス</th>
+                  <th scope="col" className="px-6 py-3">会員種別</th>
+                  <th scope="col" className="px-6 py-3">登録日</th>
+                  <th scope="col" className="px-6 py-3">状態</th>
+                  <th scope="col" className="px-6 py-3 text-right">操作</th>
                 </tr>
               </thead>
-              <tbody className="text-sm font-medium text-gray-600 divide-y divide-gray-50">
-                {users.map((user) => (
-                  <tr key={user.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-8 py-4">
-                      <Link href={`/admin/users/${user.id}`} className="font-bold text-gray-900 hover:text-blue-600 transition-colors">
-                        {user.name || "未設定"}
+              <tbody className="text-sm text-ink divide-y divide-reno-line">
+                {visibleUsers.map((user) => (
+                  <tr key={user.id} className="hover:bg-reno-bg/60 transition-colors">
+                    <td className="px-6 py-4">
+                      <Link
+                        href={`/admin/users/${user.id}`}
+                        className="font-bold text-ink hover:text-teal transition-colors"
+                      >
+                        {user.name || "名前未設定"}
                       </Link>
+                      {user.role === "ADMIN" && (
+                        <span className="ml-2 inline-block px-2 py-0.5 rounded border border-ink/30 bg-ink/5 text-xs font-bold text-ink whitespace-nowrap">
+                          管理者
+                        </span>
+                      )}
                     </td>
-                    <td className="px-8 py-4">{user.email}</td>
-                    <td className="px-8 py-4">
-                      <span className={`px-2 py-1 rounded text-[10px] font-black ${user.memberType === 'STORE' ? 'bg-orange-100 text-orange-700' : 'bg-blue-50 text-blue-600'}`}>
-                        {user.memberType === 'STORE' ? "店舗会員" : "無料会員"}
+                    <td className="px-6 py-4 break-all">{user.email}</td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={`inline-block px-2.5 py-1 rounded border text-xs font-bold whitespace-nowrap ${
+                          user.memberType === "STORE"
+                            ? "border-pink/40 text-pink bg-pink/5"
+                            : "border-teal/40 text-teal bg-teal/5"
+                        }`}
+                      >
+                        {user.memberType === "STORE" ? "店舗会員" : "無料会員"}
                       </span>
                     </td>
-                    <td className="px-8 py-4 font-bold">{new Date(user.createdAt).toLocaleDateString()}</td>
-                    <td className="px-8 py-4">
-                      <div className="flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full ${user.status === 'ACTIVE' ? 'bg-green-500' : 'bg-gray-300'}`} />
-                        {user.status === 'ACTIVE' ? "有効" : "停止"}
-                      </div>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {new Date(user.createdAt).toLocaleDateString("ja-JP")}
                     </td>
-                    <td className="px-8 py-4 text-center">
-                      <div className="flex justify-center gap-2">
-                        <Link href={`/admin/users/${user.id}`} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-400" title="詳細表示">
-                          <Eye size={18} />
+                    <td className="px-6 py-4">
+                      <span className="flex items-center gap-2 whitespace-nowrap">
+                        <span
+                          className={`w-2.5 h-2.5 rounded-full shrink-0 ${
+                            user.status === "ACTIVE" ? "bg-teal" : "bg-reno-mute-dark"
+                          }`}
+                        />
+                        {user.status === "ACTIVE" ? "有効" : "停止"}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex justify-end gap-2">
+                        <Link
+                          href={`/admin/users/${user.id}`}
+                          className="px-3 py-2 rounded-lg border border-reno-line text-ink hover:bg-reno-bg transition-colors flex items-center gap-1.5 text-sm font-bold whitespace-nowrap"
+                        >
+                          <Eye size={16} />
+                          詳細
                         </Link>
-                        <button onClick={() => handleDelete(user.id)} className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-400" title="削除">
-                          <Trash2 size={18} />
+                        <button
+                          onClick={() => handleDelete(user.id)}
+                          className="px-3 py-2 rounded-lg border border-red-200 text-red-700 hover:bg-red-50 transition-colors flex items-center gap-1.5 text-sm font-bold whitespace-nowrap"
+                        >
+                          <Trash2 size={16} />
+                          削除
                         </button>
                       </div>
                     </td>

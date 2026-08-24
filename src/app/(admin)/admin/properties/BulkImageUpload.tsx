@@ -58,33 +58,33 @@ export default function BulkImageUpload() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="bg-white border border-gray-200 px-5 py-2 rounded-xl flex items-center gap-2 font-bold text-gray-600 hover:bg-gray-50 transition-all shadow-sm text-sm"
+        className="bg-white border border-reno-line px-5 py-2 rounded-xl flex items-center gap-2 font-bold text-ink hover:bg-reno-bg transition-all shadow-sm text-sm"
       >
         <Images size={18} /> 画像を一括アップロード
       </button>
 
       {open && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-6">
-          <div className="bg-white rounded-[32px] w-full max-w-2xl max-h-[85vh] overflow-y-auto p-8 space-y-6">
+          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto p-8 space-y-6">
             <div className="flex justify-between items-start">
               <div>
-                <h2 className="text-xl font-black text-gray-900">画像を一括アップロード</h2>
-                <p className="text-xs font-bold text-gray-400 mt-1">
+                <h2 className="text-xl font-bold text-ink">画像を一括アップロード</h2>
+                <p className="text-xs font-bold text-reno-mute-dark mt-1">
                   ファイル名で物件に紐づけます
                 </p>
               </div>
               <button
                 onClick={() => setOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-reno-mute-dark hover:text-ink"
                 aria-label="閉じる"
               >
                 <X size={22} />
               </button>
             </div>
 
-            <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5 text-xs font-bold text-blue-900 space-y-2">
+            <div className="bg-teal/5 border border-teal/20 rounded-2xl p-5 text-xs font-bold text-ink space-y-2">
               <p>ファイル名を「物件管理番号_連番.拡張子」にしてください。</p>
-              <pre className="bg-white/70 rounded-xl p-3 text-[11px] leading-relaxed">
+              <pre className="bg-white/70 rounded-xl p-3 text-xs leading-relaxed">
 {`6991580385_1.jpg   → 内山の物件の 1枚目
 6991580385_2.jpg   → 内山の物件の 2枚目
 6991837899_1.jpg   → 前山の物件の 1枚目`}
@@ -94,7 +94,7 @@ export default function BulkImageUpload() {
                 1物件 {MAX_IMAGES_PER_PROPERTY} 枚まで。
                 同じ連番のファイルを入れると、その枚だけ差し替わります。
               </p>
-              <p className="text-blue-700">
+              <p className="text-ink">
                 物件管理番号がDBに無いファイルは取り込みません。理由を下に出します。
               </p>
             </div>
@@ -107,7 +107,7 @@ export default function BulkImageUpload() {
             )}
 
             {error && (
-              <p className="text-sm font-black text-red-700 bg-red-50 border border-red-200 rounded-2xl p-4">
+              <p className="text-sm font-bold text-red-700 bg-red-50 border border-red-200 rounded-2xl p-4">
                 {error}
               </p>
             )}
@@ -121,7 +121,7 @@ export default function BulkImageUpload() {
                   if (r.success) setCheck({ ok: r.ok, message: r.message });
                   else setError(r.error);
                 }}
-                className="text-xs font-black text-blue-900 underline hover:no-underline"
+                className="text-xs font-bold text-ink underline hover:no-underline"
               >
                 保管先の接続を確認する
               </button>
@@ -146,10 +146,10 @@ export default function BulkImageUpload() {
             />
             <label
               htmlFor="bulk-image-input"
-              className={`block text-center py-8 rounded-2xl border-2 border-dashed font-black cursor-pointer transition-all ${
+              className={`block text-center py-8 rounded-2xl border-2 border-dashed font-bold cursor-pointer transition-all ${
                 busy || !storageReady
-                  ? "border-gray-200 text-gray-300 cursor-not-allowed"
-                  : "border-blue-200 text-blue-900 hover:bg-blue-50"
+                  ? "border-reno-line text-reno-mute-dark cursor-not-allowed"
+                  : "border-teal/30 text-ink hover:bg-teal/5"
               }`}
             >
               {busy ? "アップロード中…" : "クリックしてファイルを選ぶ（複数可）"}
@@ -157,7 +157,7 @@ export default function BulkImageUpload() {
 
             {results.length > 0 && (
               <div className="space-y-3">
-                <p className="text-sm font-black text-gray-900">
+                <p className="text-sm font-bold text-ink">
                   結果：登録 {okCount}件 / 取り込まなかったもの {ngCount}件
                 </p>
                 <ul className="text-xs font-bold space-y-1 max-h-64 overflow-y-auto">

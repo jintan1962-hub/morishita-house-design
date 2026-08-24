@@ -427,7 +427,17 @@ main { display: block; }
 .chk input { width: 16px; height: 16px; accent-color: var(--c-teal); }
 .chk .cnt { font-family: var(--f-gothic); font-size: 1.2rem; color: var(--c-mute-dark); }
 .selectWrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-select, input[type="text"], input[type="email"], input[type="tel"], textarea {
+/* 公開サイトのフォーム部品。
+   この指定は要素セレクタ + 属性セレクタのため、管理画面で当てている Tailwind の
+   rounded-* / px-* / font-* より詳細度が高く、管理画面の入力欄まで
+   「明朝・角なし・独自の余白」に上書きしてしまっていた（type="search" だけが
+   このセレクタから漏れていたため、画面内で見た目が食い違っていた）。
+   管理画面（.admin-root 配下）は Tailwind 側の指定に任せるので除外する。 */
+select:not(.admin-root select),
+input[type="text"]:not(.admin-root input),
+input[type="email"]:not(.admin-root input),
+input[type="tel"]:not(.admin-root input),
+textarea:not(.admin-root textarea) {
   font-family: var(--f-mincho); font-size: 1.5rem;
   padding: 10px 14px;
   border: 1px solid var(--c-line-dark);
@@ -435,7 +445,7 @@ select, input[type="text"], input[type="email"], input[type="tel"], textarea {
   color: var(--c-black);
   border-radius: 0;
 }
-select { min-width: 150px; }
+select:not(.admin-root select) { min-width: 150px; }
 .searchBox__foot { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 0 40px 36px; }
 .searchBox__foot .hit { font-family: var(--f-gothic); font-size: 1.4rem; color: var(--c-mute-dark); }
 .searchBox__foot .hit strong { font-size: 2.4rem; color: var(--c-pink); }

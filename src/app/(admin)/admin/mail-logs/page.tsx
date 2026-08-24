@@ -13,7 +13,7 @@ const KIND_LABEL: Record<string, string> = {
 function StatusBadge({ status }: { status: string }) {
   if (status === MAIL_STATUS.SENT) {
     return (
-      <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full whitespace-nowrap">
+      <span className="inline-flex items-center gap-1 text-xs font-bold text-teal bg-teal/5 px-2 py-1 rounded-full whitespace-nowrap">
         <CheckCircle2 size={13} /> 送信済
       </span>
     );
@@ -40,7 +40,7 @@ export default async function AdminMailLogsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-black text-ink mb-2">メール送信ログ</h1>
+        <h1 className="text-2xl font-bold text-ink mb-2">メール送信ログ</h1>
         <p className="text-sm text-reno-mute-dark">
           会員登録の完了メール・お問い合わせの控えと通知メールの送信結果。
           「失敗」が出ている間、その相手には自動返信が届いていない。
@@ -57,7 +57,7 @@ export default async function AdminMailLogsPage() {
         <div className="bg-red-50 border border-red-200 rounded-2xl p-6 flex items-start gap-3">
           <AlertTriangle size={20} className="text-red-600 shrink-0 mt-0.5" />
           <div className="text-sm text-red-800">
-            <p className="font-black mb-1">送信に失敗したメールが {failedCount} 件あります。</p>
+            <p className="font-bold mb-1">送信に失敗したメールが {failedCount} 件あります。</p>
             <p className="font-medium">
               下の「理由」欄を確認してください。RESEND_API_KEY の未設定・送信ドメインの未認証が
               代表的な原因です。原因を直したあと、必要なら該当のお客様へ手動で連絡してください
@@ -71,7 +71,7 @@ export default async function AdminMailLogsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-reno-bg text-left">
-              <tr className="text-[11px] font-black text-reno-mute-dark uppercase tracking-wider">
+              <tr className="text-xs font-bold text-reno-mute-dark">
                 <th className="px-6 py-4 whitespace-nowrap">日時</th>
                 <th className="px-6 py-4 whitespace-nowrap">状態</th>
                 <th className="px-6 py-4 whitespace-nowrap">種類</th>

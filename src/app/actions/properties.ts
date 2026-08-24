@@ -349,6 +349,11 @@ export async function getProperties() {
         ...p,
         objMngNo: p.objMngNo.toString(),
         areaName: areaName(p.cityCd),
+        // 一覧のサムネイル用。以前は一覧が Unsplash の他人の写真を全物件に
+        // 同じもので出していたため、実際に登録された1枚目を渡す。
+        // PropertyImage.path には公開URLがそのまま入っている（schema.prisma 参照）。
+        imageUrl: p.images[0]?.path ?? null,
+        imageCount: p.images.length,
       })),
     };
   } catch (error) {

@@ -53,10 +53,10 @@ export default function PropertyImages({
   }
 
   return (
-    <section className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100 space-y-6">
-      <div className="border-b border-gray-50 pb-4">
-        <h2 className="text-lg font-black text-gray-900">物件画像</h2>
-        <p className="text-xs font-bold text-gray-400 mt-1">
+    <section className="bg-white p-8 rounded-2xl shadow-sm border border-reno-line space-y-6">
+      <div className="border-b border-reno-line pb-4">
+        <h2 className="text-lg font-bold text-ink">物件画像</h2>
+        <p className="text-xs font-bold text-reno-mute-dark mt-1">
           {ALLOWED_EXTENSIONS.join(" / ")}・1枚 {MAX_FILE_LABEL} まで・1物件 {MAX_IMAGES_PER_PROPERTY} 枚まで。
           先頭の画像が一覧のサムネイルになります。
         </p>
@@ -73,13 +73,13 @@ export default function PropertyImages({
       )}
 
       {error && (
-        <p className="text-sm font-black text-red-700 bg-red-50 border border-red-200 rounded-2xl p-4">
+        <p className="text-sm font-bold text-red-700 bg-red-50 border border-red-200 rounded-2xl p-4">
           {error}
         </p>
       )}
 
       {images.length === 0 ? (
-        <p className="text-sm font-bold text-gray-400 py-6 text-center">
+        <p className="text-sm font-bold text-reno-mute-dark py-6 text-center">
           画像が登録されていません。
         </p>
       ) : (
@@ -90,9 +90,9 @@ export default function PropertyImages({
               <img
                 src={img.path}
                 alt={`物件画像 ${img.sortOrder}`}
-                className="w-full aspect-[4/3] object-cover rounded-2xl border border-gray-100"
+                className="w-full aspect-[4/3] object-cover rounded-2xl border border-reno-line"
               />
-              <span className="absolute top-2 left-2 bg-black/60 text-white text-[10px] font-black px-2 py-1 rounded">
+              <span className="absolute top-2 left-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded">
                 {img.sortOrder}
               </span>
               <button
@@ -122,10 +122,10 @@ export default function PropertyImages({
         />
         <label
           htmlFor="property-image-input"
-          className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm cursor-pointer transition-all ${
+          className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm cursor-pointer transition-all ${
             busy || !storageReady
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "bg-blue-900 text-white hover:bg-blue-800 shadow-lg shadow-blue-900/20"
+              ? "bg-reno-bg text-reno-mute-dark cursor-not-allowed"
+              : "bg-ink text-white hover:bg-teal"
           }`}
         >
           <ImagePlus size={18} />
@@ -134,7 +134,7 @@ export default function PropertyImages({
       </div>
 
       {results.length > 0 && (
-        <ul className="text-xs font-bold space-y-1 border-t border-gray-50 pt-4">
+        <ul className="text-xs font-bold space-y-1 border-t border-reno-line pt-4">
           {results.map((r, i) => (
             <li key={i} className={r.ok ? "text-green-700" : "text-red-700"}>
               {r.ok ? "✓" : "✕"} {r.fileName}：{r.message}

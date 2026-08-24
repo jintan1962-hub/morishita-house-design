@@ -1,12 +1,11 @@
 import "@/app/globals.css";
+import "./admin.css";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import {
-  LayoutDashboard, Users, Settings,
-  LogOut, Bell, Search, Building2, MessageSquare, MailWarning
-} from "lucide-react";
 import { requireAdmin } from "@/lib/auth";
 import { signInPath } from "@/lib/authPaths";
+import { getUnreadInquiryCount } from "@/app/actions/dashboard";
+import AdminNav from "./AdminNav";
 
 // 管理画面配下は毎回サーバー側で権限を確認する（キャッシュさせない）。
 export const dynamic = "force-dynamic";
@@ -25,94 +24,48 @@ export default async function AdminLayout({
     redirect(auth.reason === "UNAUTHENTICATED" ? signInPath("/admin") : "/");
   }
 
+  // 未対応の問い合わせ件数。左メニューに出す。取得できなければ 0 として出さない。
+  const unread = await getUnreadInquiryCount();
+
   return (
-    <div className="flex min-h-screen bg-reno-bg text-ink font-gothic">
-      {/* Sidebar */}
+    // admin-root：管理画面だけ Tailwind の寸法を px で解決させる（admin.css を参照）。
+    // これが無いと html の font-size: 62.5% を受けて全ての寸法が 62.5% に縮む。
+    <div className="admin-root flex min-h-screen bg-reno-bg text-ink">
+      {/* ---------------- サイドバー ---------------- */}
       <aside className="w-64 bg-ink text-white flex flex-col fixed h-full z-20">
-        <div className="p-8">
+        <div className="px-6 py-7">
           <Link href="/admin" className="flex flex-col">
-            <span className="text-2xl font-black tracking-tighter">
+            <span className="text-2xl font-black tracking-tighter leading-none">
               RENO<span className="text-pink">ADMIN</span>
             </span>
-            <span className="text-[10px] text-white/60 font-bold -mt-1 uppercase tracking-widest">Management System</span>
+            <span className="text-xs text-white/70 font-bold mt-1 tracking-widest">
+              管理システム
+            </span>
           </Link>
         </div>
 
-        <nav className="flex-grow px-4 space-y-1 text-white">
-          <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors font-bold !text-white text-sm bg-white/5">
-            <LayoutDashboard size={20} />
-            ダッシュボード
-          </Link>
-          <Link href="/admin/users" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors font-bold !text-white text-sm">
-            <Users size={20} />
-            会員管理
-          </Link>
-          <Link href="/admin/properties" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors font-bold !text-white text-sm">
-            <Building2 size={20} />
-            物件管理
-          </Link>
-          <Link href="/admin/inquiries" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors font-bold !text-white text-sm">
-            <MessageSquare size={20} />
-            お問い合わせ管理
-          </Link>
-          <Link href="/admin/mail-logs" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors font-bold !text-white text-sm">
-            <MailWarning size={20} />
-            メール送信ログ
-          </Link>
-          <div className="pt-8 pb-2 px-4">
-            <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">Settings</span>
-          </div>
-          <Link href="/admin/settings" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors font-bold !text-white text-sm text-white/60">
-            <Settings size={20} />
-            システム設定
-          </Link>
-        </nav>
-
-        <div className="p-4 border-t border-white/5">
-          <Link href="/" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-pink/20 transition-colors font-bold !text-white text-sm text-white/50 hover:text-pink">
-            <LogOut size={20} />
-            サイトへ戻る
-          </Link>
-        </div>
+        <AdminNav unreadInquiries={unread} />
       </aside>
-      <style dangerouslySetInnerHTML={{ __html: `
-        aside a { color: white !important; }
-        aside a:hover { background-color: rgba(255, 255, 255, 0.1) !important; }
-        aside .text-white\/60 { color: rgba(255, 255, 255, 0.6) !important; }
-        aside .text-white\/50 { color: rgba(255, 255, 255, 0.5) !important; }
-      `}} />
 
-      {/* Main Content */}
-      <div className="flex-grow ml-64 flex flex-col">
-        {/* Admin Header */}
-        <header className="h-16 bg-white border-b border-reno-line flex items-center justify-between px-8 sticky top-0 z-10">
-          <div className="flex items-center gap-4 bg-reno-bg px-4 py-2 rounded-full w-96">
-            <Search size={16} className="text-reno-mute-dark" />
-            <input type="text" placeholder="会員名、物件IDで検索..." className="bg-transparent border-none outline-none text-xs w-full font-medium" />
-          </div>
-          
-          <div className="flex items-center gap-6">
-            <button className="relative text-reno-mute-dark hover:text-pink transition-colors">
-              <Bell size={20} />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-pink rounded-full border-2 border-white"></span>
-            </button>
-            <div className="h-8 w-px bg-reno-line" />
-            <div className="flex items-center gap-3">
-              <div className="text-right">
-                {/* 静的な「管理者 太郎」を出していたが、実際にログインしている管理者を表示する */}
-                <p className="text-xs font-bold text-ink">{auth.email}</p>
-                <p className="text-[10px] font-bold text-reno-mute-dark">System Admin</p>
-              </div>
-              <div className="w-10 h-10 bg-ink text-white rounded-full flex items-center justify-center font-black text-xs">
-                管
-              </div>
+      {/* ---------------- 本文 ---------------- */}
+      <div className="flex-grow ml-64 flex flex-col min-w-0">
+        <header className="min-h-16 bg-white border-b border-reno-line flex items-center justify-end gap-4 px-8 py-3 sticky top-0 z-10">
+          {/* 以前ここに検索窓とベル通知があったが、どちらも押しても何も起きなかったため撤去した。
+              検索は会員一覧・物件一覧のそれぞれに実際に動くものを置いている。 */}
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 bg-ink text-white rounded-full flex items-center justify-center font-bold text-sm shrink-0">
+              管
+            </div>
+            <div className="min-w-0 leading-tight">
+              <p className="text-xs font-bold text-reno-mute-dark">ログイン中</p>
+              <p className="text-sm font-bold text-ink truncate" title={auth.email}>
+                {auth.email}
+              </p>
             </div>
           </div>
         </header>
 
-        <main className="p-10">
-          {children}
-        </main>
+        <main className="p-6 xl:p-10 flex-grow min-w-0">{children}</main>
       </div>
     </div>
   );

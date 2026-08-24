@@ -18,9 +18,9 @@ function initialValue(value: unknown, type: FieldDef["type"]): string {
 }
 
 const labelClass =
-  "text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2";
+  "text-xs font-bold text-reno-mute-dark block mb-2";
 const inputClass =
-  "w-full px-4 py-3 rounded-2xl border border-gray-100 font-bold text-gray-900 focus:border-blue-900 outline-none transition-all";
+  "w-full px-4 py-3 rounded-2xl border border-reno-line font-bold text-ink focus:border-teal outline-none transition-all";
 
 export default function PropertyEditForm({
   property,
@@ -52,7 +52,7 @@ export default function PropertyEditForm({
         <div>
           {message && (
             <p
-              className={`text-sm font-black ${
+              className={`text-sm font-bold ${
                 message.ok ? "text-green-700" : "text-red-700"
               }`}
             >
@@ -63,7 +63,7 @@ export default function PropertyEditForm({
         <button
           type="submit"
           disabled={saving}
-          className="bg-blue-900 text-white px-6 py-2 rounded-xl flex items-center gap-2 font-black hover:bg-blue-800 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-50"
+          className="bg-ink text-white px-6 py-2 rounded-xl flex items-center gap-2 font-bold hover:bg-teal transition-colors disabled:opacity-50"
         >
           <Save size={18} />
           {saving ? "保存中…" : "変更を保存"}
@@ -71,8 +71,8 @@ export default function PropertyEditForm({
       </div>
 
       {/* 区分（取込の検証と同じ選択肢しか選べない） */}
-      <section className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100 space-y-6">
-        <h2 className="text-lg font-black text-gray-900 border-b border-gray-50 pb-4">区分</h2>
+      <section className="bg-white p-8 rounded-2xl shadow-sm border border-reno-line space-y-6">
+        <h2 className="text-lg font-bold text-ink border-b border-reno-line pb-4">区分</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label className={labelClass}>公開レベル</label>
@@ -111,12 +111,12 @@ export default function PropertyEditForm({
       {PROPERTY_FIELD_GROUPS.map((group) => (
         <section
           key={group.title}
-          className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100 space-y-6"
+          className="bg-white p-8 rounded-2xl shadow-sm border border-reno-line space-y-6"
         >
-          <div className="border-b border-gray-50 pb-4">
-            <h2 className="text-lg font-black text-gray-900">{group.title}</h2>
+          <div className="border-b border-reno-line pb-4">
+            <h2 className="text-lg font-bold text-ink">{group.title}</h2>
             {group.note && (
-              <p className="text-xs font-bold text-gray-400 mt-1">{group.note}</p>
+              <p className="text-xs font-bold text-reno-mute-dark mt-1">{group.note}</p>
             )}
           </div>
 
@@ -146,7 +146,7 @@ export default function PropertyEditForm({
                       className={`${inputClass} ${field.unit ? "pr-16" : ""}`}
                     />
                     {field.unit && (
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-gray-400 text-sm">
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-reno-mute-dark text-sm">
                         {field.unit}
                       </span>
                     )}
