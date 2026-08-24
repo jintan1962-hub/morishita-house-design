@@ -15,6 +15,7 @@
 扱う個人情報：有（氏名／メール／電話／郵便番号／住所／問い合わせ本文／閲覧履歴）→ 触る変更は全てL3
 本番環境：【未構築】Vercel／Supabase(PostgreSQL)／メールは Resend(REST)。
 　　　　　　モリシタハウス用の Supabase・Vercel は未作成（2026-08-25 時点）。
+　　　　　　構築手順と役割分担は docs/本番環境の作り方.md。Supabaseは**新規プロジェクト**で作る（大野の決定）。
 　　　　　　RENOEL の本番接続情報は .env.renoel-production.bak / .env.renoel-migrate.bak へ退避済み。
 　　　　　　**この2ファイルを .env に戻さないこと**（他社の本番DBに繋がる）
 GAS WebApp：該当なし（Next.js / Vercel 構成）
