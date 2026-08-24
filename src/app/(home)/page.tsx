@@ -39,7 +39,16 @@ export default function HomePage() {
 
       // main.js は先頭で要素を探し、無ければ何もせずに終わる。
       // 要素がDOMに出てから読み込む（出ていなければ少し待って再確認する）。
-      if (!document.querySelector(".areaMap__region") && tries < 40) {
+      //
+      // 待つ対象は「最後に描画される要素」でなければならない。
+      // 以前は地図（.areaMap__region）だけを見ていたため、地図が出た時点で
+      // main.js を流してしまい、ページ末尾の #pagetop と #cookieBar がまだ
+      // DOM に無かった。その結果 fixedParts() が両方とも取りこぼし、
+      // **ページトップボタンとクッキー同意バーが一度も動いていなかった**。
+      // #cookieBar は差し込むHTMLの最後尾にあるので、これを合図にする。
+      const ready =
+        document.querySelector(".areaMap__region") && document.querySelector("#cookieBar");
+      if (!ready && tries < 40) {
         tries += 1;
         timer = window.setTimeout(load, 100);
         return;
