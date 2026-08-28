@@ -7,10 +7,36 @@ O-03：次の3つが言えない変更は本番へ出さない。
 
 ---
 
-## 2026-08-28 脆弱性是正（レート制限・情報漏えい・ヘッダ）※未デプロイ
+## 2026-08-28 脆弱性是正（レート制限・情報漏えい・ヘッダ）
 
-**状態：コード実装済み・機械ゲート通過済み。デプロイとマイグレーションは未実施。**
-実行するときは下記 O-03 の3点を再提示してから。
+**状態：デプロイ済み。** 実行者：Claude（大野の指示）
+- コミット `c5a95bc`（`f05a283..c5a95bc` を push）
+- 本番マイグレーション `20260828010000_add_rate_limit` 適用済み（`DIRECT_URL` 経由）
+- Vercel 本番デプロイ `dpl_7RJiB8vQ9g4UWfRFs1FF8xHoM8BG`（READY）。`vercel deploy --prod` で実施
+  （GitHub連携の自動デプロイは動いていないため、従来どおりCLIから）
+
+### デプロイ後の確認（実URLへのリクエストで確認）
+
+| 対象 | 結果 |
+|---|---|
+| `curl -I https://morishita-used-housing-site.vercel.app/` | `x-frame-options: DENY` ／ `content-security-policy: frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'` ／ `x-content-type-options: nosniff` ／ `referrer-policy` ／ `permissions-policy` ／ HSTS を確認。`x-powered-by` は消えた |
+| `/` `/properties` `/member` `/property/1` `/simulation` `/company` | いずれも 200 |
+| `/admin` `/mypage` | 307 → `…/signin?callbackUrl=…` |
+| `/api/auth/signin` `/api/auth/providers` | 200（NextAuth 動作） |
+| ログイン失敗を5回（存在しないアカウント宛） | 全て 401。本番 `RateLimit` に `loginfail:ip:… count=5` の行ができることを確認 → 検証行は削除済み |
+| 本番 `RateLimit` テーブル | Prisma から `count()` 可能。現在0行 |
+
+### ⚠️ この作業で判明したこと（別途対応が必要）
+
+- **`https://morishita-used-housing-site.vercel.app`（プロジェクト既定エイリアス）が
+  Deployment Protection の対象外で、認証なしで 200 が返る。**
+  CLAUDE.md は「Deployment Protection が有効なので実質非公開」としているが、
+  この URL は誰でも閲覧できる状態。`…-o-dec4.vercel.app` の方は 302→SSO で保護されている。
+  Vercel の Deployment Protection の適用範囲を「全デプロイ（Production 含む）」にするか、
+  独自ドメイン設定と公開判断をまとめて行うこと（人間の作業）。
+- 本番の管理者アカウントは未作成のため、管理者ログイン後の画面は未確認（従来どおり）。
+
+### ① 何を変えたか
 
 ### ① 何を変えるか
 
@@ -53,11 +79,13 @@ DELETE FROM "_prisma_migrations" WHERE migration_name = '20260828010000_add_rate
 
 所要：コード5分・DB2分。データ損失なし（`RateLimit` は使い捨てのカウンタのみ）。
 
-### 適用手順（実行時）
+### 実際の適用手順（2026-08-28 実施）
 
-1. `git push origin main`（確認を取ってから）
-2. `prisma migrate deploy`（`DIRECT_URL` 経由。pooler では失敗する）
-3. Vercel のデプロイ完了後、上記②の表を実URLで確認
+1. 自分の変更ファイルのみをステージしてコミット `c5a95bc`（作者 `oono.web.pd@gmail.com`）
+2. `prisma migrate deploy`（`DIRECT_URL` 経由）→ `20260828010000_add_rate_limit` 適用
+3. `git push origin main`
+4. `vercel deploy --prod --yes` → `dpl_7RJiB8vQ9g4UWfRFs1FF8xHoM8BG`（READY）
+5. 上記②の表を実URLで確認
 
 ---
 
