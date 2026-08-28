@@ -193,6 +193,25 @@ model User {
   @@index([deletedAt])
 }
 
+/// S-08 / S-12：公開エンドポイント（問い合わせ・会員登録・ログイン）の濫用を抑えるための
+/// レート制限カウンタ。Vercel はサーバーレスで各インスタンスがメモリを共有しないため、
+/// 勘定を1箇所（このDB）に置く。
+///
+/// bucket   = 制限の単位。"inquiry:ip:1.2.3.4" / "login:ip:..." / "inquiry:email:..." など
+/// count    = 現在の窓での試行回数
+/// windowEndsAt = この時刻を過ぎたら count を 0 から数え直す
+///
+/// 使い捨てのデータ。古い行は checkRateLimit が通りがけに掃除する。
+/// スキーマを戻すときは DROP TABLE で足りる（失う情報は無い）。
+model RateLimit {
+  bucket      String   @id
+  count       Int      @default(0)
+  windowEndsAt DateTime
+  updatedAt   DateTime @updatedAt
+
+  @@index([windowEndsAt])
+}
+
 model ActivityLog {
   id        Int      @id @default(autoincrement())
   userId    Int

@@ -19,6 +19,7 @@ import {
   PREF_CODE,
   DEFAULT_CITY_CODE,
   DEFAULT_PROPERTY_TYPE,
+  MAX_IMPORT_ROWS,
   areaName,
   isSupportedArea,
   isValidPropertyType,
@@ -404,6 +405,13 @@ export async function compareCSVData(csvData: IncomingProperty[]) {
     return { success: false as const, error: authErrorMessage(auth.reason) };
   }
 
+  if (!Array.isArray(csvData) || csvData.length > MAX_IMPORT_ROWS) {
+    return {
+      success: false as const,
+      error: `一度に取り込めるのは ${MAX_IMPORT_ROWS} 行までです。ファイルを分割してください。`,
+    };
+  }
+
   try {
     const results: DiffResult[] = [];
 
@@ -494,6 +502,12 @@ export async function importProperties(
   if (approvedItems.length === 0) {
     return { success: false as const, error: "取込対象がありません。" };
   }
+  if (approvedItems.length > MAX_IMPORT_ROWS) {
+    return {
+      success: false as const,
+      error: `一度に取り込めるのは ${MAX_IMPORT_ROWS} 行までです。ファイルを分割してください。`,
+    };
+  }
 
   // 取込データを先に検証する。1件でも壊れていれば、1件も書き込まない。
   const rows: PropertyRow[] = [];
@@ -536,6 +550,20 @@ export async function importProperties(
       };
     }
 
+    // 公開レベルは PUBLIC(0) / MEMBERS(1) のみ。空欄は 0（公開）扱い。
+    // 想定外の値をそのまま入れると「会員限定のつもりが公開されていた」事故になる。
+    const disclosureRaw = (item.disclosureLevel ?? "").trim();
+    const disclosureLevel = disclosureRaw === "" ? DISCLOSURE_LEVEL.PUBLIC : parseInt(disclosureRaw, 10);
+    if (
+      disclosureLevel !== DISCLOSURE_LEVEL.PUBLIC &&
+      disclosureLevel !== DISCLOSURE_LEVEL.MEMBERS
+    ) {
+      return {
+        success: false as const,
+        error: `公開レベルが正しくない行があるため、取込を中止しました（対象: ${objMngNo} / disclosureLevel: ${disclosureRaw}）。使える値は ${DISCLOSURE_LEVEL.PUBLIC}=公開 / ${DISCLOSURE_LEVEL.MEMBERS}=会員限定 です。`,
+      };
+    }
+
     rows.push({
       objMngNo,
       syubetu,
@@ -551,7 +579,7 @@ export async function importProperties(
       address: item.address,
       prefCd: item.prefCd?.trim() || PREF_CODE,
       cityCd,
-      disclosureLevel: parseInt(item.disclosureLevel ?? "") || 0,
+      disclosureLevel,
       currentState: text(item.currentState),
 
       trafficNote: text(item.trafficNote),

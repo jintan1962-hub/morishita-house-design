@@ -7,6 +7,7 @@
 | 2026-08-18 | used-housing-site 全体 | A・B・C混合 | Claude（実装セッション外） | **不合格**（下記） | 未定 |
 | 2026-08-18 | 上記の是正 | A（変更） | Claude（同一セッション・**自己検品**） | 条件付き合格（下記） | — |
 | 2026-08-19 | メール送信の Resend 移行 | A（変更） | Claude（同一セッション・**自己検品**） | 合格（実送信まで確認。下記） | — |
+| 2026-08-28 | 脆弱性観点の検品＋是正（モリシタ版） | A（変更・L3） | Claude（同一セッション・**自己検品**） | 是正実施・**要再検品**（下記） | 公開前 |
 
 ---
 
@@ -111,3 +112,48 @@ O-01, O-02, O-03, O-05, O-06, O-08, O-09, O-10, O-12, O-13
 | `.env` が消えたSupabaseプロジェクトを指している | ローカルで `pnpm dev` するとDBエラーになる。`.env.migrate` 側が現役 |
 | O-01 環境の分離 | 開発用DBが無く、検証を本番DBで行った |
 | O-08 / S-02 / O-02 / O-06 / S-14 / O-09 | 前回検品から変化なし（O-06 はメール送信に限れば MailLog で解消） |
+
+---
+
+## 2026-08-28 脆弱性観点の検品と是正（morishita-used-housing-site）
+
+判定者：Claude（実装と同一セッション・**自己検品**）。別セッションでの再検品が必要。
+変更レベル：L3（認証・認可・個人情報の取り扱い）。大野の「すべて厳格に修正」指示を着手承認とした。
+
+### 見つかった問題と対応
+
+| 重大度 | 箇所 | 内容 | 対応 |
+|---|---|---|---|
+| High | `submitInquiry` / `registerUser` | 未ログインで叩けて、任意の宛先へ自社ドメイン差出人のメールを回数無制限に送れる（メール増幅・スパム踏み台・Resend凍結リスク）。レート制限・CAPTCHA・オリジン検証なし | DBカウンタ方式のレート制限を導入。問い合わせ＝IP 10回/時＋宛先メール 5回/時、登録＝IP 5回/日。しきい値は `src/config/security.ts` の `RATE_LIMITS` |
+| High | `src/app/(public)/mypage/edit/page.tsx` | `select` 未指定の `findFirst` を client component へ渡し、自分の `password`(bcrypt) 等が RSC ペイロードでブラウザへ配信されていた（S-01違反の再発） | `select: { name, tel, email }` に限定。`mypage/page.tsx` も同様に是正 |
+| Medium | ログイン `authorize` | ①IP単位の総当たり制限なし ②存在しないユーザーは bcrypt を通らず即 null＝応答時間差でアカウント在籍を推測可能 | ①「失敗」だけを数えるIP制限（20回/時、`loginFailPerIp`）。成功はカウントしない ②当て馬ハッシュと常時 `bcrypt.compare` |
+| Medium | `registerUser` | 「既に登録／退会済み／成功」を返し分け＝メールアドレス在籍の列挙が可能 | 有効・退会済みを1つの文言に統一。IP制限も併用。**完全な非列挙（常に成功扱い＋通知メール）は自動ログイン導線と両立せず未対応（TODO:未確認）** |
+| Medium | `next.config.ts` | セキュリティレスポンスヘッダが1本も無い＝管理画面・ログインが iframe 化可能（クリックジャッキング） | `X-Frame-Options: DENY` ＋ CSP `frame-ancestors 'none'` / `object-src` / `base-uri` / `form-action`、`nosniff`、`Referrer-Policy`、`Permissions-Policy`、HSTS を全ページへ。`poweredByHeader: false` |
+| Low | `updateUserStatus` / `updateInquiryStatus` | `status` 文字列を無検証でDB書き込み。不正値で会員が恒久ログイン不可になりうる | `USER_STATUS_VALUES` / `INQUIRY_STATUS_VALUES` のホワイトリスト検証 |
+| Low | `updateMyProfile` | `name` / `tel` に長さ上限なし | 登録フォームと同じ上限（100 / 30）を追加 |
+| Low | `compareCSVData` / `importProperties` | 取込配列に件数上限なし＝巨大配列で関数タイムアウト・長時間トランザクション | `MAX_IMPORT_ROWS = 2000` を超えたら着手前に中止（`src/config/property.ts`） |
+| Low | `importProperties` | `disclosureLevel` を `parseInt \|\| 0` で受け、{0,1} 検証なし | 0/1 以外の行は取込中止（`updateProperty` と同じ検証） |
+| Low | `logPropertyView` | `propertyTitle` を画面から受け取り無検証で `ActivityLog` へ保存（ログ偽装・実在しないIDでの量産） | 画面からタイトルを受け取らず、DBに実在する物件のときだけタイトルをDBから引いて記録 |
+| Low | `mypage/page.tsx` | `getServerSession()` を `authOptions` 無しで呼び session コールバックが効いていない | `requireUser()` に統一 |
+
+### 実際に検証したこと（証拠のあるもの）
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| 機械ゲート | `pnpm gate` を実行 | `tsc --noEmit` エラー0／`eslint .` エラー0（警告2は既存の `<img>`・**新規0**）／`node --test` **73件全通過**（+7件：`rateLimitPolicy.test.ts`） |
+| マイグレーション | 開発用DB（Docker `morishita-dev-db`）へ `prisma migrate deploy` | `20260828010000_add_rate_limit` のみ適用。既存8件は適用済みのまま。エラー0 |
+| レート制限の実挙動 | 開発用DBへ実 Prisma 経由で `bump("smoke:test", limit=5)` を7回 | `true×5 → false×2`。窓の勘定が想定どおり。検証行は削除して復帰 |
+| レート制限の判定ロジック | `rateLimitPolicy.test.ts`（純関数）7ケース | 窓内で limit まで通す／超過は retryAfter つき拒否／拒否時はカウント据え置き・窓延長なし／窓切れで数え直し |
+
+### まだ「否」／未対応で残っているもの
+
+| 項目 | 理由・次にやること |
+|---|---|
+| 別セッションでの再検品 | 実装と同一セッションのため。チェックリスト上は不合格条件 |
+| ローカル `next build` 未実施 | `.env.production.local` が本番Supabaseを指すため、静的生成が本番DBへ接続しうる。Vercel のビルドで確認する |
+| 本番・開発DBへのマイグレーション適用 | `RateLimit` テーブルの追加。デプロイ手順は docs/releases.md の該当エントリ（O-03 の3点つき）。**未適用** |
+| 会員登録の完全な非列挙 | 「常に成功扱い＋既存アドレスへ“登録の試みがありました”通知」に変えると自動ログイン導線（member/page.tsx）と両立しない。仕様判断待ち（TODO:未確認） |
+| アカウントロックDoS の残余 | IP制限（失敗のみ）で緩和したが、多数のIPを使える攻撃者は依然、特定アカウントを5回失敗でロックできる。管理者への通知 or IPスコープのロックは follow-up |
+| 本格的な CSP（script-src / style-src） | nonce 対応と画面ごとの動作確認が要る。公開前に別作業で対応 |
+| 入力長上限の集約 | `name`/`tel` の上限が inquiry.ts・registerUser.ts・users.ts の3箇所にローカル定義（D-19）。共通化は follow-up（既存パターンに合わせて据え置き） |
+| 画像アップロードのマジックバイト検証 | 拡張子＋Content-Type固定で実害は低いと判断し未対応 |

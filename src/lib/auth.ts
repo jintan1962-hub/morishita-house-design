@@ -9,7 +9,17 @@ import {
   MAX_FAILED_LOGIN_ATTEMPTS,
   LOGIN_LOCK_MINUTES,
   SESSION_MAX_AGE_SECONDS,
+  RATE_LIMITS,
 } from "@/config/security";
+import { checkRateLimit, isRateLimited, ipBucket } from "@/lib/rateLimit";
+
+/**
+ * S-12：アカウント列挙（タイミング差）対策の当て馬ハッシュ。
+ * 該当ユーザーが居ない／パスワード未設定でも、実在ユーザーと同じだけ bcrypt.compare を回す。
+ * これは「存在しないユーザーの認証は必ず失敗する」ための固定値で、平文の中身に意味は無い。
+ */
+const DUMMY_PASSWORD_HASH =
+  "$2b$10$yL2gd2rvLGJd5zOdUJ9WRue7d0i2sxaqn018k5lmTTNl3z6tFNTKi";
 
 /**
  * S-01：シークレットにフォールバック値を置かない。
@@ -42,29 +52,49 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        // S-12：アカウントロック（1アカウント狙い）とは別に、1つのIPからの
+        // 総当たり・パスワードスプレーを止める。「失敗」だけを数えるので、
+        // 共有回線（社内など）から正規の利用者が続けてログインしても影響しない。
+        const failBucket = await ipBucket("loginfail");
+        if (failBucket && (await isRateLimited(failBucket, RATE_LIMITS.loginFailPerIp))) {
+          return null;
+        }
+        // このIPからの認証失敗を1つ記録して null を返す。
+        const failAndReject = async (): Promise<null> => {
+          if (failBucket) {
+            await checkRateLimit(failBucket, RATE_LIMITS.loginFailPerIp);
+          }
+          return null;
+        };
+
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
         // 退会済み・停止中・パスワード未設定は認証しない。
         // どの理由で失敗したかは呼び出し元に伝えない（アカウントの存在を推測させないため）。
+        // S-12：該当ユーザーが無い場合も、実在ユーザーと同じだけ bcrypt.compare を回して
+        //       応答時間の差からアカウントの有無を推測されないようにする。
         if (
           !user ||
           !user.password ||
           user.deletedAt !== null ||
           user.status !== USER_STATUS.ACTIVE
         ) {
-          return null;
+          await bcrypt.compare(credentials.password, DUMMY_PASSWORD_HASH);
+          return failAndReject();
         }
 
-        // S-12：ロック中は照合すらしない
+        // S-12：ロック中は照合すらしない（が、当て馬の compare で時間だけ合わせる）
         if (user.lockedUntil && user.lockedUntil > new Date()) {
-          return null;
+          await bcrypt.compare(credentials.password, DUMMY_PASSWORD_HASH);
+          return failAndReject();
         }
 
         const isValid = await bcrypt.compare(credentials.password, user.password);
 
         if (!isValid) {
+          await failAndReject();
           // S-12：失敗回数を数え、上限に達したら一定時間ロックする
           const failedCount = user.failedLoginCount + 1;
           const shouldLock = failedCount >= MAX_FAILED_LOGIN_ATTEMPTS;

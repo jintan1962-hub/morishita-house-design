@@ -150,7 +150,7 @@ export default async function PropertyDetailPage({
 
   return (
     <>
-      <PropertyViewLogger propertyId={property.id} propertyTitle={property.title ?? ""} />
+      <PropertyViewLogger propertyId={property.id} />
 
       <PageHead
         en="Property"

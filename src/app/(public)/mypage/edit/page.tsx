@@ -13,8 +13,12 @@ export default async function EditProfilePage() {
     redirect(signInPath("/mypage/edit"));
   }
 
+  // S-01：select を省くと password（bcryptハッシュ）・failedLoginCount・lockedUntil・
+  // deletedBy まで client component（EditForm）へ渡され、RSCペイロードでブラウザに配信される。
+  // 画面に要るのは氏名・電話・メールだけ。
   const user = await prisma.user.findFirst({
     where: { id: auth.userId, deletedAt: null },
+    select: { name: true, tel: true, email: true },
   });
 
   if (!user) {

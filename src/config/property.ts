@@ -53,6 +53,13 @@ export type AreaCode = (typeof AREAS)[number]["cityCd"];
 /** 既定のエリア。CSVで cityCd を省略した行に入る。 */
 export const DEFAULT_CITY_CODE = "28201";
 
+/**
+ * 1回のCSV取込で受け付ける最大行数。
+ * これを超える配列が来たら、数える前に中止する（巨大な配列で関数がタイムアウトしたり、
+ * 長時間のトランザクションでDBのロックが詰まるのを防ぐ）。掲載件数の実態から見て十分広い。
+ */
+export const MAX_IMPORT_ROWS = 2000;
+
 /** 市区町村コードから名称を引く。未登録なら null。 */
 export function areaName(cityCd: string): string | null {
   return AREAS.find((a) => a.cityCd === cityCd)?.name ?? null;

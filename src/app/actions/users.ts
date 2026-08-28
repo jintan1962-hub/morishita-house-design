@@ -4,6 +4,10 @@ import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { requireAdmin, requireUser, authErrorMessage } from "@/lib/auth";
 import { reportError } from "@/lib/errors";
+import { USER_STATUS_VALUES } from "@/config/security";
+
+/** S-08：外部から受け取る値の長さを制限する（registerUser の LIMITS と同じ考え方）。 */
+const PROFILE_LIMITS = { name: 100, tel: 30 } as const;
 
 /**
  * S-07：ここにある関数は "use server"、つまり公開されたHTTPエンドポイントである。
@@ -82,6 +86,12 @@ export async function updateUserStatus(id: number, status: string) {
   const auth = await requireAdmin();
   if (!auth.ok) {
     return { success: false as const, error: authErrorMessage(auth.reason) };
+  }
+
+  // "use server" は直接叩ける。想定外の値を status カラムへ書かせない。
+  // 不正値が入ると requireUser() の「status !== ACTIVE」判定で当該会員が恒久ログイン不可になる。
+  if (!USER_STATUS_VALUES.includes(status)) {
+    return { success: false as const, error: "指定された状態は使用できません。" };
   }
 
   try {
@@ -217,11 +227,15 @@ export async function updateMyProfile(formData: FormData) {
     return { success: false as const, error: authErrorMessage(auth.reason) };
   }
 
-  const name = formData.get("name")?.toString();
-  const tel = formData.get("tel")?.toString();
+  const name = formData.get("name")?.toString()?.trim();
+  const tel = formData.get("tel")?.toString()?.trim();
 
   if (!name) {
     return { success: false as const, error: "お名前は必須です" };
+  }
+  // S-08：登録フォーム（registerUser）と同じ上限をここでも掛ける。
+  if (name.length > PROFILE_LIMITS.name || (tel && tel.length > PROFILE_LIMITS.tel)) {
+    return { success: false as const, error: "入力された文字数が上限を超えています" };
   }
 
   try {

@@ -5,9 +5,15 @@ import prisma from "@/lib/prisma";
 import { requireAdmin, requireUser, authErrorMessage } from "@/lib/auth";
 import { reportError } from "@/lib/errors";
 import { sendInquiryEmail, sendInquiryAdminNotice } from "@/lib/mail";
+import { checkRateLimit, rateLimitByIp } from "@/lib/rateLimit";
+import { INQUIRY_STATUS_VALUES, RATE_LIMITS } from "@/config/security";
 
 /** S-08：外部から受け取る値の長さを制限する。 */
 const LIMITS = { name: 100, email: 254, tel: 30, message: 4000 } as const;
+
+/** レート制限に当たったときに画面へ出す文言（D-07：内部情報は出さない）。 */
+const TOO_MANY_REQUESTS =
+  "短時間に送信が集中しています。お手数ですが、しばらく時間をおいて再度お試しください。";
 
 function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && value.length <= LIMITS.email;
@@ -49,6 +55,20 @@ export async function submitInquiry(formData: FormData) {
       (tel && tel.length > LIMITS.tel)
     ) {
       return { success: false as const, error: "入力された文字数が上限を超えています" };
+    }
+
+    // S-08：このフォームは未ログインでも叩けて、控えメールを任意の宛先へ送れる。
+    // 「1つのIPから大量に」と「同じ宛先へ繰り返し」の両方を止める（メール増幅対策）。
+    const ipLimit = await rateLimitByIp("inquiry", RATE_LIMITS.inquiryPerIp);
+    if (!ipLimit.ok) {
+      return { success: false as const, error: TOO_MANY_REQUESTS };
+    }
+    const emailLimit = await checkRateLimit(
+      `inquiry:email:${email.toLowerCase()}`,
+      RATE_LIMITS.inquiryPerEmail
+    );
+    if (!emailLimit.ok) {
+      return { success: false as const, error: TOO_MANY_REQUESTS };
     }
 
     const inquiry = await prisma.inquiry.create({
@@ -145,6 +165,11 @@ export async function updateInquiryStatus(id: number, status: string) {
   const auth = await requireAdmin();
   if (!auth.ok) {
     return { success: false as const, error: authErrorMessage(auth.reason) };
+  }
+
+  // "use server" は直接叩ける。想定外の値を status カラムへ書かせない（D-19 の区分名に固定）。
+  if (!INQUIRY_STATUS_VALUES.includes(status)) {
+    return { success: false as const, error: "指定された対応状態は使用できません。" };
   }
 
   try {

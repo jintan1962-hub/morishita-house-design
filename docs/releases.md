@@ -7,6 +7,60 @@ O-03：次の3つが言えない変更は本番へ出さない。
 
 ---
 
+## 2026-08-28 脆弱性是正（レート制限・情報漏えい・ヘッダ）※未デプロイ
+
+**状態：コード実装済み・機械ゲート通過済み。デプロイとマイグレーションは未実施。**
+実行するときは下記 O-03 の3点を再提示してから。
+
+### ① 何を変えるか
+
+- 対象コミット：この是正一式（`src/lib/rateLimit*.ts` / `src/lib/requestIp.ts` 新規、
+  `src/lib/auth.ts` / `src/config/security.ts` / `src/config/property.ts` /
+  `src/app/actions/{inquiry,registerUser,users,properties,logActivity}.ts` /
+  `src/app/(public)/mypage/**` / `next.config.ts` / `prisma/schema.prisma` ＋ migration）
+- **DBスキーマ変更あり**：`RateLimit` テーブルを1つ追加（`20260828010000_add_rate_limit`）。
+  既存テーブルの変更・列削除・データ移行は**なし**。
+- 利用者から見た変化：
+  - 問い合わせ・会員登録・ログインを短時間に繰り返すと一時的に断られる（正常な利用では起きない頻度）
+  - 会員登録で既存アドレスを入れたときの文言が変わる（退会済みか有効かを言わなくなった）
+  - 全ページにセキュリティヘッダが付く（`X-Frame-Options` 等）。iframe 埋め込みが不可に
+  - マイページ編集で、これまでブラウザへ送られていた自分のパスワードハッシュが送られなくなる
+
+### ② 問題が出たらどう気付くか
+
+| 見る場所 | 正常な状態 |
+|---|---|
+| Vercel 実行ログ | `レート制限の判定に失敗しました` が出ていない（出ていれば DB 到達不可。フェイルオープンで通してはいる） |
+| `/member`（会員登録） | 新規メールで登録→自動ログイン→ `/mypage` まで通る |
+| `/property/[id]/contact` | 1回目の送信が成功し、控えメールが届く |
+| ログイン | 正しいパスワードで一発ログインできる（失敗を数えるのは誤入力時のみ） |
+| `curl -I https://<本番>/` | `x-frame-options: DENY` と `content-security-policy: frame-ancestors 'none'…` が返る |
+| `/admin`（管理者ログイン後） | 会員一覧・物件一覧・問い合わせ一覧が従来どおり表示される |
+| `RateLimit` テーブル | 行が増減している（掃除で古い行は消える）。肥大していない |
+
+### ③ どうやって元に戻すか
+
+**コード**：`git revert <このデプロイのコミット>` して push（Vercel 自動ビルド 約2〜3分）。
+または Vercel ダッシュボードで前デプロイへ即時ロールバック。
+
+**DB**：`RateLimit` テーブルはコードが revert されれば参照されなくなる（残っていても無害）。
+明示的に消すなら Supabase の SQL Editor で下記（`DROP` は D-15 のため人間が実行）：
+
+```sql
+DROP TABLE IF EXISTS "RateLimit";
+DELETE FROM "_prisma_migrations" WHERE migration_name = '20260828010000_add_rate_limit';
+```
+
+所要：コード5分・DB2分。データ損失なし（`RateLimit` は使い捨てのカウンタのみ）。
+
+### 適用手順（実行時）
+
+1. `git push origin main`（確認を取ってから）
+2. `prisma migrate deploy`（`DIRECT_URL` 経由。pooler では失敗する）
+3. Vercel のデプロイ完了後、上記②の表を実URLで確認
+
+---
+
 ## 2026-08-25 モリシタハウス用 Supabase へのスキーマ適用
 
 **状態：適用済み。** 実行者：Claude（大野の指示）

@@ -1,15 +1,25 @@
-import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import prisma from "@/lib/prisma";
 import DeleteAccountButton from "@/components/DeleteAccountButton";
+import { requireUser } from "@/lib/auth";
 import { signInPath } from "@/lib/authPaths";
 import PageHead from "@/components/PageHead";
 
 export default async function MyPage() {
-  const session = await getServerSession();
+  // S-07：ログイン状態と、退会・停止されていないことをサーバー側で確認する。
+  // getServerSession() を素で呼ぶと session コールバックが効かず、確認が中途半端になる。
+  const auth = await requireUser();
+  if (!auth.ok) {
+    redirect(signInPath("/mypage"));
+  }
 
-  // ログインしていない場合はトップ（またはログイン画面）へリダイレクト
-  if (!session) {
+  // S-01：画面に出す氏名・メールだけを取る。
+  const member = await prisma.user.findFirst({
+    where: { id: auth.userId, deletedAt: null },
+    select: { name: true, email: true },
+  });
+  if (!member) {
     redirect(signInPath("/mypage"));
   }
 
@@ -23,7 +33,7 @@ export default async function MyPage() {
 
       <section className="sec">
         <div className="container" style={{ maxWidth: "800px" }}>
-          <p style={{ marginBottom: "32px", fontSize: "1.8rem" }}>ようこそ、{session.user?.name || "会員"}さん</p>
+          <p style={{ marginBottom: "32px", fontSize: "1.8rem" }}>ようこそ、{member.name || "会員"}さん</p>
 
           <div className="cardGrid cardGrid--2">
             {/* お気に入り機能は未実装のため枠を出していない。
@@ -47,11 +57,11 @@ export default async function MyPage() {
               <dl className="mediaCard__data" style={{ borderTop: "none", marginTop: 0 }}>
                 <div style={{ padding: "12px 0" }}>
                   <dt>お名前</dt>
-                  <dd>{session.user?.name}</dd>
+                  <dd>{member.name || "（未設定）"}</dd>
                 </div>
                 <div style={{ padding: "12px 0" }}>
                   <dt>メールアドレス</dt>
-                  <dd>{session.user?.email}</dd>
+                  <dd>{member.email}</dd>
                 </div>
               </dl>
               <div style={{ marginTop: "24px", textAlign: "center" }}>

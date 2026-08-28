@@ -1,27 +1,53 @@
 import type { NextConfig } from "next";
 
 /**
- * 設定は空でよい。
+ * セキュリティレスポンスヘッダを全ページに付ける。
  *
- * 【turbopack.root を置かない理由】
- * 一時期 `turbopack: { root: path.resolve(...) }` を書いていたが、外した。
+ * 【なぜ入れるか】
+ * 以前は1本も付いておらず、管理画面・ログインフォームが iframe に埋め込める＝
+ * クリックジャッキングが可能だった。ここで最低限を塞ぐ。
  *
- * 1. 本番ビルドで警告が出る。設定ファイルの中で path.resolve / process.cwd() を
- *    呼ぶと、Turbopack のファイルトレース（NFT）が
- *    「プロジェクト全体が意図せずトレースされた」と判定する：
- *      ./next.config.ts
- *      Encountered unexpected file in NFT list
- *    配信物に不要なファイルが混ざり、関数が肥大化する。
- *
- * 2. そもそも要らなかった。書いた動機は開発サーバーが白画面になる件
- *    （Could not find the module ... in the React Client Manifest）だったが、
- *    実際の原因は古い .next キャッシュで、`rm -rf .next` で直る。
- *    同時に両方やったため、設定の効果と取り違えていた。
- *
- * ホーム直下（~/）に別プロジェクトの pnpm-lock.yaml があるため、
- * 開発サーバーの起動時に「inferred your workspace root」という警告が出るが、
- * 動作に影響はない。消したければ ~/pnpm-lock.yaml を片付ける。
+ * 【Content-Security-Policy の範囲】
+ * いまは frame-ancestors / object-src / base-uri / form-action だけに絞っている。
+ * これらは default-src にフォールバックしないため、既存の描画（Next.js のインライン
+ * スクリプト、next/script で読む解析タグ、Supabase Storage の画像）を壊さない。
+ * TODO:未確認 script-src / style-src まで含めた本格的な CSP は、nonce 対応と
+ * 画面ごとの動作確認が要るため別作業。公開前に必ず対応する（docs/inspections.md 参照）。
  */
-const nextConfig: NextConfig = {};
+const securityHeaders = [
+  // クリックジャッキング対策。CSP 非対応の古いブラウザ向けの保険も併記する。
+  { key: "X-Frame-Options", value: "DENY" },
+  {
+    key: "Content-Security-Policy",
+    value: [
+      "frame-ancestors 'none'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join("; "),
+  },
+  // Content-Type の推測を止める（XSS の温床になる）。
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  // 他サイトへ遷移するとき、参照元にパス・クエリを載せない。
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  // 使っていないブラウザ機能を明示的に閉じる。
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+  },
+  // 一度 HTTPS で来たブラウザは、以後 HTTP を試させない（Vercel は常時 HTTPS）。
+  {
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
+  },
+];
+
+const nextConfig: NextConfig = {
+  // X-Powered-By を出さない（実装スタックを不必要に知らせない）。
+  poweredByHeader: false,
+  async headers() {
+    return [{ source: "/:path*", headers: securityHeaders }];
+  },
+};
 
 export default nextConfig;
