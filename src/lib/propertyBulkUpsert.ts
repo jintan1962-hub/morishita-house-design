@@ -41,6 +41,7 @@ export const BULK_UPSERT_COLUMNS = [
   ["address", "text"],
   ["prefCd", "text"],
   ["cityCd", "text"],
+  ["elementarySchool", "text"],
   ["disclosureLevel", "integer"],
   ["currentState", "text"],
   ["trafficNote", "text"],

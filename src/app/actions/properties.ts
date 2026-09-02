@@ -9,6 +9,7 @@ import { parseJapaneseDate } from "@/lib/dates";
 import { toJsonSafe } from "@/lib/json";
 import { blankToNull } from "@/lib/blank";
 import { buildBulkUpsert } from "@/lib/propertyBulkUpsert";
+import { elementarySchoolFromAddress } from "@/lib/himejiSchoolLookup";
 import { PROPERTY_FIELDS } from "@/config/propertyFields";
 import {
   parseSearchParams,
@@ -142,6 +143,8 @@ type PropertyRow = {
   address: string;
   prefCd: string;
   cityCd: string;
+  /** 小学校区。住所から引く。決められなければ null（D-03）。 */
+  elementarySchool: string | null;
   disclosureLevel: number;
   currentState: string | null;
 
@@ -445,6 +448,11 @@ export async function compareCSVData(csvData: IncomingProperty[]) {
       if (existing.madori !== item.madori) changes.push("間取り");
       if (existing.disclosureLevel !== parseInt(item.disclosureLevel ?? ""))
         changes.push("公開レベル");
+      // 小学校区は住所から引く。取込側の対応表を直すと結果が変わるため、
+      // 既存と違えば「上書き」として画面に出す。ここを見ないと、
+      // 校区だけが変わる取込が「変更なし」に見えてしまう。
+      if (existing.elementarySchool !== elementarySchoolFromAddress(item.address))
+        changes.push("小学校区");
 
       results.push({
         type: changes.length > 0 ? "update" : "no_change",
@@ -591,6 +599,10 @@ export async function importProperties(
       address: item.address,
       prefCd: item.prefCd?.trim() || PREF_CODE,
       cityCd,
+      // 小学校区は住所から引く（トップの地図・小学校区別の集計に使う）。
+      // athome の情報に学校は含まれないため、姫路市立学校校区規則で引き当てる。
+      // 丁目で校区が分かれる町など、決められないものは null のままにする。
+      elementarySchool: elementarySchoolFromAddress(item.address),
       disclosureLevel,
       currentState: text(item.currentState),
 
