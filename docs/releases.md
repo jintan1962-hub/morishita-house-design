@@ -7,6 +7,75 @@ O-03：次の3つが言えない変更は本番へ出さない。
 
 ---
 
+## 2026-09-02 物件CSVの一括取込の是正＋ログイン導線の修正
+
+**状態：デプロイ済み。** 実行者：Claude（大野の指示）
+- コミット `fcee08a..faecd09` を push（`12ca957` / `db02740` / `faecd09` の3件）
+- Vercel 本番デプロイ `morishita-used-housing-site-bx1o7brh6`（READY／29秒）。
+  **GitHub連携の自動デプロイが動いた**（2026-08-28 時点では動かずCLIから実施していた）
+- DBスキーマの変更なし。マイグレーションの適用なし
+
+### ① 何を変えたか
+
+**(A) 物件CSVの一括取込（`faecd09`）**
+
+959行のCSVが「CSVを読み取れませんでした。文字コードと列名をご確認ください」で
+中止していた。原因は文字コードでも列名でもなく、サーバーアクションへ送る本文が
+上限を超えていたこと（44列959行で約1.26MB、既定の上限は1MB）。
+
+| ファイル | 変更 |
+| :--- | :--- |
+| `next.config.ts` | `serverActions.bodySizeLimit` を 4MB に設定 |
+| `src/app/actions/properties.ts` | `compareCSVData` の突合を959往復から1回の `findMany` に／`importProperties` のトランザクション制限時間を5秒から180秒に |
+| `src/app/(admin)/admin/properties/page.tsx` | CSV解析の失敗と送信の失敗を別々に捕まえ、送信失敗時は行数と原因を表示 |
+
+**(B) ログイン導線（`12ca957`）**
+
+2026-08-31 の「管理画面にログインできない」の再発防止。`SignInButton` の
+`callbackUrl` を必須の引数にし、ログイン後に元の画面へ戻すようにした。
+素の `/api/auth/signin` 直書きを検出するテストを追加。
+
+**(C) 記録の更新（`db02740`）** — CLAUDE.md・作業ログ・手順書。
+`docs/物件CSVの形式.md` のエリア表が複製元（長野県佐久市）のままだったので兵庫県に直した。
+`scripts/setup-vercel-env.sh` と `docs/操作マニュアル.html` を追加。
+
+利用者から見た変化：
+- 管理者：959行のCSVが取り込めるようになる
+- 会員：ログイン後の遷移先が、押した導線に応じた画面に変わる
+- 一般利用者：表示の変化なし
+
+### ② デプロイ後の確認（実URLへのリクエストで確認）
+
+| 対象 | 結果 |
+| :--- | :--- |
+| `/` `/properties` `/member` `/simulation` `/company` | いずれも 200 |
+| `/admin` `/admin/properties` `/mypage` | 307 →`/api/auth/signin?callbackUrl=…`（戻り先が付いている） |
+| トップの「ログインする」 | `href="/api/auth/signin?callbackUrl=%2Fafter-login"`。(B) が効いている |
+| セキュリティヘッダ | `x-frame-options` `content-security-policy` `x-content-type-options` `referrer-policy` `permissions-policy` `strict-transport-security` を確認。`x-powered-by` なし（2026-08-28 の是正を維持） |
+
+### ③ ⚠️ 未確認（この作業では確認していない）
+
+- **本番の管理画面から959行のCSVを取り込む確認は未実施。**
+  管理者としてのログインが必要なため。**大野が実際に取り込んで確認すること。**
+- **本番で本文上限が4MBになっていることの直接確認も未実施。**
+  1MB超のリクエストを本番へ投げる確認が実行環境で拒否されたため。
+  ローカルでは1MB超で `Body exceeded 1 MB limit.` が出ること、
+  設定後のビルドで `Experiments (use with caution): · serverActions` が
+  認識されることまでを確認している。
+- ローカルで確認したのは次の3点。
+  ①CSVが959行×44列に解析できる ②1MB超で 413 が起きる（検証ページで実測。
+  302,803バイト＝成功／1,312,143バイト＝`Body exceeded 1 MB limit.`）
+  ③DB側の処理が959行で1,443ms（`findMany` 28ms＋トランザクション1,443ms）
+
+### ④ どうやって元に戻すか
+
+`vercel rollback`、またはVercelの画面から `morishita-used-housing-site-m7g3r8mcl`
+（2026-08-31 のデプロイ）を Promote する。所要1〜2分。
+DBスキーマの変更がないため、戻すSQLは不要。
+取込を実行済みの場合、上書き前のデータは `PropertyImportBackup` に残る。
+
+---
+
 ## 2026-08-28 脆弱性是正（レート制限・情報漏えい・ヘッダ）
 
 **状態：デプロイ済み。** 実行者：Claude（大野の指示）
