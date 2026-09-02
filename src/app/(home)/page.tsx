@@ -6,6 +6,7 @@ import { getHomeStats, emptyHomeStats } from "@/app/actions/homeStats";
 import PropertySearchPanel from "@/components/PropertySearchPanel";
 import AreaSearch from "./AreaSearch";
 import NewArrivals from "./NewArrivals";
+import { signInPath, AFTER_LOGIN_PATH } from "@/lib/authPaths";
 
 /**
  * トップページ。
@@ -187,7 +188,11 @@ export default async function HomePage() {
               {/* ログインフォームはここに置かない。
                   認証は NextAuth のログイン画面が1箇所で担当する（D-20）。
                   ここに似たフォームを作ると、パスワードの入口が2つになる。 */}
-              <Link className="btn btn-line btn-block" href="/api/auth/signin" style={{ marginTop: 20 }}>
+              <Link
+                className="btn btn-line btn-block"
+                href={signInPath(AFTER_LOGIN_PATH)}
+                style={{ marginTop: 20 }}
+              >
                 ログインする
               </Link>
             </div>

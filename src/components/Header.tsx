@@ -7,6 +7,7 @@ import { COMPANY } from "@/config/company";
 import { PRIMARY_NAV } from "@/config/navigation";
 import BrandLogo from "@/components/BrandLogo";
 import SignInButton from "@/components/SignInButton";
+import { AFTER_LOGIN_PATH } from "@/lib/authPaths";
 
 /**
  * 全公開ページ共通のヘッダー。
@@ -59,7 +60,11 @@ export default function Header() {
             </>
           ) : (
             <>
-              <SignInButton className="btn btn-ghost">ログイン</SignInButton>
+              {/* 押した人が管理者か会員か、押す時点では分からない。
+                  いったん /after-login へ送り、権限ごとの入り口へ振り分ける。 */}
+              <SignInButton callbackUrl={AFTER_LOGIN_PATH} className="btn btn-ghost">
+                ログイン
+              </SignInButton>
               <Link className="btn btn-gold" href="/member">
                 無料会員登録
               </Link>

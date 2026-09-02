@@ -70,7 +70,9 @@ export default async function PropertyDetailPage({
               <div
                 style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 24 }}
               >
-                <SignInButton className="btn btn-line">ログインして詳細を見る</SignInButton>
+                <SignInButton callbackUrl={`/property/${id}`} className="btn btn-line">
+                  ログインして詳細を見る
+                </SignInButton>
                 <Link href="/member" className="btn btn-gold">
                   無料会員登録はこちら
                 </Link>
