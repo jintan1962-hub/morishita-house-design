@@ -8,6 +8,7 @@ import { DISCLOSURE_LEVEL } from "@/config/security";
 import { parseJapaneseDate } from "@/lib/dates";
 import { toJsonSafe } from "@/lib/json";
 import { blankToNull } from "@/lib/blank";
+import { buildBulkUpsert } from "@/lib/propertyBulkUpsert";
 import { PROPERTY_FIELDS } from "@/config/propertyFields";
 import {
   parseSearchParams,
@@ -646,20 +647,24 @@ export async function importProperties(
     /**
      * D-18：控えの作成と全行の書き込みを1つのトランザクションで実行する。
      *
-     * 【なぜ $transaction(配列) なのか】
-     * 以前は $transaction(async (tx) => ...) の対話型トランザクションだった。
-     * 本番の DATABASE_URL は Supabase のプーラー（6543番・pgbouncer=true）で、
-     * 接続をトランザクション単位で使い回す方式のため、行数分の往復を1つの
-     * トランザクションで持ち続けられない。959行の取込が約16秒で
-     * P2028「Transaction not found」になって中止した（2026-09-02）。
-     * 3件のときは往復が短く成功していたので、件数が増えて初めて出た。
+     * 【なぜ SQL 1文なのか】
+     * 行数分の upsert を送る形は、書き方を変えても本番では終わらなかった。
+     *   - 対話型トランザクションは、プーラー（6543番・pgbouncer=true）が接続を
+     *     トランザクション単位で使い回すため維持できず、約16秒で
+     *     P2028「Transaction not found」になった
+     *   - $transaction(配列) に変えると P2028 は出なくなったが、959文の往復が
+     *     終わらず 300 秒で Vercel の関数が打ち切られた
+     * 原因は文の数そのもの。Vercel と Supabase（ap-south-1）が離れているため、
+     * 1文ごとの往復時間が959回積み上がる。
+     * 全行を JSON 1個にまとめて1文で流し込み、往復を1回にする
+     * （組み立ては src/lib/propertyBulkUpsert.ts）。ローカルでは959行が1文・113ms。
      *
-     * 配列を渡す形は1回の要求としてまとめて送られ、サーバー側で1つの
-     * トランザクションとして実行される。往復が1回で済むため、プーラーの
-     * 方式に左右されない。「途中で落ちても中途半端なデータを残さない」
-     * という D-18 の性質はそのまま保たれる。
+     * 配列を渡す $transaction は1回の要求としてまとめて送られ、サーバー側で
+     * 1つのトランザクションとして実行される。「途中で落ちても中途半端な
+     * データを残さない」という D-18 の性質は保たれる。
      */
-    const result = await prisma.$transaction([
+    const bulk = buildBulkUpsert(rows);
+    const [backup] = await prisma.$transaction([
       prisma.propertyImportBackup.create({
         data: {
           importedBy: auth.email,
@@ -669,14 +674,11 @@ export async function importProperties(
           before: toJsonSafe(before) as object,
         },
       }),
-      ...rows.map((data) =>
-        prisma.property.upsert({
-          where: { objMngNo: data.objMngNo },
-          update: data,
-          create: data,
-        })
-      ),
-    ]).then(([backup]) => ({ backupId: backup.id, overwritten: before.length }));
+      // 値は全て引数として渡す（SQL文に入力は混ざらない）。
+      // 文そのものは propertyBulkUpsert.ts が直書きの列表から組み立てる。
+      prisma.$executeRawUnsafe(bulk.sql, ...bulk.values),
+    ]);
+    const result = { backupId: backup.id, overwritten: before.length };
 
     revalidatePath("/admin/properties");
     revalidatePath("/properties");
