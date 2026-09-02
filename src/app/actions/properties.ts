@@ -637,13 +637,30 @@ export async function importProperties(
   try {
     const objMngNos = rows.map((r) => r.objMngNo);
 
-    const result = await prisma.$transaction(async (tx) => {
-      // D-17 手順2：上書きされる既存レコードの控えを取る
-      const before = await tx.property.findMany({
-        where: { objMngNo: { in: objMngNos } },
-      });
+    // D-17 手順2：上書きされる既存レコードの控えを取る。
+    // 控えの中身を使って次の書き込みを組み立てるため、ここだけは書き込みの前に読む。
+    const before = await prisma.property.findMany({
+      where: { objMngNo: { in: objMngNos } },
+    });
 
-      const backup = await tx.propertyImportBackup.create({
+    /**
+     * D-18：控えの作成と全行の書き込みを1つのトランザクションで実行する。
+     *
+     * 【なぜ $transaction(配列) なのか】
+     * 以前は $transaction(async (tx) => ...) の対話型トランザクションだった。
+     * 本番の DATABASE_URL は Supabase のプーラー（6543番・pgbouncer=true）で、
+     * 接続をトランザクション単位で使い回す方式のため、行数分の往復を1つの
+     * トランザクションで持ち続けられない。959行の取込が約16秒で
+     * P2028「Transaction not found」になって中止した（2026-09-02）。
+     * 3件のときは往復が短く成功していたので、件数が増えて初めて出た。
+     *
+     * 配列を渡す形は1回の要求としてまとめて送られ、サーバー側で1つの
+     * トランザクションとして実行される。往復が1回で済むため、プーラーの
+     * 方式に左右されない。「途中で落ちても中途半端なデータを残さない」
+     * という D-18 の性質はそのまま保たれる。
+     */
+    const result = await prisma.$transaction([
+      prisma.propertyImportBackup.create({
         data: {
           importedBy: auth.email,
           itemCount: rows.length,
@@ -651,25 +668,15 @@ export async function importProperties(
           // 既存が0件のうちは [] なので通ってしまい、2回目の取込で初めて失敗していた。
           before: toJsonSafe(before) as object,
         },
-      });
-
-      for (const data of rows) {
-        await tx.property.upsert({
+      }),
+      ...rows.map((data) =>
+        prisma.property.upsert({
           where: { objMngNo: data.objMngNo },
           update: data,
           create: data,
-        });
-      }
-
-      return { backupId: backup.id, overwritten: before.length };
-    },
-    {
-      // 既定の上限は5秒。959行の取込は upsert を行数分繰り返すため、
-      // 本番の遠隔DBでは5秒では終わらず「Transaction already closed」で落ちる。
-      // D-18 の「全体で1トランザクション」を保ったまま、行数に見合う時間を与える。
-      maxWait: 15_000,
-      timeout: 180_000,
-    });
+        })
+      ),
+    ]).then(([backup]) => ({ backupId: backup.id, overwritten: before.length }));
 
     revalidatePath("/admin/properties");
     revalidatePath("/properties");
