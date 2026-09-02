@@ -12,6 +12,10 @@ test("よくある表記から部屋数を読む", () => {
   assert.equal(madoriRooms("2K"), 2);
   assert.equal(madoriRooms("1DK"), 1);
   assert.equal(madoriRooms("4SLDK"), 4);
+  // 2026-09-02：SLK が抜けており、実データの "6SLK（和 6･6･6 洋 8･8･6 LK 6 S 5）" が
+  // どの区分にも入らず、間取り別の合計が総件数より1件少なくなっていた。
+  assert.equal(madoriRooms("6SLK"), 6);
+  assert.equal(madoriRooms("6SLK（和 6･6･6 洋 8･8･6 LK 6 S 5）"), 6);
   assert.equal(madoriRooms("1R"), 1);
   assert.equal(madoriRooms("ワンルーム"), 1);
   assert.equal(madoriRooms("６LDK"), 6, "全角数字も読む");

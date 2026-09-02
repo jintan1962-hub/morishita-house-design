@@ -30,7 +30,9 @@ export function madoriRooms(madori: string | null | undefined): number | null {
   if (/^ワンルーム/.test(normalized)) return 1;
 
   // 先頭の数字が部屋数（"3LDK" → 3、"4SLDK" → 4）。
-  const m = normalized.match(/^(\d+)\s*(R|K|DK|LDK|SLDK|SK|SDK|LK)/i);
+  // S は納戸。SLK / SLDK のように L や D と組み合わさる表記がある。
+  // 2026-09-02：SLK が抜けており、"6SLK" の1件が集計から落ちていた。
+  const m = normalized.match(/^(\d+)\s*(R|K|DK|LDK|SLDK|SLK|SK|SDK|LK)/i);
   if (!m) return null;
 
   const rooms = parseInt(m[1], 10);
