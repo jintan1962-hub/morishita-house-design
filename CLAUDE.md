@@ -13,8 +13,11 @@
 解決する業務：物件掲載・会員限定物件の出し分け・会員管理・問い合わせ受付（詳細 SYSTEM_SPEC.md）
 利用者と権限：未ログイン=公開物件のみ／会員(USER)／管理者(ADMIN)。role の付与はDB直接操作のみ
 扱う個人情報：有（氏名／メール／電話／郵便番号／住所／問い合わせ本文／閲覧履歴）→ 触る変更は全てL3
-本番環境：【未構築】Vercel／Supabase(PostgreSQL)／メールは Resend(REST)。
-　　　　　　モリシタハウス用の Supabase・Vercel は未作成（2026-08-25 時点）。
+本番環境：【構築済・未公開】Vercel／Supabase(PostgreSQL)／メールは Resend(REST・未設定)。
+　　　　　　本番URL https://morishita-used-housing-site-o-dec4.vercel.app （独自ドメイン未設定）。
+　　　　　　Deployment Protection が有効なので、一般の利用者はまだ閲覧できない。
+　　　　　　環境変数は **Production のみ**に登録（Preview に本番DBを向けない）。
+　　　　　　本番DBは空で、管理者アカウントも未作成（2026-08-25 時点）。
 　　　　　　構築手順と役割分担は docs/本番環境の作り方.md。Supabaseは**新規プロジェクト**で作る（大野の決定）。
 　　　　　　RENOEL の本番接続情報は .env.renoel-production.bak / .env.renoel-migrate.bak へ退避済み。
 　　　　　　**この2ファイルを .env に戻さないこと**（他社の本番DBに繋がる）
