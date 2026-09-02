@@ -34,6 +34,20 @@ type PropertyRow = {
   imageCount?: number;
 };
 
+/**
+ * サーバーへ送れなかったときの案内文。
+ *
+ * 行数が多いCSVは送信本文が大きくなり、上限を超えると 413 で弾かれる。
+ * 例外の文言をそのまま出しても伝わらないため、行数と対処を添える。
+ */
+function serverCallErrorMessage(err: unknown, rowCount: number): string {
+  const detail = err instanceof Error ? err.message : String(err);
+  if (/body exceeded|413/i.test(detail)) {
+    return `送信できるデータ量の上限を超えました（${rowCount}行）。CSVを分割してお試しください。`;
+  }
+  return `サーバーとの通信に失敗したため、取込を中止しました（${rowCount}行）。時間をおいてお試しください。詳細：${detail}`;
+}
+
 export default function PropertyManagement() {
   const [properties, setProperties] = useState<PropertyRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -102,6 +116,10 @@ export default function PropertyManagement() {
     setErrorMessage("");
     const reader = new FileReader();
     reader.onload = async (event) => {
+      // ファイルの読み取りと、サーバーへの問い合わせを分けて捕まえる。
+      // 以前は両方を1つの try で囲っていたため、送信が 413 で弾かれたときにも
+      // 「文字コードと列名をご確認ください」と出て、原因の見当がつかなかった。
+      let data: IncomingProperty[];
       try {
         // Excel の「CSV形式で保存」は既定で Shift-JIS。UTF-8 決め打ちだと日本語が全て化けるため、
         // バイト列で受け取って文字コードを判定する。
@@ -109,13 +127,21 @@ export default function PropertyManagement() {
         const { text, encoding } = decodeCsvBuffer(buffer);
         setDetectedEncoding(encoding);
         // 引用符に対応した分解。値の中のカンマで列がずれない。
-        const data = parseCsv(text) as IncomingProperty[];
-        if (data.length === 0) {
-          setErrorMessage("データ行がありません。1行目がヘッダー、2行目以降がデータになっているかご確認ください。");
-          setImportStatus("error");
-          return;
-        }
+        data = parseCsv(text) as IncomingProperty[];
+      } catch (err) {
+        console.error("CSVの解析に失敗:", err);
+        setErrorMessage("CSVを読み取れませんでした。文字コードと列名をご確認ください。");
+        setImportStatus("error");
+        return;
+      }
 
+      if (data.length === 0) {
+        setErrorMessage("データ行がありません。1行目がヘッダー、2行目以降がデータになっているかご確認ください。");
+        setImportStatus("error");
+        return;
+      }
+
+      try {
         // D-17 手順1：まず数える。この時点ではまだ1件も書き込まれていない。
         const res = await compareCSVData(data);
         if (!res.success) {
@@ -127,8 +153,8 @@ export default function PropertyManagement() {
         setApprovedItems(new Set(res.data.map((_, i) => i)));
         setImportStatus("preview");
       } catch (err) {
-        console.error("CSVの解析に失敗:", err);
-        setErrorMessage("CSVを読み取れませんでした。文字コードと列名をご確認ください。");
+        console.error("取込内容の確認に失敗:", err);
+        setErrorMessage(serverCallErrorMessage(err, data.length));
         setImportStatus("error");
       }
     };
@@ -154,7 +180,16 @@ export default function PropertyManagement() {
 
     setImportStatus("importing");
     setErrorMessage("");
-    const res = await importProperties(itemsToImport, expectedCount);
+    let res;
+    try {
+      res = await importProperties(itemsToImport, expectedCount);
+    } catch (err) {
+      // 送信そのものが失敗した場合。サーバーは処理に入っていないため、書き込みは1件も無い。
+      console.error("取込の送信に失敗:", err);
+      setErrorMessage(serverCallErrorMessage(err, itemsToImport.length));
+      setImportStatus("error");
+      return;
+    }
     if (!res.success) {
       setErrorMessage(res.error);
       setImportStatus("error");

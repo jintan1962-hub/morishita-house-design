@@ -415,11 +415,22 @@ export async function compareCSVData(csvData: IncomingProperty[]) {
   try {
     const results: DiffResult[] = [];
 
+    // 突合対象を1回の問い合わせでまとめて引く。
+    // 以前は1行ごとに findUnique していたため、959行のCSVで959往復していた。
+    // 本番DBは遠隔にあるため、往復のたびの待ち時間が積み上がって応答が返らなくなる。
+    const targets = csvData
+      .map((item) => parseObjMngNo(item.objMngNo))
+      .filter((no): no is bigint => no !== null);
+    const existingRows = await prisma.property.findMany({
+      where: { objMngNo: { in: targets } },
+    });
+    const existingByNo = new Map(existingRows.map((row) => [row.objMngNo, row]));
+
     for (const item of csvData) {
       const objMngNo = parseObjMngNo(item.objMngNo);
       if (objMngNo === null) continue;
 
-      const existing = await prisma.property.findUnique({ where: { objMngNo } });
+      const existing = existingByNo.get(objMngNo);
 
       if (!existing) {
         results.push({ type: "new", incoming: item });
@@ -651,6 +662,13 @@ export async function importProperties(
       }
 
       return { backupId: backup.id, overwritten: before.length };
+    },
+    {
+      // 既定の上限は5秒。959行の取込は upsert を行数分繰り返すため、
+      // 本番の遠隔DBでは5秒では終わらず「Transaction already closed」で落ちる。
+      // D-18 の「全体で1トランザクション」を保ったまま、行数に見合う時間を与える。
+      maxWait: 15_000,
+      timeout: 180_000,
     });
 
     revalidatePath("/admin/properties");

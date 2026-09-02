@@ -45,6 +45,22 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // X-Powered-By を出さない（実装スタックを不必要に知らせない）。
   poweredByHeader: false,
+  /**
+   * サーバーアクションに送れる本文の上限。既定は 1MB。
+   *
+   * 【なぜ変えるか】
+   * 物件CSVの一括取込は、解析した全行をサーバーアクションの引数として送る。
+   * 44列・959行のCSVで本文が約1.3MBになり、既定の1MBを超えて 413 で弾かれていた。
+   * 画面には「CSVを読み取れませんでした」と出るだけで、原因が分からない状態だった。
+   *
+   * 【4mb の根拠】
+   * 1行あたり約1.3KB（実データ959行＝約1.26MB から算出）。
+   * MAX_IMPORT_ROWS（2000行）で約2.6MB になるため、余裕を見て 4MB とする。
+   * Vercel のリクエスト本文の上限は 4.5MB なので、その内側に収める。
+   */
+  experimental: {
+    serverActions: { bodySizeLimit: "4mb" },
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
