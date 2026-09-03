@@ -72,8 +72,9 @@
 **残る差分（実害なし・防御の厚みの問題）**：バケット側の `file_size_limit` が無制限、
 `allowed_mime_types` が制限なし。一方アプリは `src/config/images.ts` で
 1枚5MB・`jpg/jpeg/png/webp` に絞っている。アップロードは `requireAdmin()` を通る
-サーバーアクションからしか行えないため現状の穴ではない。バケットが空のいまなら
-無理なく揃えられる。**対応するかは大野の判断（【要確認】）。**
+サーバーアクションからしか行えないため現状の穴ではない。
+**大野の指示で同日揃えた**（5MB / `image/jpeg` `image/png` `image/webp`）。
+確認は docs/releases.md の同日の項を見ること。
 
 ### 未実施
 

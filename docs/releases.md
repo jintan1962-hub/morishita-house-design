@@ -77,8 +77,52 @@ export DIRECT_URL=$(printf '%s' "$DATABASE_URL" | sed -E 's/:6543/:5432/; s/\?pg
 node_modules/.bin/prisma migrate deploy
 ```
 
-**次回のマイグレーションでも同じ壁に当たる。** `.env.production.local` の
-`DIRECT_URL` をセッションプーラーの値へ書き換えるかは大野の判断（【要確認】）。
+**次回のマイグレーションでも同じ壁に当たるため、下記(B)で書き換えた。**
+
+### 続けて実施した2件（同日・大野の指示）
+
+**(A) Storage バケットの上限とMIME制限をアプリ側と揃えた**
+
+バケット `property-images` は `file_size_limit` 無制限・`allowed_mime_types` 制限なしだった。
+一方アプリは `src/config/images.ts` で1枚5MB・`jpg/jpeg/png/webp` に絞っている。
+アップロードは `requireAdmin()` を通るサーバーアクションからしか行えないため穴ではないが、
+バケットが空のいまなら無理なく揃えられるので合わせた。
+
+| 項目 | 変更前 | 変更後 |
+| :--- | :--- | :--- |
+| `file_size_limit` | 無制限 | 5242880（5MB） |
+| `allowed_mime_types` | 制限なし | `image/jpeg` `image/png` `image/webp` |
+| `public` | true | true（変更なし。公開URLで写真を出すため必要） |
+
+確認：`image/png` のアップロードは HTTP 200、公開URLでの取得も 200。
+`application/pdf` は `mime type application/pdf is not supported` で拒否。
+検証用ファイルは削除し、バケットは0件に戻した。
+
+戻すときは下記（所要1分）。
+
+```sh
+set -a; . ./.env.production.local; set +a
+curl -X PUT "$SUPABASE_URL/storage/v1/bucket/$SUPABASE_STORAGE_BUCKET" \
+  -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" -H "Content-Type: application/json" \
+  -d '{"public":true,"file_size_limit":null,"allowed_mime_types":null}'
+```
+
+**(B) `DIRECT_URL` をセッションプーラーへ書き換えた**
+
+上記の IPv6 の件への対処。`.env.production.local` と Vercel の Production を
+`aws-0-ap-south-1.pooler.supabase.com:5432` へ変更した。
+書き換え前の `.env.production.local` は `.env.production.local.bak-20260903` に退避（git管理外）。
+
+これで `set -a; . ./.env.production.local; set +a; node_modules/.bin/prisma migrate deploy` が
+読み替えなしで通る。確認：`prisma migrate status` が
+`Database schema is up to date!` を返す。
+
+**Vercel 側の値は再デプロイ不要かつ挙動に影響しない。** 根拠は次の2点。
+`directUrl` は Prisma CLI（migrate / introspect）専用で、Prisma Client は `url` しか見ない
+（`DIRECT_URL` 未設定・`DATABASE_URL` のみで Prisma Client が接続できることを確認済み）。
+ビルド時の `prisma generate` も `DIRECT_URL` 無しで成功することを確認した。
+**Vercel CLI は Sensitive な変数の値を読み戻せないため、登録が正しく入ったかは確認できていない**
+（【要確認】）。ただし上記のとおり値が壊れていてもビルドと稼働には影響しない。
 
 ---
 
