@@ -52,6 +52,29 @@
 **ログイン時のみ記録する**仕様だった。未ログインでの閲覧だったため増えないのが正しい。
 コードを読まずに「RLSで壊れた」と報告するところだった。
 
+### 続けて実施：Supabase の公開面の総点検
+
+警告メールは public テーブルの件しか指摘しない。同じ性質の穴が他に無いかを
+`scripts/check-supabase-surface.mjs` で見た（2026-09-03・読み取りのみ）。
+
+| 観点 | 結果 |
+|---|---|
+| public に `anon` が触れるテーブル | **0件**（是正が効いている） |
+| `public` の SECURITY DEFINER 関数 | **0件**（`search_path` 未固定の問題は発生しない） |
+| `storage.objects` の RLS | 有効。ポリシー0件のため `anon` の INSERT 権限は実際には通らない |
+| 匿名での Storage 一覧・アップロード | いずれも 400（`apikey` ヘッダ無しで拒否） |
+| バケット `property-images` の中身 | 0件（`PropertyImage` も0件で一致） |
+
+**バケット `property-images` は `public: true`。これは仕様どおり。**
+`src/lib/storage.ts` の `publicUrl()` が `/storage/v1/object/public/...` を組み立てており、
+公開サイトに物件写真を出すには公開読み取りが要る。
+
+**残る差分（実害なし・防御の厚みの問題）**：バケット側の `file_size_limit` が無制限、
+`allowed_mime_types` が制限なし。一方アプリは `src/config/images.ts` で
+1枚5MB・`jpg/jpeg/png/webp` に絞っている。アップロードは `requireAdmin()` を通る
+サーバーアクションからしか行えないため現状の穴ではない。バケットが空のいまなら
+無理なく揃えられる。**対応するかは大野の判断（【要確認】）。**
+
 ### 未実施
 
 - 別セッションでの再検品
