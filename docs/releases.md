@@ -7,6 +7,81 @@ O-03：次の3つが言えない変更は本番へ出さない。
 
 ---
 
+## 2026-09-03 Supabase の全テーブルで RLS を有効にする
+
+**状態：本番適用済み。** 実行者：Claude（適用コマンドの実行のみ大野）
+- マイグレーション `20260903010000_enable_rls_public_tables` を本番へ適用
+- コードの変更なし。**Vercel の再デプロイは不要**（DBの権限設定のみ）
+
+### ① 何を変えたか
+
+2026-08-31 付の Supabase セキュリティ警告（`rls_disabled_in_public` /
+`sensitive_columns_exposed`）への是正。適用前の実測では、public の
+**全10テーブルで RLS が無効**、`anon` ロールに SELECT と INSERT の権限があった。
+`User.password`（ハッシュ）や会員の氏名・電話番号・住所を含む。
+
+Supabase は public スキーマを PostgREST（`https://<ref>.supabase.co/rest/v1/`）で
+常時公開し、新しいテーブルに `anon` / `authenticated` の権限を既定で付ける。
+テーブルは Prisma のマイグレーションで作ったため、RLS を有効にする記述がどこにも無かった。
+
+2段構えで塞いだ。
+
+| 手当て | 内容 |
+| :--- | :--- |
+| RLS | public の全テーブルで有効化。ポリシーを1つも作らない＝既定で全拒否 |
+| 権限 | `anon` / `authenticated` からテーブルとシーケンスの権限を剥奪 |
+| 既定権限 | `postgres` の default privileges を変更。今後 Prisma が作るテーブルにも権限が付かない |
+
+アプリが壊れない理由：読み書きは Prisma が `postgres` ロールで行い、
+このロールはテーブルの所有者なので RLS を素通りする（`FORCE ROW LEVEL SECURITY` は付けない）。
+`anon` / `authenticated` はアプリのどこからも使っていない
+（`@supabase/supabase-js` 未導入・anon キーは環境変数にも配信物にも存在しない）。
+画像保管の Supabase Storage は `service_role` キーでサーバーからのみ呼ぶため無関係。
+
+### ② 問題が出たらどう気付くか
+
+RLS の設定を誤ると、アプリからの読み書きが `permission denied` で落ちる。
+症状は物件一覧が空になる、または500になること。検知は次の2本。
+
+```
+node scripts/check-rls.mjs .env.production.local            # 権限の状態
+node scripts/check-rls-app-access.mjs .env.production.local # 実際の読み書き
+```
+
+### ③ どうやって元に戻すか
+
+所要2分。データは一切変えていないため損失なし。Supabase の SQL Editor で下記。
+
+```sql
+DO $$ DECLARE t record; BEGIN
+  FOR t IN SELECT c.oid::regclass AS rel FROM pg_class c
+    JOIN pg_namespace n ON n.oid = c.relnamespace
+    WHERE n.nspname = 'public' AND c.relkind = 'r'
+  LOOP EXECUTE format('ALTER TABLE %s DISABLE ROW LEVEL SECURITY', t.rel); END LOOP;
+END $$;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated;
+```
+
+### 適用時に判明した別件：直結ホストが IPv4 から届かない
+
+`.env.production.local` の `DIRECT_URL`（`db.qqcjydmeohvfsqtukfzm.supabase.co:5432`）は
+**IPv6アドレスしか持たない**。IPv4のみの回線からは `prisma migrate status` が
+`P1001: Can't reach database server` で落ちる。
+
+回避は、`DATABASE_URL`（トランザクションプーラー・6543）のポートを 5432 に読み替えて
+セッションプーラーとして使うこと。今回の適用でも下記の形で実行した。
+
+```sh
+set -a; . ./.env.production.local; set +a
+export DIRECT_URL=$(printf '%s' "$DATABASE_URL" | sed -E 's/:6543/:5432/; s/\?pgbouncer=true//')
+node_modules/.bin/prisma migrate deploy
+```
+
+**次回のマイグレーションでも同じ壁に当たる。** `.env.production.local` の
+`DIRECT_URL` をセッションプーラーの値へ書き換えるかは大野の判断（【要確認】）。
+
+---
+
 ## 2026-09-02 物件CSVの一括取込の是正＋ログイン導線の修正
 
 **状態：デプロイ済み。** 実行者：Claude（大野の指示）

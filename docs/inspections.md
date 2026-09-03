@@ -8,6 +8,57 @@
 | 2026-08-18 | 上記の是正 | A（変更） | Claude（同一セッション・**自己検品**） | 条件付き合格（下記） | — |
 | 2026-08-19 | メール送信の Resend 移行 | A（変更） | Claude（同一セッション・**自己検品**） | 合格（実送信まで確認。下記） | — |
 | 2026-08-28 | 脆弱性観点の検品＋是正（モリシタ版） | A（変更・L3） | Claude（同一セッション・**自己検品**） | 是正実施・**要再検品**（下記） | 公開前 |
+| 2026-09-03 | Supabase の RLS 有効化（モリシタ版） | A（変更） | Claude（同一セッション・**自己検品**） | 合格（下記） | — |
+
+---
+
+## 2026-09-03 RLS 有効化の検品：合格
+
+### この検品の限界（先に読むこと）
+
+- **判定者が実装者と同一セッションである。**別セッションでの再検品が望ましい。
+- 確認したのは「公開ロールから遮断できたか」と「アプリの読み書きが壊れていないか」の2点のみ。
+  会員限定物件の出し分けなど**アプリ側の認可は今回の対象外**。
+- **anon キーが過去に外部へ渡っていたかは確認できていない**（【要確認】）。
+  渡っていた場合、是正前に読まれた可能性は否定できない。Supabase のログ調査は未実施。
+
+### 適用前後の実測
+
+`node scripts/check-rls.mjs .env.production.local` の出力。
+
+| 状態 | RLS 有効 | `anon` の SELECT | `anon` の INSERT | `authenticated` の SELECT |
+| :--- | :--- | :--- | :--- | :--- |
+| 適用前 | 0 / 10 テーブル | 10 テーブルで可 | 10 テーブルで可 | 10 テーブルで可 |
+| 適用後 | **10 / 10 テーブル** | **全テーブルで不可** | **全テーブルで不可** | **全テーブルで不可** |
+
+対象10テーブル：`ActivityLog` `Inquiry` `MailLog` `Property` `PropertyImage`
+`PropertyImportBackup` `RateLimit` `SystemSetting` `User` `_prisma_migrations`
+
+### 検証したこと（証拠のあるもの）
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| RLS と権限 | `scripts/check-rls.mjs`（`pg_class` / `has_table_privilege` を直接参照） | 合格。上表のとおり |
+| REST の遮断 | `curl` で `/rest/v1/User` `/Property` `/Inquiry` | いずれも 401（適用前から401。anon キー未流出が前提） |
+| アプリの読み取り | `scripts/check-rls-app-access.mjs` で9モデルを `count()` | 全て成功。`Property` 959件 |
+| アプリの書き込み | 同スクリプトで `RateLimit` へ INSERT → SELECT → DELETE | 成功。検証行の残骸なし |
+| 本番と同一の接続 | 上記を `--pooled`（Vercel が使う 6543・`pgbouncer=true`）で再実行 | 成功。読み書きとも同結果 |
+| 実機での表示 | Chrome で本番サイトを開いて目視 | `/properties` に「959件」と物件カードが表示。`/property/1241` も価格・面積・間取りまで表示 |
+
+### 判断を誤りかけた点（記録として残す）
+
+物件詳細ページを開いても `ActivityLog` が5件のまま増えなかった。RLS による書き込み拒否を
+疑ったが、`src/app/actions/logActivity.ts` を読むと `logPropertyView` は
+**ログイン時のみ記録する**仕様だった。未ログインでの閲覧だったため増えないのが正しい。
+コードを読まずに「RLSで壊れた」と報告するところだった。
+
+### 未実施
+
+- 別セッションでの再検品
+- Supabase のログによる、是正前の `anon` 経由アクセスの有無の確認
+- `anon` / `authenticated` の schema USAGE 剥奪。`has_schema_privilege` は適用後も `true` を返す。
+  これは `PUBLIC` ロールへの既定の GRANT を拾っているためで、
+  テーブル権限を剥奪済みなら実害はない。`PUBLIC` からの剥奪は影響範囲が読み切れないため見送った
 
 ---
 
