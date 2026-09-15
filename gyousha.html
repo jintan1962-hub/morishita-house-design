@@ -1,0 +1,479 @@
+<title>不動産会社様向け買取窓口</title>
+<style>
+:root{
+  --paper:#FFFFFF;
+  --paper-alt:#F3F7F6;
+  --paper-deep:#E7F1EE;
+  --ink:#202B33;
+  --ink-soft:#57626B;
+  --ink-faint:#8A9198;
+  --green:#00B389;
+  --green-deep:#008566;
+  --green-tint:#E3F7F0;
+  --gold:#B98A2E;
+  --gold-bright:#C99A3B;
+  --gold-tint:#F6EDD8;
+  --sage:#5F7A5C;
+  --line:#E3E8E7;
+  --line-strong:#CBD6D3;
+  --radius:3px;
+  --serif:"游明朝体","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+  --sans:"游ゴシック体","Yu Gothic Medium","Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);line-height:1.8;font-size:14.5px;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:700;margin:0;line-height:1.45;text-wrap:balance;}
+p{margin:0;}
+ul{margin:0;padding:0;list-style:none;}
+a{color:inherit;text-decoration:none;}
+:focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
+em{font-style:normal;background:linear-gradient(transparent 60%,var(--gold-tint) 60%);padding:0 .1em;}
+
+.wrap{max-width:1000px;margin:0 auto;padding:0 26px;}
+.band{padding:64px 0;}
+.band-alt{background:var(--paper-alt);}
+.sec-h{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.sec-h::before{content:"";width:5px;height:22px;background:var(--green);flex:none;}
+.sec-h h2{font-size:clamp(21px,3vw,27px);}
+.sec-lead{color:var(--ink-soft);font-size:14px;max-width:62ch;margin-bottom:26px;}
+
+/* ---------- ツールバー ---------- */
+.toolbar{
+  position:sticky;top:0;z-index:60;background:#2B2A24;color:#F0E8D6;
+  padding:9px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:12px;
+}
+.toolbar b{color:var(--gold-bright);}
+.toolbar .sp{margin-left:auto;}
+.toolbar button{
+  font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;
+  background:var(--green);color:#fff;border:none;border-radius:3px;padding:7px 16px;
+}
+.toolbar button:hover{background:var(--green-deep);}
+
+/* ---------- ヘッダー ---------- */
+header.site{border-bottom:1px solid var(--line-strong);}
+.topbar{max-width:1000px;margin:0 auto;padding:14px 26px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:11px;}
+.brand-logo{width:40px;height:40px;flex:none;}
+.brand .mark{font-size:17px;font-weight:700;letter-spacing:.13em;line-height:1.2;}
+.brand .mark-en{font-size:8px;font-weight:700;letter-spacing:.24em;color:var(--ink-soft);margin-top:2px;}
+.for-agent{
+  background:var(--green);color:#fff;font-size:12px;font-weight:700;letter-spacing:.14em;
+  padding:7px 16px;border-radius:2px;line-height:1.3;
+}
+.for-agent span{display:block;font-size:8px;letter-spacing:.2em;color:rgba(255,255,255,.82);margin-top:1px;}
+
+/* ---------- ヒーロー ---------- */
+.hero{
+  padding:56px 0 46px;
+  background:
+    repeating-linear-gradient(0deg,rgba(0,130,99,.05) 0 1px,transparent 1px 52px),
+    repeating-linear-gradient(90deg,rgba(0,130,99,.05) 0 1px,transparent 1px 52px),
+    linear-gradient(180deg,var(--green-tint) 0%,var(--paper) 72%);
+}
+.hero .kick{font-size:12px;font-weight:700;letter-spacing:.2em;color:var(--green-deep);}
+.hero h1{font-size:clamp(30px,5.6vw,50px);margin:16px 0 0;line-height:1.36;}
+.hero h1 .hl{color:var(--green-deep);}
+.hero .sub{margin-top:20px;font-size:15px;color:var(--ink-soft);max-width:60ch;}
+.hero-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+.hero-badges span{
+  background:#fff;border:1px solid var(--green);color:var(--green-deep);
+  font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:2px;
+}
+
+/* ---------- 7つの特徴 ---------- */
+.feat{border-top:1px solid var(--line-strong);}
+.feat > li{display:flex;gap:22px;padding:24px 0;border-bottom:1px solid var(--line);align-items:flex-start;}
+.feat .no{
+  flex:none;width:62px;text-align:center;
+}
+.feat .no .lab{font-size:9px;letter-spacing:.16em;font-weight:700;color:var(--ink-faint);display:block;}
+.feat .no .n{
+  font-family:var(--serif);font-size:38px;font-weight:700;color:var(--green);line-height:1.05;
+  display:block;font-variant-numeric:tabular-nums;
+}
+.feat h3{font-size:clamp(17px,2.4vw,21px);}
+.feat p{font-size:13.5px;color:var(--ink-soft);margin-top:8px;max-width:64ch;}
+.feat .pin{
+  display:inline-block;margin-top:10px;background:var(--gold-tint);border:1px solid var(--gold-bright);
+  color:#5a4413;font-size:12px;font-weight:700;padding:4px 12px;border-radius:2px;
+}
+.feat > li.star .no .n{color:var(--gold);}
+.feat > li.star{background:var(--gold-tint);}
+.feat > li.star{padding-left:18px;padding-right:18px;margin:0 -18px;}
+
+/* ---------- 対象 ---------- */
+.spec{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;}
+.spec th,.spec td{border:1px solid var(--line-strong);padding:11px 15px;text-align:left;vertical-align:top;}
+.spec th{background:var(--paper-deep);width:9em;font-weight:700;white-space:nowrap;font-size:13px;}
+.spec td strong{color:var(--green-deep);}
+.tbl-scroll{overflow-x:auto;}
+
+.welcome{border:1px solid var(--line-strong);border-left:4px solid var(--gold-bright);background:#fff;padding:20px 22px;border-radius:var(--radius);margin-top:18px;}
+.welcome h4{font-size:16.5px;}
+.welcome .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px;}
+.welcome .tags span{
+  background:var(--paper-alt);border:1px solid var(--line-strong);border-radius:2px;
+  padding:5px 12px;font-size:12.5px;font-weight:700;
+}
+.welcome p.n{font-size:12px;color:var(--ink-faint);margin-top:12px;}
+
+/* ---------- 流れ ---------- */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line-strong);border-radius:var(--radius);overflow:hidden;}
+@media(max-width:800px){.flow{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.flow{grid-template-columns:1fr;}}
+.flow > div{padding:20px 20px;border-left:1px solid var(--line);background:#fff;}
+.flow > div:first-child{border-left:none;}
+.flow > div.key{background:var(--green-tint);}
+.flow .when{
+  display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.08em;
+  background:var(--ink-soft);color:#fff;padding:3px 11px;border-radius:2px;
+}
+.flow > div.key .when{background:var(--gold);}
+.flow h4{font-size:16px;margin:11px 0 6px;}
+.flow p{font-size:12.5px;color:var(--ink-soft);line-height:1.75;}
+
+/* ---------- 標準仕様 ---------- */
+.spec2{width:100%;border-collapse:collapse;font-size:13px;background:#fff;}
+.spec2 th,.spec2 td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left;vertical-align:top;}
+.spec2 th{width:8.5em;font-weight:700;color:var(--green-deep);white-space:nowrap;background:var(--paper-alt);}
+.spec2 td{color:var(--ink-soft);}
+.spec2 td b{color:var(--ink);}
+
+/* ---------- 送付先 ---------- */
+.send{background:var(--green-deep);color:#fff;padding:44px 0;}
+.send .sec-h::before{background:var(--gold-bright);}
+.send h2{color:#fff;}
+.send .sec-lead{color:rgba(255,255,255,.82);}
+.send-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:start;}
+@media(max-width:800px){.send-grid{grid-template-columns:1fr;}}
+.contact{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.28);border-radius:var(--radius);padding:24px 26px;}
+.contact .tantou{font-size:12px;letter-spacing:.12em;color:var(--gold-bright);font-weight:700;}
+.contact .num{font-family:var(--serif);font-size:clamp(30px,5vw,42px);font-weight:700;line-height:1.15;font-variant-numeric:tabular-nums;margin-top:6px;}
+.contact .sub{font-size:12.5px;color:rgba(255,255,255,.75);margin-top:6px;}
+.contact dl{display:flex;gap:12px;margin:14px 0 0;padding-top:12px;border-top:1px solid rgba(255,255,255,.22);}
+.contact dt{font-size:11px;color:rgba(255,255,255,.62);font-weight:700;letter-spacing:.1em;width:3.5em;flex:none;}
+.contact dd{margin:0;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;}
+.need{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:var(--radius);padding:22px 24px;}
+.need h4{color:#fff;font-size:16px;}
+.need li{font-size:13px;color:rgba(255,255,255,.85);padding:5px 0 5px 17px;position:relative;}
+.need li::before{content:"";position:absolute;left:0;top:14px;width:7px;height:1px;background:var(--gold-bright);}
+.need p{font-size:12px;color:rgba(255,255,255,.66);margin-top:10px;}
+
+/* ---------- 会社概要 ---------- */
+.corp{width:100%;border-collapse:collapse;font-size:13.5px;}
+.corp th,.corp td{border-bottom:1px solid var(--line);padding:11px 0;text-align:left;vertical-align:top;}
+.corp th{width:9em;color:var(--ink-faint);font-weight:700;font-size:12.5px;}
+.corp td{font-variant-numeric:tabular-nums;}
+.chk-note{
+  margin-top:18px;border:1px solid #E6C9BE;background:#FBEFEA;border-radius:var(--radius);
+  padding:14px 17px;font-size:12.5px;color:#8A3D24;
+}
+.chk-note b{color:#7A3520;}
+
+footer.site{border-top:1px solid var(--line);padding:26px 0 40px;font-size:11.5px;color:var(--ink-faint);}
+footer.site p+p{margin-top:6px;}
+.backlinks{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+.backlinks a{
+  font-size:12.5px;font-weight:700;color:var(--ink-soft);background:#fff;
+  border:1px solid var(--line-strong);border-radius:3px;padding:7px 14px;
+}
+.backlinks a:hover{color:var(--green-deep);border-color:var(--green);}
+
+@page{size:A4;margin:13mm 12mm;}
+@media print{
+  body{font-size:10.5pt;line-height:1.6;}
+  .toolbar,.backlinks{display:none!important;}
+  .band{padding:18px 0;}
+  .hero{padding:20px 0 16px;}
+  .wrap{max-width:none;padding:0;}
+  .feat > li{padding:12px 0;break-inside:avoid;}
+  .flow,.welcome,.send-grid,.spec,.spec2{break-inside:avoid;}
+  .send{padding:20px 0;}
+  .page-break{break-before:page;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+
+<div class="toolbar">
+  <span><b>不動産会社様向け 買取窓口のご案内</b>　このページはA4で印刷できます</span>
+  <span class="sp"></span>
+  <button onclick="window.print()">A4で印刷 / PDF保存</button>
+</div>
+
+<header class="site">
+  <div class="topbar">
+    <div class="brand">
+      <svg class="brand-logo" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="50" fill="#00B389"/>
+        <circle cx="50" cy="25" r="6.6" fill="none" stroke="#fff" stroke-width="3.8"/>
+        <path d="M29.5,39 L38.5,39 L50,52 L61.5,39 L70.5,39 L70.5,85 L61.5,85 L61.5,52.6 L50,65.6 L38.5,52.6 L38.5,85 L29.5,85 Z" fill="#fff"/><rect x="29.5" y="69" width="41" height="8.5" fill="#fff"/>
+      </svg>
+      <div>
+        <div class="mark">モリシタハウス</div>
+        <div class="mark-en">MORISHITA HOUSE　SINCE 1975</div>
+      </div>
+    </div>
+    <div class="for-agent">不動産会社様専用<span>FOR REAL ESTATE AGENTS</span></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="kick">姫路・播磨エリア　中古住宅 買取窓口</div>
+    <h1>中古住宅、<br>買取させてください。<br><span class="hl">現地確認から48時間で判断します。</span></h1>
+    <p class="sub">
+      株式会社モリシタハウスは、創業51年の工務店であり、一級建築士事務所です。
+      建てる・直すを本業としてきたからこそ、「いくらで売れるか」ではなく
+      <em>「いくら掛ければ、どこまで蘇るか」</em>で建物を評価できます。
+      買い取る際には、次の7つのメリットをご用意します。
+    </p>
+    <div class="hero-badges">
+      <span>48時間で判断</span>
+      <span>再販は専任媒介で御社へ</span>
+      <span>瑕疵保険・建物状況診断付</span>
+      <span>ハウスサポート365付</span>
+      <span>ゴミ屋敷・傾きも可</span>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-h"><h2>私たちが買い取る際の、7つのメリット</h2></div>
+    <p class="sec-lead">不動産会社様にできる限りご負担を掛けないこと、そしてご紹介いただいた御社に還元することを前提に設計しています。</p>
+
+    <ul class="feat">
+      <li class="star">
+        <div class="no"><span class="lab">特徴</span><span class="n">1</span></div>
+        <div>
+          <h3>現地確認から48時間で判断します</h3>
+          <p>当社には不動産購入の明確な買取基準があるため、その基準に則って物件を試算します。
+          そして、できる限り不動産会社様にご負担を掛けないために、<strong>現地確認から48時間で購入判断</strong>をお返しします。</p>
+          <span class="pin">「検討します」のまま止めません。買えない場合も同じ期限内に理由を添えて回答します</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="no"><span class="lab">特徴</span><span class="n">2</span></div>
+        <div>
+          <h3>ご希望される会社様には、専任媒介契約で売却もお任せします</h3>
+          <p>できる限りご紹介いただいた不動産会社様に還元したいと考えています。
+          販売しやすく綺麗にするのはもちろん、<strong>リフォーム完了後は専任媒介契約で販売をお任せ</strong>いたします。</p>
+        </div>
+      </li>
+
+      <li>
+        <div class="no"><span class="lab">特徴</span><span class="n">3</span></div>
+        <div>
+          <h3>買取物件には、なるべく既存住宅売買瑕疵担保責任保険・建物状況診断を行います</h3>
+          <p>築年数が古すぎるなど、どうしても難しい場合を除き、基本的には
+          <strong>「既存住宅売買瑕疵担保責任保険」「建物状況診断（インスペクション）」</strong>を実施します。
+          仲介不動産会社様がお客様へ販売される際のセールスポイントを、なるべく付与するようにいたします。</p>
+        </div>
+      </li>
+
+      <li>
+        <div class="no"><span class="lab">特徴</span><span class="n">4</span></div>
+        <div>
+          <h3>全棟『ハウスサポート365』付き</h3>
+          <p>24時間365日の<strong>「緊急時かけつけサービス」</strong>を全棟に付帯します。
+          売却時にこの点を訴求いただくことで、販売後の煩わしいご対応を減らすことが可能となります。</p>
+        </div>
+      </li>
+
+      <li>
+        <div class="no"><span class="lab">特徴</span><span class="n">5</span></div>
+        <div>
+          <h3>ゴミ屋敷・動物臭・傾きのある家でも買い取ります</h3>
+          <p>当社の買取対象物件は、大手と比較して<strong>範囲が広いこと</strong>が売りです。
+          傾きのある家でも傾きを直し、汚れ・臭いも取り除いて改修を行いますので、
+          そのような物件でも気兼ねなくお問い合わせください。</p>
+        </div>
+      </li>
+
+      <li class="star">
+        <div class="no"><span class="lab">特徴</span><span class="n">6</span></div>
+        <div>
+          <h3>自社でリフォームを行うことで、グレードを上げています</h3>
+          <p>当社は、大手資本の買取業者や中小の不動産買取業者のように、リフォームを工務店や内装業者へ
+          一括で投げることはいたしません。すべて当社にてコーディネートを行い、専門業者に1つ1つ発注を掛けていく方式をとっています。
+          これにより<strong>中間マージン（15〜20%）をカット</strong>することができ、その分リフォームのグレードを上げ、
+          販売可能価格の上振れ・早期販売につなげております。</p>
+          <span class="pin">この分離発注のしくみが、そのまま買取価格の上振れにもつながります</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="no"><span class="lab">特徴</span><span class="n">7</span></div>
+        <div>
+          <h3>ワンランク上のリフォーム・リノベーション</h3>
+          <p>昨今、ただ綺麗にしただけのリフォーム済物件が数多く出回っています（グレードの低い安価な住宅設備機器、
+          一工夫が行えていない間取りや内装など）。追加の費用や一手間を掛ければ物件は見違え、
+          他のリフォーム済物件との差別化が可能となります。当社はそのような物件を市場に出し、
+          <strong>多くは3か月以内に成約</strong>を果たしてまいりました。</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="band band-alt page-break">
+  <div class="wrap">
+    <div class="sec-h"><h2>買取の対象</h2></div>
+    <p class="sec-lead">下記は目安です。線引きに厳格なルールは設けていません。迷われたら、まずはお声がけください。</p>
+    <div class="tbl-scroll">
+      <table class="spec">
+        <tr><th>エリア</th><td><strong>姫路市全域</strong>／たつの市・太子町・福崎町・市川町・神河町・加古川市・高砂市・播磨町・稲美町・相生市・赤穂市 ほか播磨一円</td></tr>
+        <tr><th>種別</th><td><strong>中古戸建</strong>を中心に、土地・古家付き土地・空き家・再建築不可物件・収益戸建</td></tr>
+        <tr><th>築年数</th><td><strong>制限なし</strong>。旧耐震・築50年超も対象です</td></tr>
+        <tr><th>物件の状態</th><td>残置物あり・未登記増築・雨漏り・シロアリ・<strong>傾き・動物臭・ゴミ屋敷</strong>、現況のままで結構です。片付けは不要です</td></tr>
+        <tr><th>ご用意いただく資料</th><td>住所（地番）・間取り・面積・築年がわかれば十分です。謄本や図面があれば助かりますが、無くても構いません</td></tr>
+      </table>
+    </div>
+
+    <div class="welcome">
+      <h4>他社で断られた案件こそ、お持ちください。</h4>
+      <div class="tags">
+        <span>再建築不可</span><span>接道が狭い</span><span>旗竿地</span><span>借地権</span>
+        <span>共有名義</span><span>越境あり</span><span>残置物あり</span><span>相続登記が未了</span>
+        <span>雨漏り・シロアリ</span><span>傾きがある</span><span>動物臭</span><span>ゴミ屋敷</span>
+        <span>心理的瑕疵</span><span>長期空き家</span>
+      </div>
+      <p class="n">※ すべてを買い取れるわけではありません。ただし、これらを理由に最初から断ることはいたしません。必ず一度、現地を拝見したうえで判断します。</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-h"><h2>ご紹介から決済までの流れ</h2></div>
+    <p class="sec-lead">48時間の起点は「現地確認」です。鍵やご立会のご都合で内見が先になっても、見せていただいてから2営業日でお答えします。</p>
+    <div class="flow">
+      <div>
+        <span class="when">当日中</span>
+        <h4>物件概要をお送りいただく</h4>
+        <p>お電話・FAX・メールいずれでも結構です。当日中に受領のご連絡と、現地確認できる日程をお返しします。</p>
+      </div>
+      <div>
+        <span class="when">3営業日以内</span>
+        <h4>現地確認</h4>
+        <p>鍵・ご立会のご都合に合わせて伺います。構造・基礎・屋根・設備・越境・接道を確認します。売主様のご同席は不要です。</p>
+      </div>
+      <div class="key">
+        <span class="when">現地確認から 48時間</span>
+        <h4>買取金額をご回答</h4>
+        <p>買取基準に則って試算し、金額をご提示します。買えない場合も、同じ期限内に理由を添えてお返しします。</p>
+      </div>
+      <div>
+        <span class="when">合意後 最短10日</span>
+        <h4>契約・決済</h4>
+        <p>自社資金での買取のため、融資特約は付けません。決済日は売主様のご都合に合わせて調整可能です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band-alt page-break">
+  <div class="wrap">
+    <div class="sec-h"><h2>当社標準仕様</h2></div>
+    <p class="sec-lead">どのグレードで直すのかを、あらかじめ開示します。御社がお客様へご案内される際の材料としてお使いください。</p>
+    <div class="tbl-scroll">
+      <table class="spec2">
+        <tr>
+          <th>キッチン</th>
+          <td><b>LIXIL ノクト</b>／人造大理石ワークトップ、キレイシンク・スキットシンク、食器洗い乾燥機。<b>可能な限り対面キッチンへ変更</b>します。</td>
+        </tr>
+        <tr>
+          <th>ユニットバス</th>
+          <td><b>LIXIL AX</b>／キレイサーモフロア、ミナモ浴槽、タテ長ミラー、浴室換気乾燥機、エコアクアシャワー（メタル調）、フルフォールスライドバー（メタル調）。</td>
+        </tr>
+        <tr>
+          <th>洗面化粧台</th>
+          <td><b>LIXIL EV</b>／3面鏡、フルスライドタイプ、キレイアップ水栓、キレイアップカウンター。</td>
+        </tr>
+        <tr>
+          <th>トイレ</th>
+          <td><b>LIXIL ベーシアシャワートイレ</b>／壁リモコン、ウォシュレット・レディスノズル、パワーストリーム洗浄、フチなし形状。</td>
+        </tr>
+        <tr>
+          <th>塗装</th>
+          <td>シリコンまたはウレタン塗装（<b>下塗・中塗・上塗の3回塗装</b>）。</td>
+        </tr>
+        <tr>
+          <th>内装</th>
+          <td>ビニールクロス・フローリング・フロアタイル・塗装・リアテックなどを用いながら、綺麗に修繕を掛けてまいります。</td>
+        </tr>
+        <tr>
+          <th>造作</th>
+          <td>デッドスペースなどにはケースバイケースで<b>造作棚を新設</b>し、オイル塗装を行います。</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="send">
+  <div class="wrap">
+    <div class="sec-h"><h2>物件資料の送付先</h2></div>
+    <p class="sec-lead">物件概要だけでも構いません。まずはお電話ください。</p>
+    <div class="send-grid">
+      <div class="contact">
+        <div class="tantou">買取担当　早柏（ハヤカシ）まで</div>
+        <div class="num">079-292-6765</div>
+        <div class="sub">株式会社モリシタハウス　買取窓口</div>
+        <dl><dt>FAX</dt><dd>079-294-8215</dd></dl>
+      </div>
+      <div class="need">
+        <h4>お送りいただきたい情報</h4>
+        <ul>
+          <li>所在地（地番）</li>
+          <li>土地面積・建物面積・間取り</li>
+          <li>築年数（おおよそで結構です）</li>
+          <li>現況（空き家・賃貸中・居住中）</li>
+          <li>売主様のご希望価格（あれば）</li>
+        </ul>
+        <p>謄本・公図・測量図・建物図面があればお送りください。無い場合はこちらで取得します。
+        ご紹介いただいた物件情報は、買取検討以外の目的には使用しません。売主様へ直接ご連絡することもありません。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-h"><h2>会社概要</h2></div>
+    <table class="corp">
+      <tr><th>商号</th><td>株式会社モリシタハウス</td></tr>
+      <tr><th>所在地</th><td>兵庫県姫路市山吹2丁目12番30号</td></tr>
+      <tr><th>電話・FAX</th><td>TEL 079-292-6765　／　FAX 079-294-8215</td></tr>
+      <tr><th>創業</th><td>1975年（昭和50年）</td></tr>
+      <tr><th>代表者</th><td>代表取締役　森下 誉樹</td></tr>
+      <tr><th>宅地建物取引業</th><td>兵庫県知事（13）第450028号</td></tr>
+      <tr><th>一級建築士事務所</th><td>第01A00961号</td></tr>
+      <tr><th>建設業許可</th><td>兵庫県知事（特-7）第450225号</td></tr>
+      <tr><th>事業内容</th><td>中古住宅の買取・再生・販売／不動産売買仲介／新築請負／リフォーム・リノベーション／空き家管理・実家じまい相談</td></tr>
+    </table>
+    <div class="backlinks" style="margin-top:26px;">
+      <a href="top-new.html">コーポレートトップ（案）</a>
+      <a href="kaitori.html">売主様向け 買取ページ</a>
+      <a href="index.html">中古住宅専門店</a>
+      <a href="concept-map.html">事業構想マップ</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <p>株式会社モリシタハウス　兵庫県姫路市山吹2丁目12番30号　TEL 079-292-6765　FAX 079-294-8215</p>
+    <p>宅地建物取引業 兵庫県知事（13）第450028号／一級建築士事務所 第01A00961号／建設業許可 兵庫県知事（特-7）第450225号</p>
+    <p>※ 記載の対応エリア・スケジュールは通常時の目安であり、物件の状況によりご希望に沿えない場合があります。
+    ※ 本ページはサイト設計案です。公開URLは <code>m-house.co.jp/kaitori/gyousha/</code> を想定しています。</p>
+  </div>
+</footer>

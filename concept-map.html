@@ -1,0 +1,1182 @@
+<title>モリシタハウス事業構想マップ</title>
+<style>
+:root{
+  --paper:#FFFFFF;
+  --paper-alt:#F3F7F6;
+  --paper-deep:#E7F1EE;
+  --ink:#202B33;
+  --ink-soft:#57626B;
+  --ink-faint:#8A9198;
+  --green:#00B389;
+  --green-deep:#008566;
+  --green-tint:#E3F7F0;
+  --gold:#B98A2E;
+  --gold-bright:#C99A3B;
+  --gold-tint:#F6EDD8;
+  --sage:#5F7A5C;
+  --sage-tint:#E7EEE3;
+  --clay:#A8553C;
+  --clay-tint:#F6E7E1;
+  --line:#E3E8E7;
+  --line-strong:#CBD6D3;
+  --radius:3px;
+  --serif:"游明朝体","Yu Mincho",YuMincho,"Hiragino Mincho ProN",serif;
+  --sans:"游ゴシック体","Yu Gothic Medium","Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#12191A;
+    --paper-alt:#192222;
+    --paper-deep:#1D2A28;
+    --ink:#E7EDEB;
+    --ink-soft:#A8B4B1;
+    --ink-faint:#7E8A88;
+    --green:#2FD6AE;
+    --green-deep:#60E3C3;
+    --green-tint:#10302B;
+    --gold:#D8AE5E;
+    --gold-bright:#E0BA72;
+    --gold-tint:#2C2517;
+    --sage:#9BB397;
+    --sage-tint:#1C2620;
+    --clay:#D08A70;
+    --clay-tint:#2E1E18;
+    --line:#27302F;
+    --line-strong:#3A4645;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#12191A;
+  --paper-alt:#192222;
+  --paper-deep:#1D2A28;
+  --ink:#E7EDEB;
+  --ink-soft:#A8B4B1;
+  --ink-faint:#7E8A88;
+  --green:#2FD6AE;
+  --green-deep:#60E3C3;
+  --green-tint:#10302B;
+  --gold:#D8AE5E;
+  --gold-bright:#E0BA72;
+  --gold-tint:#2C2517;
+  --sage:#9BB397;
+  --sage-tint:#1C2620;
+  --clay:#D08A70;
+  --clay-tint:#2E1E18;
+  --line:#27302F;
+  --line-strong:#3A4645;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);line-height:1.9;font-size:15px;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:700;margin:0;text-wrap:balance;line-height:1.45;}
+p{margin:0;}
+ul,ol{margin:0;padding:0;list-style:none;}
+a{color:var(--green-deep);text-decoration:none;border-bottom:1px solid var(--line-strong);}
+a:hover{border-bottom-color:var(--green);}
+:focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
+em{font-style:normal;background:linear-gradient(transparent 62%,var(--gold-tint) 62%);padding:0 .1em;}
+strong{font-weight:700;}
+
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px;}
+.narrow{max-width:760px;}
+
+/* ---------- ヘッダー ---------- */
+.site{border-bottom:1px solid var(--line);background:var(--paper);}
+.site-in{max-width:1000px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.logo{width:38px;height:38px;flex:none;}
+.brand{display:flex;flex-direction:column;line-height:1.2;}
+.brand b{font-size:17px;letter-spacing:.13em;}
+.brand span{font-size:9px;letter-spacing:.26em;color:var(--ink-soft);font-weight:700;margin-top:3px;}
+.doc-label{
+  margin-left:auto;font-size:11.5px;letter-spacing:.16em;color:var(--ink-faint);
+  border-left:1px solid var(--line-strong);padding-left:14px;
+}
+
+/* ---------- ヒーロー ---------- */
+.hero{
+  padding:74px 0 60px;
+  background:
+    repeating-linear-gradient(0deg,color-mix(in srgb,var(--green) 6%,transparent) 0 1px,transparent 1px 56px),
+    repeating-linear-gradient(90deg,color-mix(in srgb,var(--green) 6%,transparent) 0 1px,transparent 1px 56px),
+    linear-gradient(180deg,var(--green-tint) 0%,var(--paper) 70%);
+}
+.kicker{
+  display:inline-flex;align-items:center;gap:11px;font-size:11.5px;font-weight:700;
+  letter-spacing:.2em;color:var(--green-deep);
+}
+.kicker::before{content:"";width:26px;height:1px;background:var(--gold-bright);}
+.hero h1{font-size:clamp(30px,5vw,46px);margin:22px 0 0;letter-spacing:.01em;}
+.hero .sub{margin-top:20px;max-width:62ch;color:var(--ink-soft);font-size:15.5px;}
+
+.transition{
+  margin-top:40px;display:flex;align-items:stretch;gap:0;flex-wrap:wrap;
+  border:1px solid var(--line-strong);background:var(--paper);border-radius:var(--radius);
+}
+.transition div{padding:20px 24px;flex:1 1 240px;min-width:0;}
+.transition div+div{border-left:1px solid var(--line);}
+.transition .lab{font-size:10.5px;letter-spacing:.18em;color:var(--ink-faint);font-weight:700;}
+.transition .val{font-family:var(--serif);font-size:19px;margin-top:8px;line-height:1.55;}
+.transition .now .val{color:var(--ink-faint);text-decoration:line-through;text-decoration-color:var(--line-strong);}
+.transition .next{background:var(--green-tint);}
+.transition .next .val{color:var(--green-deep);}
+.transition .next .lab{color:var(--green-deep);}
+
+/* ---------- セクション ---------- */
+.band{padding:72px 0;border-top:1px solid var(--line);}
+.band.alt{background:var(--paper-alt);}
+.chapter{display:flex;align-items:baseline;gap:16px;margin-bottom:10px;}
+.chapter .no{
+  font-family:var(--serif);font-size:13px;letter-spacing:.14em;color:var(--gold);
+  writing-mode:horizontal-tb;white-space:nowrap;
+  border:1px solid var(--gold-bright);padding:3px 10px;border-radius:2px;
+}
+.chapter .en{font-size:10.5px;letter-spacing:.2em;color:var(--ink-faint);font-weight:700;}
+.band h2{font-size:clamp(23px,3.4vw,30px);}
+.band > .wrap > .intro{margin-top:16px;max-width:66ch;color:var(--ink-soft);}
+
+.rule{height:1px;background:var(--line);margin:34px 0;}
+h3.sub{font-size:18px;margin:36px 0 14px;padding-left:13px;border-left:3px solid var(--green);}
+
+/* ---------- 汎用パーツ ---------- */
+.grid{display:grid;gap:18px;}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+
+.note{
+  border:1px solid var(--line-strong);border-left:3px solid var(--green);
+  background:var(--paper);padding:20px 22px;border-radius:var(--radius);
+}
+.note .tag{
+  display:inline-block;font-size:10.5px;letter-spacing:.14em;font-weight:700;
+  color:var(--green-deep);margin-bottom:8px;
+}
+.note.claude{border-left-color:var(--clay);background:var(--clay-tint);}
+.note.claude .tag{color:var(--clay);}
+
+.reason{display:flex;gap:16px;padding:18px 0;border-top:1px solid var(--line);}
+.reason:last-child{border-bottom:1px solid var(--line);}
+.reason .n{
+  font-family:var(--serif);font-size:15px;color:var(--gold);flex:none;
+  width:34px;text-align:center;border-right:1px solid var(--line);
+}
+.reason h4{font-size:16px;margin-bottom:5px;}
+.reason p{font-size:14px;color:var(--ink-soft);}
+
+/* ---------- 長期タイムライン ---------- */
+.tl{margin-top:26px;overflow-x:auto;padding-bottom:6px;}
+.tl-track{display:flex;min-width:820px;align-items:stretch;}
+.tl-step{flex:1;position:relative;padding:0 6px;}
+.tl-step .bar{
+  height:8px;background:var(--paper-deep);border-radius:2px;
+  border:1px solid var(--line-strong);
+}
+.tl-step.hot .bar{background:var(--green);border-color:var(--green-deep);}
+.tl-step.gap .bar{background:repeating-linear-gradient(90deg,var(--line-strong) 0 4px,transparent 4px 9px);border-color:transparent;}
+.tl-step.evt .bar{background:var(--gold-bright);border-color:var(--gold);}
+.tl-step .t{font-size:12.5px;margin-top:11px;font-weight:700;line-height:1.5;}
+.tl-step .c{font-size:11.5px;color:var(--ink-faint);margin-top:3px;line-height:1.5;}
+.tl-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:18px;font-size:12px;color:var(--ink-soft);}
+.tl-legend i{display:inline-block;width:20px;height:7px;border-radius:2px;margin-right:7px;vertical-align:middle;}
+
+/* ---------- 図 ---------- */
+.figure{margin-top:30px;}
+.figure .cap{
+  font-size:11.5px;letter-spacing:.12em;color:var(--ink-faint);font-weight:700;
+  margin-bottom:12px;
+}
+.fig-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:18px;}
+.fig-scroll svg{min-width:780px;display:block;margin:0 auto;}
+
+svg .bx{fill:var(--paper);stroke:var(--line-strong);stroke-width:1;}
+svg .bx-tint{fill:var(--paper-alt);stroke:var(--line-strong);stroke-width:1;}
+svg .bx-core{fill:var(--gold-tint);stroke:var(--gold-bright);stroke-width:2;}
+svg .bx-green{fill:var(--green);stroke:var(--green-deep);stroke-width:1;}
+svg .bx-head{fill:var(--green-deep);stroke:none;}
+svg .ln{stroke:var(--line-strong);stroke-width:1.4;fill:none;}
+svg .arrow{fill:var(--line-strong);}
+svg text{font-family:var(--sans);}
+svg .t{fill:var(--ink);font-size:15px;font-weight:700;text-anchor:middle;}
+svg .t-sm{fill:var(--ink-soft);font-size:11.5px;text-anchor:middle;}
+svg .t-inv{fill:#fff;font-size:15px;font-weight:700;text-anchor:middle;}
+svg .t-inv-sm{fill:rgba(255,255,255,.82);font-size:11px;text-anchor:middle;}
+svg .t-core{fill:var(--ink);font-size:22px;font-weight:700;text-anchor:middle;font-family:var(--serif);}
+svg .t-eyebrow{fill:var(--gold);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-anchor:middle;}
+
+/* ---------- コンセプト候補 ---------- */
+.cand{border:1px solid var(--line-strong);border-radius:var(--radius);padding:22px 24px;background:var(--paper);}
+.cand.pick{border-color:var(--green);border-width:2px;background:var(--green-tint);}
+.cand .rank{font-size:10.5px;letter-spacing:.16em;font-weight:700;color:var(--ink-faint);}
+.cand.pick .rank{color:var(--green-deep);}
+.cand .copy{font-family:var(--serif);font-size:20px;margin:10px 0 12px;line-height:1.5;}
+.cand .why{font-size:13.5px;color:var(--ink-soft);}
+.cand .badge{
+  display:inline-block;margin-top:14px;font-size:11px;font-weight:700;letter-spacing:.1em;
+  background:var(--green);color:#fff;padding:4px 11px;border-radius:2px;
+}
+
+/* ---------- テーブル ---------- */
+.tbl-scroll{overflow-x:auto;margin-top:22px;border:1px solid var(--line);border-radius:var(--radius);}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:13.5px;background:var(--paper);}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{background:var(--paper-alt);font-size:12px;letter-spacing:.08em;color:var(--ink-soft);font-weight:700;white-space:nowrap;}
+tbody tr:last-child td{border-bottom:none;}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+tr.total td{background:var(--green-tint);font-weight:700;}
+
+/* ---------- 判定 A/B/C ---------- */
+.judge{display:grid;gap:0;border:1px solid var(--line-strong);border-radius:var(--radius);overflow:hidden;margin-top:22px;}
+.judge-row{display:flex;gap:0;align-items:stretch;border-bottom:1px solid var(--line);background:var(--paper);}
+.judge-row:last-child{border-bottom:none;}
+.judge-row .k{
+  flex:none;width:76px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:26px;font-weight:700;color:#fff;
+}
+.judge-row.a .k{background:var(--green);}
+.judge-row.b .k{background:var(--sage);}
+.judge-row.c .k{background:var(--ink-faint);}
+.judge-row .body{padding:16px 20px;}
+.judge-row h4{font-size:15.5px;}
+.judge-row p{font-size:13.5px;color:var(--ink-soft);margin-top:4px;}
+
+/* ---------- ステップ ---------- */
+.steps{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px;}
+.step{
+  flex:1 1 200px;border:1px solid var(--line-strong);border-radius:var(--radius);
+  padding:18px 20px;background:var(--paper);position:relative;
+}
+.step .when{
+  font-size:11px;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--green-deep);
+  display:inline-block;padding:3px 10px;border-radius:2px;
+}
+.step.wait .when{background:var(--gold);}
+.step h4{font-size:15.5px;margin-top:11px;}
+.step p{font-size:13px;color:var(--ink-soft);margin-top:6px;}
+
+/* ---------- サイト統合 before/after ---------- */
+.merge{display:grid;grid-template-columns:1fr auto 1fr;gap:22px;align-items:center;margin-top:26px;}
+@media(max-width:760px){.merge{grid-template-columns:1fr;} .merge .mid{transform:rotate(90deg);justify-self:center;}}
+.merge .col h4{font-size:13px;letter-spacing:.14em;color:var(--ink-faint);margin-bottom:12px;}
+.merge .mid{font-size:26px;color:var(--gold-bright);text-align:center;}
+.sitecard{
+  border:1px solid var(--line-strong);border-radius:var(--radius);padding:14px 16px;
+  background:var(--paper);margin-bottom:10px;
+}
+.sitecard .url{font-size:11.5px;color:var(--green-deep);font-variant-numeric:tabular-nums;word-break:break-all;}
+.sitecard .role{font-size:14px;font-weight:700;margin-top:4px;}
+.sitecard .memo{font-size:12px;color:var(--ink-faint);margin-top:4px;}
+.sitecard.keep{border-left:3px solid var(--green);}
+.sitecard.move{border-left:3px solid var(--gold-bright);}
+.sitecard.sub{margin-left:22px;border-style:dashed;}
+
+/* ---------- サイトマップ ---------- */
+.tree{margin-top:22px;font-size:14px;}
+.tree ul{margin-left:16px;border-left:1px solid var(--line-strong);padding-left:0;}
+.tree li{position:relative;padding:5px 0 5px 20px;}
+.tree ul li::before{
+  content:"";position:absolute;left:0;top:18px;width:14px;height:1px;background:var(--line-strong);
+}
+.tree > ul{border-left:none;margin-left:0;}
+.tree > ul > li{padding-left:0;}
+.tree > ul > li::before{display:none;}
+.tree .node{font-weight:700;}
+.tree .root{
+  font-family:var(--serif);font-size:17px;background:var(--green);color:#fff;
+  display:inline-block;padding:5px 16px;border-radius:2px;
+}
+.tree .lv1{
+  font-family:var(--serif);font-size:16px;color:var(--green-deep);
+  border-bottom:1px solid var(--line-strong);display:inline-block;padding-bottom:2px;
+}
+.tree .memo{font-size:12px;color:var(--ink-faint);margin-left:10px;font-weight:400;}
+.tree .new{
+  font-size:10px;font-weight:700;letter-spacing:.08em;background:var(--gold-bright);color:#2b2108;
+  padding:1px 7px;border-radius:2px;margin-left:8px;vertical-align:1px;
+}
+.tree .b2b{background:var(--green-deep);color:#fff;}
+
+/* ---------- ワイヤーフレーム ---------- */
+.wire{display:grid;grid-template-columns:300px 1fr;gap:28px;margin-top:26px;align-items:start;}
+@media(max-width:820px){.wire{grid-template-columns:1fr;}}
+.screen{
+  border:1px solid var(--line-strong);border-radius:5px;overflow:hidden;background:var(--paper);
+  position:sticky;top:20px;
+}
+.screen .bar{
+  height:24px;background:var(--paper-alt);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:5px;padding:0 10px;
+}
+.screen .bar i{width:7px;height:7px;border-radius:50%;background:var(--line-strong);display:block;}
+.blk{padding:9px 12px;border-bottom:1px solid var(--line);font-size:10.5px;color:var(--ink-soft);}
+.blk b{display:block;font-size:11.5px;color:var(--ink);font-weight:700;}
+.blk.hero-b{background:var(--green-tint);}
+.blk.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;}
+.blk.three span{
+  background:var(--paper-alt);border:1px solid var(--line);border-radius:2px;
+  padding:10px 4px;text-align:center;font-size:9.5px;line-height:1.4;
+}
+.blk.gold-b{background:var(--gold-tint);}
+.blk.dark-b{background:var(--green-deep);color:#fff;}
+.blk.dark-b b{color:#fff;}
+
+.flow{border-left:1px solid var(--line-strong);padding-left:0;}
+.flow li{position:relative;padding:0 0 26px 26px;}
+.flow li::before{
+  content:"";position:absolute;left:-5px;top:9px;width:9px;height:9px;border-radius:50%;
+  background:var(--paper);border:2px solid var(--green);
+}
+.flow li:last-child{padding-bottom:0;}
+.flow .q{font-size:11.5px;letter-spacing:.1em;color:var(--gold);font-weight:700;}
+.flow h4{font-size:16px;margin:3px 0 5px;}
+.flow p{font-size:13.5px;color:var(--ink-soft);}
+.flow .copy{
+  font-family:var(--serif);font-size:15px;color:var(--ink);
+  border-left:2px solid var(--line-strong);padding-left:12px;margin-top:9px;
+}
+
+/* ---------- ロードマップ ---------- */
+.phase{display:flex;gap:0;flex-wrap:wrap;margin-top:24px;border:1px solid var(--line-strong);border-radius:var(--radius);overflow:hidden;}
+.phase > div{flex:1 1 210px;padding:20px 22px;background:var(--paper);border-right:1px solid var(--line);}
+.phase > div:last-child{border-right:none;}
+.phase .p{font-size:11px;letter-spacing:.16em;font-weight:700;color:var(--green-deep);display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.phase .here{background:var(--gold-bright);color:#2b2108;letter-spacing:.06em;padding:2px 9px;border-radius:2px;font-size:10px;}
+.phase > div.now{background:var(--green-tint);}
+.phase .when{font-size:12px;color:var(--ink-faint);margin-top:2px;}
+.phase h4{font-size:16px;margin:10px 0 8px;}
+.phase li{font-size:13px;color:var(--ink-soft);padding-left:14px;position:relative;margin-bottom:5px;}
+.phase li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:1px;background:var(--gold-bright);}
+
+/* ---------- 物語 ---------- */
+.story{
+  background:var(--green-deep);color:#fff;padding:72px 0;
+}
+.story .wrap{max-width:780px;}
+.story .kicker{color:#fff;}
+.story .kicker::before{background:var(--gold-bright);}
+.story h2{color:#fff;font-size:clamp(22px,3.2vw,29px);margin-top:20px;}
+.story p{color:rgba(255,255,255,.88);margin-top:20px;font-size:15.5px;line-height:2.05;}
+.story .final{
+  font-family:var(--serif);font-size:clamp(20px,3vw,26px);color:#fff;
+  border-top:1px solid rgba(255,255,255,.3);padding-top:26px;margin-top:34px;line-height:1.6;
+}
+.story .final em{background:none;color:var(--gold-bright);}
+
+/* ---------- CTA / リンクカード ---------- */
+.linkcard{
+  display:flex;align-items:center;gap:22px;flex-wrap:wrap;
+  border:2px solid var(--green);border-radius:var(--radius);padding:24px 26px;
+  background:var(--green-tint);margin-top:28px;
+}
+.linkcard .txt{flex:1 1 300px;}
+.linkcard h4{font-size:18px;}
+.linkcard p{font-size:13.5px;color:var(--ink-soft);margin-top:6px;}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;padding:13px 26px;
+  background:var(--green);color:#fff;font-size:14.5px;font-weight:700;
+  border-radius:var(--radius);border:none;letter-spacing:.02em;
+}
+.btn:hover{background:var(--green-deep);}
+
+footer.doc{padding:40px 0 56px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-faint);}
+footer.doc p+p{margin-top:6px;}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style>
+
+<header class="site">
+  <div class="site-in">
+    <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="50" fill="var(--green)"/>
+      <circle cx="50" cy="25" r="6.6" fill="none" stroke="#fff" stroke-width="3.8"/>
+      <path d="M29.5,39 L38.5,39 L50,52 L61.5,39 L70.5,39 L70.5,85 L61.5,85 L61.5,52.6 L50,65.6 L38.5,52.6 L38.5,85 L29.5,85 Z" fill="#fff"/><rect x="29.5" y="69" width="41" height="8.5" fill="#fff"/>
+      
+    </svg>
+    <span class="brand">
+      <b>モリシタハウス</b>
+      <span>MORISHITA HOUSE</span>
+    </span>
+    <span class="doc-label">事業構想・サイト設計案／2026</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker">株式会社モリシタハウス　姫路・播磨</span>
+    <h1>家をつくる会社から、<br>住まいの<em>価値をつなぐ</em>会社へ。</h1>
+    <p class="sub">
+      空き家・実家じまいに取り組んだ1年3か月は、事業転換の「反省材料」ではありません。
+      中古住宅の買取再販をやるうえで最も手に入りにくい<strong>仕入れの上流</strong>を、
+      すでにつくっていた期間でした。この読み替えを起点に、会社コンセプト・事業構造・
+      3つのサイトを1本にまとめる設計案です。
+    </p>
+
+    <div class="transition">
+      <div class="now">
+        <div class="lab">これまでの旗</div>
+        <div class="val">家づくりのプロから、<br>家じまいのプロへ。</div>
+      </div>
+      <div class="next">
+        <div class="lab">これからの旗</div>
+        <div class="val">家をつくる会社から、<br>住まいの価値をつなぐ会社へ。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第一章 ============ -->
+<section class="band">
+  <div class="wrap">
+    <div class="chapter">
+      <span class="no">第一章</span>
+      <span class="en">DIAGNOSIS</span>
+    </div>
+    <h2>なぜ「相談は集まるのに、仕事にならない」のか</h2>
+    <p class="intro">
+      これは集客の失敗でも、トークの失敗でもありません。<strong>集めている人の状態</strong>と、
+      <strong>用意している商品</strong>が、そもそも噛み合っていないだけです。原因は3つに整理できます。
+    </p>
+
+    <div class="reason">
+      <div class="n">一</div>
+      <div>
+        <h4>「実家じまい」「空き家対策」が集めるのは、困っている人であって、決めた人ではない</h4>
+        <p>この言葉に反応する人は、多くが相続前・同居中・きょうだい未調整の段階にいます。
+        情報を集めにきているのであって、処分を頼みにきているわけではない。動員数が多いのは、
+        言葉が正しく効いている証拠です。ただし集まるのは「未決の人」です。</p>
+      </div>
+    </div>
+    <div class="reason">
+      <div class="n">二</div>
+      <div>
+        <h4>意思決定のトリガーは、セミナーでも相談でもなく、外部イベント</h4>
+        <p>実際に家が動くのは、相続・施設入居・転居・災害・修繕費の発生といった出来事が起きたときです。
+        セミナーはその前の準備であって、引き金ではありません。だから相談から成約までの時間は、
+        こちらの努力量ではなく、<em>相手の人生のタイミング</em>で決まります。</p>
+      </div>
+    </div>
+    <div class="reason">
+      <div class="n">三</div>
+      <div>
+        <h4>相続人間の温度差が、最後の一歩を止める</h4>
+        <p>家を手放す判断は、多くの場合ひとりでは決まりません。相談に来た人が前向きでも、
+        他の相続人が「まだ早い」と言えば止まります。ここは説得で崩す領域ではなく、
+        <strong>止まったまま関係を維持する</strong>領域です。</p>
+      </div>
+    </div>
+
+    <h3 class="sub">だから、KPIを取り違えている</h3>
+    <p style="max-width:66ch;color:var(--ink-soft);">
+      「セミナー動員 → 個別相談 → 媒介 → 成約」という一直線のファネルで評価すると、
+      歩留まりは必ず悪く見えます。しかし実際に起きている現象は、次のような時間軸です。
+    </p>
+
+    <div class="tl">
+      <div class="tl-track">
+        <div class="tl-step hot"><div class="bar"></div><div class="t">セミナー／個別相談</div><div class="c">いま多いのはここ</div></div>
+        <div class="tl-step gap"><div class="bar"></div><div class="t">潜在期間　1〜5年</div><div class="c">動かない。連絡も減る</div></div>
+        <div class="tl-step evt"><div class="bar"></div><div class="t">外部イベント発生</div><div class="c">相続・施設入居・転居</div></div>
+        <div class="tl-step"><div class="bar"></div><div class="t">空き家化・管理負担</div><div class="c">固定資産税・草・近隣</div></div>
+        <div class="tl-step hot"><div class="bar"></div><div class="t">売却・買取・解体</div><div class="c">ここで初めて収益化</div></div>
+      </div>
+      <div class="tl-legend">
+        <span><i style="background:var(--green);"></i>接点がある期間</span>
+        <span><i style="background:repeating-linear-gradient(90deg,var(--line-strong) 0 4px,transparent 4px 9px);"></i>止まっている期間</span>
+        <span><i style="background:var(--gold-bright);"></i>意思決定のトリガー</span>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:32px;">
+      <span class="tag">結論</span>
+      <p>実家じまい事業は、<strong>収益事業ではなく、仕入れの源泉事業</strong>だった。
+      評価すべきは「今期の手数料」ではなく、<strong>将来動く物件を何件、名前と住所つきで把握しているか</strong>。
+      この1年3か月の成果は、P/Lではなくパイプラインの側に計上されるべきものです。</p>
+    </div>
+
+    <div class="note claude" style="margin-top:18px;">
+      <span class="tag">補足：単価の問題</span>
+      <p>もうひとつ、組み立て以前に<strong>商材の単価</strong>の問題があります。
+      姫路の空き家・実家の価格帯を仮に300〜800万円とすると、仲介手数料は1件あたりおおむね
+      <strong>15〜30万円</strong>。ここに1〜5年のフォローコストを乗せると、事業として回りません。
+      一方、買取再販は1件の粗利の桁が変わります。つまり必要だったのは集客の改善ではなく、
+      <em>同じ相談から、もっと大きな収益を取り出せる出口</em>でした。買取再販はその出口です。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第二章 ============ -->
+<section class="band alt">
+  <div class="wrap">
+    <div class="chapter">
+      <span class="no">第二章</span>
+      <span class="en">CONCEPT</span>
+    </div>
+    <h2>旗を、もう一段大きく掲げ直す</h2>
+    <p class="intro">
+      「家じまいのプロ」で旗を立てると、会社の仕事が縮みます。新築も、リフォームも、51年の実績も、
+      その旗の下には入りません。モリシタハウスの本当の強みは、<strong>家の一生を全部知っていること</strong>です。
+      建てた、直した、売買した、そして終える相談まで受けた。この全部を回収できる旗にします。
+    </p>
+
+    <div class="grid g3" style="margin-top:30px;">
+      <div class="cand pick">
+        <div class="rank">第1候補　推奨</div>
+        <div class="copy">家をつくる会社から、<br>住まいの価値をつなぐ会社へ。</div>
+        <p class="why">新築を否定しない。過去を否定しない。「つくる」という出自を残したまま、
+        中古・再生・買取・空き家のすべてを含められる。51年の歴史がそのまま根拠になる。</p>
+        <span class="badge">これを採用</span>
+      </div>
+      <div class="cand">
+        <div class="rank">第2候補</div>
+        <div class="copy">家を見極め、直し、<br>次の人へつなぐ。</div>
+        <p class="why">動詞が3つ並び、事業内容が一読でわかる。現場の説明力は最も高い。
+        ただし「つくる」が消えるため、新築部門・OB顧客との接続がやや弱い。</p>
+      </div>
+      <div class="cand">
+        <div class="rank">第3候補</div>
+        <div class="copy">姫路の家を、<br>次の世代へ。</div>
+        <p class="why">地域性が最も強く、短く覚えやすい。ただし事業の中身が伝わらないため、
+        単独では使いにくい。第1候補の下に置くサブコピーとして有効。</p>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:28px;">
+      <span class="tag">使い分け</span>
+      <p><strong>企業としての旗</strong>は第1候補。<strong>集客の看板</strong>は「姫路・播磨の中古住宅専門店」。
+      この二段構えにします。会社を中古住宅しかやらない会社にする必要はありません。
+      <em>入口は狭く、出口は広く</em>。専門店を名乗ることで検索と記憶に残り、
+      入ってきたお客様には総合力で応える。これが一番強い形です。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第三章 ============ -->
+<section class="band">
+  <div class="wrap">
+    <div class="chapter">
+      <span class="no">第三章</span>
+      <span class="en">BUSINESS STRUCTURE</span>
+    </div>
+    <h2>中心に置くのは「住宅を見極める」という能力</h2>
+    <p class="intro">
+      売りたい人・買いたい人・困っている人。入口は3つありますが、そこから先で使う能力はひとつです。
+      <strong>この家は、いくら掛ければ、どこまで蘇るか</strong>を判断する力。
+      普通の不動産会社は「いくらで売れるか」しか見られません。工務店だからこそ、その一段奥が見える。
+      この差が、買取再販の勝敗をほぼ決めます。
+    </p>
+
+    <div class="figure">
+      <div class="cap">図1　事業構造図｜3つの入口が、ひとつの能力に集まる</div>
+      <div class="fig-scroll">
+        <svg viewBox="0 0 920 700" role="img" aria-label="事業構造図。売りたい人・買いたい人・困っている人の3つの入口が、住宅を見極めるというコア能力に集まり、残せる家はリフォーム再生してモリシタ再生住宅として再販、残せない家は解体して新築・土地活用となり、いずれも次の世代へ引き渡される。">
+          <defs>
+            <marker id="ar" viewBox="0 0 10 8" refX="9.5" refY="4" markerWidth="10" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L10,4 L0,8 z" class="arrow"/>
+            </marker>
+          </defs>
+
+          <rect class="bx-head" x="290" y="6" width="340" height="40" rx="3"/>
+          <text class="t-inv" x="460" y="26" dominant-baseline="middle">住まいを次の世代へつなぐ</text>
+
+          <path class="ln" d="M460,46 L460,66"/>
+          <path class="ln" d="M150,66 L770,66"/>
+          <path class="ln" d="M150,66 L150,84" marker-end="url(#ar)"/>
+          <path class="ln" d="M460,66 L460,84" marker-end="url(#ar)"/>
+          <path class="ln" d="M770,66 L770,84" marker-end="url(#ar)"/>
+
+          <rect class="bx" x="45" y="88" width="210" height="54" rx="3"/>
+          <text class="t" x="150" y="109" dominant-baseline="middle">売りたい人</text>
+          <text class="t-sm" x="150" y="128" dominant-baseline="middle">相続した・住み替える</text>
+
+          <rect class="bx" x="355" y="88" width="210" height="54" rx="3"/>
+          <text class="t" x="460" y="109" dominant-baseline="middle">買いたい人</text>
+          <text class="t-sm" x="460" y="128" dominant-baseline="middle">予算内でいい家を探す</text>
+
+          <rect class="bx" x="665" y="88" width="210" height="54" rx="3"/>
+          <text class="t" x="770" y="109" dominant-baseline="middle">困っている人</text>
+          <text class="t-sm" x="770" y="128" dominant-baseline="middle">まだ決めていない</text>
+
+          <path class="ln" d="M150,142 L150,162" marker-end="url(#ar)"/>
+          <path class="ln" d="M460,142 L460,162" marker-end="url(#ar)"/>
+          <path class="ln" d="M770,142 L770,162" marker-end="url(#ar)"/>
+
+          <rect class="bx-tint" x="45" y="164" width="210" height="46" rx="3"/>
+          <text class="t" x="150" y="187" dominant-baseline="middle">売却・直接買取</text>
+          <rect class="bx-tint" x="355" y="164" width="210" height="46" rx="3"/>
+          <text class="t" x="460" y="187" dominant-baseline="middle">中古住宅の購入</text>
+          <rect class="bx-tint" x="665" y="164" width="210" height="46" rx="3"/>
+          <text class="t" x="770" y="187" dominant-baseline="middle">実家・空き家相談</text>
+
+          <path class="ln" d="M150,210 L150,240 M460,210 L460,240 M770,210 L770,240 M150,240 L770,240"/>
+          <path class="ln" d="M460,240 L460,264" marker-end="url(#ar)"/>
+
+          <text class="t-eyebrow" x="460" y="284" dominant-baseline="middle">モリシタハウスのコア能力</text>
+          <rect class="bx-core" x="268" y="266" width="384" height="98" rx="3"/>
+          <text class="t-core" x="460" y="312" dominant-baseline="middle">住宅を見極める</text>
+          <text class="t-sm" x="460" y="340" dominant-baseline="middle">いくらで売れるか、ではなく。いくら掛ければ、どこまで蘇るか。</text>
+
+          <path class="ln" d="M460,364 L460,390"/>
+          <path class="ln" d="M230,390 L690,390"/>
+          <path class="ln" d="M230,390 L230,412" marker-end="url(#ar)"/>
+          <path class="ln" d="M690,390 L690,412" marker-end="url(#ar)"/>
+
+          <rect class="bx" x="130" y="414" width="200" height="46" rx="3"/>
+          <text class="t" x="230" y="437" dominant-baseline="middle">残せる家</text>
+          <rect class="bx" x="590" y="414" width="200" height="46" rx="3"/>
+          <text class="t" x="690" y="437" dominant-baseline="middle">残せない家</text>
+
+          <path class="ln" d="M230,460 L230,482" marker-end="url(#ar)"/>
+          <path class="ln" d="M690,460 L690,482" marker-end="url(#ar)"/>
+
+          <rect class="bx-tint" x="120" y="484" width="220" height="48" rx="3"/>
+          <text class="t" x="230" y="508" dominant-baseline="middle">必要な所だけ直す</text>
+          <rect class="bx-tint" x="580" y="484" width="220" height="48" rx="3"/>
+          <text class="t" x="690" y="508" dominant-baseline="middle">解体・更地に戻す</text>
+
+          <path class="ln" d="M230,532 L230,554" marker-end="url(#ar)"/>
+          <path class="ln" d="M690,532 L690,554" marker-end="url(#ar)"/>
+
+          <rect class="bx-green" x="110" y="556" width="240" height="50" rx="3"/>
+          <text class="t-inv" x="230" y="574" dominant-baseline="middle">モリシタ再生住宅</text>
+          <text class="t-inv-sm" x="230" y="593" dominant-baseline="middle">買取再販　自社商品</text>
+          <rect class="bx" x="570" y="556" width="240" height="50" rx="3"/>
+          <text class="t" x="690" y="574" dominant-baseline="middle">新築・土地活用</text>
+          <text class="t-sm" x="690" y="593" dominant-baseline="middle">請負・分譲・駐車場</text>
+
+          <path class="ln" d="M230,606 L230,632 M690,606 L690,632 M230,632 L690,632"/>
+          <path class="ln" d="M460,632 L460,652" marker-end="url(#ar)"/>
+
+          <rect class="bx-head" x="300" y="654" width="320" height="42" rx="3"/>
+          <text class="t-inv" x="460" y="675" dominant-baseline="middle">次の世代へ引き渡す</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:30px;">
+      <span class="tag">言い換えると</span>
+      <p>これまでは「家じまい」でした。これからは<em>家のバトンタッチ</em>です。
+      売主から見れば「大事に住んできた家を、ただ処分するのではない」。
+      買主から見れば「誰かが大切にしてきた家を、プロが見極めて直してくれた」。
+      この2者を結ぶのが、モリシタハウスの仕事になります。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第四章 ============ -->
+<section class="band alt">
+  <div class="wrap">
+    <div class="chapter">
+      <span class="no">第四章</span>
+      <span class="en">PRODUCT DESIGN</span>
+    </div>
+    <h2>買取再販を「商品」にする</h2>
+    <p class="intro">
+      買取再販は物件を買う行為ではなく、<strong>判断を売る商売</strong>です。
+      だから最初に設計すべきは価格表ではなく、<strong>判断の型</strong>と<strong>回答の速さ</strong>。
+      ここが決まっていないと、仲介会社は二度目の話を持ってきてくれません。
+    </p>
+
+    <h3 class="sub">一次判定は、必ず3分類で返す</h3>
+    <p style="max-width:66ch;color:var(--ink-soft);font-size:14.5px;">
+      紹介してくれた業者にとって最悪なのは「検討します」のまま止まることです。
+      買えない案件こそ、<strong>買えない理由をつけて早く返す</strong>。これが次の紹介を呼びます。
+    </p>
+    <div class="judge">
+      <div class="judge-row a">
+        <div class="k">A</div>
+        <div class="body">
+          <h4>買う｜自社買取</h4>
+          <p>再生後の想定販売価格から、改修費・諸経費・利益を差し引いた買取価格を提示。
+          このレンジに入るのは全体の一部でよい。無理に広げない。</p>
+        </div>
+      </div>
+      <div class="judge-row b">
+        <div class="k">B</div>
+        <div class="body">
+          <h4>仲介する｜買わないが、売り方は提案する</h4>
+          <p>買取価格が売主の希望に届かない案件。「うちは◯◯万円まで。市場で売るなら△△万円が狙える」
+          と両方の数字を出す。ここで信用が生まれ、次の物件が回ってくる。</p>
+        </div>
+      </div>
+      <div class="judge-row c">
+        <div class="k">C</div>
+        <div class="body">
+          <h4>見送る｜理由を明示して即答</h4>
+          <p>再建築不可・接道・越境・シロアリ・傾き・心理的瑕疵など、見送り理由を具体的に書いて返す。
+          <strong>この回答の質が、そのまま目利きの宣伝になる。</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub">「48時間」は、内見を起点にして約束する</h3>
+    <div class="note claude">
+      <span class="tag">起点の置き方</span>
+      <p>48時間の起点を<strong>資料受領</strong>に置くと、鍵の手配や売主の都合で内見が遅れた分まで
+      「モリシタが遅い」に見えてしまいます。起点を<strong>内見</strong>に置けば、約束は自分の裁量だけで守れます。
+      業者側にとっても「見てもらえれば2日で答えが出る」の方が話が早い。
+      判定基準を紙にする前でも、この一行を宣言するだけで案件は動きはじめます。</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="when">当日中</span>
+        <h4>受領のご連絡</h4>
+        <p>資料を受け取ったことと、内見できる日程をその日のうちに返信。ここが遅いだけで次はもらえない。</p>
+      </div>
+      <div class="step">
+        <span class="when">3営業日以内</span>
+        <h4>現地内見</h4>
+        <p>鍵・立会のご都合に合わせて伺う。構造・劣化・設備・越境・接道をその場で確認。</p>
+      </div>
+      <div class="step wait">
+        <span class="when">内見後 48時間以内</span>
+        <h4>買取金額を回答</h4>
+        <p>改修費を積算したうえで金額を提示。買えない場合も、理由を添えて同じ期限内にお返しする。</p>
+      </div>
+      <div class="step">
+        <span class="when">合意後 最短10日</span>
+        <h4>契約・決済</h4>
+        <p>融資特約なしの自社買取。売主にとっての最大の価値は、価格より<strong>確実さと速さ</strong>。</p>
+      </div>
+    </div>
+
+    <h3 class="sub">「モリシタ再生住宅」の再生基準を公開する</h3>
+    <p style="max-width:66ch;color:var(--ink-soft);font-size:14.5px;">
+      表層リフォームだけの再販物件と差をつけるには、<strong>直した所より、確認した所</strong>を見せることです。
+      工務店にしか書けない基準表を、そのまま商品スペックにします。
+    </p>
+    <div class="tbl-scroll">
+      <table>
+        <thead>
+          <tr><th>項目</th><th>確認すること</th><th>お客様への見せ方</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>構造・耐震</td><td>基礎のクラック、床下、壁量、接合部、旧耐震か否か</td><td>耐震診断の結果と、補強した／しなかった理由</td></tr>
+          <tr><td>雨漏り・防水</td><td>屋根、樋、外壁、サッシまわり、小屋裏の雨染み</td><td>小屋裏・床下の写真をそのまま掲載</td></tr>
+          <tr><td>シロアリ・腐朽</td><td>床下点検、水回り周辺の土台・大引</td><td>点検業者の報告書を添付</td></tr>
+          <tr><td>給排水・電気</td><td>配管の材質と年数、分電盤容量、漏電</td><td>更新した範囲を図面で明示</td></tr>
+          <tr><td>断熱・窓</td><td>天井・床・壁の断熱の有無、開口部の性能</td><td>改修後の断熱仕様を等級で表示</td></tr>
+          <tr><td>法規</td><td>接道、再建築可否、検査済証、増築の扱い</td><td>買う前に必ず書面で説明</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub">収益構造のイメージ（モデルケース）</h3>
+    <div class="tbl-scroll">
+      <table>
+        <thead>
+          <tr><th>項目</th><th class="num">仲介した場合</th><th class="num">買取再販した場合</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>取引価格</td><td class="num">800万円</td><td class="num">仕入 780万円 → 再販 1,480万円</td></tr>
+          <tr><td>工事（分離発注）</td><td class="num">—</td><td class="num">380万円</td></tr>
+          <tr><td>諸経費・金利・販管</td><td class="num">—</td><td class="num">120万円</td></tr>
+          <tr class="total"><td>1件あたりの粗利</td><td class="num">約 30万円</td><td class="num">約 200万円</td></tr>
+          <tr><td>回収までの期間</td><td class="num">数か月〜数年</td><td class="num">概ね 4〜6か月</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px;color:var(--ink-faint);margin-top:10px;">
+      ※ 上表は事業構造の桁を示すためのモデル値です。実際の数字は物件ごとの仕入条件・工事内容により変動します。
+    </p>
+  </div>
+</section>
+
+<!-- ============ 第五章 ============ -->
+<section class="band">
+  <div class="wrap">
+    <div class="chapter">
+      <span class="no">第五章</span>
+      <span class="en">B TO B CHANNEL</span>
+    </div>
+    <h2>これからの最大の集客相手は、一般消費者だけではない</h2>
+    <p class="intro">
+      買取再販の仕入れは、広告ではなく<strong>同業者からの紹介</strong>で決まります。
+      地場の仲介会社が「この物件、モリシタさんなら買えます？」と最初に電話してくる状態をつくる。
+      そのためにサイト上に、一般向けとは完全に分離した専用窓口を置きます。
+    </p>
+
+    <div class="grid g2" style="margin-top:28px;">
+      <div class="note">
+        <span class="tag">仲介会社が本当に求めていること</span>
+        <ul style="font-size:14px;color:var(--ink-soft);">
+          <li style="padding:6px 0 6px 16px;position:relative;"><span style="position:absolute;left:0;color:var(--gold);">・</span>とにかく<strong>返事が早い</strong>こと</li>
+          <li style="padding:6px 0 6px 16px;position:relative;"><span style="position:absolute;left:0;color:var(--gold);">・</span>買えない理由が<strong>具体的</strong>であること</li>
+          <li style="padding:6px 0 6px 16px;position:relative;"><span style="position:absolute;left:0;color:var(--gold);">・</span>あとから<strong>話が変わらない</strong>こと</li>
+          <li style="padding:6px 0 6px 16px;position:relative;"><span style="position:absolute;left:0;color:var(--gold);">・</span>売主に<strong>直接接触しない</strong>こと</li>
+          <li style="padding:6px 0 6px 16px;position:relative;"><span style="position:absolute;left:0;color:var(--gold);">・</span>難しい物件も<strong>一度は見てくれる</strong>こと</li>
+        </ul>
+      </div>
+      <div class="note">
+        <span class="tag">既存チラシが、すでに全部答えている</span>
+        <ul style="font-size:14px;color:var(--ink-soft);">
+          <li style="padding:6px 0 6px 16px;position:relative;"><span style="position:absolute;left:0;color:var(--gold);">・</span><strong>現地確認から48時間</strong>で購入判断</li>
+          <li style="padding:6px 0 6px 16px;position:relative;"><span style="position:absolute;left:0;color:var(--gold);">・</span>再販は<strong>専任媒介契約で紹介元へ</strong>お任せ</li>
+          <li style="padding:6px 0 6px 16px;position:relative;"><span style="position:absolute;left:0;color:var(--gold);">・</span>既存住宅売買瑕疵担保責任保険・建物状況診断付き</li>
+          <li style="padding:6px 0 6px 16px;position:relative;"><span style="position:absolute;left:0;color:var(--gold);">・</span>全棟『ハウスサポート365』（24時間かけつけ）</li>
+          <li style="padding:6px 0 6px 16px;position:relative;"><span style="position:absolute;left:0;color:var(--gold);">・</span>ゴミ屋敷・動物臭・<strong>傾きのある家も買取</strong></li>
+          <li style="padding:6px 0 6px 16px;position:relative;"><span style="position:absolute;left:0;color:var(--gold);">・</span>分離発注で<strong>中間マージン15〜20%カット</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note claude" style="margin-top:20px;">
+      <span class="tag">チラシとサイトの役割分担</span>
+      <p>チラシの7つの特徴は、そのままWebの見出しとして使えます。作り直す必要はありません。
+      サイト側が担うべきは、<strong>紙に載せきれない3つ</strong>です。
+      ①買取対象の具体的な範囲（エリア・種別・築年・状態）、②ご紹介から決済までの流れ、
+      ③当社標準仕様（どのグレードで直すのか）。この3つを載せておくと、
+      訪問後に社内で回覧されたときに、担当者以外にも話が通ります。</p>
+    </div>
+
+    <div class="note claude" style="margin-top:18px;">
+      <span class="tag">導線の置き方</span>
+      <p>BtoBの窓口は、一般ユーザー向けのグローバルメニューには置かないでください。
+      売主が見ると「この会社は安く買い叩く側だ」と読まれます。<strong>フッターの最下段</strong>、
+      および名刺・チラシのQRからの直リンク専用ページとして運用するのが安全です。</p>
+    </div>
+
+    <div class="linkcard">
+      <div class="txt">
+        <h4>不動産会社様向け 買取窓口ページ</h4>
+        <p>既存のA4チラシ「7つのメリット」に準拠したWeb版です。
+        タブレットでそのまま見せられ、A4に印刷しても成立します。チラシのQRコードの飛び先を想定しています。</p>
+      </div>
+      <a class="btn" href="gyousha.html">買取窓口ページを開く →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第六章 ============ -->
+<section class="band alt">
+  <div class="wrap">
+    <div class="chapter">
+      <span class="no">第六章</span>
+      <span class="en">SITE INTEGRATION</span>
+    </div>
+    <h2>3つのサイトを、どう1本にまとめるか</h2>
+    <p class="intro">
+      いま3つの資産があります。<strong>m-house.co.jp（会社ドメイン・51年）</strong>、
+      <strong>空き家管理LP</strong>、<strong>中古住宅専門サイト（仮）</strong>。
+      これを別々に育てると、更新もSEOも広告も三重コストになります。結論は
+      <em>会社ドメインに一本化</em>。中古住宅サイトは独立ドメインにせず、m-house.co.jp の中の
+      主力ブランドとして置きます。
+    </p>
+
+    <div class="merge">
+      <div class="col">
+        <h4>現　状</h4>
+        <div class="sitecard">
+          <div class="url">m-house.co.jp</div>
+          <div class="role">住まいの終活相談カウンター</div>
+          <div class="memo">会社の顔＝終活。新築・リフォームが見えない</div>
+        </div>
+        <div class="sitecard">
+          <div class="url">m-house.co.jp/akiyakanri-lp/</div>
+          <div class="role">空き家管理LP</div>
+          <div class="memo">サービス内容・料金が明確。単体で完結</div>
+        </div>
+        <div class="sitecard">
+          <div class="url">jintan1962-hub.github.io/…</div>
+          <div class="role">中古住宅専門店（デザイン案）</div>
+          <div class="memo">買いたい人向け。会社ドメインの外にある</div>
+        </div>
+      </div>
+      <div class="mid">▶</div>
+      <div class="col">
+        <h4>再編後</h4>
+        <div class="sitecard keep">
+          <div class="url">m-house.co.jp/</div>
+          <div class="role">コーポレートトップ（全面刷新）</div>
+          <div class="memo">「住まいの価値をつなぐ会社」＋3つの入口</div>
+        </div>
+        <div class="sitecard move sub">
+          <div class="url">m-house.co.jp/chuko/</div>
+          <div class="role">中古住宅専門店　※主力ブランド</div>
+          <div class="memo">仮サイトをここへ移設。物件検索・会員・再生住宅</div>
+        </div>
+        <div class="sitecard move sub">
+          <div class="url">m-house.co.jp/kaitori/</div>
+          <div class="role">売却・直接買取</div>
+          <div class="memo">既存の買取LPを昇格</div>
+        </div>
+        <div class="sitecard keep sub">
+          <div class="url">m-house.co.jp/jikka/</div>
+          <div class="role">実家・空き家の相談</div>
+          <div class="memo">現在の終活コンテンツを1事業として格納</div>
+        </div>
+        <div class="sitecard keep sub">
+          <div class="url">m-house.co.jp/akiyakanri-lp/</div>
+          <div class="role">空き家管理LP（そのまま残置）</div>
+          <div class="memo">URL変更しない。広告・SEOの実績を守る</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:30px;">
+      <span class="tag">3つのサイトそれぞれの扱い</span>
+      <p style="margin-bottom:12px;"><strong>中古住宅専門サイト（仮）</strong>　——　主役に昇格させます。
+      ただし物件数を並べるだけの「よくある中古ポータル」にはしない。
+      「なぜ工務店が中古住宅なのか → 目利き → 買取再販 → 次の世代へ」という読み順を通します。</p>
+      <p style="margin-bottom:12px;"><strong>m-house.co.jp</strong>　——　終活コンテンツは<u>捨てません</u>。
+      会社の顔から、<strong>1事業</strong>の位置へ移すだけです。トップは企業ブランドサイトに戻します。</p>
+      <p><strong>空き家管理LP</strong>　——　そのまま維持。ただし収益事業として評価しない。
+      巡回・換気・通水で年数千円〜数万円の売上を追う事業ではなく、
+      <em>将来の仕入れにつながるストック型の接点</em>として、KPIを「管理棟数」に置き換えます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第七章 ============ -->
+<section class="band">
+  <div class="wrap">
+    <div class="chapter">
+      <span class="no">第七章</span>
+      <span class="en">SITE ARCHITECTURE</span>
+    </div>
+    <h2>サイト構造と、トップページの読ませる順番</h2>
+    <p class="intro">
+      お客様は事業部を探しているのではなく、<strong>自分の問題を解決したい</strong>だけです。
+      だから最上位メニューに「新築・リフォーム・相続・解体・管理…」と全部並べません。
+      入口は<strong>3つ</strong>。その下に全事業を格納します。
+    </p>
+
+    <div class="tree">
+      <ul>
+        <li>
+          <span class="root">m-house.co.jp　TOP</span>
+          <span class="memo">住まいを次の世代へつなぐ会社</span>
+          <ul>
+            <li><span class="lv1">中古住宅を買う</span><span class="memo">／chuko/　主力ブランド</span>
+              <ul>
+                <li><span class="node">物件検索</span><span class="memo">エリア・沿線・価格・築年・小学校区</span></li>
+                <li><span class="node">モリシタ再生住宅</span><span class="new">新設</span><span class="memo">自社買取再販の商品ページ</span></li>
+                <li><span class="node">会員限定・未公開物件</span><span class="memo">会員登録で解放</span></li>
+                <li><span class="node">中古住宅の選び方</span><span class="memo">購入前チェックリスト・買わない方がいい家</span></li>
+                <li><span class="node">中古＋リノベーション</span></li>
+              </ul>
+            </li>
+            <li><span class="lv1">家を売る</span><span class="memo">／kaitori/</span>
+              <ul>
+                <li><span class="node">直接買取</span><span class="memo">最短10日・仲介手数料0円</span></li>
+                <li><span class="node">仲介で売る</span></li>
+                <li><span class="node">買取と仲介、どちらがいい？</span><span class="new">新設</span><span class="memo">比較コンテンツ。信頼形成の中心</span></li>
+                <li><span class="node">無料査定フォーム</span></li>
+              </ul>
+            </li>
+            <li><span class="lv1">実家・空き家を相談する</span><span class="memo">／jikka/　旧・終活相談カウンター</span>
+              <ul>
+                <li><span class="node">実家のこれから相談</span><span class="memo">まだ売ると決めていなくてよい</span></li>
+                <li><span class="node">空き家管理</span><span class="memo">／akiyakanri-lp/ へ</span></li>
+                <li><span class="node">解体・土地活用</span></li>
+                <li><span class="node">相続後サポート</span></li>
+                <li><span class="node">セミナー・個別相談会</span></li>
+              </ul>
+            </li>
+            <li><span class="lv1">家を再生する</span><span class="memo">工務店としての中身。目利きの根拠</span>
+              <ul>
+                <li><span class="node">モリシタの再生基準</span><span class="new">新設</span></li>
+                <li><span class="node">耐震・断熱・劣化診断</span></li>
+                <li><span class="node">リフォーム施工例</span></li>
+                <li><span class="node">新築・注文住宅</span><span class="memo">残す。ただしトップでは主役にしない</span></li>
+              </ul>
+            </li>
+            <li><span class="lv1">モリシタハウスについて</span>
+              <ul>
+                <li><span class="node">51年の歩み</span></li>
+                <li><span class="node">代表 森下誉樹</span><span class="memo">YouTube・発信</span></li>
+                <li><span class="node">スタッフ紹介／会社概要／アクセス</span></li>
+              </ul>
+            </li>
+            <li><span class="lv1">会員登録</span><span class="memo">未公開物件・新着の先行案内</span></li>
+            <li><span class="lv1">不動産会社様へ｜買取窓口</span><span class="new b2b">B to B</span><span class="memo">／kaitori/gyousha/　フッター最下段とチラシQRからのみ</span></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h3 class="sub">トップページを、どの順番で読ませるか</h3>
+    <p style="max-width:66ch;color:var(--ink-soft);font-size:14.5px;">
+      画面を上から下に降りていくあいだに、読み手の頭の中で
+      「この会社は何屋か → 自分はどこへ行けばいいか → なぜこの会社なのか → 信用できるか」
+      の順で疑問が解けるように並べます。
+    </p>
+
+    <div class="wire">
+      <div class="screen">
+        <div class="bar"><i></i><i></i><i></i></div>
+        <div class="blk"><b>ヘッダー</b>ロゴ／3入口ナビ／会員登録／フリーダイヤル</div>
+        <div class="blk hero-b"><b>ヒーロー</b>家をつくる会社から、住まいの価値をつなぐ会社へ。</div>
+        <div class="blk three">
+          <span>中古住宅を<br>探す</span>
+          <span>家を売る<br>買い取る</span>
+          <span>実家・空き家<br>を相談</span>
+        </div>
+        <div class="blk"><b>なぜ工務店が中古住宅か</b>目利きの根拠</div>
+        <div class="blk gold-b"><b>モリシタ再生住宅</b>自社買取再販の商品紹介</div>
+        <div class="blk"><b>物件を見る</b>新着／会員限定の件数・エリアマップ</div>
+        <div class="blk"><b>家のバトンタッチ</b>事業構造図・51年の物語</div>
+        <div class="blk"><b>信用の材料</b>お客様の声／施工例／スタッフ／YouTube</div>
+        <div class="blk dark-b"><b>最終CTA</b>会員登録・無料査定・来店予約</div>
+        <div class="blk"><b>フッター</b>全事業リンク＋不動産会社様専用窓口</div>
+      </div>
+
+      <ul class="flow">
+        <li>
+          <div class="q">読み手の疑問　この会社は何屋？</div>
+          <h4>ヒーローで、旗を1行で見せる</h4>
+          <p>物件検索窓を最上部に置きたくなりますが、コーポレートトップでは先に旗です。
+          検索窓は「中古住宅を買う」側に持たせます。</p>
+          <div class="copy">家をつくる会社から、住まいの価値をつなぐ会社へ。<br>建てる。直す。見極める。そして、次の人へ渡す。</div>
+        </li>
+        <li>
+          <div class="q">読み手の疑問　自分はどこへ行けばいい？</div>
+          <h4>3つの入口を、迷わせずに提示する</h4>
+          <p>ここが全設計の要です。それぞれの見出しは「サービス名」ではなく
+          <strong>お客様の一言</strong>で書きます。</p>
+          <div class="copy">
+            ① 買っていい家を、プロと探す。<br>
+            ② その家、本当に土地値だけですか？<br>
+            ③ まだ売ると決めていなくても、大丈夫です。
+          </div>
+        </li>
+        <li>
+          <div class="q">読み手の疑問　なぜこの会社なの？</div>
+          <h4>工務店であることを、優位性に変換する</h4>
+          <p>不動産会社は「いくらで売れるか」を見る。私たちは「いくら掛ければ、どこまで蘇るか」が見える。
+          ここで<strong>買わない方がいい家も言う</strong>という姿勢を明示します。</p>
+        </li>
+        <li>
+          <div class="q">読み手の疑問　何を売っているの？</div>
+          <h4>モリシタ再生住宅を、商品として立てる</h4>
+          <p>買取再販を「事業説明」ではなく<strong>商品名</strong>で見せます。
+          再生基準・Before/After・床下と小屋裏の写真。ここが他社との一番の差。</p>
+          <div class="copy">私たち自身が買いたいと思える家を仕入れ、<br>私たち自身が住めると思える状態まで直して、お渡しします。</div>
+        </li>
+        <li>
+          <div class="q">読み手の疑問　物件はあるの？</div>
+          <h4>件数とエリアマップで、在庫の厚みを示す</h4>
+          <p>仮サイトの資産をそのまま使います。「ネットに出ている物件が全部ではありません」という
+          入口は非常に強い。会員限定・店頭限定の件数を並べることで登録動機が立ちます。</p>
+        </li>
+        <li>
+          <div class="q">読み手の疑問　信用していいの？</div>
+          <h4>51年の物語と、顔の見える発信</h4>
+          <p>代表のYouTube、スタッフ、施工例、お客様の声。
+          ここで初めて「空き家の相談から中古住宅再生にたどり着いた」という物語を語ります。</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="linkcard">
+      <div class="txt">
+        <h4>新トップページのデザインモックアップ</h4>
+        <p>上の設計をそのまま形にしたコーポレートトップの実物案です。
+        既存の中古住宅専門サイトと同じ配色・書体で作っています。</p>
+      </div>
+      <a class="btn" href="top-new.html">モックアップを開く →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第八章 ============ -->
+<section class="band alt">
+  <div class="wrap">
+    <div class="chapter">
+      <span class="no">第八章</span>
+      <span class="en">ROADMAP</span>
+    </div>
+    <h2>どの順番で手をつけるか</h2>
+    <p class="intro">
+      サイトの完成を待たずに、買取再販は先に始められます。むしろ<strong>先に1棟やる</strong>方が、
+      サイトに載せる写真も数字も物語も手に入ります。順番を間違えないことが重要です。
+    </p>
+
+    <div class="phase">
+      <div>
+        <div class="p">PHASE 0</div>
+        <div class="when">PHASE 1 と併走　※着手は後でよい</div>
+        <h4>判断の型を言語化する</h4>
+        <ul>
+          <li>A／B／Cの判定基準を紙1枚にする</li>
+          <li>買取価格の逆算シート（再販価格−工事−経費−利益）</li>
+          <li>分離発注の職人リストと単価表</li>
+          <li>※先に基準を完成させる必要はない。実際の原価検討を重ねた結果を、あとから紙に落とす方が早い</li>
+        </ul>
+      </div>
+      <div class="now">
+        <div class="p">PHASE 1<span class="here">現在ここ</span></div>
+        <div class="when">進行中</div>
+        <h4>案件を見る量を増やす</h4>
+        <ul>
+          <li>土地バンクの新着を毎日確認し、仕入れ候補を掘り起こす</li>
+          <li>候補物件ごとに原価検討を行い、商品になるかを判断する訓練を積む</li>
+          <li>地場仲介会社を訪問し、買取窓口として認知してもらう</li>
+          <li>1棟目を仕入れ、全工程を写真で記録する</li>
+        </ul>
+      </div>
+      <div>
+        <div class="p">PHASE 2</div>
+        <div class="when">3〜6か月</div>
+        <h4>サイトを統合する</h4>
+        <ul>
+          <li>m-house.co.jp トップを企業ブランドへ刷新</li>
+          <li>仮サイトを /chuko/ へ移設</li>
+          <li>終活コンテンツを /jikka/ へ再配置</li>
+          <li>1棟目を「モリシタ再生住宅 第1号」として掲載</li>
+        </ul>
+      </div>
+      <div>
+        <div class="p">PHASE 3</div>
+        <div class="when">6か月〜</div>
+        <h4>仕入れを回す</h4>
+        <ul>
+          <li>相談台帳＝仕入れパイプラインとして運用</li>
+          <li>空き家管理の棟数をKPIに設定</li>
+          <li>YouTubeを再生工程の記録媒体として使う</li>
+          <li>年間◯棟の再販ペースを設計する</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:28px;">
+      <span class="tag">順番について</span>
+      <p>判定基準を先に完成させる必要はありません。実際には
+      <strong>「内見後48時間以内に回答します」と宣言するだけで、案件は動きはじめます</strong>。
+      基準は、案件を見た数だけ精度が上がるものです。土地バンクの新着を毎日追い、
+      1件ずつ原価を当てていく作業そのものが基準づくりになっています。
+      紙1枚にまとめるのは、<em>手が動いたあと</em>で構いません。
+      いま優先すべきは、業者訪問で渡せるものを用意することです。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 物語 ============ -->
+<section class="story">
+  <div class="wrap">
+    <span class="kicker">会社の物語として語るなら</span>
+    <h2>空き家の現場を見てきたからこそ、<br>「壊す前に、もう一度価値を見つける」に行き着いた。</h2>
+    <p>
+      モリシタハウスは、50年以上にわたって家をつくってきました。
+      しかし家は、建てて終わりではありません。住む人が変わり、家族が変わり、
+      いつかその役目を終える日もやってきます。
+    </p>
+    <p>
+      私たちは実家じまいや空き家のご相談に取り組むなかで、
+      まだ十分に住める家が、価値を見いだされないまま壊されていく現実も見てきました。
+    </p>
+    <p>
+      だからこれからは、つくるだけではなく、家を見極め、必要な手を加え、
+      もう一度住める家として次の人へつないでいきます。
+    </p>
+    <div class="final">家をつくる会社から、<em>住まいの価値をつなぐ会社</em>へ。<br>それが、これからのモリシタハウスです。</div>
+  </div>
+</section>
+
+<footer class="doc">
+  <div class="wrap">
+    <p>株式会社モリシタハウス　事業構想・サイト設計案／2026年</p>
+    <p>本書に記載の物件件数・価格・収益モデルは、構造を示すための仮値です。公開前に実データへの差し替えが必要です。</p>
+  </div>
+</footer>
