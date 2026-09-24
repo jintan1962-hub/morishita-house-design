@@ -1,0 +1,129 @@
+/* ==========================================================================
+   管理画面（/admin 配下）専用のスタイル
+   ==========================================================================
+
+   【このファイルの役割】
+
+   管理画面は Tailwind のユーティリティ（text-sm / p-6 / w-64 / rounded-2xl …）で
+   組まれている。Tailwind v4 は寸法・角丸をすべて CSS変数経由で解決するため、
+   管理画面の根要素 `.admin-root` にトークンを載せるだけで、
+   マークアップを1行も触らずに見た目を揃えられる。
+
+   ここでは2つのことをしている。
+
+   1. 公開サイト（globals.css）のベース指定のうち、管理画面に効いては困るものを打ち消す
+   2. 角丸・書体を、公開サイトのデザイン（モリシタハウス）に合わせる
+
+   ※ Tailwind のトークン名・既定値に依存している。Tailwind をメジャー更新したときは
+     node_modules/tailwindcss/theme.css と突き合わせること。
+
+   【履歴】
+   以前ここには「html の font-size: 62.5% を打ち消すための px トークン」が入っていた。
+   RENOEL版の公開サイトが `1.6rem = 16px` という書き方をしていたためで、
+   その煽りで管理画面の寸法が全て 62.5%（text-sm が 8.75px、サイドバーが 160px）に
+   縮んでいた。モリシタハウス版は px で書かれており html の font-size を変えていないため、
+   打ち消しは不要になった。ただし**寸法の意図をここに明示しておく価値はある**ので、
+   Tailwind 既定値と同じ値を明示的に置いたままにしている（将来 62.5% が復活しても壊れない）。
+   -------------------------------------------------------------------------- */
+
+.admin-root {
+  /* --- 余白・寸法。p-6 や w-64 がここで決まる --- */
+  --spacing: 4px;
+
+  /* --- 文字サイズ（16px 基準の px） --- */
+  --text-xs: 12px;   --text-xs--line-height: 16px;
+  --text-sm: 14px;   --text-sm--line-height: 20px;
+  --text-base: 16px; --text-base--line-height: 24px;
+  --text-lg: 18px;   --text-lg--line-height: 28px;
+  --text-xl: 20px;   --text-xl--line-height: 28px;
+  --text-2xl: 24px;  --text-2xl--line-height: 32px;
+  --text-3xl: 30px;  --text-3xl--line-height: 36px;
+  --text-4xl: 36px;  --text-4xl--line-height: 40px;
+
+  /* --- 角丸 ---
+     公開サイトのデザインは --radius: 3px の「角のあるカード」で、
+     管理画面の rounded-2xl（16px）は同じサイトに見えない。
+     ここを詰めるだけで、カード・ボタン・入力欄の形が公開サイトと揃う。
+     rounded-full（アバター・件数バッジ）は Tailwind 側が固定値なので丸いまま。 */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
+  --radius-2xl: 6px;
+  --radius-3xl: 6px;
+  --radius-4xl: 8px;
+
+  /* --- max-w-* の基準。モーダルの幅がここで決まる --- */
+  --container-3xs: 256px;
+  --container-2xs: 288px;
+  --container-xs:  320px;
+  --container-sm:  384px;
+  --container-md:  448px;
+  --container-lg:  512px;
+  --container-xl:  576px;
+  --container-2xl: 672px;
+  --container-3xl: 768px;
+  --container-4xl: 896px;
+  --container-5xl: 1024px;
+  --container-6xl: 1152px;
+  --container-7xl: 1280px;
+
+  /* 管理画面の地の文はゴシック。明朝は見出しだけに使う（下の :is(h1,h2)） */
+  font-family: var(--f-gothic);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  /* 数字を等幅にして、価格や件数の桁を目で揃えられるようにする */
+  font-feature-settings: "tnum";
+}
+
+/* --------------------------------------------------------------------------
+   globals.css のベース指定を管理画面向けに打ち消す
+   -------------------------------------------------------------------------- */
+
+/* globals.css の `p { margin: 0 0 1em }` が、ヘッダー右のIDブロックを
+   はみ出させていた。管理画面では余白は Tailwind の space-y / mb-* で付ける。 */
+.admin-root p { margin: 0; }
+
+/* globals.css の見出しは明朝・太字固定。管理画面では
+   font-bold / font-black / text-* を素直に効かせたいので継承に戻す。 */
+.admin-root :is(h1, h2, h3, h4, h5) {
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+/* ただしページ見出し（h1）と大きな節見出し（h2）は明朝にして、
+   公開サイトと同じ「見出しは明朝」の約束に揃える。 */
+.admin-root main :is(h1, h2) { font-family: var(--f-mincho); letter-spacing: .02em; }
+
+/* --------------------------------------------------------------------------
+   サイドバー（濃紺地に白文字）
+   -------------------------------------------------------------------------- */
+.admin-root aside a,
+.admin-root aside button { color: #fff; }
+.admin-root aside a:hover { color: #fff; }
+
+/* 選択中のメニューは、公開サイトのナビと同じくコーポレートカラーで示す。
+   以前は bg-white/15 のグレーで、どれが選択中か分かりにくかった。 */
+.admin-root aside a[aria-current="page"] {
+  background: var(--indigo);
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   フォーカスリング。キーボード操作で「いまどこにいるか」を必ず見えるようにする
+   -------------------------------------------------------------------------- */
+.admin-root :is(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--indigo);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   表。公開サイトの .spec-table と同じ「罫線で仕切る」見え方に寄せる
+   -------------------------------------------------------------------------- */
+.admin-root thead th {
+  font-family: var(--f-gothic);
+  letter-spacing: .03em;
+}

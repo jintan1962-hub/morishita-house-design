@@ -1,0 +1,257 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+  // Vercel の実行環境は Amazon Linux 2023（rhel-openssl-3.0.x）。
+  // native（開発マシン）だけだと、デプロイ先で
+  // 「Query engine library for current platform could not be found」で落ちる。
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Property {
+  id               Int             @id @default(autoincrement())
+  /// 物件管理番号（athome / ATBB の番号をそのまま使う）。
+  /// 10桁あり Int（PostgreSQL の integer、上限 2,147,483,647）に収まらないため BigInt。
+  /// クライアントへ返すときは文字列に変換する（サーバーアクションの戻り値を参照）。
+  objMngNo         BigInt          @unique
+  syubetu          Int
+  syumoku          String
+  title            String
+  priceMan         Int
+  madori           String
+  landMen          Float?
+  bldMen           Float?
+  bldStructure     String?
+  bldY             Int?
+  bldM             Int?
+  address          String
+  prefCd           String
+  cityCd           String
+  elementarySchool String?
+  juniorHighSchool String?
+  currentState     String?
+  disclosureLevel  Int             @default(0)
+  priceDown        Boolean         @default(false)
+  reformTarget     Boolean         @default(false)
+
+  // ───────── 物件概要（athome の表示項目に対応。全て任意）─────────
+  // 値が入らない項目は athome 上で「－」と表示されるもの。無理に構造化せず、
+  // 表示に使う文字列はそのまま持つ（D-03：推測で正規化しない）。
+
+  /// 交通の表示用テキスト（例: 北陸新幹線 佐久平駅 徒歩15000m）
+  trafficNote      String?
+  /// 沿線名
+  trafficLine      String?
+  /// 駅名
+  trafficStation   String?
+  /// 駅からの徒歩（分）。距離表記しかない物件では空
+  walkMinutes      Int?
+  /// 借地期間・地代
+  leaseTermRent    String?
+  /// 権利金
+  keyMoney         String?
+  /// 敷金・保証金
+  depositGuarantee String?
+  /// 維持費等（管理費など。物件により複数条件の文章が入る）
+  maintenanceCost  String?
+  /// その他一時金
+  otherLumpSum     String?
+  /// 階建/階（例: 2階建 / 3階/10階建）
+  floorsInfo       String?
+  /// 駐車場
+  parking          String?
+  /// 土地権利（例: 所有権）
+  landRight        String?
+  /// 引渡可能時期（例: 相談）
+  deliveryTiming   String?
+  /// 取引態様（例: 仲介 / 一般媒介）
+  transactionType  String?
+  /// 掲載会社管理番号（掲載会社が自社で付けている番号）
+  listingCompanyNo String?
+  /// 情報公開日
+  publishedOn      DateTime?
+  /// 次回更新予定日。これを過ぎた物件を出し続けない運用に使う
+  nextUpdateOn     DateTime?
+
+  // ───────── マンション固有 ─────────
+  /// 管理費（円/月）
+  mgmtFeeYen       Int?
+  /// 修繕積立金（円/月）
+  repairFundYen    Int?
+  /// 総戸数
+  totalUnits       Int?
+  /// 所在階
+  floorNo          Int?
+  /// 向き
+  direction        String?
+  /// バルコニー面積（㎡）
+  balconyMen       Float?
+  /// 管理形態
+  mgmtForm         String?
+
+  // ───────── 土地固有 ─────────
+  /// 建ぺい率（%）
+  buildingCoverage Int?
+  /// 容積率（%）
+  floorAreaRatio   Int?
+  /// 用途地域
+  zoning           String?
+  /// 地目
+  landCategory     String?
+  /// 都市計画
+  cityPlanning     String?
+  /// 接道状況
+  roadAccess       String?
+  /// 私道負担
+  privateRoad      String?
+
+  // ───────── 取扱店 ─────────
+  // 宅建業法の広告表示に関わる。画面へ出すかは別途判断する（列としては保持する）。
+  /// 取扱不動産会社名
+  agencyName       String?
+  /// 取扱店の所在地
+  agencyAddress    String?
+  /// 取扱店の電話番号
+  agencyTel        String?
+  /// 宅地建物取引業の免許番号
+  agencyLicense    String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  images           PropertyImage[]
+}
+
+model PropertyImage {
+  id         Int      @id @default(autoincrement())
+  propertyId Int
+  /// 公開URL（Supabase Storage）。画面はこの値をそのまま <img src> に使う
+  path       String
+  /// 表示順。一括アップロードではファイル名の連番がそのまま入る
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId, sortOrder])
+}
+
+/// D-17：一括更新の「控え」。上書き前の物件データをここへ日時つきで退避する。
+/// 上書きは元の値が消えるため、削除より復旧が難しい（S-13）。
+model PropertyImportBackup {
+  id         Int      @id @default(autoincrement())
+  importedAt DateTime @default(now())
+  /// 実行した管理者のメールアドレス（誰がやったか）
+  importedBy String
+  /// 取込対象の件数
+  itemCount  Int
+  /// 上書き前の既存レコード（JSON配列）。戻すときはこれを使う。
+  before     Json
+}
+
+/// O-05：コードを直さずに機能を止めるためのスイッチ置き場。
+/// 事故が起きたとき「まず止める」（S-14）ための手段を、事前に用意しておくもの。
+/// Supabase の table editor から value を書き換えれば、デプロイなしで即座に反映される。
+///
+/// key = "MAIL_SENDING_ENABLED" / value = "false" にすると、全てのメール送信が止まる。
+model SystemSetting {
+  key       String   @id
+  value     String
+  note      String?
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  name          String?
+  password      String?
+  tel           String?
+  zip           String?
+  address       String?
+  role          String    @default("USER")
+  status        String    @default("ACTIVE")
+  memberType    String    @default("FREE")
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // S-13 論理削除。物理削除はせず、ここに削除日時と実行者を残す。
+  // 参照系のクエリは必ず deletedAt: null で絞ること。
+  deletedAt     DateTime?
+  deletedBy     String?
+
+  // S-12 ログイン試行回数の制限。lockedUntil を過ぎるまで認証を拒否する。
+  failedLoginCount Int       @default(0)
+  lockedUntil      DateTime?
+
+  activityLogs  ActivityLog[]
+
+  @@index([deletedAt])
+}
+
+/// S-08 / S-12：公開エンドポイント（問い合わせ・会員登録・ログイン）の濫用を抑えるための
+/// レート制限カウンタ。Vercel はサーバーレスで各インスタンスがメモリを共有しないため、
+/// 勘定を1箇所（このDB）に置く。
+///
+/// bucket   = 制限の単位。"inquiry:ip:1.2.3.4" / "login:ip:..." / "inquiry:email:..." など
+/// count    = 現在の窓での試行回数
+/// windowEndsAt = この時刻を過ぎたら count を 0 から数え直す
+///
+/// 使い捨てのデータ。古い行は checkRateLimit が通りがけに掃除する。
+/// スキーマを戻すときは DROP TABLE で足りる（失う情報は無い）。
+model RateLimit {
+  bucket      String   @id
+  count       Int      @default(0)
+  windowEndsAt DateTime
+  updatedAt   DateTime @updatedAt
+
+  @@index([windowEndsAt])
+}
+
+model ActivityLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  action    String   // 例: "LOGIN" や "VIEW_PROPERTY"
+  details   String?  // 物件IDなどの補足情報
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Inquiry {
+  id         Int      @id @default(autoincrement())
+  propertyId Int?     // どの物件についての問い合わせか（nullの場合は一般の問い合わせ）
+  userId     Int?     // ログインユーザーからの問い合わせならIDを記録
+  name       String
+  email      String
+  tel        String?
+  message    String   // お問い合わせ内容
+  status     String   @default("UNREAD") // UNREAD, REPLIED, etc.
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  repliedAt  DateTime?
+}
+
+/// メール送信の結果。O-06：送信が失敗しても誰も気付かなかった状態を解消するためのもの。
+/// 管理画面 /admin/mail-logs から確認する。
+/// S-09：本文と入力値は保存しない。宛先・件名・状態・失敗理由までに留める。
+model MailLog {
+  id         Int      @id @default(autoincrement())
+  /// 送信の種類（REGISTRATION / REGISTRATION_ADMIN / INQUIRY / INQUIRY_ADMIN）
+  kind       String
+  /// 宛先。複数ある場合はカンマ区切り
+  to         String
+  subject    String
+  /// SENT（受理された）／FAILED（失敗・要対応）／SKIPPED（意図的に送らなかった）
+  status     String
+  /// Resend が返したメッセージID。問い合わせのときに使う
+  providerId String?
+  /// 失敗・スキップの理由（APIの応答の要約。個人情報は入れない）
+  reason     String?
+  createdAt  DateTime @default(now())
+
+  @@index([status, createdAt])
+}

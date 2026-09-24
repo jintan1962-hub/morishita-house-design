@@ -1,0 +1,400 @@
+/* ==========================================================================
+   トップページ専用のセクションCSS
+   --------------------------------------------------------------------------
+   出典：jintan1962-hub.github.io/morishita-house-design/ の index.html。
+   全ページ共通の土台（トークン・ボタン・ヘッダー・フッター・物件カード）は
+   src/app/globals.css にある。ここは「トップにしか出ないセクション」だけ。
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ヒーロー
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 105, 86, 0.05) 0 1px, transparent 1px 56px),
+    repeating-linear-gradient(90deg, rgba(0, 105, 86, 0.05) 0 1px, transparent 1px 56px),
+    linear-gradient(180deg, var(--indigo-tint) 0%, var(--paper) 62%);
+  color: var(--ink);
+  padding: 64px 0 116px;
+}
+.hero-inner { max-width: var(--w-container); margin: 0 auto; padding: 0 28px; position: relative; }
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12.5px; letter-spacing: .24em; color: var(--indigo-deep);
+  text-transform: uppercase; margin-bottom: 22px; font-weight: 700;
+}
+.hero-kicker::before { content: ""; width: 26px; height: 1px; background: var(--indigo); }
+.hero h1 { color: var(--ink); font-size: clamp(32px, 4.6vw, 54px); line-height: 1.38; letter-spacing: .02em; }
+.hero h1 em {
+  font-style: normal; color: var(--ink);
+  border-bottom: 4px solid var(--gold-bright); padding-bottom: 2px;
+}
+.hero-lead {
+  margin: 18px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(17px, 2vw, 21px);
+  font-weight: 700;
+  color: var(--indigo-deep);
+  line-height: 1.7;
+}
+.hero .sub { margin-top: 22px; max-width: 52ch; color: var(--ink-soft); font-size: 15.5px; }
+.hero .sub p { margin: 0 0 12px; }
+.hero .sub p:last-child { margin-bottom: 0; }
+.hero-actions { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
+
+/* クイック検索カード（ヒーローに重ねる） */
+.quicksearch {
+  position: relative; margin: 56px auto 0; max-width: 1000px;
+  background: #fff; color: var(--ink);
+  border-radius: 6px; box-shadow: var(--shadow); padding: 26px 30px 28px;
+}
+.qs-tabs { display: flex; gap: 4px; margin-bottom: 18px; flex-wrap: wrap; }
+.qs-tab {
+  padding: 9px 18px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft);
+  background: var(--paper-alt); border-radius: 4px 4px 0 0;
+  border: 1px solid var(--line); border-bottom: none;
+}
+.qs-tab[aria-selected="true"] { background: var(--indigo); color: #fff; border-color: var(--indigo); }
+.qs-grid { display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 14px; align-items: end; }
+.qs-grid .btn { height: 44px; padding: 0 26px; }
+
+.hero-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  max-width: 1000px; margin: 36px auto 0;
+  background: #fff; border: 1px solid var(--line); border-radius: 6px; overflow: hidden;
+}
+.hero-stats li { padding: 22px 10px; text-align: center; color: var(--ink); border-left: 1px solid var(--line); }
+.hero-stats li:first-child { border-left: none; }
+.hero-stats .num {
+  font-family: var(--serif); font-size: 28px; color: var(--indigo-deep); font-variant-numeric: tabular-nums;
+}
+.hero-stats .cap { display: block; font-size: 12px; color: var(--ink-faint); margin-top: 4px; letter-spacing: .04em; }
+
+/* --------------------------------------------------------------------------
+   種別タイル
+   -------------------------------------------------------------------------- */
+.type-tiles {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px;
+  background: var(--line); border: 1px solid var(--line);
+  margin-top: -60px; position: relative; z-index: 2;
+  border-radius: 6px; overflow: hidden; box-shadow: var(--shadow);
+}
+.type-tile {
+  background: #fff; padding: 26px 10px; text-align: center;
+  font-size: 13.5px; font-weight: 600; color: var(--ink);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.type-tile:hover { background: var(--indigo-tint); color: var(--indigo); }
+.type-tile .ico { width: 30px; height: 30px; color: var(--indigo); }
+.type-tile:hover .ico { color: var(--indigo-deep); }
+
+/* --------------------------------------------------------------------------
+   エリア別物件数マップ
+   -------------------------------------------------------------------------- */
+.areamap-layout { display: grid; grid-template-columns: 1.05fr .95fr; gap: 36px; align-items: start; }
+
+/* 地図の配色。地区ごとに色を持たせ、ホバー・連動ハイライトは
+   色を変えずに濃さ（fill-opacity）で表す。 */
+.areamap-visual {
+  background: #f6f3ee; border: 1px solid var(--line); border-radius: 6px; padding: 20px;
+  --am-himejinishi: #1d395a;
+  --am-takaoka:     #906b27;
+  --am-ekikita:     #457c52;
+  --am-ekiminami:   #ab5c35;
+  --am-shikama:     #66508a;
+  --am-shirahama:   #3f7db1;
+}
+/* 海と市域外。指定が無いと SVG の既定色（黒）で塗られる。 */
+.areamap-sea { fill: #d3e1ec; }
+.areamap-outside { fill: #e5e2de; }
+
+.areamap-region {
+  stroke: #fff; stroke-width: 4; stroke-linejoin: round;
+  fill-opacity: .82; cursor: pointer; transition: fill-opacity .15s ease;
+}
+.areamap-region[data-area="himejinishi"] { fill: var(--am-himejinishi); }
+.areamap-region[data-area="takaoka"]     { fill: var(--am-takaoka); }
+.areamap-region[data-area="ekikita"]     { fill: var(--am-ekikita); }
+.areamap-region[data-area="ekiminami"]   { fill: var(--am-ekiminami); }
+.areamap-region[data-area="shikama"]     { fill: var(--am-shikama); }
+.areamap-region[data-area="shirahama"]   { fill: var(--am-shirahama); }
+.areamap-region[data-area]:hover,
+.areamap-region[data-area].is-active { fill-opacity: 1; }
+
+/* 地図の上に載せるラベル（ピル） */
+.areamap-pin { pointer-events: none; }
+.am-pin-name { font-size: 20px; font-weight: 700; fill: #fff; font-family: var(--sans); }
+.am-pin-sub { font-size: 15px; fill: #fff; opacity: .85; }
+.am-pin-num {
+  font-size: 20px; font-weight: 700; fill: #fff;
+  font-family: var(--sans); font-variant-numeric: tabular-nums;
+}
+.areamap-caption { font-size: 11.5px; color: var(--ink-faint); margin-top: 12px; text-align: center; }
+.areamap-caption a { color: var(--indigo); text-decoration: underline; }
+.areamap-legend {
+  display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 16px;
+  font-size: 12.5px; color: var(--ink-soft);
+}
+.areamap-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.dot-public { background: var(--indigo); }
+.dot-member { background: var(--gold-bright); }
+.dot-shop { background: var(--ink); }
+
+table.areamap-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table.areamap-table th {
+  text-align: right; font-weight: 600; color: var(--ink-faint);
+  font-size: 11.5px; letter-spacing: .03em;
+  padding: 0 0 10px; border-bottom: 1px solid var(--line-strong);
+}
+table.areamap-table th:first-child { text-align: left; }
+table.areamap-table td {
+  padding: 12px 0; border-bottom: 1px solid var(--line); text-align: right;
+  font-variant-numeric: tabular-nums; color: var(--ink-soft);
+  cursor: pointer; transition: background .15s ease;
+}
+table.areamap-table td:first-child { text-align: left; color: var(--ink); font-weight: 600; }
+table.areamap-table tr:hover td, table.areamap-table tr.is-active td { background: var(--indigo-tint); }
+table.areamap-table tfoot td {
+  border-bottom: none; border-top: 2px solid var(--ink);
+  font-weight: 700; color: var(--ink); padding-top: 14px; cursor: default;
+}
+table.areamap-table tfoot tr:hover td { background: transparent; }
+.areamap-note {
+  margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--line);
+  font-size: 12.5px; color: var(--ink-soft);
+}
+.areamap-note b { color: var(--indigo-deep); }
+
+/* 選択したエリアの物件を地図の下に出す領域 */
+.area-result { margin-top: 40px; }
+.area-result__head {
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 18px;
+}
+.area-result__head h3 { font-size: 20px; }
+.area-result__count { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* 件数バー・小学校区・間取り */
+.count-bar {
+  background: #fff; border: 1px solid var(--line); border-radius: 6px;
+  padding: 22px 26px; margin-bottom: 28px;
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+}
+.count-bar strong {
+  font-family: var(--serif); font-size: 38px; color: var(--indigo-deep); font-variant-numeric: tabular-nums;
+}
+.school-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--line); border: 1px solid var(--line);
+}
+.school-block { background: #fff; padding: 22px 20px; }
+.school-block h4 {
+  font-size: 15px; margin-bottom: 12px;
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.school-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.school-list .chip b { font-size: 11px; color: var(--indigo-deep); margin-left: 4px; font-weight: 700; }
+
+.madori-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px;
+  background: var(--line); border: 1px solid var(--line);
+}
+.madori-tile { background: #fff; padding: 30px 12px; text-align: center; transition: background .18s ease; display: block; }
+.madori-tile:hover { background: var(--indigo-tint); }
+.madori-name { display: block; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.madori-num { font-family: var(--serif); font-size: 26px; color: var(--indigo-deep); font-variant-numeric: tabular-nums; }
+
+/* --------------------------------------------------------------------------
+   おすすめ物件（コンパクトカード）
+   -------------------------------------------------------------------------- */
+.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.feature-card { background: #fff; border: 1px solid var(--line); }
+.feature-photo {
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, var(--paper-deep), var(--indigo-tint));
+  position: relative; display: flex; align-items: flex-end; padding: 10px; overflow: hidden;
+}
+.feature-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.feature-photo > svg { position: absolute; inset: 0; margin: auto; width: 38px; height: 38px; color: var(--indigo); opacity: .4; }
+.feature-tag {
+  position: relative; z-index: 1; background: var(--gold-bright); color: #2b2108;
+  font-size: 10.5px; font-weight: 700; padding: 3px 9px;
+}
+.feature-body { padding: 14px 16px 16px; }
+.feature-comment {
+  font-size: 12px; color: var(--ink-soft); border-left: 2px solid var(--gold-bright);
+  padding-left: 10px; margin-top: 10px; line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   詳細検索
+   -------------------------------------------------------------------------- */
+.search-panel { background: #fff; border: 1px solid var(--line); padding: 38px; }
+.sp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px 40px; }
+.sp-field { border-bottom: 1px solid var(--line); padding-bottom: 22px; }
+.sp-field h4 { font-size: 14.5px; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.sp-field h4 .idx {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--indigo); color: #fff; font-size: 11px;
+  display: inline-flex; align-items: center; justify-content: center; font-family: var(--sans); font-weight: 700;
+}
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font-size: 13px; padding: 8px 14px; border: 1px solid var(--line-strong);
+  border-radius: 16px; color: var(--ink-soft); background: #fff;
+}
+.chip.is-on { background: var(--indigo); border-color: var(--indigo); color: #fff; }
+
+/* ラジオ／チェックボックスをチップの見た目にする。
+   JavaScript を使わずに選択状態を表せるので、フォームは素の GET のまま動く。 */
+.chip-radio { position: relative; display: inline-flex; cursor: pointer; }
+.chip-radio input {
+  position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer;
+}
+.chip-radio span {
+  font-size: 13px; padding: 8px 14px; border: 1px solid var(--line-strong);
+  border-radius: 16px; color: var(--ink-soft); background: #fff;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.chip-radio input:checked + span { background: var(--indigo); border-color: var(--indigo); color: #fff; }
+.chip-radio input:focus-visible + span { outline: 2px solid var(--gold-bright); outline-offset: 2px; }
+.range-row { display: flex; align-items: center; gap: 10px; }
+.range-row select {
+  flex: 1; padding: 9px 10px; border: 1px solid var(--line-strong);
+  border-radius: 4px; background: var(--paper); font-size: 13.5px; font-family: var(--sans);
+}
+.range-row .to { color: var(--ink-faint); font-size: 13px; }
+.check-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 16px; }
+.check-item { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--ink-soft); }
+.check-item input { width: 16px; height: 16px; accent-color: var(--indigo); }
+.note-line { font-size: 12px; color: var(--ink-faint); margin-top: 10px; }
+.search-cta {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  margin-top: 34px; padding-top: 26px; border-top: 1px solid var(--line); flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   会員メリット / 選ばれる理由
+   -------------------------------------------------------------------------- */
+.merit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.merit-card { background: #fff; padding: 34px 28px; }
+.merit-card .kicker { font-family: var(--serif); font-size: 34px; color: var(--gold-bright); line-height: 1; }
+.merit-card h3 { font-size: 17px; margin-top: 14px; }
+.merit-card p { font-size: 13.5px; color: var(--ink-soft); margin-top: 10px; }
+
+.reason-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; }
+.reason-card { text-align: left; }
+.reason-card .ico { width: 40px; height: 40px; color: var(--indigo); margin-bottom: 16px; }
+.reason-card h3 { font-size: 15.5px; }
+.reason-card p { font-size: 13px; color: var(--ink-soft); margin-top: 8px; }
+
+/* 会員登録・ログインの2枚パネル */
+.member-panel {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--line); border: 1px solid var(--line); margin-top: 34px;
+}
+.member-login { background: #fff; padding: 34px 32px; }
+.member-register { background: var(--paper-alt); padding: 34px 32px; }
+
+/* --------------------------------------------------------------------------
+   物件知識（プロの見立て）
+   -------------------------------------------------------------------------- */
+.pro-layout { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
+.pro-photo {
+  width: 100%; aspect-ratio: 3/4;
+  background: linear-gradient(135deg, var(--indigo-tint), var(--gold-tint));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 1px solid var(--line);
+}
+.yt-card {
+  background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--gold-bright);
+  padding: 24px 26px; margin-top: 24px;
+}
+.yt-card h4 { font-size: 16px; margin-bottom: 8px; }
+.yt-num { font-family: var(--serif); font-size: 34px; color: var(--indigo-deep); }
+.pro-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 24px; }
+.pro-point h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.pro-point p { font-size: 12.5px; color: var(--ink-soft); margin: 0; line-height: 1.6; }
+
+/* --------------------------------------------------------------------------
+   実家・空き家クロスリンク
+   -------------------------------------------------------------------------- */
+.cross-section { background: linear-gradient(180deg, #20282C, #38312A 60%); color: #fff; padding: 96px 0; }
+.cross-head { max-width: 640px; }
+.cross-head .eyebrow { color: var(--gold-bright); }
+.cross-head .eyebrow::before { background: #fff; }
+.cross-head h2 { color: #fff; font-size: clamp(24px, 3vw, 32px); margin-top: 10px; }
+.cross-head p { color: rgba(255, 255, 255, 0.78); margin-top: 14px; font-size: 14.5px; max-width: 56ch; }
+.cross-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 40px; }
+.cross-card {
+  background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 22px 16px; text-align: center;
+}
+.cross-card .ico { width: 30px; height: 30px; color: var(--gold-bright); margin: 0 auto 12px; }
+.cross-card h4 { color: #fff; font-size: 13.5px; font-family: var(--sans); font-weight: 700; }
+.cross-card p { color: rgba(255, 255, 255, 0.62); font-size: 11.5px; margin-top: 6px; }
+.cross-cta { margin-top: 38px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.cross-cta .note { font-size: 12.5px; color: rgba(255, 255, 255, 0.6); }
+
+/* --------------------------------------------------------------------------
+   来店予約 / Web相談 / 資料請求
+   -------------------------------------------------------------------------- */
+.action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.action-card { background: #fff; padding: 38px 30px; text-align: center; }
+.action-card .ico { width: 38px; height: 38px; color: var(--indigo); margin: 0 auto 16px; }
+.action-card h3 { font-size: 17px; }
+.action-card p { font-size: 13px; color: var(--ink-soft); margin-top: 8px; min-height: 40px; }
+.action-card .btn { margin-top: 18px; }
+
+/* --------------------------------------------------------------------------
+   お客様の声 / スタッフ
+   -------------------------------------------------------------------------- */
+.voice-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.voice-card { background: var(--paper-alt); padding: 24px 22px; border-top: 3px solid var(--gold-bright); }
+.voice-card .who { font-size: 12.5px; color: var(--ink-faint); letter-spacing: .04em; margin-bottom: 10px; }
+.voice-card p { font-size: 13.5px; color: var(--ink-soft); }
+
+.staff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.staff-card { text-align: center; }
+.staff-photo {
+  width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 18px;
+  background: linear-gradient(135deg, var(--indigo-tint), var(--gold-tint));
+  display: flex; align-items: center; justify-content: center;
+}
+.staff-photo svg { width: 44px; height: 44px; color: var(--indigo); }
+.staff-role { font-size: 12px; color: var(--gold); letter-spacing: .08em; }
+.staff-name { font-family: var(--serif); font-size: 19px; margin-top: 6px; }
+.staff-cert { font-size: 12px; color: var(--ink-faint); margin-top: 6px; }
+.staff-msg { font-size: 13px; color: var(--ink-soft); margin-top: 12px; }
+
+/* --------------------------------------------------------------------------
+   レスポンシブ
+   -------------------------------------------------------------------------- */
+@media (max-width: 960px) {
+  .hero { padding: 48px 0 96px; }
+  .qs-grid { grid-template-columns: 1fr 1fr; }
+  .qs-grid .btn { grid-column: 1 / -1; }
+  .type-tiles { grid-template-columns: repeat(3, 1fr); }
+  .feature-grid { grid-template-columns: repeat(2, 1fr); }
+  .sp-grid { grid-template-columns: 1fr; }
+  .check-grid { grid-template-columns: 1fr; }
+  .areamap-layout { grid-template-columns: 1fr; }
+  .merit-grid, .reason-grid, .action-grid, .voice-grid, .staff-grid { grid-template-columns: repeat(2, 1fr); }
+  .cross-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); row-gap: 18px; }
+  .school-grid { grid-template-columns: repeat(2, 1fr); }
+  .madori-grid { grid-template-columns: repeat(3, 1fr); }
+  .pro-layout { grid-template-columns: 1fr; }
+  .pro-points { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .feature-grid, .merit-grid, .reason-grid, .action-grid, .voice-grid, .staff-grid, .cross-grid { grid-template-columns: 1fr; }
+  .type-tiles { grid-template-columns: repeat(2, 1fr); margin-top: -40px; }
+  .qs-grid { grid-template-columns: 1fr; }
+  .search-panel { padding: 24px 18px; }
+  .search-cta { flex-direction: column; align-items: stretch; }
+  .search-cta .btn { width: 100%; }
+  .school-grid { grid-template-columns: 1fr; }
+  .madori-grid { grid-template-columns: repeat(2, 1fr); }
+  .member-panel { grid-template-columns: 1fr; }
+}

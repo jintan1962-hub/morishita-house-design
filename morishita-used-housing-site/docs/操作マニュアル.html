@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>モリシタハウス 中古住宅サイト 運用の手引き</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+
+<style>
+  :root {
+    --ground:      #F2F4F4;
+    --surface:     #FFFFFF;
+    --surface-2:   #F7F9F9;
+    --ink:         #0C313D;
+    --ink-soft:    #4A6470;
+    --ink-faint:   #7E959E;
+    --line:        #DFE6E8;
+    --line-strong: #BDCCD1;
+    --accent:      #237995;
+    --accent-soft: #E4EFF3;
+    --alert:       #C2266A;
+    --alert-soft:  #FBE8F0;
+    --note:        #7A6410;
+    --note-soft:   #FBF4D2;
+
+    --mincho: "Zen Old Mincho", "游明朝", YuMincho, "Hiragino Mincho ProN", serif;
+    --gothic: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+    --mono:   "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+
+    --step--1: 0.8125rem;
+    --step-0:  0.9375rem;
+    --step-1:  1.0625rem;
+    --step-2:  1.375rem;
+    --step-3:  1.75rem;
+    --step-4:  2.375rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0A1A20;
+      --surface:     #10262E;
+      --surface-2:   #14303A;
+      --ink:         #E8EFF1;
+      --ink-soft:    #A8BEC6;
+      --ink-faint:   #7B959E;
+      --line:        #21414C;
+      --line-strong: #33606E;
+      --accent:      #6FB6D2;
+      --accent-soft: #14333F;
+      --alert:       #F274A8;
+      --alert-soft:  #35182A;
+      --note:        #E0C463;
+      --note-soft:   #332D14;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:      #0A1A20;
+    --surface:     #10262E;
+    --surface-2:   #14303A;
+    --ink:         #E8EFF1;
+    --ink-soft:    #A8BEC6;
+    --ink-faint:   #7B959E;
+    --line:        #21414C;
+    --line-strong: #33606E;
+    --accent:      #6FB6D2;
+    --accent-soft: #14333F;
+    --alert:       #F274A8;
+    --alert-soft:  #35182A;
+    --note:        #E0C463;
+    --note-soft:   #332D14;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--gothic);
+    font-size: var(--step-0);
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+    display: grid;
+    grid-template-columns: 232px minmax(0, 1fr);
+    gap: 56px;
+    align-items: start;
+  }
+
+  /* ---------- 表紙 ---------- */
+  .cover {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid var(--line-strong);
+    padding: 72px 0 40px;
+    display: grid;
+    gap: 20px;
+  }
+  .cover__eyebrow {
+    font-size: var(--step--1);
+    letter-spacing: .04em;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .cover h1 {
+    font-family: var(--mincho);
+    font-weight: 700;
+    font-size: var(--step-4);
+    line-height: 1.35;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .cover p {
+    margin: 0;
+    max-width: 40em;
+    color: var(--ink-soft);
+  }
+  .cover__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    padding-top: 8px;
+  }
+  .cover__meta b { color: var(--ink-soft); font-weight: 700; }
+
+  /* ---------- 目次 ---------- */
+  nav.toc {
+    position: sticky;
+    top: 24px;
+    font-size: var(--step--1);
+    display: grid;
+    gap: 6px;
+    padding-top: 44px;
+  }
+  nav.toc > p {
+    margin: 0 0 6px;
+    letter-spacing: .04em;
+    color: var(--ink-faint);
+    font-weight: 700;
+  }
+  nav.toc a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 3px 0 3px 12px;
+    border-left: 2px solid var(--line);
+    transition: color .15s, border-color .15s;
+  }
+  nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); border-left-color: var(--accent); }
+  nav.toc a.sub { padding-left: 26px; font-size: 0.78rem; }
+
+  /* ---------- 本文 ---------- */
+  main { display: grid; gap: 64px; padding-top: 44px; min-width: 0; }
+  section { display: grid; gap: 20px; scroll-margin-top: 24px; }
+
+  h1, h2, h3 { font-feature-settings: "palt" 1; }
+
+  h2 {
+    font-family: var(--mincho);
+    font-size: var(--step-3);
+    font-weight: 700;
+    margin: 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--ink);
+    text-wrap: balance;
+  }
+  h3 {
+    font-family: var(--mincho);
+    font-size: var(--step-2);
+    font-weight: 700;
+    margin: 24px 0 0;
+    text-wrap: balance;
+  }
+  h4 {
+    font-size: var(--step-1);
+    font-weight: 700;
+    margin: 12px 0 0;
+    color: var(--ink);
+  }
+  p { margin: 0; max-width: 42em; }
+  ul, ol { margin: 0; padding-left: 1.4em; max-width: 42em; display: grid; gap: 6px; }
+  li::marker { color: var(--ink-faint); }
+  strong { font-weight: 700; }
+  a { color: var(--accent); }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+    white-space: nowrap;
+  }
+
+  .lede {
+    font-size: var(--step-1);
+    color: var(--ink-soft);
+    max-width: 38em;
+  }
+
+  /* ---------- 表 ---------- */
+  .tablewrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: var(--step--1); min-width: 480px; }
+  th, td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    background: var(--surface-2);
+    font-weight: 700;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  /* 見出し列も普通に折り返す。nowrap にすると長い日本語が1行に伸び、
+     表全体が横に広がって読めなくなる。 */
+  tbody th { font-weight: 700; min-width: 8em; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* ---------- 手順 ---------- */
+  ol.steps {
+    counter-reset: step;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+    max-width: 44em;
+  }
+  ol.steps > li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    column-gap: 14px;
+    row-gap: 2px;
+    align-items: start;
+  }
+  /* li の中身は「番号・見出し・説明文」の3つ。列を指定しないと
+     3つ目が2行目の1列目（幅30px）へ回り込み、文字が縦1列に潰れる。 */
+  ol.steps > li::before { grid-column: 1; grid-row: 1; }
+  ol.steps > li > b,
+  ol.steps > li > .detail { grid-column: 2; }
+  ol.steps > li::before {
+    content: counter(step);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    margin-top: 3px;
+  }
+  /* 手順の見出しだけを行にする。子孫の <b> まで block にすると、
+     説明文の中の強調が勝手に改行されて文が分断される。 */
+  ol.steps > li > b { display: block; }
+  ol.steps .detail { color: var(--ink-soft); font-size: var(--step--1); }
+  ol.steps .detail b { font-weight: 700; }
+
+  kbd {
+    font-family: var(--mono);
+    font-size: 0.78em;
+    background: var(--surface-2);
+    border: 1px solid var(--line-strong);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 1px 6px;
+    white-space: nowrap;
+  }
+
+  /* ---------- 注記 ---------- */
+  .callout {
+    border-radius: 6px;
+    padding: 16px 20px;
+    display: grid;
+    gap: 6px;
+    max-width: 44em;
+    font-size: var(--step--1);
+    border-left: 3px solid;
+  }
+  .callout p { max-width: none; }
+  .callout__label {
+    font-weight: 700;
+    font-size: 0.75rem;
+  }
+  .callout--stop { background: var(--alert-soft); border-color: var(--alert); }
+  .callout--stop .callout__label { color: var(--alert); }
+  .callout--note { background: var(--note-soft); border-color: var(--note); }
+  .callout--note .callout__label { color: var(--note); }
+  .callout--tip { background: var(--accent-soft); border-color: var(--accent); }
+  .callout--tip .callout__label { color: var(--accent); }
+
+  /* ---------- 画面カード ---------- */
+  .screens { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .screen {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 18px 20px;
+    display: grid;
+    gap: 6px;
+    align-content: start;
+  }
+  .screen__path {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
+  .screen b { font-size: var(--step-0); }
+  .screen p { font-size: var(--step--1); color: var(--ink-soft); }
+
+  .pill {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+  }
+  .pill--members { color: var(--alert); }
+  .pill--public  { color: var(--accent); }
+
+  footer.end {
+    /* 本文列に揃える。全幅にすると、下端まで追従してくる目次と
+       同じ横位置を取り合い、罫線が目次を横切る／目次が隠れる。 */
+    grid-column: 2;
+    border-top: 1px solid var(--line-strong);
+    margin-top: 56px;
+    padding-top: 28px;
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    display: grid;
+    gap: 4px;
+  }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  @media (max-width: 900px) {
+    .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 20px 72px; }
+    nav.toc { position: static; padding-top: 32px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    nav.toc > p { grid-column: 1 / -1; }
+    footer.end { grid-column: 1 / -1; }
+    nav.toc a.sub { display: none; }
+    main { padding-top: 40px; gap: 52px; }
+    .cover { padding-top: 48px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="cover">
+    <p class="cover__eyebrow">運用マニュアル</p>
+    <h1>モリシタハウス<br>中古住宅サイト 運用の手引き</h1>
+    <p class="lede">物件の掲載、会員とお問い合わせの管理、届いたメールの確認まで。管理画面で毎日行う作業を、画面に出ている言葉のまま順に並べています。</p>
+    <div class="cover__meta">
+      <span><b>対象</b> 管理者アカウントをお持ちの方</span>
+      <span><b>作成</b> 2026年8月25日</span>
+      <span><b>公開状態</b> 準備中（一般の方はまだ閲覧できません）</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="目次">
+    <p>目次</p>
+    <a href="#start">1. はじめに</a>
+    <a href="#dashboard">2. 管理者ダッシュボード</a>
+    <a href="#property">3. 物件を掲載する</a>
+    <a class="sub" href="#csv">3-1 CSVで一括登録</a>
+    <a class="sub" href="#csv-columns">3-2 CSVの列</a>
+    <a class="sub" href="#images">3-3 写真を入れる</a>
+    <a class="sub" href="#edit">3-4 1件ずつ直す</a>
+    <a href="#members">4. 会員を管理する</a>
+    <a href="#inquiries">5. お問い合わせに対応する</a>
+    <a href="#mail">6. メールの送信結果を見る</a>
+    <a href="#public">7. お客様から見えるサイト</a>
+    <a href="#rules">8. 覚えておく決まりごと</a>
+    <a href="#trouble">9. 困ったときは</a>
+    <a href="#notyet">10. まだできないこと</a>
+  </nav>
+
+  <main>
+
+    <!-- 1 -->
+    <section id="start">
+      <h2>1. はじめに</h2>
+
+      <h3>このサイトは2つの顔を持っています</h3>
+      <div class="screens">
+        <div class="screen">
+          <span class="screen__path">/</span>
+          <b>公開サイト</b>
+          <p>どなたでも見られる物件情報、資金計画、会社案内。会員登録とログインの入口もここにあります。</p>
+        </div>
+        <div class="screen">
+          <span class="screen__path">/admin</span>
+          <b>管理画面</b>
+          <p>物件・会員・お問い合わせを扱う社内用の画面。管理者権限を持つアカウントでログインしたときだけ開けます。</p>
+        </div>
+      </div>
+
+      <h3>管理者としてログインする</h3>
+      <ol class="steps">
+        <li><b>会員登録をする</b><span class="detail">公開サイトの「無料会員登録」から、ふだんお使いのメールアドレスで登録します。この時点ではまだ一般の会員です。</span></li>
+        <li><b>管理者に切り替える</b><span class="detail">データベース（Supabase）の <code>User</code> テーブルで、そのメールアドレスの行の <code>role</code> を <code>USER</code> から <code>ADMIN</code> に変更します。<b>画面からは管理者になれません。</b></span></li>
+        <li><b>一度ログアウトして入り直す</b><span class="detail">権限はログインしたときに読み込まれるため、入り直さないと管理画面が開きません。</span></li>
+        <li><b><code>/admin</code> を開く</b><span class="detail">以降はログインしたまま管理画面を使えます。</span></li>
+      </ol>
+
+      <div class="callout callout--note">
+        <span class="callout__label">セキュリティの決まり</span>
+        <p>パスワードを続けて<b>5回まちがえると15分間ログインできなくなります</b>。ログインした状態は<b>8時間</b>で切れ、その後は入り直しが必要です。管理者権限をデータベースからしか付けられないのは、画面の操作ミスや乗っ取りで権限が広がらないようにするためです。</p>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="dashboard">
+      <h2>2. 管理者ダッシュボード</h2>
+      <p><code>/admin</code> を開くと最初に出る画面です。表示されている数字は<b>すべてその時点のデータベースの実測値</b>で、サンプルや概算ではありません。</p>
+
+      <h3>いちばん上「対応が必要なこと」</h3>
+      <p>放っておくとお客様に不利益が出るものだけを出しています。ここが「いま対応が必要なものはありません」なら、急ぎの用件はありません。</p>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>出るもの</th><th>意味</th><th>押すとどこへ</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>未対応のお問い合わせが○件</th><td>まだ「対応済」にしていないお問い合わせ</td><td>お問い合わせ管理</td></tr>
+            <tr><th>送信に失敗したメールが○件</th><td>相手に自動返信が届いていない状態</td><td>メール送信ログ</td></tr>
+            <tr><th>画像が1枚もない物件が○件</th><td>写真のない物件が公開されている状態</td><td>物件管理</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4つの数字</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>数字</th><th>内訳として出るもの</th></tr></thead>
+          <tbody>
+            <tr><th>登録会員数</th><td>管理者を除いた人数。うち有効な会員と店舗会員の数</td></tr>
+            <tr><th>掲載物件数</th><td>一般公開と会員限定の内訳</td></tr>
+            <tr><th>今月のお問い合わせ</th><td>その月の1日からの累計</td></tr>
+            <tr><th>未対応のお問い合わせ</th><td>まだ返信していないもの</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>下段には「最近の登録会員」と「最近更新した物件」が並び、そのままそれぞれの一覧へ進めます。</p>
+    </section>
+
+    <!-- 3 -->
+    <section id="property">
+      <h2>3. 物件を掲載する</h2>
+      <p><code>/admin/properties</code>。掲載中の物件の一覧です。上の検索窓では<b>物件名・管理番号・所在地・間取り・エリア名</b>をまとめて探せ、「公開レベル」で<span class="pill pill--public">一般公開</span>と<span class="pill pill--members">会員限定</span>を分けて表示できます。</p>
+
+      <div class="callout callout--stop">
+        <span class="callout__label">先に知っておいてください</span>
+        <p><b>物件の新規登録は、いまのところCSVの一括入力だけです。</b>画面に「物件を1件つくる」ボタンはありません（押しても何も起きないボタンを置かないための判断です）。すでにある物件の内容を直す・写真を足すのは画面からできます。</p>
+      </div>
+
+      <h3 id="csv">3-1. CSVで一括登録する</h3>
+      <p>「一括入力 (CSV)」を押すと取り込みの画面が開きます。<b>数える→見せる→承認を取る→書き込む</b>の順に進み、確認を通るまで1件も書き込まれません。</p>
+      <ol class="steps">
+        <li><b>CSVファイルを選ぶ</b><span class="detail">ExcelからそのままCSV保存したもの（Shift-JIS）でも、UTF-8でも読めます。判定した文字コードは次の画面に表示されます。</span></li>
+        <li><b>照合結果を確認する</b><span class="detail">「読み取った行数／新規登録／上書き／変更なし」の件数が出ます。<b>ここの数字が想定と違うときは実行しないでください。</b>表の物件名が化けていないかも、この画面で見ます。</span></li>
+        <li><b>取り込む行を選ぶ</b><span class="detail">最初は全行にチェックが入っています。外した行は取り込まれません。1行ずつ「新規／変更あり／変更なし」と変更箇所が出ます。</span></li>
+        <li><b>「○件の取り込みを実行」を押す</b><span class="detail">確認のダイアログがもう一度、件数と上書き件数を出します。ここで初めて書き込みます。</span></li>
+        <li><b>控え番号を控える</b><span class="detail">完了画面に「上書き前データの控え番号：#○○」が出ます。<b>戻したいときに使う番号です。</b>実行のたびに控えは自動で取られます。</span></li>
+      </ol>
+      <div class="callout callout--tip">
+        <span class="callout__label">上書きの仕組み</span>
+        <p>同じ<b>物件管理番号（<code>objMngNo</code>）</b>の行を再度取り込むと、その物件が上書きされます。番号を変えれば別物件として増えます。つまり<b>番号の付け方がそのまま更新か新規かを決めます</b>。</p>
+      </div>
+
+      <h4>一括出力 (CSV)</h4>
+      <p>いま画面に読み込まれている物件を書き出します。出るのは<b>管理番号・物件名・価格・間取り・所在地・公開レベルの6項目だけ</b>です。全項目のバックアップではない点にご注意ください。</p>
+
+      <h3 id="csv-columns">3-2. CSVの列</h3>
+      <p>1行目が見出し行。列の順番は問いません。<b>見出しの名前が一致しない列は黙って無視されます</b>ので、うまく入らない項目があるときは、まず見出しの綴りを疑ってください。値にカンマが入るときは <code>"3LDK（和8・洋12）"</code> のように <code>"</code> で囲みます。</p>
+
+      <h4>必ず要る列</h4>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>列名</th><th>内容</th><th>書き方</th></tr></thead>
+          <tbody>
+            <tr><th><code>objMngNo</code></th><td>物件管理番号</td><td>上書きの判定に使う鍵。重複させない</td></tr>
+            <tr><th><code>title</code></th><td>物件名</td><td></td></tr>
+            <tr><th><code>priceMan</code></th><td>価格</td><td><b>万円単位の整数</b>。<code>1480</code> = 1,480万円</td></tr>
+            <tr><th><code>address</code></th><td>所在地</td><td></td></tr>
+            <tr><th><code>madori</code></th><td>間取り</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>区分の列（値をまちがえると取り込みが止まります）</h4>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>列名</th><th>入れる値</th><th>省いたときの既定値</th></tr></thead>
+          <tbody>
+            <tr><th><code>disclosureLevel</code></th><td><code>0</code>＝一般公開 ／ <code>1</code>＝会員限定</td><td><code>0</code>（一般公開）</td></tr>
+            <tr><th><code>syubetu</code></th><td><code>1</code>＝土地 ／ <code>2</code>＝一戸建て ／ <code>3</code>＝マンション</td><td><code>2</code>（一戸建て）</td></tr>
+            <tr><th><code>cityCd</code></th><td>市区町村コード（下表の20市町）</td><td><code>28201</code>（姫路市）</td></tr>
+            <tr><th><code>prefCd</code></th><td><code>28</code>（兵庫県）</td><td><code>28</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>使える市区町村コード</h4>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>コード</th><th>市町</th><th>コード</th><th>市町</th><th>コード</th><th>市町</th></tr></thead>
+          <tbody>
+            <tr><td><code>28201</code></td><td>姫路市</td><td><code>28216</code></td><td>高砂市</td><td><code>28382</code></td><td>播磨町</td></tr>
+            <tr><td><code>28203</code></td><td>明石市</td><td><code>28218</code></td><td>小野市</td><td><code>28442</code></td><td>市川町</td></tr>
+            <tr><td><code>28208</code></td><td>相生市</td><td><code>28220</code></td><td>加西市</td><td><code>28443</code></td><td>福崎町</td></tr>
+            <tr><td><code>28210</code></td><td>加古川市</td><td><code>28227</code></td><td>宍粟市</td><td><code>28446</code></td><td>神河町</td></tr>
+            <tr><td><code>28212</code></td><td>赤穂市</td><td><code>28229</code></td><td>たつの市</td><td><code>28464</code></td><td>太子町</td></tr>
+            <tr><td><code>28213</code></td><td>西脇市</td><td><code>28381</code></td><td>稲美町</td><td><code>28481</code></td><td>上郡町</td></tr>
+            <tr><td><code>28215</code></td><td>三木市</td><td></td><td></td><td><code>28501</code></td><td>佐用町</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--stop">
+        <span class="callout__label">この表にないコードがあると</span>
+        <p><b>1件も取り込まずに中止します。</b>一部だけ入って残りが入らない、という中途半端な状態を作らないためです。掲載エリアを増やすときは設定ファイル（<code>src/config/property.ts</code>）への追加が必要なので、開発側にご依頼ください。</p>
+      </div>
+
+      <h4>そのほかの列（すべて任意）</h4>
+      <p>交通（<code>trafficNote</code> / <code>trafficLine</code> / <code>trafficStation</code> / <code>walkMinutes</code>）、面積と建物（<code>landMen</code> / <code>bldMen</code> / <code>bldY</code> / <code>bldM</code> / <code>floorsInfo</code> / <code>bldStructure</code> / <code>parking</code>）、費用と条件（<code>keyMoney</code> / <code>depositGuarantee</code> / <code>maintenanceCost</code> / <code>landRight</code> / <code>currentState</code> / <code>deliveryTiming</code> / <code>transactionType</code>）、マンション固有（<code>mgmtFeeYen</code> / <code>repairFundYen</code> / <code>totalUnits</code> / <code>floorNo</code> / <code>direction</code> / <code>balconyMen</code> / <code>mgmtForm</code>）、土地固有（<code>buildingCoverage</code> / <code>floorAreaRatio</code> / <code>zoning</code> / <code>landCategory</code> / <code>cityPlanning</code> / <code>roadAccess</code> / <code>privateRoad</code>）、取扱店（<code>agencyName</code> / <code>agencyAddress</code> / <code>agencyTel</code> / <code>agencyLicense</code>）。</p>
+      <p>日付は <code>2026年8月18日</code> <code>2026/8/18</code> <code>2026-08-18</code> のどれでも読めます。読めない書式はその列だけ空になり、取り込み自体は止まりません。<b>取り込んだあとに画面でご確認ください。</b></p>
+
+      <h3 id="images">3-3. 写真を入れる</h3>
+      <h4>方法1：ファイル名でまとめて入れる</h4>
+      <p>「画像を一括アップロード」から、ファイル名を<b>「物件管理番号_連番.拡張子」</b>にしてまとめて選びます。</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>ファイル名</th><th>結果</th></tr></thead>
+          <tbody>
+            <tr><th><code>6991580385_1.jpg</code></th><td>管理番号6991580385の物件の1枚目</td></tr>
+            <tr><th><code>6991580385_2.jpg</code></th><td>同じ物件の2枚目</td></tr>
+            <tr><th><code>6991580385.jpg</code></th><td>連番を省くと1枚目になる</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
+        <li>区切りは <code>_</code> でも <code>-</code> でもよく、<code>_02</code> のようなゼロ埋めも使えます。</li>
+        <li><b>同じ連番のファイルを入れると、その1枚だけ差し替わります</b>（重複して増えません）。</li>
+        <li>管理番号がデータベースにないファイルは取り込まず、理由を1件ずつ画面に出します。</li>
+      </ul>
+
+      <h4>方法2：物件ごとに足す</h4>
+      <p>物件の編集画面「物件画像」から追加します。ファイル名は自由で、並び順は自動で最後に付きます。各画像の左上に並び順、右上に削除ボタンが出ます。</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>制限</th><th>値</th></tr></thead>
+          <tbody>
+            <tr><th>使える形式</th><td>jpg / jpeg / png / webp</td></tr>
+            <tr><th>1枚あたり</th><td class="num">5MB まで</td></tr>
+            <tr><th>1物件あたり</th><td class="num">20枚 まで</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--stop">
+        <span class="callout__label">削除は取り消せません</span>
+        <p>画像を削除すると、データベースの記録と保管先のファイルの両方が消えます。<b>元に戻せません。</b>差し替えたいだけなら、同じ連番のファイルを入れて上書きしてください。</p>
+      </div>
+      <div class="callout callout--note">
+        <span class="callout__label">写真の権利</span>
+        <p>写真は物件の事実データとは別に、撮影者や元付業者の著作物にあたります。掲載許可の範囲に写真が含まれているかをご確認のうえ掲載してください。</p>
+      </div>
+
+      <h3 id="edit">3-4. 1件ずつ直す</h3>
+      <p>一覧の物件名または「編集」から物件の画面へ進みます。上部に会員の閲覧数・問い合わせ件数・最終更新が出て、「サイトで確認」から実際の見え方も開けます。</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>区分</th><th>直せる項目</th></tr></thead>
+          <tbody>
+            <tr><th>区分</th><td>公開レベル（一般公開／会員限定）、物件種別、エリア</td></tr>
+            <tr><th>基本情報</th><td>物件名、価格、間取り、所在地、物件種目</td></tr>
+            <tr><th>面積・建物</th><td>土地面積、建物面積、建物構造、築年、築月、階建/階、駐車場</td></tr>
+            <tr><th>交通</th><td>交通（全文）、沿線名、駅名、駅から徒歩</td></tr>
+            <tr><th>費用・条件</th><td>権利金、敷金・保証金、維持費等、土地権利、現況、引渡可能時期、取引態様 ほか</td></tr>
+            <tr><th>マンション／土地固有</th><td>管理費、修繕積立金、総戸数、所在階、建ぺい率、容積率、用途地域 ほか</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><b>物件管理番号だけは画面から変えられません。</b>CSV取り込みで物件を見分ける鍵として使っているためです。</p>
+    </section>
+
+    <!-- 4 -->
+    <section id="members">
+      <h2>4. 会員を管理する</h2>
+      <p><code>/admin/users</code>。サイトから登録された会員の一覧です。氏名・メールアドレスで検索でき、<b>会員種別</b>（無料会員／店舗会員）と<b>状態</b>（有効／停止）で絞り込めます。</p>
+
+      <h3>会員の詳細でできること</h3>
+      <ul>
+        <li>氏名・メールアドレス・電話番号・住所・登録日の確認</li>
+        <li><b>停止と再開の切り替え</b> — 「この会員を停止する」を押すと確認のうえ状態が変わります。停止した会員は会員限定物件を見られなくなります</li>
+        <li><b>活動履歴（最新20件）</b> — ログイン、物件閲覧の記録</li>
+      </ul>
+
+      <div class="callout callout--stop">
+        <span class="callout__label">「テストデータ作成」は本番で押さない</span>
+        <p>会員一覧にある「テストデータ作成」は、動作確認用の会員をその場で作るボタンです。<b>お客様の実データが入っている本番では使わないでください。</b>作った会員は削除（一覧から見えなくする論理削除）で片づけられますが、混ざると数字が狂います。</p>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section id="inquiries">
+      <h2>5. お問い合わせに対応する</h2>
+      <p><code>/admin/inquiries</code>。受信日時・お名前・連絡先・対象物件・内容が一覧で並びます。会員からのお問い合わせには「会員」の印が付きます。</p>
+      <ol class="steps">
+        <li><b>内容を開く</b><span class="detail">本文をクリックすると詳細が開きます。<kbd>Esc</kbd> で閉じられます。</span></li>
+        <li><b>お客様へ連絡する</b><span class="detail">電話またはメールソフトから、いつもどおりご連絡ください。<b>この画面から返信メールは送れません。</b></span></li>
+        <li><b>「対応済」に切り替える</b><span class="detail">状態のバッジを押すと切り替わり、完了日時が記録されます。押し間違えたら、もう一度押すと「未対応」に戻ります。</span></li>
+      </ol>
+      <p>対象物件が削除済みの場合は「この物件は削除されています」と表示され、管理番号だけが残ります。物件と結び付かない一般のお問い合わせは「一般のお問い合わせ」と出ます。</p>
+    </section>
+
+    <!-- 6 -->
+    <section id="mail">
+      <h2>6. メールの送信結果を見る</h2>
+      <p><code>/admin/mail-logs</code>。自動で送られるメールの結果が残ります。<b>「失敗」が出ている間、その相手には自動返信が届いていません。</b></p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>種類</th><th>いつ送られるか</th></tr></thead>
+          <tbody>
+            <tr><th>会員登録の完了（本人宛）</th><td>会員登録が完了したとき</td></tr>
+            <tr><th>新規入会の通知（管理者宛）</th><td>同上（社内への連絡）</td></tr>
+            <tr><th>問い合わせ受付（本人宛）</th><td>お問い合わせが送信されたとき</td></tr>
+            <tr><th>問い合わせ着信（管理者宛）</th><td>同上（社内への連絡）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>状態は<b>送信済／失敗／未送信</b>の3つ。失敗の行には理由が出ます。よくある原因は、メール送信サービスの設定が未完了、または送信元ドメインの認証が済んでいないことです。</p>
+      <div class="callout callout--note">
+        <span class="callout__label">再送のボタンはありません</span>
+        <p>原因を直したあと、<b>該当のお客様へは手動でご連絡ください。</b>「送ったつもりで届いていない」を防ぐため、失敗は必ず記録に残る作りにしています。</p>
+      </div>
+      <div class="callout callout--stop">
+        <span class="callout__label">現在の状態</span>
+        <p>メール送信サービス（Resend）の設定がまだ済んでいないため、<b>いまはすべての送信が「失敗」として記録されます。</b>送信元にするメールアドレスのドメインが決まりしだい設定します。</p>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section id="public">
+      <h2>7. お客様から見えるサイト</h2>
+      <p>管理画面での操作が、お客様側でどう見えるかの対応です。</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>画面</th><th>できること</th></tr></thead>
+          <tbody>
+            <tr><th>トップ</th><td>掲載件数などの実数表示、姫路市内を6地区に分けた地図からの絞り込み、こだわり条件検索</td></tr>
+            <tr><th>物件を探す</th><td>物件種別・エリア（市区町村）・価格帯での絞り込み。姫路市内はトップの地図から地区・小学校区で絞れます</td></tr>
+            <tr><th>物件詳細</th><td>写真、価格、所在地、間取り、物件概要、この物件へのお問い合わせ</td></tr>
+            <tr><th>資金計画</th><td>借入額・金利・期間から毎月の返済額を試算</td></tr>
+            <tr><th>無料会員登録</th><td>アカウント情報 → 希望条件 → 確認 → 完了の4段階</td></tr>
+            <tr><th>マイページ</th><td>会員限定物件への入口、登録情報の確認と編集</td></tr>
+            <tr><th>会社概要ほか</th><td>会社案内、リノベーション事例、お客様の声、お知らせ、来店予約・アクセス</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--note">
+        <span class="callout__label">掲載準備中の欄があります</span>
+        <p>リノベーション事例・お客様の声・お知らせは、実際の内容をいただくまで「掲載準備中」と表示しています。<b>作り話は載せていません。</b>原稿と写真をいただければ差し替えます。</p>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section id="rules">
+      <h2>8. 覚えておく決まりごと</h2>
+
+      <h3>会員限定物件は「隠して」いません。「渡していません」</h3>
+      <p><span class="pill pill--members">会員限定</span>にした物件は、ログインしていない方には<b>価格・所在地・間取り・写真をそもそも送っていません</b>。画面上で見えなくしているだけではないので、ページの中身を調べても出てきません。会員限定物件へのお問い合わせも、ログインしないと進めません。</p>
+
+      <h3>公開レベルの決まり方</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>公開レベル</th><th>未ログインの方に見えるもの</th><th>会員に見えるもの</th></tr></thead>
+          <tbody>
+            <tr><th><span class="pill pill--public">一般公開</span></th><td>すべて</td><td>すべて</td></tr>
+            <tr><th><span class="pill pill--members">会員限定</span></th><td>物件があること（名称など最小限）</td><td>すべて</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>メールを今すぐ止めたいとき</h3>
+      <p>誤った内容で自動返信が飛び続けるような事態のために、<b>作り直さずに止めるスイッチ</b>があります。</p>
+      <ol class="steps">
+        <li><b>データベースで止める（すぐ効きます）</b><span class="detail">Supabase の <code>SystemSetting</code> テーブルで <code>MAIL_SENDING_ENABLED</code> の値を <code>false</code> にします。サイトの作り直しは不要です。</span></li>
+        <li><b>環境変数で止める（作り直しが要ります）</b><span class="detail">Vercel で <code>MAIL_SENDING_DISABLED=true</code> を設定します。1と2はどちらか一方でも「止める」側なら送信されません。</span></li>
+      </ol>
+
+      <h3>いまの公開状態</h3>
+      <p>サイトは動いていますが、<b>Vercel の閲覧制限がかかっているため一般の方はまだ見られません</b>。物件の登録と確認が済み、公開してよい状態になった時点で制限を外します。独自ドメイン（<code>○○.jp</code> など）もそのときに設定します。</p>
+    </section>
+
+    <!-- 9 -->
+    <section id="trouble">
+      <h2>9. 困ったときは</h2>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>症状</th><th>考えられる原因</th><th>対処</th></tr></thead>
+          <tbody>
+            <tr>
+              <th>CSVの物件名が文字化けする</th>
+              <td>Excelが保存した文字コードの誤判定</td>
+              <td>取り込み画面に出る「読み取った文字コード」を確認し、化けたまま実行しない。UTF-8で保存し直す</td>
+            </tr>
+            <tr>
+              <th>「取り込みを中止しました」と出る</th>
+              <td>対象エリア外の市区町村コード、必須列の欠落、画面の件数とサーバーの件数の食い違い</td>
+              <td>画面のメッセージのとおりに直す。<b>1件も書き込まれていない</b>ので、直してやり直せば大丈夫</td>
+            </tr>
+            <tr>
+              <th>取り込んだ内容を元に戻したい</th>
+              <td>—</td>
+              <td>完了画面に出た<b>控え番号（#○○）</b>を添えて開発側へご連絡ください</td>
+            </tr>
+            <tr>
+              <th>写真がアップロードできない</th>
+              <td>画像の保管先（Supabase Storage）の設定が未完了</td>
+              <td>画面に出る「保管先の接続を確認する」を押すと状態が分かります。設定が要る場合は開発側へ</td>
+            </tr>
+            <tr>
+              <th>一部の写真だけ取り込まれない</th>
+              <td>ファイル名の管理番号がデータベースにない</td>
+              <td>取り込まなかったファイルは理由付きで一覧に出ます。管理番号の綴りを確認</td>
+            </tr>
+            <tr>
+              <th>メールが「失敗」ばかり</th>
+              <td>メール送信サービスの設定が未完了、または送信元ドメインが未認証</td>
+              <td>設定を済ませるまでは、お客様へ手動でご連絡ください</td>
+            </tr>
+            <tr>
+              <th>管理画面が開けない</th>
+              <td>そのアカウントが管理者になっていない、またはログインし直していない</td>
+              <td>1章の手順で <code>role</code> を確認し、ログアウトして入り直す</td>
+            </tr>
+            <tr>
+              <th>ログインできなくなった</th>
+              <td>パスワードを5回まちがえた</td>
+              <td>15分待ってからやり直す</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section id="notyet">
+      <h2>10. まだできないこと</h2>
+      <p>「あるはずなのに動かない」を防ぐため、現時点でできないことを正直に並べます。いずれも必要になれば追加できます。</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>できないこと</th><th>いまの代わりの方法</th></tr></thead>
+          <tbody>
+            <tr><th>管理画面から物件を1件つくる</th><td>CSVの一括入力で登録し、そのあと画面で直す</td></tr>
+            <tr><th>お問い合わせへの返信メールを画面から送る</th><td>電話またはメールソフトから連絡し、「対応済」に切り替える</td></tr>
+            <tr><th>失敗したメールの再送</th><td>原因を直したうえで、手動でご連絡</td></tr>
+            <tr><th>会員のお気に入り物件</th><td>—（保存の仕組みがまだありません）</td></tr>
+            <tr><th>お知らせの投稿</th><td>—（原稿をいただき、開発側で反映します）</td></tr>
+            <tr><th>沿線・駅、土地面積、建物面積での検索</th><td>データは持っていますが、絞り込みの刻み方が未定のため出していません</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="end">
+    <p>この手引きは 2026年8月25日 時点の実装をもとに書いています。画面の文言・制限値は実際のプログラムから写しました。</p>
+    <p>物件CSVの列や画像の入れ方をさらに詳しく知りたい場合は、リポジトリの <code>docs/物件CSVの形式.md</code> と <code>docs/物件画像の入れ方.md</code> もあわせてご覧ください。</p>
+  </footer>
+
+</div>
+</body>
+</html>
