@@ -1,10 +1,16 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { searchPublicProperties } from "@/app/actions/properties";
-import { areaName, PROPERTY_TYPE_LABEL } from "@/config/property";
+import { areaName, PROPERTY_TYPE_LABEL, PROPERTIES_PER_PAGE } from "@/config/property";
 import { himejiDistrict } from "@/config/himejiAreas";
 import { MADORI_BUCKETS } from "@/lib/madori";
-import { parseSearchParams, hasAnyCondition, type RawSearchParams } from "@/lib/propertySearch";
+import {
+  parseSearchParams,
+  hasAnyCondition,
+  toQueryString,
+  type RawSearchParams,
+} from "@/lib/propertySearch";
+import { paginate, pageNumbers } from "@/lib/pagination";
 import PropertyCard, { type PublicProperty } from "@/components/PropertyCard";
 import PropertySearchPanel from "@/components/PropertySearchPanel";
 import PageHead from "@/components/PageHead";
@@ -19,6 +25,10 @@ import PageHead from "@/components/PageHead";
  * いまは searchPublicProperties() が、未ログインには秘匿項目を含まないデータだけを返す。
  *
  * 絞り込み条件はURLのクエリで受ける。検証は parseSearchParams が1箇所で行う。
+ *
+ * 2026-09-28 から PROPERTIES_PER_PAGE 件ずつのページ分け（?page=）。
+ * 検索は全件に対して行い、表示する分だけをここで切り出す（間取りの絞り込みが
+ * SQL の外で行われるため、DB 側で件数を区切ると総件数とページ数がずれる）。
  */
 export const dynamic = "force-dynamic";
 
@@ -29,14 +39,17 @@ export const metadata: Metadata = {
 export default async function PropertiesPage({
   searchParams,
 }: {
-  searchParams: Promise<RawSearchParams>;
+  searchParams: Promise<RawSearchParams & { page?: string }>;
 }) {
-  const raw = await searchParams;
+  // page は検索条件ではないので分けておく（条件を変えたら1ページ目に戻す）
+  const { page: pageParam, ...raw } = await searchParams;
   const filter = parseSearchParams(raw);
   const result = await searchPublicProperties(raw);
 
   const conditions = describeConditions(raw);
   const heading = conditions.length > 0 ? conditions.join("　") : "物件一覧";
+  const total = result.success ? result.data.length : 0;
+  const pager = paginate(total, pageParam, PROPERTIES_PER_PAGE);
 
   return (
     <>
@@ -47,8 +60,13 @@ export default async function PropertiesPage({
           <div className="head-row" style={{ marginBottom: 24 }}>
             <div>
               <h2 style={{ fontSize: 22 }}>
-                {result.success ? `${result.data.length}件` : "検索結果"}
+                {result.success ? `${total}件` : "検索結果"}
               </h2>
+              {pager.totalPages > 1 && (
+                <p className="note-line" style={{ marginTop: 6 }}>
+                  {pager.start + 1}〜{pager.end}件目を表示（{pager.page}／{pager.totalPages}ページ）
+                </p>
+              )}
               {hasAnyCondition(filter) && (
                 <p className="note-line" style={{ marginTop: 6 }}>
                   絞り込み中：{conditions.join("／")}
@@ -71,11 +89,14 @@ export default async function PropertiesPage({
               条件をゆるめるか、会員登録をすると会員限定物件も検索対象になります。
             </p>
           ) : (
-            <div className="prop-grid">
-              {result.data.map((property) => (
-                <PropertyCard key={property.id} property={property as PublicProperty} />
-              ))}
-            </div>
+            <>
+              <div className="prop-grid">
+                {result.data.slice(pager.start, pager.end).map((property) => (
+                  <PropertyCard key={property.id} property={property as PublicProperty} />
+                ))}
+              </div>
+              <Pager raw={raw} page={pager.page} totalPages={pager.totalPages} />
+            </>
           )}
         </div>
       </section>
@@ -92,6 +113,45 @@ export default async function PropertiesPage({
         </div>
       </section>
     </>
+  );
+}
+
+/** ページ送り。検索条件はそのまま引き継ぎ、page だけを替える。 */
+function Pager({ raw, page, totalPages }: { raw: RawSearchParams; page: number; totalPages: number }) {
+  if (totalPages <= 1) return null;
+  const href = (n: number) => `/properties${toQueryString({ ...raw, page: n > 1 ? String(n) : undefined })}`;
+  return (
+    <nav className="pager" aria-label="ページ送り">
+      {page > 1 ? (
+        <Link className="pager-step" href={href(page - 1)} rel="prev">
+          前へ
+        </Link>
+      ) : (
+        <span className="pager-step" aria-hidden="true" />
+      )}
+      <ol className="pager-nums">
+        {pageNumbers(page, totalPages).map((n, i) =>
+          n === null ? (
+            <li key={`gap-${i}`} className="pager-gap" aria-hidden="true">
+              …
+            </li>
+          ) : (
+            <li key={n}>
+              <Link href={href(n)} aria-current={n === page ? "page" : undefined} aria-label={`${n}ページ目`}>
+                {n}
+              </Link>
+            </li>
+          )
+        )}
+      </ol>
+      {page < totalPages ? (
+        <Link className="pager-step" href={href(page + 1)} rel="next">
+          次へ
+        </Link>
+      ) : (
+        <span className="pager-step" aria-hidden="true" />
+      )}
+    </nav>
   );
 }
 

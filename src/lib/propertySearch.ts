@@ -170,7 +170,7 @@ export function hasAnyCondition(filter: PropertyFilter): boolean {
 }
 
 /** 条件を検索URLに戻す。空の条件は付けない。 */
-export function toQueryString(raw: RawSearchParams): string {
+export function toQueryString(raw: RawSearchParams & { page?: string }): string {
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(raw)) {
     if (value !== undefined && value !== "") params.set(key, value);

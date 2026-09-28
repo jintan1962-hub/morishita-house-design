@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -18,14 +19,22 @@ import { AFTER_LOGIN_PATH } from "@/lib/authPaths";
  *
  * ログイン状態でボタンの出し分けをするため "use client"。
  * ここで見せ方を変えているだけで、認可の判定はサーバー側で別途行っている（S-07）。
+ *
+ * スマホ幅（767px 以下）ではロゴと「メニュー」ボタンの1段だけにし、
+ * ボタンで .utility と .nav-row を開閉する。2026-09-28 まではスマホでも全部を
+ * 2段で並べており、固定ヘッダーが高さ256px（iPhone 画面の約3割）を占めていた。
  */
 export default function Header() {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   const isAdmin = session?.user?.role === "ADMIN";
+  // メニューを開いたページを覚えておく。別のページへ移ると一致しなくなり、自然に閉じる
+  // （開いたまま次の画面を覆わないように）。
+  const [menuOpenedAt, setMenuOpenedAt] = useState<string | null>(null);
+  const menuOpen = menuOpenedAt === pathname;
 
   return (
-    <header className="site">
+    <header className={menuOpen ? "site is-open" : "site"}>
       <div className="topbar">
         <Link className="brand" href="/" aria-label={`${COMPANY.shortName} トップページ`}>
           <BrandLogo className="brand-logo" />
@@ -37,7 +46,18 @@ export default function Header() {
           <span className="tagline">{COMPANY.areaLabel}</span>
         </Link>
 
-        <div className="utility">
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-expanded={menuOpen}
+          aria-controls="site-menu"
+          onClick={() => setMenuOpenedAt(menuOpen ? null : pathname)}
+        >
+          <span className="menu-toggle__bars" aria-hidden="true" />
+          {menuOpen ? "閉じる" : "メニュー"}
+        </button>
+
+        <div className="utility" id="site-menu">
           {status === "loading" ? (
             // 判定中に「会員登録」と出してから「マイページ」へ入れ替わるのを防ぐ。
             // 幅は確保しておき、レイアウトが飛ばないようにする。

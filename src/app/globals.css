@@ -451,3 +451,82 @@ footer.site { background: var(--ink); color: rgba(255, 255, 255, 0.78); padding:
   .detail-layout { grid-template-columns: 1fr; gap: 32px; }
   .detail-side { position: static; }
 }
+
+/* --------------------------------------------------------------------------
+   13. ページ送り・スマホ向けの調整（2026-09-28）
+   スマホ幅の実測（iPhone 390px）で見つかった点への対処。
+   - 固定ヘッダーが高さ256px（画面の約3割）→ 767px 以下はロゴ＋メニューボタンの1段に
+   - 押せる部分の高さが13〜14px → 44px 前後（Apple の目安）まで広げる
+   -------------------------------------------------------------------------- */
+.pager {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  gap: 8px; margin-top: 36px;
+}
+.pager-nums { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.pager a {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 44px; padding: 0 10px;
+  border: 1px solid var(--line); border-radius: 4px; background: #fff;
+  font-size: 14px; color: var(--ink-soft); font-variant-numeric: tabular-nums;
+}
+.pager a:hover { border-color: var(--indigo); color: var(--indigo); }
+.pager a[aria-current="page"] { background: var(--indigo); border-color: var(--indigo); color: #fff; font-weight: 700; }
+.pager-step { min-width: 64px; }
+.pager-gap { display: flex; align-items: center; padding: 0 2px; color: var(--ink-faint); }
+
+/* 資金計画：数字と単位が別の行に割れないように */
+.simu__ctl output { white-space: nowrap; }
+/* 物件カードの試算注記（小さすぎて読めなかった 9.2px → 10.5px） */
+.prop-monthly small { font-size: 10.5px; }
+
+.menu-toggle { display: none; }
+
+@media (max-width: 767px) {
+  .topbar { padding: 10px 16px; gap: 10px; }
+  .brand-logo { width: 36px; height: 36px; }
+  .brand .mark { font-size: 18px; }
+
+  .menu-toggle {
+    display: inline-flex; align-items: center; gap: 10px;
+    min-height: 44px; padding: 0 14px;
+    border: 1px solid var(--line-strong); border-radius: 4px; background: #fff;
+    font-size: 13px; font-weight: 700; color: var(--ink); cursor: pointer;
+  }
+  .menu-toggle__bars, .menu-toggle__bars::before, .menu-toggle__bars::after {
+    display: block; width: 16px; height: 2px; background: currentColor; border-radius: 1px;
+  }
+  .menu-toggle__bars { position: relative; }
+  .menu-toggle__bars::before, .menu-toggle__bars::after { content: ""; position: absolute; left: 0; }
+  .menu-toggle__bars::before { top: -5px; }
+  .menu-toggle__bars::after { top: 5px; }
+  header.site.is-open .menu-toggle__bars { background: transparent; }
+  header.site.is-open .menu-toggle__bars::before { top: 0; transform: rotate(45deg); }
+  header.site.is-open .menu-toggle__bars::after { top: 0; transform: rotate(-45deg); }
+
+  header.site .utility, header.site .nav-row { display: none; }
+  header.site.is-open { max-height: 100vh; overflow-y: auto; }
+  header.site.is-open .utility { display: flex; flex-wrap: wrap; width: 100%; }
+  header.site.is-open .utility .btn { flex: 1; min-height: 44px; }
+  header.site.is-open .nav-row { display: block; padding: 0 16px 16px; }
+  header.site.is-open nav.primary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  nav.primary a { display: flex; align-items: center; justify-content: center; min-height: 44px; }
+
+  .foot-col li { margin-bottom: 0; }
+  .foot-col a { display: block; padding: 11px 0; }
+  .breadcrumb a { display: inline-block; padding: 10px 0; }
+  table.areamap-table td:first-child a { display: block; padding: 10px 0; }
+}
+@media (max-width: 600px) {
+  .pager, .pager-nums { gap: 4px; }
+  .pager a { min-width: 40px; padding: 0 8px; }
+  .pager-step { min-width: 0; }
+}
+/* 幅の狭い機種（iPhone SE 初代・古い Android の 320px 幅）でもヘッダーを1段に収める */
+@media (max-width: 374px) {
+  .topbar { padding: 10px 12px; }
+  .brand { gap: 8px; }
+  .menu-toggle { padding: 0 10px; gap: 6px; }
+  /* ページ送りは1段目に番号、2段目に「前へ／次へ」を半分ずつ */
+  .pager-nums { order: 1; width: 100%; }
+  .pager-step { order: 2; flex: 1; }
+}

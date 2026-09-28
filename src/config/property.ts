@@ -60,6 +60,12 @@ export const DEFAULT_CITY_CODE = "28201";
  */
 export const MAX_IMPORT_ROWS = 2000;
 
+/**
+ * 物件一覧の1ページあたりの件数。2列（スマホ）・3列・4列のどれでも割り切れる数にしている。
+ * 2026-09-28 まで全件（959件）を1ページに出しており、スマホでページの長さが約21万pxになっていた。
+ */
+export const PROPERTIES_PER_PAGE = 24;
+
 /** 市区町村コードから名称を引く。未登録なら null。 */
 export function areaName(cityCd: string): string | null {
   return AREAS.find((a) => a.cityCd === cityCd)?.name ?? null;
