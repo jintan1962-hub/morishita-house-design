@@ -771,3 +771,22 @@ Chrome で一覧に「959件」、詳細に価格・月々の支払いが出る�
 - 確認：ゲート（tsc・eslint・test 94件合格）、`next build`、本番で `/` `/company` 200・写真4点 `image/webp` 200、Chrome で3か所を目視。
   **スマホ幅は未確認**（ウィンドウ幅を変えられなかった）。
 - 戻し方：`vercel rollback`（直前の `fgsllfqr9` へ）。
+
+## 2026-09-28 スマホ表示の改善（`30dd52d`）
+
+実行者：Claude（大野の指示）。デプロイ `morishita-house-design-nezcg3mn8`（jintan1962-hub）。DB・環境変数の変更なし。
+
+| 項目 | 修正前（390px 実測） | 修正後（本番実測） |
+|---|---|---|
+| 固定ヘッダーの高さ | 256px（画面の約3割） | 73px（767px 以下はロゴ＋メニューボタン。開くと各リンク44px） |
+| 物件一覧の長さ | 約209,000px・HTML 1.9MB（転送83KB） | 約8,500px・HTML 0.08MB（転送10KB）。24件×40ページ |
+| フッターのリンクの高さ | 13px | 46px |
+| 資金計画の単位 | 「0 万／円」と改行 | 改行しない |
+| 物件カードの注記 | 9.2px | 10.5px |
+
+- ページ分けは `src/lib/pagination.ts`（テスト5件）。1ページの件数は `src/config/property.ts` の `PROPERTIES_PER_PAGE`。
+  間取りの絞り込みが SQL の外で行われるため、DB 側で区切らず全件検索→表示分を切り出す。
+- メニューは「開いたページ」を state に持ち、移動すると自然に閉じる（effect で setState しない：eslint react-hooks）。
+- 確認：ゲート（tsc・eslint エラー0・test 99件合格）、`next build`、Chrome（Playwright）で 320／390／1280px ×9ページ。
+  全幅で横スクロールなし。パソコン幅（1280px）のヘッダーは140pxのまま変化なし。**実機（iPhone・Android）では未確認。**
+- 戻し方：`vercel rollback`（直前の `ehutalvqa` へ）。
