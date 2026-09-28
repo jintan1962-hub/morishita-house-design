@@ -4,6 +4,7 @@ import { COMPANY, LICENSES } from "@/config/company";
 import { STAFF, CEO_MESSAGE, GROUP_COMPANIES } from "@/config/staff";
 import { AREAS } from "@/config/property";
 import PageHead from "@/components/PageHead";
+import StaffPhoto from "@/components/StaffPhoto";
 
 /**
  * 会社概要。
@@ -141,20 +142,11 @@ export default function CompanyPage() {
             {STAFF.map((s) => (
               <div className="staff-card" key={s.name}>
                 <div className="staff-photo">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.4"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="8" r="4" />
-                    <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" />
-                  </svg>
+                  <StaffPhoto src={s.photo} alt={[s.role, s.name].filter(Boolean).join(" ")} />
                 </div>
-                <p className="staff-role">{s.role}</p>
+                <p className="staff-role">{s.role || "\u00a0"}</p>
                 <p className="staff-name">{s.name}</p>
-                <p className="staff-cert">{s.certifications}</p>
+                {s.certifications && <p className="staff-cert">{s.certifications}</p>}
                 <p className="staff-msg">{s.message}</p>
               </div>
             ))}
