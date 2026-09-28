@@ -3,14 +3,15 @@
  * トップページと会社概要ページの2か所で同じ内容を出すため（D-09）。
  *
  * 【出典】m-house.co.jp の会社案内ページ（2026-08-25 時点の公開情報）。
- * 顔写真は未入手のためプレースホルダを出している。
- * TODO:未確認 写真を受け取ったら photo に public 配下のパスを入れる。
+ * 2026-09-28 大野の指示でスタッフ2名を差し替え（山﨑 敏宏→早柏 克則／松下 登志美→岩木 晴香）、
+ * 顔写真3点を public/staff/ に追加（元画像から顔中心に切り抜き・WebP・撮影情報なし）。
  */
 
 export type Staff = {
+  /** 肩書。空文字なら空行にして名前の高さをそろえる（2026-09-28 時点で早柏・岩木の2名は未入手） */
   role: string;
   name: string;
-  /** 保有資格 */
+  /** 保有資格。空文字なら表示しない */
   certifications: string;
   /** 一言 */
   message: string;
@@ -24,23 +25,28 @@ export const STAFF: readonly Staff[] = [
     name: "森下 誉樹",
     certifications: "一級建築士／一級建築施工管理技士／省エネ建築診断士",
     message: "皆さまの大切な住まい選びを、建築のプロの目線でお手伝いします。",
-    photo: null,
+    photo: "/staff/morishita-square.webp",
   },
   {
-    role: "サービススタッフ",
-    name: "山﨑 敏宏",
-    certifications: "住宅メンテナンス診断士／住宅外壁診断士",
-    message: "建替え・リノベーションのご提案から施工まで丁寧にサポートします。",
-    photo: null,
+    role: "",
+    name: "早柏 克則",
+    certifications: "宅地建物取引士",
+    message:
+      "不動産取引30年以上の経験を生かして、お客様に最適なアドバイスを心がけています。" +
+      "話しやすい性格ですのでお気軽に！",
+    photo: "/staff/hayakashi-square.webp",
   },
   {
-    role: "不動産手続対応スタッフ",
-    name: "松下 登志美",
-    certifications: "宅地建物取引士／損害保険募集人",
-    message: "売買契約や登記まわりも、法的な面からしっかりサポートします。",
-    photo: null,
+    role: "",
+    name: "岩木 晴香",
+    certifications: "",
+    message: "4人の子育て奮闘中のママです。丁寧な対応を心がけています。",
+    photo: "/staff/iwaki-square.webp",
   },
 ] as const;
+
+/** トップの「プロの見立て」に出す代表の縦長写真（3:4）。未入手なら null。 */
+export const CEO_PORTRAIT: string | null = "/staff/morishita-portrait.webp";
 
 /** 代表メッセージ。段落ごとに配列で持つ。 */
 export const CEO_MESSAGE: readonly string[] = [

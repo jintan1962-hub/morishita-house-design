@@ -732,3 +732,42 @@ Chrome で全画面を操作。ヘッダー 65px・IDブロック上端 y=14（�
 
 **本番DBには実会員のデータが入っているため、ダッシュボードに実在の会員の氏名とメールが
 表示されるようになった**（管理者のみ閲覧可）。本番で初めて実データが載る画面である。
+
+## 2026-09-28 新しい置き場への複製（jintan1962-hub の Vercel ＋ 新 Supabase）
+
+実行者：Claude（大野の指示）。秘密情報を扱う手順（DB複製・環境変数登録）は大野が `!` で実行。
+コードは `49ad455` から変更なし。旧 Supabase（qqcjydmeohvfsqtukfzm）・旧 Vercel（o-dec4）は触っていない。
+
+| 項目 | 内容 |
+|---|---|
+| Supabase | `ytdbblwptmhqdxtvaynr`（東京 ap-northeast-1）。migration 10本適用・RLS 全10表有効（`check-rls.mjs` 合格） |
+| データ | `scripts/copy-to-new-supabase.sh` で旧DBから複製。8表とも行数一致（Property 959／User 1 ほか）。RateLimit は除外 |
+| Storage | `property-images`（public・5MB・jpeg/png/webp）。画像は旧DBも0件 |
+| Vercel | `jintan1962-hub/morishita-house-design`。framework を Other→nextjs、region を iad1→hnd1 に変更 |
+| 環境変数 | `scripts/setup-vercel-env-new.sh` で Production のみ8件。`NEXTAUTH_SECRET` は新規生成 |
+| 本番URL | https://morishita-house-design.vercel.app （上書き前はデザイン案の静的ページ `51mugkpjb`） |
+
+**確認結果**：`/` `/properties` `/property/2198` `/voice` `/simulation` `/showroom` `/company` `/cases` は200。
+`/admin` `/mypage` は307でサインインへ。サインインの form action が新URL。セキュリティヘッダ6種・`x-vercel-id: hnd1`。
+Chrome で一覧に「959件」、詳細に価格・月々の支払いが出ることを目視。**管理画面へのログイン成功は未確認（大野が確認）。**
+
+**ハマったこと**
+1. マイグレーション `20260818020000` が `SystemSetting` に初期値を入れるため、データ複製が主キー重複で落ちる → 同一トランザクションで該当1行を消してから流す。
+2. `.vercelignore` を置くと `.gitignore` が読まれなくなり、`src/generated`（Prisma エンジン31MB）まで上がる → `.gitignore` の中身を写した。
+3. Hobby では git のコミット作者がチーム外だと `seatBlock: TEAM_ACCESS_REQUIRED` で **BLOCKED**（画面は UNKNOWN のまま進まない）→ `git archive HEAD` で履歴なしの書き出しからデプロイ。
+4. `vercel link` が `.env.local` の `VERCEL_OIDC_TOKEN` 行を書き換える（他の行は無傷）。
+
+**戻し方**：`vercel rollback`（jintan1962-hub スコープ）で直前のデザイン案へ。旧環境はそのまま動いている。
+**公開範囲**：Deployment Protection 未設定＝誰でも閲覧可（2026-09-28 大野が上書きを承認）。
+
+## 2026-09-28 スタッフ写真の掲載と2名の差し替え（`4ef1c11`）
+
+実行者：Claude（大野の指示）。デプロイ `morishita-house-design-ehutalvqa`（jintan1962-hub）。DB・環境変数の変更なし。
+
+- 写真4点を `public/staff/` に追加（大野提供の元画像から顔中心に切り抜き・WebP 14〜23KB・撮影情報なし）。
+  代表は丸型と縦長（トップ「プロの見立て」）の2種。表示部品は `src/components/StaffPhoto.tsx` に1つ（トップ・会社概要で共用）。
+- 山﨑 敏宏→早柏 克則（宅地建物取引士）、松下 登志美→岩木 晴香。一言は大野の文面どおり（全角数字のみ半角化）。
+- **2名の肩書は未入手**：空文字にし、行の高さだけ残して名前の位置をそろえた。岩木さんの資格欄は非表示。
+- 確認：ゲート（tsc・eslint・test 94件合格）、`next build`、本番で `/` `/company` 200・写真4点 `image/webp` 200、Chrome で3か所を目視。
+  **スマホ幅は未確認**（ウィンドウ幅を変えられなかった）。
+- 戻し方：`vercel rollback`（直前の `fgsllfqr9` へ）。

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { COMPANY } from "@/config/company";
 import { AREAS, PROPERTY_TYPE, PROPERTY_TYPE_LABEL } from "@/config/property";
-import { STAFF, CEO_MESSAGE, REASONS, MEMBER_MERITS } from "@/config/staff";
+import { STAFF, CEO_MESSAGE, CEO_PORTRAIT, REASONS, MEMBER_MERITS } from "@/config/staff";
+import StaffPhoto from "@/components/StaffPhoto";
 import { getHomeStats, emptyHomeStats } from "@/app/actions/homeStats";
 import PropertySearchPanel from "@/components/PropertySearchPanel";
 import AreaSearch from "./AreaSearch";
@@ -227,10 +228,12 @@ export default async function HomePage() {
           <div className="pro-layout">
             <div>
               <div className="pro-photo">
-                <PersonIcon />
-                <span style={{ fontSize: 12, color: "var(--ink-faint)", marginTop: 10 }}>
-                  写真は準備中です
-                </span>
+                <StaffPhoto src={CEO_PORTRAIT} alt={`${STAFF[0].role} ${STAFF[0].name}`} />
+                {!CEO_PORTRAIT && (
+                  <span style={{ fontSize: 12, color: "var(--ink-faint)", marginTop: 10 }}>
+                    写真は準備中です
+                  </span>
+                )}
               </div>
               <p style={{ fontSize: 12, color: "var(--gold)", marginTop: 14, marginBottom: 0 }}>
                 {STAFF[0].role}
@@ -359,11 +362,11 @@ export default async function HomePage() {
             {STAFF.map((s) => (
               <div className="staff-card" key={s.name}>
                 <div className="staff-photo">
-                  <PersonIcon />
+                  <StaffPhoto src={s.photo} alt={[s.role, s.name].filter(Boolean).join(" ")} />
                 </div>
-                <p className="staff-role">{s.role}</p>
+                <p className="staff-role">{s.role || "\u00a0"}</p>
                 <p className="staff-name">{s.name}</p>
-                <p className="staff-cert">{s.certifications}</p>
+                {s.certifications && <p className="staff-cert">{s.certifications}</p>}
                 <p className="staff-msg">{s.message}</p>
               </div>
             ))}
@@ -451,15 +454,6 @@ function CheckIcon() {
     <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
       <circle cx="12" cy="12" r="9" />
       <path d="M8 12.5l2.5 2.5L16 9.5" />
-    </svg>
-  );
-}
-
-function PersonIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true" style={{ width: 44, height: 44, color: "var(--indigo)" }}>
-      <circle cx="12" cy="8" r="4" />
-      <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" />
     </svg>
   );
 }
