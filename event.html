@@ -183,7 +183,48 @@
     .event-foot .btn{width:100%;}
     .foot-grid{grid-template-columns:1fr;}
   }
-</style>
+    /* ---------- ã¹ããï¼ãããã¼ã1è¡ã«ç³ã ---------- */
+    .iconbtn,.navtoggle{display:none;}
+    .nav-extra{display:none;}
+    @media (max-width:767px){
+      .topbar{flex-wrap:nowrap;gap:10px;padding:9px 16px;align-items:center;}
+      .brand{flex:1 1 auto;min-width:0;gap:9px;}
+      .brand-logo{width:33px;height:33px;}
+      .brand-badge{display:none;}
+      .brand .mark{font-size:16px;letter-spacing:.08em;white-space:nowrap;}
+      .brand .mark-en{font-size:7px;letter-spacing:.18em;}
+      .tagline,.brand .tagline,.header-tel{display:none;}
+      .utility{gap:7px;flex:none;}
+      .utility .btn{display:none;}
+      .iconbtn,.navtoggle{
+        display:inline-flex;align-items:center;justify-content:center;
+        width:40px;height:40px;flex:none;border-radius:3px;
+        border:1px solid var(--line-strong);background:#fff;padding:0;
+      }
+      .iconbtn svg{width:19px;height:19px;color:var(--indigo-deep);}
+      .navtoggle{flex-direction:column;gap:5px;cursor:pointer;}
+      .navtoggle i{display:block;width:17px;height:1.6px;background:var(--ink);transition:transform .2s ease,opacity .2s ease;}
+      body.nav-open .navtoggle i:nth-child(1){transform:translateY(6.6px) rotate(45deg);}
+      body.nav-open .navtoggle i:nth-child(2){opacity:0;}
+      body.nav-open .navtoggle i:nth-child(3){transform:translateY(-6.6px) rotate(-45deg);}
+      .nav-row{display:none;padding:4px 16px 16px;border-top:1px solid var(--line);}
+      body.nav-open .nav-row{display:block;}
+      nav.primary{flex-direction:column;gap:0;}
+      nav.primary a{
+        border:none;border-bottom:1px solid var(--line);border-radius:0;
+        padding:14px 2px;font-size:14.5px;background:transparent;color:var(--ink);
+      }
+      .nav-extra{display:block;margin-top:16px;}
+      .nav-extra .btn{display:flex;width:100%;}
+      .nav-tel{
+        display:flex;align-items:baseline;justify-content:center;gap:10px;margin-top:12px;
+        font-family:var(--serif);font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;
+      }
+      .nav-tel small{font-family:var(--sans);font-size:10.5px;font-weight:400;color:var(--ink-faint);}
+      .band{padding:48px 0;}
+    }
+  </style>
+
 </head>
 <body>
 
@@ -209,9 +250,18 @@
     <div class="utility">
       <a class="btn btn-ghost" href="member-register.html">会員登録・ログイン</a>
       <a class="btn btn-solid" href="index.html#action">来店予約</a>
+      <a class="iconbtn" href="tel:0120975856" aria-label="é»è©±ã§ãåãåãã">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M6.6 3.5 9 3.9l1.1 3.4-1.9 1.4a12 12 0 0 0 5.1 5.1l1.4-1.9 3.4 1.1.4 2.4a1.6 1.6 0 0 1-1.6 1.8A14.4 14.4 0 0 1 4.8 5.1 1.6 1.6 0 0 1 6.6 3.5z"/>
+        </svg>
+      </a>
+      <button class="navtoggle" type="button" aria-expanded="false" aria-controls="gnav" aria-label="ã¡ãã¥ã¼ãéã">
+        <i></i><i></i><i></i>
+      </button>
+
     </div>
   </div>
-  <div class="nav-row">
+  <div class="nav-row" id="gnav">
     <nav class="primary" aria-label="メインメニュー">
       <a href="index.html#areamap">物件を探す</a>
       <a href="kaitori.html">売却をお考えの方</a>
@@ -220,6 +270,11 @@
       <a href="event.html" aria-current="page">イベント情報</a>
       <a href="company.html">会社概要</a>
     </nav>
+    <div class="nav-extra">
+      <a class="btn btn-solid" href="member-register.html">ä¼å¡ç»é²ã»ã­ã°ã¤ã³</a>
+      <a class="nav-tel" href="tel:0120975856">0120-975-856<small>9:00-18:00ï¼æ°´æå®ä¼</small></a>
+    </div>
+
   </div>
 </header>
 
@@ -445,5 +500,23 @@ document.querySelectorAll('#filterRow .filter-chip').forEach(chip => {
   });
 });
 </script>
+<script>
+(function(){
+  var t=document.querySelector('.navtoggle');
+  if(!t)return;
+  t.addEventListener('click',function(){
+    var open=document.body.classList.toggle('nav-open');
+    t.setAttribute('aria-expanded',open?'true':'false');
+    t.setAttribute('aria-label',open?'ã¡ãã¥ã¼ãéãã':'ã¡ãã¥ã¼ãéã');
+  });
+  document.querySelectorAll('#gnav a').forEach(function(a){
+    a.addEventListener('click',function(){
+      document.body.classList.remove('nav-open');
+      t.setAttribute('aria-expanded','false');
+    });
+  });
+})();
+</script>
 </body>
+
 </html>

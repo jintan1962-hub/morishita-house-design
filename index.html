@@ -152,7 +152,7 @@
 
     /* ヒーロー：代表からの問いかけ */
     .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,31%);gap:clamp(22px,3.6vw,50px);align-items:start;margin-top:26px;}
-    @media(max-width:880px){.hero-grid{grid-template-columns:1fr;gap:26px;}}
+    @media(max-width:767px){.hero-grid{grid-template-columns:1fr;gap:26px;}}
     .hero .sub.speech{
       position:relative;background:#fff;border:1px solid var(--line-strong);
       border-radius:var(--radius);padding:20px 24px;max-width:48ch;margin-top:22px;
@@ -162,7 +162,7 @@
     }
     .hero .sub.speech::before{right:-13px;border-width:9px 0 9px 13px;border-color:transparent transparent transparent var(--line-strong);}
     .hero .sub.speech::after{right:-11px;border-width:9px 0 9px 13px;border-color:transparent transparent transparent #fff;}
-    @media(max-width:880px){.hero .sub.speech::before,.hero .sub.speech::after{display:none;}}
+    @media(max-width:767px){.hero .sub.speech::before,.hero .sub.speech::after{display:none;}}
     .hero .sub.speech p{font-size:14px;line-height:2;}
     .hero .sub.speech p+p{margin-top:10px;}
 
@@ -175,7 +175,7 @@
       margin-top:12px;display:flex;align-items:baseline;gap:10px;
       justify-content:flex-end;flex-wrap:wrap;
     }
-    @media(max-width:880px){
+    @media(max-width:767px){
       .portrait{max-width:230px;}
       .portrait figcaption{justify-content:flex-start;}
     }
@@ -670,6 +670,81 @@
       .madori-grid{grid-template-columns: repeat(2, 1fr);}
       .member-panel{grid-template-columns: 1fr;}
     }
+
+    /* ---------- スマホ：ヘッダーを1行に畳む ---------- */
+    .iconbtn,.navtoggle{display:none;}
+    .nav-extra{display:none;}
+    @media (max-width:767px){
+      .topbar{flex-wrap:nowrap;gap:10px;padding:9px 16px;align-items:center;}
+      .brand{flex:1 1 auto;min-width:0;gap:9px;}
+      .brand-logo{width:33px;height:33px;}
+      .brand-badge{display:none;}
+      .brand .mark{font-size:16px;letter-spacing:.08em;white-space:nowrap;}
+      .brand .mark-en{font-size:7px;letter-spacing:.18em;}
+      .tagline{display:none;}
+      .utility{gap:7px;flex:none;}
+      .utility .btn{display:none;}
+      .iconbtn,.navtoggle{
+        display:inline-flex;align-items:center;justify-content:center;
+        width:40px;height:40px;flex:none;border-radius:3px;
+        border:1px solid var(--line-strong);background:#fff;padding:0;
+      }
+      .iconbtn svg{width:19px;height:19px;color:var(--indigo-deep);}
+      .navtoggle{flex-direction:column;gap:5px;cursor:pointer;}
+      .navtoggle i{display:block;width:17px;height:1.6px;background:var(--ink);transition:transform .2s ease,opacity .2s ease;}
+      body.nav-open .navtoggle i:nth-child(1){transform:translateY(6.6px) rotate(45deg);}
+      body.nav-open .navtoggle i:nth-child(2){opacity:0;}
+      body.nav-open .navtoggle i:nth-child(3){transform:translateY(-6.6px) rotate(-45deg);}
+
+      .nav-row{display:none;padding:4px 16px 16px;border-top:1px solid var(--line);}
+      body.nav-open .nav-row{display:block;}
+      nav.primary{flex-direction:column;gap:0;}
+      nav.primary a{
+        border:none;border-bottom:1px solid var(--line);border-radius:0;
+        padding:14px 2px;font-size:14.5px;background:transparent;color:var(--ink);
+      }
+      .nav-extra{display:block;margin-top:16px;}
+      .nav-extra .btn{width:100%;}
+      .nav-tel{
+        display:flex;align-items:baseline;justify-content:center;gap:10px;margin-top:12px;
+        font-family:var(--serif);font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;
+      }
+      .nav-tel small{font-family:var(--sans);font-size:10.5px;font-weight:400;color:var(--ink-faint);}
+    }
+
+    @media (max-width:767px){
+      /* ファーストビューを詰める */
+      .hero{padding:26px 0 56px;}
+      .hero-kicker{margin-bottom:13px;font-size:11px;letter-spacing:.16em;}
+      .hero-lead{margin-top:12px;font-size:14px;}
+      .hero-grid{margin-top:20px;}
+      .hero-grid > .portrait{order:-1;}
+      .portrait{display:flex;align-items:center;gap:13px;max-width:none;}
+      .portrait img{width:82px;flex:none;}
+      .portrait figcaption{margin-top:0;justify-content:flex-start;display:block;}
+      .portrait .role{display:block;font-size:10px;margin-bottom:2px;}
+      .portrait .nm{font-size:18px;}
+      .hero .sub.speech{margin-top:11px;padding:16px 18px;}
+      .hero .sub.speech::before,.hero .sub.speech::after{display:block;}
+      .hero .sub.speech::before{top:-13px;right:auto;left:32px;border-width:0 9px 13px 9px;border-color:transparent transparent var(--line-strong) transparent;}
+      .hero .sub.speech::after{top:-11px;right:auto;left:32px;border-width:0 9px 13px 9px;border-color:transparent transparent #fff transparent;}
+      .hero .sub.speech p{font-size:13px;line-height:1.9;}
+      .hero-actions{margin-top:20px;gap:10px;}
+      .hero-actions .btn{flex:1 1 0;justify-content:center;}
+      .band{padding:48px 0;}
+      .morebtn{
+        display:inline-flex;align-items:center;gap:6px;margin-top:10px;
+        background:none;border:none;padding:0;cursor:pointer;
+        font-family:inherit;font-size:13px;font-weight:700;color:var(--indigo-deep);
+      }
+      .morebtn::after{content:"▾";font-size:10px;}
+      .sub.speech.is-clamped p:nth-of-type(n+2){display:none;}
+      .sub.speech.is-open .morebtn::after{content:"▴";}
+    }
+    @media (max-width:400px){
+      .brand .mark{font-size:15px;}
+      .hero-actions{flex-direction:column;}
+    }
   </style>
 </head>
 <body>
@@ -695,9 +770,17 @@
     <div class="utility">
       <a class="btn btn-ghost" href="member-register.html">会員登録・ログイン</a>
       <a class="btn btn-solid" href="#action">来店予約</a>
+      <a class="iconbtn" href="tel:0120975856" aria-label="電話でお問い合わせ">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M6.6 3.5 9 3.9l1.1 3.4-1.9 1.4a12 12 0 0 0 5.1 5.1l1.4-1.9 3.4 1.1.4 2.4a1.6 1.6 0 0 1-1.6 1.8A14.4 14.4 0 0 1 4.8 5.1 1.6 1.6 0 0 1 6.6 3.5z"/>
+        </svg>
+      </a>
+      <button class="navtoggle" type="button" aria-expanded="false" aria-controls="gnav" aria-label="メニューを開く">
+        <i></i><i></i><i></i>
+      </button>
     </div>
   </div>
-  <div class="nav-row">
+  <div class="nav-row" id="gnav">
     <nav class="primary" aria-label="メインメニュー">
       <a href="#areamap">物件を探す</a>
       <a href="kaitori.html">売却をお考えの方</a>
@@ -706,8 +789,46 @@
       <a href="event.html">イベント情報</a>
       <a href="company.html">会社概要</a>
     </nav>
+    <div class="nav-extra">
+      <a class="btn btn-solid" href="member-register.html">会員登録・ログイン</a>
+      <a class="nav-tel" href="tel:0120975856">0120-975-856<small>9:00-18:00／水曜定休</small></a>
+    </div>
   </div>
 </header>
+
+<script>
+(function(){
+  var t=document.querySelector('.navtoggle');
+  if(!t)return;
+  t.addEventListener('click',function(){
+    var open=document.body.classList.toggle('nav-open');
+    t.setAttribute('aria-expanded',open?'true':'false');
+    t.setAttribute('aria-label',open?'メニューを閉じる':'メニューを開く');
+  });
+  document.querySelectorAll('#gnav a').forEach(function(a){
+    a.addEventListener('click',function(){
+      document.body.classList.remove('nav-open');
+      t.setAttribute('aria-expanded','false');
+    });
+  });
+})();
+(function(){
+  var box=document.querySelector('.sub.speech'), btn=box&&box.querySelector('.morebtn');
+  if(!btn)return;
+  var mq=window.matchMedia('(max-width:767px)');
+  function sync(){
+    if(mq.matches){ if(!box.classList.contains('is-open')) box.classList.add('is-clamped'); }
+    else{ box.classList.remove('is-clamped','is-open'); btn.textContent='続きを読む'; }
+  }
+  btn.addEventListener('click',function(){
+    var open=box.classList.toggle('is-open');
+    box.classList.toggle('is-clamped',!open);
+    btn.textContent=open?'閉じる':'続きを読む';
+  });
+  mq.addEventListener?mq.addEventListener('change',sync):mq.addListener(sync);
+  sync();
+})();
+</script>
 
 <!-- ================= ヒーロー ================= -->
 <section class="hero">
@@ -723,6 +844,7 @@
       <p>さらに私たちは、「実家をどうしよう」「空き家をどう活かそう」といった住まいの終活相談を数多くお受けしています。そのため、売却が正式に決まる前の段階から住まいに関するご相談をいただくことも少なくありません。</p>
       <p>だからこそ、公開されている物件だけで「希望に合う家がない」と判断してしまうのは、少し早いかもしれません。</p>
       <p>ご希望をお聞かせいただければ、公開・未公開を問わず、その時点でご紹介できる住まいの中から、できる限り条件に合うものをご提案します。</p>
+      <button class="morebtn" type="button">続きを読む</button>
     </div>
     <div class="hero-actions">
       <a class="btn btn-solid" href="#search">物件を検索する</a>
