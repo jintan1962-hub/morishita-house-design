@@ -138,7 +138,7 @@
     }
     .hero-kicker::before{content:"";width:26px;height:1px;background:var(--indigo);}
     .hero h1{
-      color:var(--ink);font-size:clamp(32px,4.6vw,54px);line-height:1.38;letter-spacing:.02em;
+      color:var(--ink);font-size:clamp(22px,4.4vw,48px);line-height:1.42;letter-spacing:0;
     }
     .hero h1 em{
       font-style:normal;color:var(--ink);
@@ -148,6 +148,36 @@
       margin-top:22px;max-width:52ch;color:var(--ink-soft);font-size:15.5px;
     }
     .hero-actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+
+    /* ヒーロー：代表からの問いかけ */
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:40px;align-items:center;margin-top:26px;}
+    @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:24px;}}
+    .hero .sub.speech{
+      position:relative;background:#fff;border:1px solid var(--line-strong);
+      border-radius:var(--radius);padding:20px 24px;max-width:48ch;margin-top:22px;
+    }
+    .hero .sub.speech::before,.hero .sub.speech::after{
+      content:"";position:absolute;top:30px;width:0;height:0;border-style:solid;
+    }
+    .hero .sub.speech::before{right:-13px;border-width:9px 0 9px 13px;border-color:transparent transparent transparent var(--line-strong);}
+    .hero .sub.speech::after{right:-11px;border-width:9px 0 9px 13px;border-color:transparent transparent transparent #fff;}
+    @media(max-width:860px){.hero .sub.speech::before,.hero .sub.speech::after{display:none;}}
+    .hero .sub.speech p{font-size:14px;line-height:2;}
+    .hero .sub.speech p+p{margin-top:10px;}
+
+    .portrait{margin:0;position:relative;}
+    .portrait img{
+      width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 22%;
+      display:block;border-radius:2px;background:var(--paper-alt);
+    }
+    .portrait figcaption{
+      position:absolute;left:0;bottom:0;background:rgba(255,255,255,.96);
+      border-top:2px solid var(--indigo);padding:11px 18px 10px;
+      display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;
+    }
+    .portrait .role{font-size:10.5px;letter-spacing:.14em;font-weight:700;color:var(--indigo-deep);}
+    .portrait .nm{font-family:var(--serif);font-size:19px;font-weight:700;}
+    .portrait .kana{font-size:10.5px;color:var(--ink-faint);letter-spacing:.06em;}
 
     /* クイック検索カード（ヒーローに重ねる） */
     .quicksearch{
@@ -681,7 +711,10 @@
     <div class="hero-kicker">姫路・播磨エリア　中古住宅専門店</div>
     <h1>ネットに出ている物件は、<br>姫路の中古住宅情報の<em>全部ではありません</em>。</h1>
     <p class="hero-lead">あなたにちょうどいい家は、まだネットに出ていないかもしれません。</p>
-    <div class="sub">
+
+    <div class="hero-grid">
+    <div>
+    <div class="sub speech">
       <p>家探しは、ホームページに掲載されている物件だけでは終わりません。販売準備中の物件や、公開前の新着物件、売主様のご希望により一般公開していない物件など、インターネットには掲載されない住まいもあります。</p>
       <p>さらに私たちは、「実家をどうしよう」「空き家をどう活かそう」といった住まいの終活相談を数多くお受けしています。そのため、売却が正式に決まる前の段階から住まいに関するご相談をいただくことも少なくありません。</p>
       <p>だからこそ、公開されている物件だけで「希望に合う家がない」と判断してしまうのは、少し早いかもしれません。</p>
@@ -690,6 +723,17 @@
     <div class="hero-actions">
       <a class="btn btn-solid" href="#search">物件を検索する</a>
       <a class="btn btn-line" href="member-register.html">希望条件を登録する</a>
+    </div>
+    </div>
+
+    <figure class="portrait">
+      <img src="img/morishita-takaki.jpg" alt="株式会社モリシタハウス 代表取締役 森下誉樹" width="2000" height="1333">
+      <figcaption>
+        <span class="role">代表取締役</span>
+        <span class="nm">森下 誉樹</span>
+        <span class="kana">もりした たかき</span>
+      </figcaption>
+    </figure>
     </div>
 
     <div class="quicksearch">
