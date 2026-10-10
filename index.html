@@ -139,11 +139,12 @@
     }
     .hero-kicker::before{content:"";width:26px;height:1px;background:var(--indigo);}
     .hero h1{
-      color:var(--ink);font-size:clamp(22px,4.4vw,48px);line-height:1.42;letter-spacing:0;
+      color:var(--ink);font-size:clamp(20px,3.05vw,36px);line-height:1.46;letter-spacing:0;
     }
     .hero h1 em{
       font-style:normal;color:var(--ink);
       border-bottom:4px solid var(--gold-bright);padding-bottom:2px;
+      white-space:nowrap;
     }
     .hero .sub{
       margin-top:22px;max-width:52ch;color:var(--ink-soft);font-size:15.5px;
@@ -151,8 +152,14 @@
     .hero-actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
 
     /* ヒーロー：代表からの問いかけ */
-    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,31%);gap:clamp(22px,3.6vw,50px);align-items:start;margin-top:26px;}
-    @media(max-width:767px){.hero-grid{grid-template-columns:1fr;gap:26px;}}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,31%);column-gap:clamp(22px,3.6vw,50px);row-gap:0;align-items:start;}
+    .hero-copy{grid-column:1;grid-row:1;}
+    .hero-grid > .portrait{grid-column:2;grid-row:1/span 2;}
+    .hero-grid > .hero-msg{grid-column:1;grid-row:2;}
+    @media(max-width:767px){
+      .hero-grid{grid-template-columns:1fr;}
+      .hero-copy,.hero-grid > .portrait,.hero-grid > .hero-msg{grid-column:1;grid-row:auto;}
+    }
     .hero .sub.speech{
       position:relative;background:#fff;border:1px solid var(--line-strong);
       border-radius:var(--radius);padding:20px 24px;max-width:48ch;margin-top:22px;
@@ -716,8 +723,7 @@
       .hero{padding:26px 0 56px;}
       .hero-kicker{margin-bottom:13px;font-size:11px;letter-spacing:.16em;}
       .hero-lead{margin-top:12px;font-size:14px;}
-      .hero-grid{margin-top:20px;}
-      .hero-grid > .portrait{order:-1;}
+      .hero-grid > .portrait{margin-top:20px;}
       .portrait{display:flex;align-items:center;gap:13px;max-width:none;}
       .portrait img{width:82px;flex:none;}
       .portrait figcaption{margin-top:0;text-align:left;}
@@ -834,12 +840,22 @@
 <!-- ================= ヒーロー ================= -->
 <section class="hero">
   <div class="hero-inner">
+    <div class="hero-grid">
+    <div class="hero-copy">
     <div class="hero-kicker">姫路・播磨エリア　中古住宅専門店</div>
     <h1>ネットに出ている物件は、<br>姫路の中古住宅情報の<em>全部ではありません</em>。</h1>
     <p class="hero-lead">あなたにちょうどいい家は、まだネットに出ていないかもしれません。</p>
+    </div>
 
-    <div class="hero-grid">
-    <div>
+    <figure class="portrait">
+      <img src="img/morishita-takaki.jpg" alt="株式会社モリシタハウス 代表 森下誉樹">
+      <figcaption>
+        <span class="co">株式会社モリシタハウス</span>
+        <span class="nmline"><span class="role">代表</span><span class="nm">森下 誉樹</span></span>
+      </figcaption>
+    </figure>
+
+    <div class="hero-msg">
     <div class="sub speech">
       <p>家探しは、ホームページに掲載されている物件だけでは終わりません。販売準備中の物件や、公開前の新着物件、売主様のご希望により一般公開していない物件など、インターネットには掲載されない住まいもあります。</p>
       <p>さらに私たちは、「実家をどうしよう」「空き家をどう活かそう」といった住まいの終活相談を数多くお受けしています。そのため、売却が正式に決まる前の段階から住まいに関するご相談をいただくことも少なくありません。</p>
@@ -852,14 +868,6 @@
       <a class="btn btn-line" href="member-register.html">希望条件を登録する</a>
     </div>
     </div>
-
-    <figure class="portrait">
-      <img src="img/morishita-takaki.jpg" alt="株式会社モリシタハウス 代表 森下誉樹">
-      <figcaption>
-        <span class="co">株式会社モリシタハウス</span>
-        <span class="nmline"><span class="role">代表</span><span class="nm">森下 誉樹</span></span>
-      </figcaption>
-    </figure>
     </div>
 
     <div class="quicksearch">
