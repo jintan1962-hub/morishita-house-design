@@ -4,6 +4,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>中古住宅専門店 姫路No.1｜株式会社モリシタハウス（サイトデザイン案）</title>
   <style>
     :root{
@@ -150,8 +151,8 @@
     .hero-actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
 
     /* ヒーロー：代表からの問いかけ */
-    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:40px;align-items:center;margin-top:26px;}
-    @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:24px;}}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,31%);gap:clamp(22px,3.6vw,50px);align-items:start;margin-top:26px;}
+    @media(max-width:880px){.hero-grid{grid-template-columns:1fr;gap:26px;}}
     .hero .sub.speech{
       position:relative;background:#fff;border:1px solid var(--line-strong);
       border-radius:var(--radius);padding:20px 24px;max-width:48ch;margin-top:22px;
@@ -161,19 +162,22 @@
     }
     .hero .sub.speech::before{right:-13px;border-width:9px 0 9px 13px;border-color:transparent transparent transparent var(--line-strong);}
     .hero .sub.speech::after{right:-11px;border-width:9px 0 9px 13px;border-color:transparent transparent transparent #fff;}
-    @media(max-width:860px){.hero .sub.speech::before,.hero .sub.speech::after{display:none;}}
+    @media(max-width:880px){.hero .sub.speech::before,.hero .sub.speech::after{display:none;}}
     .hero .sub.speech p{font-size:14px;line-height:2;}
     .hero .sub.speech p+p{margin-top:10px;}
 
     .portrait{margin:0;position:relative;}
     .portrait img{
-      width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 22%;
+      width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 16%;
       display:block;border-radius:2px;background:var(--paper-alt);
     }
     .portrait figcaption{
-      position:absolute;left:0;bottom:0;background:rgba(255,255,255,.96);
-      border-top:2px solid var(--indigo);padding:11px 18px 10px;
-      display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;
+      margin-top:12px;display:flex;align-items:baseline;gap:10px;
+      justify-content:flex-end;flex-wrap:wrap;
+    }
+    @media(max-width:880px){
+      .portrait{max-width:230px;}
+      .portrait figcaption{justify-content:flex-start;}
     }
     .portrait .role{font-size:10.5px;letter-spacing:.14em;font-weight:700;color:var(--indigo-deep);}
     .portrait .nm{font-family:var(--serif);font-size:19px;font-weight:700;}
@@ -727,11 +731,10 @@
     </div>
 
     <figure class="portrait">
-      <img src="img/morishita-takaki.jpg" alt="株式会社モリシタハウス 代表取締役 森下誉樹" width="2000" height="1333">
+      <img src="img/morishita-takaki.jpg" alt="株式会社モリシタハウス 代表 森下誉樹">
       <figcaption>
-        <span class="role">代表取締役</span>
+        <span class="role">代表</span>
         <span class="nm">森下 誉樹</span>
-        <span class="kana">もりした たかき</span>
       </figcaption>
     </figure>
     </div>
