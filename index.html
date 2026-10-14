@@ -139,7 +139,7 @@
     }
     .hero-kicker::before{content:"";width:26px;height:1px;background:var(--indigo);}
     .hero h1{
-      color:var(--ink);font-size:clamp(24px,4.4vw,48px);line-height:1.4;letter-spacing:0;
+      color:var(--ink);font-size:clamp(20px,3.05vw,36px);line-height:1.46;letter-spacing:0;
     }
     .hero h1 em{
       font-style:normal;color:var(--ink);
@@ -150,6 +150,53 @@
       margin-top:22px;max-width:56ch;color:var(--ink-soft);font-size:15.5px;
     }
     .hero-actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+
+    /* ヒーロー：代表からの問いかけ */
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,31%);column-gap:clamp(22px,3.6vw,50px);row-gap:0;align-items:start;}
+    .hero-copy{grid-column:1;grid-row:1;}
+    .hero-grid > .portrait{grid-column:2;grid-row:1/span 2;}
+    .hero-grid > .hero-msg{grid-column:1;grid-row:2;}
+    @media(max-width:767px){
+      .hero-grid{grid-template-columns:1fr;}
+      .hero-copy,.hero-grid > .portrait,.hero-grid > .hero-msg{grid-column:1;grid-row:auto;}
+    }
+    .hero .sub.speech{
+      position:relative;background:#fff;border:1px solid var(--line-strong);
+      border-radius:var(--radius);padding:20px 24px;max-width:48ch;margin-top:22px;
+    }
+    .hero .sub.speech::before,.hero .sub.speech::after{
+      content:"";position:absolute;top:30px;width:0;height:0;border-style:solid;
+    }
+    .hero .sub.speech::before{right:-13px;border-width:9px 0 9px 13px;border-color:transparent transparent transparent var(--line-strong);}
+    .hero .sub.speech::after{right:-11px;border-width:9px 0 9px 13px;border-color:transparent transparent transparent #fff;}
+    @media(max-width:767px){.hero .sub.speech::before,.hero .sub.speech::after{display:none;}}
+    .hero .sub.speech p{font-size:14px;line-height:2;}
+    .hero .sub.speech p+p{margin-top:10px;}
+
+    .portrait{margin:0;}
+    .portrait img{
+      width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 16%;
+      display:block;border-radius:2px;background:var(--paper-alt);
+    }
+    .portrait figcaption{margin-top:12px;text-align:right;}
+    .portrait .co{display:block;font-size:11.5px;letter-spacing:.1em;font-weight:700;color:var(--ink-soft);}
+    .portrait .nmline{display:flex;align-items:baseline;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:4px;}
+    .portrait .role{font-size:10.5px;letter-spacing:.14em;font-weight:700;color:var(--indigo-deep);}
+    .portrait .nm{font-family:var(--serif);font-size:19px;font-weight:700;}
+    @media(max-width:767px){
+      .portrait{max-width:none;display:flex;align-items:center;gap:13px;margin-top:20px;}
+      .portrait img{width:82px;flex:none;}
+      .portrait figcaption{margin-top:0;text-align:left;}
+      .portrait .co{font-size:11px;}
+      .portrait .nmline{justify-content:flex-start;margin-top:2px;}
+      .portrait .role{font-size:10px;}
+      .portrait .nm{font-size:18px;}
+      .hero .sub.speech{margin-top:11px;padding:16px 18px;}
+      .hero .sub.speech::before,.hero .sub.speech::after{display:block;}
+      .hero .sub.speech::before{top:-13px;right:auto;left:32px;border-width:0 9px 13px 9px;border-color:transparent transparent var(--line-strong) transparent;}
+      .hero .sub.speech::after{top:-11px;right:auto;left:32px;border-width:0 9px 13px 9px;border-color:transparent transparent #fff transparent;}
+      .hero .sub.speech p{font-size:13px;line-height:1.9;}
+    }
 
 
     /* クイック検索カード（ヒーローに重ねる） */
@@ -512,16 +559,35 @@
     }
     .pro-photo {
       width: 100%;
-      aspect-ratio: 3/4;
+      aspect-ratio: 4/3;
       border: 1px solid var(--line);
       background: var(--paper-alt);
       overflow: hidden;
     }
     .pro-photo img {
       width: 100%; height: 100%;
-      object-fit: cover; object-position: 50% 14%;
+      object-fit: cover;
       display: block;
     }
+    .pro-subshots {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;
+    }
+    .pro-subshots .ph { aspect-ratio: 1/1; }
+    /* 写真の差し込み枠 */
+    .ph {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 7px;
+      border: 1px dashed var(--line-strong);
+      background:
+        repeating-linear-gradient(135deg, var(--indigo-tint) 0 9px, transparent 9px 18px),
+        var(--paper-alt);
+      color: var(--ink-faint); text-align: center; padding: 10px;
+    }
+    .ph svg { width: 30px; height: 30px; color: var(--indigo); opacity: .6; }
+    .ph .ph-t { font-size: 12px; font-weight: 700; color: var(--ink-soft); line-height: 1.5; }
+    .ph .ph-s { font-size: 10.5px; letter-spacing: .04em; }
+    .pro-subshots .ph svg { width: 22px; height: 22px; }
+    .pro-subshots .ph .ph-t { font-size: 11px; }
     .yt-card {
       background: #fff;
       border: 1px solid var(--line);
@@ -541,6 +607,14 @@
       width: 100%; height: 100%;
       object-fit: cover; object-position: 50% 16%;
       display: block;
+    }
+    .yt-ph {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: #1C1C1C;
+      color: rgba(255,255,255,.45);
+      font-size: 11px; font-weight: 700; letter-spacing: .06em;
+      line-height: 1.6; text-align: center;
     }
     .yt-play {
       position: absolute; left: 50%; top: 50%;
@@ -824,11 +898,23 @@
 <!-- ================= ヒーロー ================= -->
 <section class="hero">
   <div class="hero-inner">
+    <div class="hero-grid">
+    <div class="hero-copy">
     <div class="hero-kicker">姫路・播磨エリア　中古住宅専門店</div>
     <h1>ネットに出ている物件は、<br>姫路の中古住宅情報の<em>全部ではありません</em>。</h1>
     <p class="hero-lead">あなたにちょうどいい家は、まだネットに出ていないかもしれません。</p>
+    </div>
 
-    <div class="sub">
+    <figure class="portrait">
+      <img src="img/morishita-takaki.jpg" alt="株式会社モリシタハウス 代表 森下誉樹">
+      <figcaption>
+        <span class="co">株式会社モリシタハウス</span>
+        <span class="nmline"><span class="role">代表</span><span class="nm">森下 誉樹</span></span>
+      </figcaption>
+    </figure>
+
+    <div class="hero-msg">
+    <div class="sub speech">
       <p>家探しは、ホームページに掲載されている物件だけでは終わりません。販売準備中の物件や、公開前の新着物件、売主様のご希望により一般公開していない物件など、インターネットには掲載されない住まいもあります。</p>
       <p>さらに私たちは、「実家をどうしよう」「空き家をどう活かそう」といった住まいの終活相談を数多くお受けしています。そのため、売却が正式に決まる前の段階から住まいに関するご相談をいただくことも少なくありません。</p>
       <p>だからこそ、公開されている物件だけで「希望に合う家がない」と判断してしまうのは、少し早いかもしれません。</p>
@@ -838,6 +924,8 @@
     <div class="hero-actions">
       <a class="btn btn-solid" href="#search">物件を検索する</a>
       <a class="btn btn-line" href="member-register.html">希望条件を登録する</a>
+    </div>
+    </div>
     </div>
 
     <div class="quicksearch">
@@ -1154,13 +1242,32 @@
 
     <div class="pro-layout" style="margin-top:48px;">
       <div class="pro-col-left">
-        <div class="pro-photo">
-          <img src="img/morishita-takaki.jpg" alt="株式会社モリシタハウス 代表取締役 森下誉樹">
+        <div class="pro-photo ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/><path d="M9 11h6"/>
+          </svg>
+          <span class="ph-t">新築施工現場の写真</span>
+          <span class="ph-s">横長 4:3 推奨</span>
+        </div>
+        <div class="pro-subshots">
+          <div class="ph">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <path d="M3 20h18"/><path d="M6 20V9l6-4 6 4v11"/><path d="M6 13h12"/><path d="M12 5v15"/>
+            </svg>
+            <span class="ph-t">構造・上棟</span>
+          </div>
+          <div class="ph">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <path d="M14.5 3.5a4 4 0 0 0 5 5L21 7l-4-4z" transform="translate(-1 0)"/><path d="M13 7 4 16v4h4l9-9"/>
+            </svg>
+            <span class="ph-t">リフォーム工事</span>
+          </div>
         </div>
         <div style="text-align:center; margin-top:16px;">
           <div class="staff-role">代表取締役</div>
           <div class="staff-name" style="font-size:22px; margin-top:4px;">森下 誉樹</div>
           <div class="staff-cert" style="margin-top:6px;">一級建築士／一級建築施工管理技士／省エネ建築診断士</div>
+          <span class="dummy-note">※自社の施工現場写真を差し込む位置です。</span>
         </div>
       </div>
       <div class="pro-col-right">
@@ -1175,10 +1282,10 @@
               <span style="font-size:12px; color:var(--ink-faint);">チャンネル登録者数（2026年時点）</span>
             </div>
             <p style="font-size:13px; color:var(--ink-soft); margin-top:10px;">家づくりや中古住宅の見極め方をYouTubeで発信。専門的な知識を分かりやすく伝える姿勢が支持され、全国の視聴者から住まいのご相談をいただいています。</p>
-            <span class="dummy-note">※サムネイルは仮です。実際の動画キャプチャとチャンネルURLに差し替えてください。</span>
+            <span class="dummy-note">※動画キャプチャとチャンネルURLを差し込む位置です。</span>
           </div>
           <a class="yt-thumb" href="#" aria-label="YouTubeチャンネル「モリシタ・アット・ホーム」を見る">
-            <img src="img/morishita-takaki.jpg" alt="">
+            <span class="yt-ph">動画キャプチャ<br>16:9</span>
             <span class="yt-play" aria-hidden="true"></span>
             <span class="yt-ch">モリシタ・アット・ホーム</span>
           </a>
