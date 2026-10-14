@@ -550,19 +550,57 @@
     .pro-photo {
       width: 100%;
       aspect-ratio: 3/4;
-      background: linear-gradient(135deg, var(--indigo-tint), var(--gold-tint));
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       border: 1px solid var(--line);
+      background: var(--paper-alt);
+      overflow: hidden;
+    }
+    .pro-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: 50% 14%;
+      display: block;
     }
     .yt-card {
       background: #fff;
       border: 1px solid var(--line);
       border-left: 3px solid var(--gold-bright);
-      padding: 24px 26px;
+      padding: 22px 24px;
       margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 212px;
+      gap: 24px;
+      align-items: center;
+    }
+    .yt-thumb {
+      position: relative; display: block; overflow: hidden;
+      border-radius: 3px; background: #111; aspect-ratio: 16/9;
+    }
+    .yt-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: 50% 16%;
+      display: block;
+    }
+    .yt-play {
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px; height: 34px; border-radius: 8px;
+      background: rgba(214, 32, 32, .93);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .yt-play::before {
+      content: ""; border-style: solid;
+      border-width: 7px 0 7px 12px;
+      border-color: transparent transparent transparent #fff;
+      margin-left: 3px;
+    }
+    .yt-ch {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, .62); color: #fff;
+      font-size: 11px; font-weight: 700; letter-spacing: .06em;
+      padding: 5px 8px; text-align: center;
+    }
+    @media (max-width:860px) {
+      .yt-card { grid-template-columns: 1fr; gap: 16px; }
+      .yt-thumb { max-width: 320px; }
     }
     .yt-card h4 {
       font-size: 16px;
@@ -1181,26 +1219,33 @@
     <div class="pro-layout" style="margin-top:48px;">
       <div class="pro-col-left">
         <div class="pro-photo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="width:64px;height:64px;color:var(--indigo);"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+          <img src="img/morishita-takaki.jpg" alt="株式会社モリシタハウス 代表取締役 森下誉樹">
         </div>
         <div style="text-align:center; margin-top:16px;">
           <div class="staff-role">代表取締役</div>
           <div class="staff-name" style="font-size:22px; margin-top:4px;">森下 誉樹</div>
           <div class="staff-cert" style="margin-top:6px;">一級建築士／一級建築施工管理技士／省エネ建築診断士</div>
-          <span class="dummy-note">※代表の顔写真を差し込む位置です。</span>
         </div>
       </div>
       <div class="pro-col-right">
         <p style="font-size:15.5px; color:var(--ink-soft);">私はこれまで姫路・播磨エリアで長年、建築と不動産の両面から数多くの住まいづくりに携わってきました。中古住宅は一軒一軒、状態が異なります。表面の綺麗さだけでなく、土台や構造の状態、そしてリノベーションした際にどれほどのコストと可能性があるのか。それを正確に見極めることが、中古住宅選びで最も重要なステップです。</p>
 
         <div class="yt-card">
-          <h4>建築系YouTuberとしての発信</h4>
-          <div style="display:flex; align-items:baseline; gap:10px;">
-            <strong class="yt-num">6万2,000</strong>
-            <span style="font-size:16px; font-weight:700;">人</span>
-            <span style="font-size:12px; color:var(--ink-faint);">チャンネル登録者数（2026年時点）</span>
+          <div class="yt-body">
+            <h4>建築系YouTuberとしての発信</h4>
+            <div style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;">
+              <strong class="yt-num">6万2,000</strong>
+              <span style="font-size:16px; font-weight:700;">人</span>
+              <span style="font-size:12px; color:var(--ink-faint);">チャンネル登録者数（2026年時点）</span>
+            </div>
+            <p style="font-size:13px; color:var(--ink-soft); margin-top:10px;">家づくりや中古住宅の見極め方をYouTubeで発信。専門的な知識を分かりやすく伝える姿勢が支持され、全国の視聴者から住まいのご相談をいただいています。</p>
+            <span class="dummy-note">※サムネイルは仮です。実際の動画キャプチャとチャンネルURLに差し替えてください。</span>
           </div>
-          <p style="font-size:13px; color:var(--ink-soft); margin-top:10px;">家づくりや中古住宅の見極め方をYouTubeで発信。専門的な知識を分かりやすく伝える姿勢が支持され、全国の視聴者から住まいのご相談をいただいています。</p>
+          <a class="yt-thumb" href="#" aria-label="YouTubeチャンネル「モリシタ・アット・ホーム」を見る">
+            <img src="img/morishita-takaki.jpg" alt="">
+            <span class="yt-play" aria-hidden="true"></span>
+            <span class="yt-ch">モリシタ・アット・ホーム</span>
+          </a>
         </div>
 
         <div class="pro-points">
