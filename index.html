@@ -139,7 +139,7 @@
     }
     .hero-kicker::before{content:"";width:26px;height:1px;background:var(--indigo);}
     .hero h1{
-      color:var(--ink);font-size:clamp(20px,3.05vw,36px);line-height:1.46;letter-spacing:0;
+      color:var(--ink);font-size:clamp(24px,4.4vw,48px);line-height:1.4;letter-spacing:0;
     }
     .hero h1 em{
       font-style:normal;color:var(--ink);
@@ -147,47 +147,10 @@
       white-space:nowrap;
     }
     .hero .sub{
-      margin-top:22px;max-width:52ch;color:var(--ink-soft);font-size:15.5px;
+      margin-top:22px;max-width:56ch;color:var(--ink-soft);font-size:15.5px;
     }
     .hero-actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
 
-    /* ヒーロー：代表からの問いかけ */
-    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,31%);column-gap:clamp(22px,3.6vw,50px);row-gap:0;align-items:start;}
-    .hero-copy{grid-column:1;grid-row:1;}
-    .hero-grid > .portrait{grid-column:2;grid-row:1/span 2;}
-    .hero-grid > .hero-msg{grid-column:1;grid-row:2;}
-    @media(max-width:767px){
-      .hero-grid{grid-template-columns:1fr;}
-      .hero-copy,.hero-grid > .portrait,.hero-grid > .hero-msg{grid-column:1;grid-row:auto;}
-    }
-    .hero .sub.speech{
-      position:relative;background:#fff;border:1px solid var(--line-strong);
-      border-radius:var(--radius);padding:20px 24px;max-width:48ch;margin-top:22px;
-    }
-    .hero .sub.speech::before,.hero .sub.speech::after{
-      content:"";position:absolute;top:30px;width:0;height:0;border-style:solid;
-    }
-    .hero .sub.speech::before{right:-13px;border-width:9px 0 9px 13px;border-color:transparent transparent transparent var(--line-strong);}
-    .hero .sub.speech::after{right:-11px;border-width:9px 0 9px 13px;border-color:transparent transparent transparent #fff;}
-    @media(max-width:767px){.hero .sub.speech::before,.hero .sub.speech::after{display:none;}}
-    .hero .sub.speech p{font-size:14px;line-height:2;}
-    .hero .sub.speech p+p{margin-top:10px;}
-
-    .portrait{margin:0;position:relative;}
-    .portrait img{
-      width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 16%;
-      display:block;border-radius:2px;background:var(--paper-alt);
-    }
-    .portrait figcaption{margin-top:12px;text-align:right;}
-    .portrait .co{display:block;font-size:11.5px;letter-spacing:.1em;font-weight:700;color:var(--ink-soft);}
-    .portrait .nmline{display:flex;align-items:baseline;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:4px;}
-    @media(max-width:767px){
-      .portrait{max-width:230px;}
-      .portrait figcaption{text-align:left;}
-      .portrait .nmline{justify-content:flex-start;}
-    }
-    .portrait .role{font-size:10.5px;letter-spacing:.14em;font-weight:700;color:var(--indigo-deep);}
-    .portrait .nm{font-family:var(--serif);font-size:19px;font-weight:700;}
 
     /* クイック検索カード（ヒーローに重ねる） */
     .quicksearch{
@@ -761,19 +724,6 @@
       .hero{padding:26px 0 56px;}
       .hero-kicker{margin-bottom:13px;font-size:11px;letter-spacing:.16em;}
       .hero-lead{margin-top:12px;font-size:14px;}
-      .hero-grid > .portrait{margin-top:20px;}
-      .portrait{display:flex;align-items:center;gap:13px;max-width:none;}
-      .portrait img{width:82px;flex:none;}
-      .portrait figcaption{margin-top:0;text-align:left;}
-      .portrait .co{font-size:11px;}
-      .portrait .nmline{justify-content:flex-start;margin-top:2px;}
-      .portrait .role{font-size:10px;}
-      .portrait .nm{font-size:18px;}
-      .hero .sub.speech{margin-top:11px;padding:16px 18px;}
-      .hero .sub.speech::before,.hero .sub.speech::after{display:block;}
-      .hero .sub.speech::before{top:-13px;right:auto;left:32px;border-width:0 9px 13px 9px;border-color:transparent transparent var(--line-strong) transparent;}
-      .hero .sub.speech::after{top:-11px;right:auto;left:32px;border-width:0 9px 13px 9px;border-color:transparent transparent #fff transparent;}
-      .hero .sub.speech p{font-size:13px;line-height:1.9;}
       .hero-actions{margin-top:20px;gap:10px;}
       .hero-actions .btn{flex:1 1 0;justify-content:center;}
       .band{padding:48px 0;}
@@ -783,8 +733,8 @@
         font-family:inherit;font-size:13px;font-weight:700;color:var(--indigo-deep);
       }
       .morebtn::after{content:"▾";font-size:10px;}
-      .sub.speech.is-clamped p:nth-of-type(n+2){display:none;}
-      .sub.speech.is-open .morebtn::after{content:"▴";}
+      .hero .sub.is-clamped p:nth-of-type(n+2){display:none;}
+      .hero .sub.is-open .morebtn::after{content:"▴";}
     }
     @media (max-width:400px){
       .brand .mark{font-size:15px;}
@@ -854,7 +804,7 @@
   });
 })();
 (function(){
-  var box=document.querySelector('.sub.speech'), btn=box&&box.querySelector('.morebtn');
+  var box=document.querySelector('.hero .sub'), btn=box&&box.querySelector('.morebtn');
   if(!btn)return;
   var mq=window.matchMedia('(max-width:767px)');
   function sync(){
@@ -874,23 +824,11 @@
 <!-- ================= ヒーロー ================= -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-grid">
-    <div class="hero-copy">
     <div class="hero-kicker">姫路・播磨エリア　中古住宅専門店</div>
     <h1>ネットに出ている物件は、<br>姫路の中古住宅情報の<em>全部ではありません</em>。</h1>
     <p class="hero-lead">あなたにちょうどいい家は、まだネットに出ていないかもしれません。</p>
-    </div>
 
-    <figure class="portrait">
-      <img src="img/morishita-takaki.jpg" alt="株式会社モリシタハウス 代表 森下誉樹">
-      <figcaption>
-        <span class="co">株式会社モリシタハウス</span>
-        <span class="nmline"><span class="role">代表</span><span class="nm">森下 誉樹</span></span>
-      </figcaption>
-    </figure>
-
-    <div class="hero-msg">
-    <div class="sub speech">
+    <div class="sub">
       <p>家探しは、ホームページに掲載されている物件だけでは終わりません。販売準備中の物件や、公開前の新着物件、売主様のご希望により一般公開していない物件など、インターネットには掲載されない住まいもあります。</p>
       <p>さらに私たちは、「実家をどうしよう」「空き家をどう活かそう」といった住まいの終活相談を数多くお受けしています。そのため、売却が正式に決まる前の段階から住まいに関するご相談をいただくことも少なくありません。</p>
       <p>だからこそ、公開されている物件だけで「希望に合う家がない」と判断してしまうのは、少し早いかもしれません。</p>
@@ -900,8 +838,6 @@
     <div class="hero-actions">
       <a class="btn btn-solid" href="#search">物件を検索する</a>
       <a class="btn btn-line" href="member-register.html">希望条件を登録する</a>
-    </div>
-    </div>
     </div>
 
     <div class="quicksearch">
